@@ -10,26 +10,26 @@ type Props = {
   area: Area;
 };
 
-const areas: Record<string, Area> = {
-  'columbia-sc': {
-    name: 'Columbia',
-    description: 'Events and entertainment in Columbia, South Carolina.',
-  },
-  'lexington-sc': {
-    name: 'Lexington',
-    description: 'Events and entertainment in Lexington, South Carolina.',
-  },
-  'irmo-chapin-sc': {
-    name: 'Irmo & Chapin',
-    description: 'Entertainment for Irmo and Chapin, South Carolina.',
-  },
-  'west-columbia-cayce-sc': {
-    name: 'West Columbia & Cayce',
-    description: 'Entertainment for West Columbia and Cayce, South Carolina.',
-  },
-};
-
 export function getStaticPaths() {
+  const areas: Record<string, Area> = {
+    'columbia-sc': {
+      name: 'Columbia',
+      description: 'Events and entertainment in Columbia, South Carolina.',
+    },
+    'lexington-sc': {
+      name: 'Lexington',
+      description: 'Events and entertainment in Lexington, South Carolina.',
+    },
+    'irmo-chapin-sc': {
+      name: 'Irmo & Chapin',
+      description: 'Entertainment for Irmo and Chapin, South Carolina.',
+    },
+    'west-columbia-cayce-sc': {
+      name: 'West Columbia & Cayce',
+      description: 'Entertainment for West Columbia and Cayce, South Carolina.',
+    },
+  };
+
   return Object.entries(areas).map(([slug, area]) => ({
     params: { slug },
     props: { area },
