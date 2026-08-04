@@ -1,4 +1,26 @@
 ---
-import Base from '../layouts/Base.astro'; import {gallery} from '../data/gallery'; const categories=[...new Set(gallery.map(x=>x.category))];
+import Base from '../layouts/Base.astro';
+import { gallery } from '../data/gallery';
 ---
-<Base title="Real Four Dogs Events | Photo Gallery" description="See authentic Four Dogs Entertainment photos from trivia, Music Bingo, private events, venues, celebrations, crowds, and winners."><section class="section dark"><div class="container"><p class="eyebrow">Real events</p><h1>Meet us in the middle of the fun.</h1></div></section><section class="section"><div class="container">{categories.map(c=><section><h2>{c}</h2><div class="gallery">{gallery.filter(x=>x.category===c).map(p=><figure><img src={p.src} alt={p.alt} loading="lazy" width="800" height="600"></figure>)}</div></section>)}</div></section></Base>
+<Base title="Real Four Dogs Events | Photo Gallery" description="See authentic Four Dogs Entertainment photos from trivia, Music Bingo, private events, venues, celebrations, crowds, and winners.">
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Real events</p>
+      <h1>Meet us in the middle of the fun.</h1>
+      <p class="lead">Real Four Dogs crowds, winners, celebrations, venues, and nights out across South Carolina.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery">
+        {gallery.map((photo) => (
+          <figure>
+            <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
+            <figcaption>{photo.category}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
