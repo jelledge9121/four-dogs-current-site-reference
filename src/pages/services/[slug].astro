@@ -1,5 +1,89 @@
 ---
-import Base from '../../layouts/Base.astro'; import Breadcrumbs from '../../components/Breadcrumbs.astro'; import {services} from '../../data/services'; export function getStaticPaths(){return services.map(service=>({params:{slug:service.slug},props:{service}}))} const {service}=Astro.props; const schema={'@context':'https://schema.org','@type':'Service',name:service.name,description:service.summary,provider:{'@type':'Organization',name:'Four Dogs Entertainment'}};
-const sectionHeading=service.slug==='private-corporate-events'?'Turn the room into something people participate in.':'Make it a night people share.';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { services, type Service } from '../../data/services';
+
+type Props = {
+  service: Service;
+};
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props as Props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.name,
+  description: service.summary,
+  provider: {
+    '@type': 'Organization',
+    name: 'Four Dogs Entertainment',
+  },
+};
+
+const sectionHeading =
+  service.slug === 'private-corporate-events'
+    ? 'Turn the room into something people participate in.'
+    : 'Make it a night people share.';
 ---
-<Base title={`${service.name} | Four Dogs Entertainment`} description={`${service.summary} ${service.description}`} schema={schema}><Breadcrumbs items={[{name:'Home',href:'/'},{name:'Services',href:'/services/'},{name:service.name}]}/><section class="section dark"><div class="container"><p class="eyebrow">Four Dogs experience</p><h1>{service.name}</h1><p class="lead">{service.summary}</p></div></section><section class="section"><div class="container split"><div><h2>{sectionHeading}</h2><p>{service.description}</p>{service.slug==='almost-married-trivia-experience'&&<p>Build questions around how you met, your first date, proposal, relationship history, family, friends, wedding party, funny stories, memories, and milestones—then see who knows the couple best.</p>}<div class="actions"><a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a><a href="/services/">All services</a></div></div><img src={service.slug==='weddings'?'/images/wedding.jpg':'/images/hero.jpg'} alt={`Guests enjoying ${service.name} with Four Dogs Entertainment`}></div></section></Base>
+<Base
+  title={`${service.name} | Four Dogs Entertainment`}
+  description={`${service.summary} ${service.description}`}
+  schema={schema}
+>
+  <Breadcrumbs
+    items={[
+      { name: 'Home', href: '/' },
+      { name: 'Services', href: '/services/' },
+      { name: service.name },
+    ]}
+  />
+
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Four Dogs experience</p>
+      <h1>{service.name}</h1>
+      <p class="lead">{service.summary}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>{sectionHeading}</h2>
+        <p>{service.description}</p>
+
+        {
+          service.slug === 'almost-married-trivia-experience' && (
+            <p>
+              Build questions around how you met, your first date, proposal, relationship history,
+              family, friends, wedding party, funny stories, memories, and milestones—then see who
+              knows the couple best.
+            </p>
+          )
+        }
+
+        <div class="actions">
+          <a
+            class="button"
+            href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}
+          >
+            Book {service.name}
+          </a>
+          <a href="/services/">All services</a>
+        </div>
+      </div>
+
+      <img
+        src={service.slug === 'weddings' ? '/images/wedding.jpg' : '/images/hero.jpg'}
+        alt={`Guests enjoying ${service.name} with Four Dogs Entertainment`}
+      />
+    </div>
+  </section>
+</Base>
