@@ -24,6 +24,8 @@ const requiredAssets = [
   ['assets/gallery/four-dogs-entertainment-event-photo-37.webp', 'public/images/gallery/four-dogs-entertainment-event-photo-37.webp'],
   ['assets/gallery/four-dogs-private-event-dance-floor-01-poster.webp', 'public/images/gallery/four-dogs-private-event-dance-floor-01-poster.webp'],
   ['assets/gallery/four-dogs-private-event-dance-floor-02-poster.webp', 'public/images/gallery/four-dogs-private-event-dance-floor-02-poster.webp'],
+  ['assets/gallery/four-dogs-real-event-01-music-bingo-family-table.webp', 'public/images/gallery/four-dogs-real-event-01-music-bingo-family-table.webp'],
+  ['assets/gallery/four-dogs-real-event-02-trivia-team-winners-green-koozies.webp', 'public/images/gallery/four-dogs-real-event-02-trivia-team-winners-green-koozies.webp'],
 ];
 
 if (archives.length === 0) {
