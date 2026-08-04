@@ -1,4 +1,53 @@
 ---
-import Base from '../../layouts/Base.astro'; const areas={"columbia-sc":['Columbia','Events and entertainment in Columbia, South Carolina.'],"lexington-sc":['Lexington','Events and entertainment in Lexington, South Carolina.'],"irmo-chapin-sc":['Irmo & Chapin','Entertainment for Irmo and Chapin, South Carolina.'],"west-columbia-cayce-sc":['West Columbia & Cayce','Entertainment for West Columbia and Cayce, South Carolina.']}; export function getStaticPaths(){return Object.entries(areas).map(([slug,data])=>({params:{slug},props:{data}}))} const {data}=Astro.props;
+import Base from '../../layouts/Base.astro';
+
+type Area = {
+  name: string;
+  description: string;
+};
+
+type Props = {
+  area: Area;
+};
+
+const areas: Record<string, Area> = {
+  'columbia-sc': {
+    name: 'Columbia',
+    description: 'Events and entertainment in Columbia, South Carolina.',
+  },
+  'lexington-sc': {
+    name: 'Lexington',
+    description: 'Events and entertainment in Lexington, South Carolina.',
+  },
+  'irmo-chapin-sc': {
+    name: 'Irmo & Chapin',
+    description: 'Entertainment for Irmo and Chapin, South Carolina.',
+  },
+  'west-columbia-cayce-sc': {
+    name: 'West Columbia & Cayce',
+    description: 'Entertainment for West Columbia and Cayce, South Carolina.',
+  },
+};
+
+export function getStaticPaths() {
+  return Object.entries(areas).map(([slug, area]) => ({
+    params: { slug },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props as Props;
 ---
-<Base title={`Four Dogs Entertainment in ${data[0]}, SC`} description={data[1]}><section class="section dark"><div class="container"><p class="eyebrow">South Carolina entertainment</p><h1>{data[0]}</h1><p class="lead">{data[1]}</p><div class="actions"><a class="button" href="/events/">Find an event</a><a href="/booking/">Book Four Dogs →</a></div></div></section></Base>
+<Base title={`Four Dogs Entertainment in ${area.name}, SC`} description={area.description}>
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">South Carolina entertainment</p>
+      <h1>{area.name}</h1>
+      <p class="lead">{area.description}</p>
+      <div class="actions">
+        <a class="button" href="/events/">Find an event</a>
+        <a href="/booking/">Book Four Dogs →</a>
+      </div>
+    </div>
+  </section>
+</Base>
