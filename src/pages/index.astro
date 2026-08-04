@@ -1,15 +1,168 @@
 ---
-import Base from '../layouts/Base.astro'; import ReviewCard from '../components/ReviewCard.astro'; import EventCard from '../components/EventCard.astro'; import {upcomingEvents} from '../data/events'; import {venues} from '../data/venues'; import {services} from '../data/services'; import {gallery} from '../data/gallery'; import {site} from '../data/site'; import {featuredReviews} from '../data/reviews';
-const upcoming=upcomingEvents().slice(0,6); const org={'@context':'https://schema.org','@type':'Organization',name:site.name,url:site.url,logo:`${site.url}/images/logo.png`,sameAs:[site.facebook,site.instagram]};
+import Base from '../layouts/Base.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import EventCard from '../components/EventCard.astro';
+import { upcomingEvents } from '../data/events';
+import { venues } from '../data/venues';
+import { services } from '../data/services';
+import { gallery } from '../data/gallery';
+import { site } from '../data/site';
+import { featuredReviews } from '../data/reviews';
+
+const upcoming = upcomingEvents().slice(0, 6);
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/images/logo.png`,
+  sameAs: [site.facebook, site.instagram],
+};
 ---
 <Base title="Four Dogs Entertainment | Events, Weddings & Game Nights" description="Find a Four Dogs event or book hosted entertainment for your venue, wedding, company, community, or private celebration in South Carolina." schema={org}>
-<section class="hero"><div class="container"><p class="eyebrow">Four Dogs Entertainment</p><h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1><p>People need more reasons to come together. Four Dogs creates interactive entertainment experiences that turn ordinary nights, celebrations, and gatherings into something people look forward to.</p><div class="actions"><a class="button" href="/events/">Find an event</a><a class="button secondary" href="/booking/">Book Four Dogs</a></div></div></section>
-<section class="section alt"><div class="container"><p class="eyebrow">This week with Four Dogs</p><h2>Your week needs something to look forward to.</h2><div class="grid">{venues.map(v=>v.weeklySchedule.map(s=><article class="card"><p class="eyebrow">{s.day}</p><h3>{v.name}</h3><p>{s.format}<br><strong>{s.time}</strong><br>{v.city}</p></article>))}</div>{upcoming.length>0&&<><h2 style="margin-top:3rem">Coming up</h2><div class="grid">{upcoming.map(event=><EventCard event={event}/>)}</div></>}</div></section>
-<section class="section"><div class="container"><p class="eyebrow">Who are you planning for?</p><h2>There’s a Four Dogs path for your people.</h2><div class="grid">{[['Bar & restaurant owners','Give guests a reason to come back every week.','/for-venues/'],['Brides & couples','Create a celebration that feels like your people.','/weddings/'],['Businesses & organizations','Turn the room into something everyone participates in.','/services/private-corporate-events/'],['Private parties & communities','Give your group something memorable to do together.','/services/private-corporate-events/'],['People looking for something fun','Grab your people and find your next night out.','/events/']].map(x=><a class="card" href={x[2]}><h3>{x[0]}</h3><p>{x[1]}</p><p>Explore your options →</p></a>)}</div></div></section>
-<section class="section dark"><div class="container"><p class="eyebrow">Four Dogs experiences</p><h2>Different ways to bring people together.</h2><div class="grid">{services.map(s=><article class="card"><h3>{s.name}</h3><p>{s.summary}</p><a href={`/services/${s.slug}/`}>Explore {s.name} →</a></article>)}</div></div></section>
-<section class="section"><div class="container"><p class="eyebrow">Real events</p><h2>Good nights look like this.</h2><div class="gallery">{gallery.slice(0,6).map(p=><figure><img src={p.src} alt={p.alt} loading="lazy" width="800" height="600"><figcaption>{p.category}</figcaption></figure>)}</div><a class="button" href="/gallery/">See the gallery</a></div></section>
-<section class="section alt"><div class="container"><p class="eyebrow">From a venue partner</p><h2>Built on collaboration.</h2>{featuredReviews[0] && <ReviewCard review={featuredReviews[0]} excerpt="homepage" />}</div></section>
-<section class="section alt"><div class="container split"><div><p class="eyebrow">For venues</p><h2>Give people a reason to put your venue on the calendar.</h2><p>Recurring hosted entertainment creates participation, connection, and something guests can look forward to together.</p><a class="button" href="/for-venues/">See the venue model</a></div><img src="/images/hero.jpg" alt="Guests gathered for a Four Dogs venue event" loading="lazy"></div></section>
-<section class="section dark"><div class="container"><p class="eyebrow">Follow the pack</p><h2>See where Four Dogs goes next.</h2><div class="actions"><a class="button" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a class="button secondary" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></div></div></section>
-<section class="section"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><div class="actions"><a class="button" href="/events/">Find an event</a><a class="button secondary" style="color:var(--navy)" href="/booking/">Book Four Dogs</a></div></div></section>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Four Dogs Entertainment</p>
+      <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
+      <p>People need more reasons to come together. Four Dogs creates interactive entertainment experiences that turn ordinary nights, celebrations, and gatherings into something people look forward to.</p>
+      <div class="actions">
+        <a class="button" href="/events/">Find an event</a>
+        <a class="button secondary" href="/booking/">Book Four Dogs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">The Four Dogs Song</p>
+        <h2>Turn it up. This is Four Dogs.</h2>
+        <p class="lead">Our original brand song puts the Doggone Good Time into music. Press play and meet the sound of the pack.</p>
+      </div>
+      <div class="card song-card">
+        <p class="eyebrow">Press play</p>
+        <h3>The Four Dogs Entertainment Song</h3>
+        <audio class="song-player" controls preload="metadata" src="/audio/four-dogs-song.mp3">
+          Your browser does not support the audio player.
+        </audio>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">This week with Four Dogs</p>
+      <h2>Your week needs something to look forward to.</h2>
+      <div class="grid">
+        {venues.map((venue) => venue.weeklySchedule.map((schedule) => (
+          <article class="card">
+            <p class="eyebrow">{schedule.day}</p>
+            <h3>{venue.name}</h3>
+            <p>{schedule.format}<br /><strong>{schedule.time}</strong><br />{venue.city}</p>
+          </article>
+        )))}
+      </div>
+      {upcoming.length > 0 && (
+        <>
+          <h2 style="margin-top:3rem">Coming up</h2>
+          <div class="grid">{upcoming.map((event) => <EventCard event={event} />)}</div>
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Who are you planning for?</p>
+      <h2>There’s a Four Dogs path for your people.</h2>
+      <div class="grid">
+        {[
+          ['Bar & restaurant owners', 'Give guests a reason to come back every week.', '/for-venues/'],
+          ['Brides & couples', 'Create a celebration that feels like your people.', '/weddings/'],
+          ['Businesses & organizations', 'Turn the room into something everyone participates in.', '/services/private-corporate-events/'],
+          ['Private parties & communities', 'Give your group something memorable to do together.', '/services/private-corporate-events/'],
+          ['People looking for something fun', 'Grab your people and find your next night out.', '/events/'],
+        ].map((path) => (
+          <a class="card" href={path[2]}>
+            <h3>{path[0]}</h3>
+            <p>{path[1]}</p>
+            <p>Explore your options →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Four Dogs experiences</p>
+      <h2>Different ways to bring people together.</h2>
+      <div class="grid">
+        {services.map((service) => (
+          <article class="card">
+            <h3>{service.name}</h3>
+            <p>{service.summary}</p>
+            <a href={`/services/${service.slug}/`}>Explore {service.name} →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Real events</p>
+      <h2>Good nights look like this.</h2>
+      <div class="gallery">
+        {gallery.slice(0, 6).map((photo) => (
+          <figure>
+            <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
+            <figcaption>{photo.category}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <a class="button" href="/gallery/">See the gallery</a>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">From a venue partner</p>
+      <h2>Built on collaboration.</h2>
+      {featuredReviews[0] && <ReviewCard review={featuredReviews[0]} excerpt="homepage" />}
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">For venues</p>
+        <h2>Give people a reason to put your venue on the calendar.</h2>
+        <p>Recurring hosted entertainment creates participation, connection, and something guests can look forward to together.</p>
+        <a class="button" href="/for-venues/">See the venue model</a>
+      </div>
+      <img src="/images/hero.jpg" alt="Guests gathered for a Four Dogs venue event" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Follow the pack</p>
+      <h2>See where Four Dogs goes next.</h2>
+      <div class="actions">
+        <a class="button" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="button secondary" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
+      <div class="actions">
+        <a class="button" href="/events/">Find an event</a>
+        <a class="button secondary" style="color:var(--navy)" href="/booking/">Book Four Dogs</a>
+      </div>
+    </div>
+  </section>
 </Base>
