@@ -1,5 +1,33 @@
 ---
-import Header from '../components/Header.astro'; import Footer from '../components/Footer.astro'; import '../styles/global.css'; import {site} from '../data/site';
-const {title,description,image='/images/social-card.jpg',schema=[]}=Astro.props; const canonical=new URL(Astro.url.pathname,site.url); const schemas=Array.isArray(schema)?schema:[schema];
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import {site} from '../data/site';
+
+const {title,description,image='/images/social-card.jpg',schema=[]}=Astro.props;
+const canonical=new URL(Astro.url.pathname,site.url);
+const schemas=Array.isArray(schema)?schema:[schema];
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>{title}</title><meta name="description" content={description}><link rel="canonical" href={canonical}><link rel="icon" href="/favicon.png"><meta property="og:type" content="website"><meta property="og:title" content={title}><meta property="og:description" content={description}><meta property="og:url" content={canonical}><meta property="og:image" content={new URL(image,site.url)}><meta name="twitter:card" content="summary_large_image">{schemas.filter(Boolean).map((s)=><script type="application/ld+json" set:html={JSON.stringify(s)} />)}</head><body><Header/><main id="main"><slot/></main><Footer/></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="canonical" href={canonical}>
+    <link rel="icon" href="/favicon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:url" content={canonical}>
+    <meta property="og:image" content={new URL(image,site.url)}>
+    <meta name="twitter:card" content="summary_large_image">
+    {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s)}></script>)}
+  </head>
+  <body>
+    <Header/>
+    <main id="main"><slot/></main>
+    <Footer/>
+  </body>
+</html>
