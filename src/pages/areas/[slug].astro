@@ -1,0 +1,4 @@
+---
+import Base from '../../layouts/Base.astro'; const areas={"columbia-sc":['Columbia','Events and entertainment in Columbia, South Carolina.'],"lexington-sc":['Lexington','Events and entertainment in Lexington, South Carolina.'],"irmo-chapin-sc":['Irmo & Chapin','Entertainment for Irmo and Chapin, South Carolina.'],"west-columbia-cayce-sc":['West Columbia & Cayce','Entertainment for West Columbia and Cayce, South Carolina.']}; export function getStaticPaths(){return Object.entries(areas).map(([slug,data])=>({params:{slug},props:{data}}))} const {data}=Astro.props;
+---
+<Base title={`Four Dogs Entertainment in ${data[0]}, SC`} description={data[1]}><section class="section dark"><div class="container"><p class="eyebrow">South Carolina entertainment</p><h1>{data[0]}</h1><p class="lead">{data[1]}</p><div class="actions"><a class="button" href="/events/">Find an event</a><a href="/booking/">Book Four Dogs →</a></div></div></section></Base>

@@ -1,0 +1,24 @@
+---
+import type { Review } from '../data/reviews';
+const { review, excerpt = 'homepage', showFull = false } = Astro.props as {
+  review: Review;
+  excerpt?: keyof Review['excerpts'];
+  showFull?: boolean;
+};
+---
+<figure class="testimonial">
+  <blockquote>
+    <p>“{review.excerpts[excerpt]}”</p>
+  </blockquote>
+  <figcaption>
+    <strong>{review.name}</strong><br />
+    {review.title}<br />
+    <span>{review.location}</span>
+  </figcaption>
+  {showFull && (
+    <details class="testimonial-full">
+      <summary>Read Arif’s full testimonial</summary>
+      {review.quote.split('\n\n').map((paragraph) => <p>“{paragraph}”</p>)}
+    </details>
+  )}
+</figure>

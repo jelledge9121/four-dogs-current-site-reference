@@ -1,0 +1,5 @@
+---
+import type {Event} from '../data/events'; import {venueById} from '../data/venues';
+const {event}=Astro.props as {event:Event}; const venue=venueById(event.venueId); const date=new Date(`${event.date}T12:00:00`).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+---
+<article class="card event"><p class="eyebrow">{date} · {event.startTime}</p><h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3><p>{venue.name}<br>{venue.city}, {venue.state}</p><span class="tag">{event.eventType}</span></article>

@@ -1,0 +1,1 @@
+export const site = {name:'Four Dogs Entertainment', tagline:'Entertainment Built to Bring People Together', url:'https://4dogsentertainment.com', instagram:'https://www.instagram.com/fourdogsentertaiment/', facebook:'https://www.facebook.com/profile.php?id=61574086319373'};

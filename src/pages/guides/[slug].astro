@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import guides from '../../data/guides.json';
+export function getStaticPaths(){return guides.map(guide=>({params:{slug:guide.slug},props:{guide}}))}
+const {guide}=Astro.props;
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:guide.title,description:guide.description,author:{'@type':'Organization',name:'Four Dogs Entertainment'},publisher:{'@type':'Organization',name:'Four Dogs Entertainment'}};
+---
+<Base title={`${guide.title} | Four Dogs Entertainment`} description={guide.description} schema={articleSchema}>
+  <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs guide</p><h1>{guide.title}</h1><p class="lead">{guide.description}</p></div></section>
+  <article class="section"><div class="container prose">
+    {guide.blocks.slice(2).map((block) => block.tag === 'h2' ? <h2>{block.text}</h2> : block.tag === 'h3' ? <h3>{block.text}</h3> : block.tag === 'li' ? <ul><li>{block.text}</li></ul> : <p>{block.text}</p>)}
+    <div class="actions"><a class="button" href="/booking/">Plan an event</a><a href="/guides/">More guides</a></div>
+  </div></article>
+</Base>

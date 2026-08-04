@@ -1,0 +1,4 @@
+---
+import {site} from '../data/site';
+---
+<footer><div class="container footer-grid"><div><img src="/images/logo.png" width="100" height="100" alt=""><p><strong>{site.name}</strong><br>{site.tagline}</p></div><div><h2>Explore</h2><a href="/events/">Events</a><a href="/services/">Services</a><a href="/gallery/">Gallery</a><a href="/guides/">Guides</a><a href="/rewards/">Rewards</a><a href="/work-excuses/">Work Excuses</a><a href="/venue-calculator/">Venue Calculator</a></div><div><h2>Follow the pack</h2><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram <span class="sr-only">(opens in new tab)</span></a><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook <span class="sr-only">(opens in new tab)</span></a></div></div><p class="copyright">© {new Date().getFullYear()} Four Dogs Entertainment · <a href="/booking/">Let’s plan your night</a></p></footer>
