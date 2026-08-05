@@ -18,6 +18,12 @@ const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId)
 const seoTitle = page.slug === 'music-bingo-columbia-lexington-sc'
   ? 'Music Bingo in Columbia & Lexington SC | Local Guide | Four Dogs'
   : page.title;
+const holidayEligible = [
+  'private-event-dj-midlands-sc',
+  'corporate-event-entertainment-columbia-sc',
+  'dj-services-columbia-sc',
+  'dj-services-lexington-sc',
+].includes(page.slug);
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -76,6 +82,20 @@ const serviceSchema = {
       </div>
     </div>
   </section>
+
+  {holidayEligible && (
+    <section class="section">
+      <div class="container holiday-callout">
+        <p class="eyebrow">Planning a holiday event?</p>
+        <h2>Looking for traditional holiday magic too?</h2>
+        <p>Pair Four Dogs entertainment with a traditional real-beard Santa Jim appearance for company parties, private celebrations, HOA events, community gatherings, and mixed-age holiday crowds.</p>
+        <div class="actions">
+          <a class="button" href="/christmas/">Explore Christmas & Santa Jim</a>
+          <a href="/booking/?service=Christmas%20%2F%20Holiday%20Entertainment">Plan a holiday event →</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   {review && (
     <section class="section">
