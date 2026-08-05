@@ -26,8 +26,19 @@ const schemas=Array.isArray(schema)?schema:[schema];
     {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s)}></script>)}
   </head>
   <body>
+    <div class="seasonal-banner" data-holiday-banner hidden aria-label="Holiday entertainment announcement">
+      Planning a holiday party? Four Dogs + Santa Jim can entertain the whole crowd. <a href="/christmas/">Explore holiday entertainment →</a>
+    </div>
     <Header/>
     <main id="main"><slot/></main>
     <Footer/>
+    <script is:inline>
+      (() => {
+        const banner = document.querySelector('[data-holiday-banner]');
+        if (!banner) return;
+        const month = new Date().getMonth();
+        if (month >= 8 && month <= 11) banner.hidden = false;
+      })();
+    </script>
   </body>
 </html>
