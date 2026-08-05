@@ -15,6 +15,9 @@ export function getStaticPaths() {
 
 const { page } = Astro.props as Props;
 const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId) : undefined;
+const seoTitle = page.slug === 'music-bingo-columbia-lexington-sc'
+  ? 'Music Bingo in Columbia & Lexington SC | Local Guide | Four Dogs'
+  : page.title;
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -40,7 +43,7 @@ const serviceSchema = {
   areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
 };
 ---
-<Base title={page.title} description={page.description} schema={[serviceSchema, faqSchema]}>
+<Base title={seoTitle} description={page.description} schema={[serviceSchema, faqSchema]}>
   <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: page.h1 }]} />
 
   <section class="section dark">
