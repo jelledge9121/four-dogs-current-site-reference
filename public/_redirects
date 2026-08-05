@@ -11,30 +11,24 @@
 /venue-owners      /for-venues/                       301
 /for-bars          /for-venues/                       301
 /for-restaurants   /for-venues/                       301
-/wedding-dj-lexington-sc/ /wedding-dj-sc-nc-ga/ 301
-/wedding-dj-lexington-sc  /wedding-dj-sc-nc-ga/ 301
 
 # Preserve search equity from retired Chicanas pages
 /venues/chicanas-trivia-columbia-sc /venues/top-dawg-tavern-sandhills-trivia-columbia-sc/ 301
 /venues/chicanas-trivia-columbia-sc/ /venues/top-dawg-tavern-sandhills-trivia-columbia-sc/ 301
 /events/90s-music-pop-culture-trivia-chicanas-july-21-2026 /events/90s-music-pop-culture-trivia-top-dawg-tavern-sandhills-july-21-2026/ 301
 /events/90s-music-pop-culture-trivia-chicanas-july-21-2026/ /events/90s-music-pop-culture-trivia-top-dawg-tavern-sandhills-july-21-2026/ 301
-/trivia-night-columbia-sc/ /services/trivia/ 301
-/trivia-night-lexington-sc/ /services/trivia/ 301
-/trivia-nights-columbia-lexington-sc/ /services/trivia/ 301
-/music-bingo-columbia-sc/ /services/music-bingo/ 301
-/music-bingo-lexington-sc/ /services/music-bingo/ 301
-/music-bingo-columbia-lexington-sc/ /services/music-bingo/ 301
+
+# Broad legacy service aliases
 /corporate-events/ /services/private-corporate-events/ 301
 /private-events/ /services/private-corporate-events/ 301
 /hoa-community-events/ /services/private-corporate-events/ 301
 /venue-entertainment/ /for-venues/ 301
 /bar-restaurant-entertainment/ /for-venues/ 301
-/wedding-dj-columbia-sc/ /weddings/ 301
 /wedding-dj-sc-nc-ga/ /weddings/ 301
 /almost-married-trivia-experience/ /services/almost-married-trivia-experience/ 301
 /are-you-smarter-than-a-barstool/ /services/are-you-smarter-than-a-barstool/ 301
 /four-dogs-survey-showdown/ /services/four-dogs-survey-showdown/ 301
+
 # Exact aliases for production event URLs now represented by normalized central records
 /events/culture-on-tap-trivia-charter-803-august-6-2026/ /events/culture-on-tap-trivia-2026-08-06/ 301
 /events/work-like-a-dog-music-bingo-charter-803-august-5-2026/ /events/work-like-a-dog-music-bingo-2026-08-05/ 301
@@ -43,13 +37,9 @@
 /events/four-dogs-survey-showdown-charter-803-2026-10-08/ /events/four-dogs-survey-showdown-2026-10-08/ 301
 /events/four-dogs-survey-showdown-charter-803-2026-11-12/ /events/four-dogs-survey-showdown-2026-11-12/ 301
 /events/four-dogs-survey-showdown-charter-803-august-13-2026/ /events/90s-music-pop-culture-trivia-2026-08-13/ 301
-# Legacy SEO pages resolve to equivalent current service content
-/bar-trivia-host-columbia-sc/ /services/trivia/ 301
-/corporate-event-entertainment-columbia-sc/ /services/private-corporate-events/ 301
+
+# Legacy SEO aliases that now point to stronger local landing pages
+/bar-trivia-host-columbia-sc/ /trivia-night-columbia-sc/ 301
 /corporate-event-entertainment-sc-nc-ga/ /services/private-corporate-events/ 301
-/dj-services-columbia-sc/ /services/private-corporate-events/ 301
-/dj-services-lexington-sc/ /services/private-corporate-events/ 301
 /hoa-community-event-entertainment-sc-nc-ga/ /services/private-corporate-events/ 301
-/private-event-dj-midlands-sc/ /services/private-corporate-events/ 301
-/private-event-dj-sc-nc-ga/ /services/private-corporate-events/ 301
-/restaurant-entertainment-columbia-sc/ /for-venues/ 301
+/private-event-dj-sc-nc-ga/ /private-event-dj-midlands-sc/ 301
