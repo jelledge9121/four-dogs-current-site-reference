@@ -7,7 +7,7 @@ import { venues } from '../data/venues';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
-import { featuredReviews } from '../data/reviews';
+import { guestReviews, venueOwnerReview } from '../data/reviews';
 
 const upcoming = upcomingEvents().slice(0, 6);
 const org = {
@@ -127,9 +127,24 @@ const org = {
 
   <section class="section alt">
     <div class="container">
+      <p class="eyebrow">What people are saying</p>
+      <h2>Real feedback from Four Dogs guests and clients.</h2>
+      <div class="review-grid">
+        {guestReviews.map((review) => (
+          <article class="review-card">
+            <p class="review-quote">“{review.quote}”</p>
+            <p class="review-attribution"><strong>{review.name}</strong><br />{review.title}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
       <p class="eyebrow">From a venue partner</p>
       <h2>Built on collaboration.</h2>
-      {featuredReviews[0] && <ReviewCard review={featuredReviews[0]} excerpt="homepage" />}
+      {venueOwnerReview && <ReviewCard review={venueOwnerReview} excerpt="homepage" />}
     </div>
   </section>
 
