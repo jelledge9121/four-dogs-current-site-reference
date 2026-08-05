@@ -1,5 +1,161 @@
 ---
 import Base from '../layouts/Base.astro';
-const photos=['santa-jim-christmas-in-july-four-dogs-01.jpg','santa-jim-christmas-in-july-four-dogs-02.jpg','santa-jim-christmas-party-four-dogs-05.jpg','santa-jim-holiday-party-four-dogs-03.jpg'];
+
+const photos = [
+  'santa-jim-christmas-in-july-four-dogs-01.jpg',
+  'santa-jim-christmas-in-july-four-dogs-02.jpg',
+  'santa-jim-christmas-party-four-dogs-05.jpg',
+  'santa-jim-holiday-party-four-dogs-03.jpg',
+];
+
+const faqs = [
+  {
+    question: 'Can Santa Jim and Four Dogs be part of the same holiday event?',
+    answer: 'Yes. A holiday event can combine a traditional Santa Jim appearance with Four Dogs DJ entertainment, Music Bingo, trivia, hosted games, or another compatible format. The flow can be planned around the audience, venue, and schedule.',
+  },
+  {
+    question: 'Is this only for events with children?',
+    answer: 'No. Santa Jim works for family-friendly events, mixed-age company parties, HOA and community celebrations, photo opportunities, and adults who want a traditional holiday moment. Four Dogs entertainment can continue the event for the broader crowd.',
+  },
+  {
+    question: 'What types of holiday events can Four Dogs help with?',
+    answer: 'Holiday options can work for company parties, private celebrations, HOA and community events, restaurants, organizations, Christmas in July events, and other seasonal gatherings.',
+  },
+  {
+    question: 'Where is holiday entertainment available?',
+    answer: 'Four Dogs serves Lexington, Columbia, West Columbia, Cayce, Irmo, Chapin, and other communities throughout the South Carolina Midlands. Availability depends on the date and event details.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Holiday Party Entertainment and Santa Jim',
+  description: 'Holiday entertainment from Four Dogs Entertainment can combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa Jim appearance for events in the South Carolina Midlands.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Four Dogs Entertainment',
+    url: 'https://4dogsentertainment.com',
+  },
+  areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
 ---
-<Base title="Book Santa Jim & Christmas Party Entertainment | Four Dogs" description="Explore Santa Jim appearances and Four Dogs Christmas party entertainment including Music Bingo, trivia, DJ entertainment, and hosted games."><section class="section dark"><div class="container"><p class="eyebrow">Christmas in July · Christmas parties · holiday parties</p><h1>Christmas with Four Dogs</h1><p class="lead">Book real-beard Santa Jim for the magic, or let Four Dogs host the celebration with Music Bingo, trivia, DJ entertainment, games, and holiday energy.</p><div class="actions"><a class="button" href="https://www.gigsalad.com/weco_santa_jim_west_columbia" target="_blank" rel="noopener noreferrer">Check Santa Jim’s availability</a><a href="/booking/?service=Christmas%20%2F%20Holiday%20Entertainment">Plan a holiday party</a></div></div></section><section class="section"><div class="container"><h2>Two ways to celebrate</h2><div class="grid"><article class="card"><h3>Santa appearances</h3><p>Santa Jim brings an authentic real beard, conversation, photos, gift presentation, and a warm presence for children and adults.</p></article><article class="card"><h3>Complete entertainment</h3><p>Christmas Music Bingo, holiday and pop-culture trivia, DJ music and announcements, Survey Showdown, and custom hosted games.</p></article><article class="card"><h3>Christmas in July</h3><p>Combine a summer Santa appearance with themed trivia, Music Bingo, costume moments, giveaways, and photos.</p></article></div></div></section><section class="section alt"><div class="container"><h2>Real Four Dogs holiday moments</h2><div class="gallery">{photos.map((photo,i)=><figure><img src={`/images/christmas/${photo}`} alt={i<2?'Santa Jim at a Four Dogs Christmas in July event':'Santa Jim greeting guests at a Four Dogs holiday party'} loading="lazy"></figure>)}</div></div></section></Base>
+<Base
+  title="Holiday Party Entertainment & Santa in Lexington & Columbia SC | Four Dogs"
+  description="Plan a holiday party with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience for company, HOA, community, and private events in the South Carolina Midlands."
+  schema={[serviceSchema, faqSchema]}
+>
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Four Dogs Holiday Entertainment + Santa Jim</p>
+      <h1>One party. Everyone has something to look forward to.</h1>
+      <p class="lead">Pair Four Dogs entertainment with a traditional real-beard Santa Jim appearance for a holiday event that can work for children, coworkers, neighbors, families, and the young at heart.</p>
+      <div class="actions">
+        <a class="button" href="/booking/?service=Christmas%20%2F%20Holiday%20Entertainment">Plan your holiday party</a>
+        <a class="button secondary" href="https://www.gigsalad.com/weco_santa_jim_west_columbia" target="_blank" rel="noopener noreferrer">Check Santa Jim availability</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose">
+        <p class="eyebrow">Mixed-crowd holiday events</p>
+        <h2>Bring the family moment and the party together.</h2>
+        <p>Holiday planners often have more than one audience in the room. Children may want Santa and photos. Adults may want music, games, conversation, and a reason to stay engaged. A combined Four Dogs + Santa Jim event can be planned around both.</p>
+        <p>Santa Jim can create the traditional holiday anchor, while Four Dogs keeps the celebration moving with DJ entertainment, Christmas Music Bingo, trivia, Survey Showdown, announcements, and hosted games.</p>
+      </div>
+      <img src="/images/christmas/santa-jim-christmas-party-four-dogs-05.jpg" alt="Santa Jim greeting guests during a Four Dogs holiday event" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Example event flow</p>
+      <h2>A holiday party can feel connected from start to finish.</h2>
+      <p class="lead">This is one example, not a required package. We can shape the pacing around your venue, audience, meal, and event goals.</p>
+      <div class="event-flow">
+        <article class="card"><h3>Welcome</h3><p>Guests arrive, music is playing, and Four Dogs helps set the tone for the event.</p></article>
+        <article class="card"><h3>Santa Moment</h3><p>Santa Jim arrives for greetings, photos, conversation, gift presentation, or another planned holiday moment.</p></article>
+        <article class="card"><h3>Food & Social Time</h3><p>Give guests space to eat, visit, and enjoy the room without forcing every minute into programming.</p></article>
+        <article class="card"><h3>Interactive Entertainment</h3><p>Move into Music Bingo, trivia, Survey Showdown, hosted games, or another Four Dogs format.</p></article>
+        <article class="card"><h3>DJ & Celebration</h3><p>Close with music, announcements, dancing, or a flexible social finish based on the event.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Build the right holiday experience</p>
+      <h2>Choose what your crowd actually needs.</h2>
+      <div class="grid">
+        <article class="card"><h3>Santa Jim</h3><p>Traditional real-beard Santa appearance, conversation, photos, gift presentation, and a warm holiday presence for children and adults.</p></article>
+        <article class="card"><h3>Christmas Music Bingo</h3><p>Holiday favorites, sing-alongs, familiar songs, and an easy-to-join game format for mixed groups.</p></article>
+        <article class="card"><h3>Holiday Trivia & Games</h3><p>Christmas trivia, pop culture, Survey Showdown, and custom hosted games for teams and groups.</p></article>
+        <article class="card"><h3>DJ Entertainment</h3><p>Music, announcements, transitions, and event pacing for parties that need a flexible entertainment backbone.</p></article>
+        <article class="card"><h3>Christmas in July</h3><p>Combine a summer Santa appearance with themed trivia, Music Bingo, photos, costumes, giveaways, and holiday fun.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Who this works for</p>
+      <h2>Built for events with more than one kind of guest.</h2>
+      <div class="grid">
+        <article class="card"><h3>Companies & Offices</h3><p>Create a company holiday party that can welcome employees, spouses, children, and mixed generations.</p></article>
+        <article class="card"><h3>HOAs & Communities</h3><p>Give families a Santa moment while keeping neighbors engaged with music and interactive entertainment.</p></article>
+        <article class="card"><h3>Private Parties</h3><p>Blend traditional holiday memories with entertainment that keeps the full guest list involved.</p></article>
+        <article class="card"><h3>Restaurants & Organizations</h3><p>Add a seasonal anchor to a holiday gathering, community event, customer event, or special program.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Real Four Dogs holiday moments</p>
+      <h2>See the holiday experience in the room.</h2>
+      <div class="gallery">
+        {photos.map((photo, i) => (
+          <figure>
+            <img src={`/images/christmas/${photo}`} alt={i < 2 ? 'Santa Jim at a Four Dogs Christmas in July event' : 'Santa Jim greeting guests at a Four Dogs holiday party'} loading="lazy" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">One inquiry, more possibilities</p>
+        <h2>Tell us who is coming. We will help shape the night.</h2>
+        <p>Start with Four Dogs and let us know if you are interested in adding Santa Jim. The booking form now includes a holiday add-on option for seasonal events.</p>
+      </div>
+      <div>
+        <a class="button" href="/booking/?service=Christmas%20%2F%20Holiday%20Entertainment">Plan your holiday party</a>
+        <p class="fine"><a href="/services/private-corporate-events/">Explore private & corporate entertainment →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>Planning holiday entertainment in the Midlands.</h2>
+      <div class="prose">
+        {faqs.map((faq) => <section><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}
+      </div>
+    </div>
+  </section>
+</Base>
