@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { localSeoPages, type LocalSeoPage } from '../data/localSeoPages';
+import { reviews } from '../data/reviews';
+
+type Props = { page: LocalSeoPage };
+
+export function getStaticPaths() {
+  return localSeoPages.map((page) => ({
+    params: { localSeo: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as Props;
+const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId) : undefined;
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: page.h1,
+  description: page.description,
+  provider: {
+    '@type': 'Organization',
+    name: 'Four Dogs Entertainment',
+    url: 'https://4dogsentertainment.com',
+  },
+  areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
+};
+---
+<Base title={page.title} description={page.description} schema={[serviceSchema, faqSchema]}>
+  <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: page.h1 }]} />
+
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.h1}</h1>
+      <p class="lead">{page.lead}</p>
+      <div class="actions">
+        <a class="button" href={`/booking/?service=${encodeURIComponent(page.bookingValue)}`}>Book Four Dogs</a>
+        <a class="button secondary" href="/events/">Find an event</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose">
+        {page.intro.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <img src="/images/hero.jpg" alt={`${page.h1} with Four Dogs Entertainment`} loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">What Four Dogs provides</p>
+      <h2>Built for participation, not background noise.</h2>
+      <div class="grid">
+        {page.highlights.map((highlight) => <article class="card"><h3>{highlight}</h3></article>)}
+      </div>
+    </div>
+  </section>
+
+  {review && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Real feedback</p>
+        <h2>What people say after a Four Dogs event.</h2>
+        <figure class="testimonial">
+          <blockquote><p>“{review.excerpts.homepage}”</p></blockquote>
+          <figcaption><strong>{review.name}</strong><br />{review.title}</figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>Helpful details before you plan your night.</h2>
+      <div class="prose">
+        {page.faqs.map((faq) => (
+          <section>
+            <h3>{faq.question}</h3>
+            <p>{faq.answer}</p>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Keep exploring</p>
+      <h2>Related Four Dogs pages.</h2>
+      <div class="grid">
+        {page.relatedLinks.map((link) => (
+          <a class="card" href={link.href}>
+            <h3>{link.label}</h3>
+            <p>Explore →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
+      <p>Tell us what you are planning and we will help identify the right Four Dogs format.</p>
+      <a class="button" href={`/booking/?service=${encodeURIComponent(page.bookingValue)}`}>Plan your event</a>
+    </div>
+  </section>
+</Base>
