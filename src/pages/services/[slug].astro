@@ -124,7 +124,7 @@ const details: Record<string, ServiceDetail> = {
       { label: 'Private events in the Midlands', href: '/private-event-dj-midlands-sc/' },
       { label: 'Corporate entertainment in Columbia', href: '/corporate-event-entertainment-columbia-sc/' },
       { label: 'DJ services in Columbia', href: '/dj-services-columbia-sc/' },
-      { label: 'DJ services in Lexington', href: '/dj-services-lexington-sc/' },
+      { label: 'Holiday entertainment & Santa Jim', href: '/christmas/' },
     ],
     reviewId: 'jordan-anderson-facebook',
   },
@@ -206,6 +206,7 @@ export function getStaticPaths() {
 const { service } = Astro.props as Props;
 const detail = details[service.slug];
 const review = detail.reviewId ? reviews.find((item) => item.id === detail.reviewId) : undefined;
+const holidayEligible = service.slug === 'private-corporate-events';
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -263,6 +264,20 @@ const faqSchema = {
       <ul>{detail.includes.map((item) => <li>{item}</li>)}</ul>
     </div>
   </section>
+
+  {holidayEligible && (
+    <section class="section alt">
+      <div class="container holiday-callout">
+        <p class="eyebrow">Holiday add-on</p>
+        <h2>One holiday party can work for the whole crowd.</h2>
+        <p>For company parties, HOA celebrations, community events, and mixed-age private gatherings, pair Four Dogs entertainment with a traditional real-beard Santa Jim appearance. Santa can anchor the family-friendly holiday moment while Four Dogs keeps the broader event moving with DJ entertainment, Music Bingo, trivia, Survey Showdown, or hosted games.</p>
+        <div class="actions">
+          <a class="button" href="/christmas/">Explore Christmas & Santa Jim</a>
+          <a href="/booking/?service=Christmas%20%2F%20Holiday%20Entertainment">Plan a holiday event →</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   {review && (
     <section class="section alt">
