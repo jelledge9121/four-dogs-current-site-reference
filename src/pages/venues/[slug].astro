@@ -2,16 +2,79 @@
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import EventCard from '../../components/EventCard.astro';
-import {venues, type Venue, type WeeklySchedule} from '../../data/venues';
-import {eventsForVenue} from '../../data/events';
+import { venues, type Venue, type WeeklySchedule } from '../../data/venues';
+import { eventsForVenue } from '../../data/events';
 
-export function getStaticPaths(){return venues.map(venue=>({params:{slug:venue.slug},props:{venue}}))}
-const {venue}=Astro.props as {venue:Venue};
-const events=eventsForVenue(venue.id);
+export function getStaticPaths() {
+  return venues.map((venue) => ({ params: { slug: venue.slug }, props: { venue } }));
+}
+
+const { venue } = Astro.props as { venue: Venue };
+const events = eventsForVenue(venue.id);
+const isLexington = venue.city === 'Lexington';
+const title = isLexington
+  ? `Trivia & Music Bingo at ${venue.name} Lexington SC | Four Dogs`
+  : `Trivia at ${venue.name} Columbia SC | Four Dogs`;
+const description = isLexington
+  ? `See Four Dogs Trivia, Music Bingo, and specialty game nights at ${venue.name} in Lexington, South Carolina. View the weekly schedule and upcoming events.`
+  : `See Four Dogs Trivia and rotating game experiences at ${venue.name} in Columbia, South Carolina. View the weekly schedule and upcoming events.`;
 ---
-<Base title={`${venue.name} Four Dogs Events | ${venue.city}, SC`} description={`${venue.description} See the weekly schedule and upcoming Four Dogs events at ${venue.name}.`}>
-  <Breadcrumbs items={[{name:'Home',href:'/'},{name:'Events',href:'/events/'},{name:venue.name}]}/>
-  <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs venue</p><h1>{venue.name}</h1><p class="lead">{venue.address}<br>{venue.city}, {venue.state} {venue.zip}</p></div></section>
-  <section class="section alt"><div class="container"><h2>Play every week</h2><div class="grid">{venue.weeklySchedule.map((s:WeeklySchedule)=><article class="card"><p class="eyebrow">{s.day}</p><h3>{s.format}</h3><p>{s.time}</p></article>)}</div></div></section>
-  <section class="section"><div class="container"><h2>Coming up here</h2>{events.length?<div class="grid">{events.map(e=><EventCard event={e}/>)}</div>:<p>No dated themes are currently listed. The weekly schedule above remains the place to start.</p>}<div class="actions"><a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a><a href="/events/">All events</a></div></div></section>
+<Base title={title} description={description}>
+  <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Events', href: '/events/' }, { name: venue.name }]} />
+
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Four Dogs venue</p>
+      <h1>{venue.name}</h1>
+      <p class="lead">{venue.address}<br />{venue.city}, {venue.state} {venue.zip}</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>Play every week</h2>
+      <div class="grid">
+        {venue.weeklySchedule.map((schedule: WeeklySchedule) => (
+          <article class="card">
+            <p class="eyebrow">{schedule.day}</p>
+            <h3>{schedule.format}</h3>
+            <p>{schedule.time}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Coming up here</h2>
+      {events.length ? <div class="grid">{events.map((event) => <EventCard event={event} />)}</div> : <p>No dated themes are currently listed. The weekly schedule above remains the place to start.</p>}
+      <div class="actions">
+        <a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a>
+        <a href="/events/">All events</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Explore locally</p>
+      <h2>More Four Dogs entertainment in {venue.city}.</h2>
+      <div class="grid">
+        {isLexington ? (
+          <>
+            <a class="card" href="/trivia-night-lexington-sc/"><h3>Trivia in Lexington</h3><p>Local trivia details and booking options.</p></a>
+            <a class="card" href="/music-bingo-lexington-sc/"><h3>Music Bingo in Lexington</h3><p>Recurring and private Music Bingo options.</p></a>
+            <a class="card" href="/areas/lexington-sc/"><h3>Lexington entertainment</h3><p>Explore Four Dogs services and current local events.</p></a>
+          </>
+        ) : (
+          <>
+            <a class="card" href="/trivia-night-columbia-sc/"><h3>Trivia in Columbia</h3><p>Local trivia details and booking options.</p></a>
+            <a class="card" href="/restaurant-entertainment-columbia-sc/"><h3>Restaurant entertainment</h3><p>Recurring Four Dogs venue programming in Columbia.</p></a>
+            <a class="card" href="/areas/columbia-sc/"><h3>Columbia entertainment</h3><p>Explore Four Dogs services and current local events.</p></a>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
 </Base>
