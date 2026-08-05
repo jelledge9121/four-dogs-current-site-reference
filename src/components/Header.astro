@@ -1,0 +1,37 @@
+---
+import { services } from '../data/services';
+---
+<header>
+  <a class="skip" href="#main">Skip to content</a>
+  <nav aria-label="Primary">
+    <a class="brand" href="/">
+      <img src="/images/logo.png" width="92" height="92" alt="Four Dogs Entertainment">
+    </a>
+    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div id="navlinks">
+      <a href="/events/">Events</a>
+      <details>
+        <summary>Services</summary>
+        <div class="dropdown">
+          <a href="/services/">All services</a>
+          {services.map((service) => <a href={`/services/${service.slug}/`}>{service.name}</a>)}
+        </div>
+      </details>
+      <a href="/for-venues/">For Venues</a>
+      <a href="/weddings/">Weddings</a>
+      <a href="/christmas/">Christmas</a>
+      <a href="/about/">About</a>
+      <a class="button small" href="/booking/">Book</a>
+    </div>
+  </nav>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu');
+  const navLinks = document.querySelector<HTMLElement>('#navlinks');
+
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    navLinks?.classList.toggle('open', !open);
+  });
+</script>

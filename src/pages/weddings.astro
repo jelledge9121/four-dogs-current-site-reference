@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import { reviews } from '../data/reviews';
+const review = reviews.find((item) => item.id === 'susan-leonard-facebook');
+---
+<Base title="Wedding DJ Services in Columbia & Lexington SC | Four Dogs" description="Four Dogs Entertainment provides wedding DJ services and personalized wedding entertainment throughout Columbia, Lexington, and the South Carolina Midlands, including the Almost Married Trivia Experience.">
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Weddings</p>
+      <h1>The best celebrations feel like the people they’re celebrating.</h1>
+      <p class="lead">Four Dogs creates wedding entertainment built around personality, participation, energy, and shared memories.</p>
+      <a class="button" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Plan your wedding</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Wedding DJ & entertainment</p>
+        <h2>Create the energy your people will remember.</h2>
+        <p>Music, hosting, pacing, and the moments that make the celebration feel unmistakably yours. Four Dogs serves couples throughout Columbia, Lexington, and surrounding Midlands communities.</p>
+      </div>
+      <img src="/images/wedding.jpg" alt="A full dance floor at a Four Dogs wedding" />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <img src="/images/wedding.jpg" alt="Guests sharing a personalized Four Dogs wedding experience" />
+      <div>
+        <p class="eyebrow">Make it personal</p>
+        <h2>Meet Almost Married Trivia.</h2>
+        <p>Customized trivia about the couple for rehearsal dinners, engagement parties, wedding weekends, showers, and wedding-party gatherings.</p>
+        <a class="button" href="/services/almost-married-trivia-experience/">Explore Almost Married</a>
+      </div>
+    </div>
+  </section>
+
+  {review && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Client feedback</p>
+        <h2>Planning and communication matter too.</h2>
+        <figure class="testimonial">
+          <blockquote><p>“{review.excerpts.homepage}”</p></blockquote>
+          <figcaption><strong>{review.name}</strong><br />{review.title}</figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Wedding DJ near you</p>
+      <h2>Explore local wedding entertainment.</h2>
+      <div class="grid">
+        <a class="card" href="/wedding-dj-columbia-sc/"><h3>Wedding DJ in Columbia</h3><p>Wedding entertainment for Columbia and surrounding Midlands communities.</p></a>
+        <a class="card" href="/wedding-dj-lexington-sc/"><h3>Wedding DJ in Lexington</h3><p>Wedding entertainment for Lexington and surrounding Midlands communities.</p></a>
+        <a class="card" href="/services/almost-married-trivia-experience/"><h3>Almost Married Trivia</h3><p>Customized couple trivia for wedding-weekend gatherings.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <h2>Your people. Your stories. Your celebration.</h2>
+      <p>Tell us your date, venue, guest count, and what you want the celebration to feel like.</p>
+      <a class="button" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Plan your wedding</a>
+    </div>
+  </section>
+</Base>

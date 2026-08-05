@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import guides from '../../data/guides.json';
+---
+<Base title="Entertainment Guides | Four Dogs Entertainment" description="Four Dogs guides for venue entertainment, trivia, Music Bingo, weddings, and private events in South Carolina.">
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">Guides</p>
+      <h1>Ideas for better nights.</h1>
+      <p class="lead">Practical reading for players, venue teams, couples, and event planners.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid">
+      {guides.map((guide) => (
+        <article class="card">
+          <h3>{guide.title}</h3>
+          <p>{guide.description}</p>
+          <a href={`/guides/${guide.slug}/`}>Read the guide →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>

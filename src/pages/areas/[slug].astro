@@ -1,0 +1,229 @@
+---
+import Base from '../../layouts/Base.astro';
+import EventCard from '../../components/EventCard.astro';
+import { venues } from '../../data/venues';
+import { upcomingEvents } from '../../data/events';
+
+type Area = {
+  slug: string;
+  name: string;
+  title: string;
+  description: string;
+  lead: string;
+  intro: string[];
+  services: { name: string; description: string; href: string }[];
+  nearby: string[];
+  venueIds: string[];
+  faqs: { question: string; answer: string }[];
+};
+
+type Props = { area: Area };
+
+export function getStaticPaths() {
+  const areas: Area[] = [
+    {
+      slug: 'lexington-sc',
+      name: 'Lexington',
+      title: 'Lexington SC Entertainment | Trivia, Music Bingo & DJ | Four Dogs',
+      description: 'Four Dogs Entertainment provides trivia, Music Bingo, DJ entertainment, weddings, private events, and venue programming in Lexington, South Carolina.',
+      lead: 'Recurring public events and bookable entertainment for Lexington venues, couples, businesses, communities, and private groups.',
+      intro: [
+        'Four Dogs Entertainment is active in Lexington with recurring public events plus wedding, private-event, community, and venue entertainment throughout the area.',
+        'Charter 803 Bar & Grill at 269 Charter Oak Road currently hosts Four Dogs Music Bingo on Wednesdays and trivia or specialty game nights on Thursdays, with current recurring events scheduled for 6:30 PM. The Events page is the authoritative source for dates and themes.',
+      ],
+      services: [
+        { name: 'Trivia in Lexington', description: 'General knowledge, themed trivia, and specialty game nights.', href: '/trivia-night-lexington-sc/' },
+        { name: 'Music Bingo in Lexington', description: 'Hosted Music Bingo with rotating music themes.', href: '/music-bingo-lexington-sc/' },
+        { name: 'DJ & private events', description: 'DJ entertainment, parties, engagement events, communities, and celebrations.', href: '/dj-services-lexington-sc/' },
+        { name: 'Weddings', description: 'Wedding DJ entertainment and interactive wedding-weekend options.', href: '/wedding-dj-lexington-sc/' },
+        { name: 'Venue entertainment', description: 'Recurring hosted programming for bars and restaurants.', href: '/for-venues/' },
+      ],
+      nearby: ['Lexington', 'Lake Murray area', 'West Columbia', 'Cayce', 'Irmo', 'Columbia and surrounding Midlands communities'],
+      venueIds: ['charter-803'],
+      faqs: [
+        { question: 'Where can I find recurring Four Dogs events in Lexington?', answer: 'Charter 803 Bar & Grill currently hosts Wednesday Music Bingo and Thursday trivia or specialty game nights. Check the Events page for the current schedule.' },
+        { question: 'Can I book Four Dogs for a Lexington wedding or private party?', answer: 'Yes. Four Dogs offers wedding DJ entertainment, private-event DJ services, Trivia, Music Bingo, Karaoke, and interactive game formats.' },
+        { question: 'Does Four Dogs work with Lexington restaurants and bars?', answer: 'Yes. Four Dogs works with venue partners on recurring hosted entertainment and one-time events.' },
+      ],
+    },
+    {
+      slug: 'columbia-sc',
+      name: 'Columbia',
+      title: 'Columbia SC Entertainment | Trivia, DJ & Events | Four Dogs',
+      description: 'Four Dogs Entertainment provides trivia, DJ entertainment, weddings, private events, corporate events, and venue programming in Columbia, South Carolina.',
+      lead: 'Public trivia plus bookable DJ, wedding, private, corporate, community, and venue entertainment across Columbia.',
+      intro: [
+        'Four Dogs Entertainment serves Columbia with recurring public programming and bookable entertainment for venues, businesses, organizations, weddings, and private events.',
+        'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM. Public dates and themes should always be confirmed on the Events page.',
+      ],
+      services: [
+        { name: 'Trivia in Columbia', description: 'Recurring public trivia plus private and venue-hosted options.', href: '/trivia-night-columbia-sc/' },
+        { name: 'Music Bingo in Columbia', description: 'Bookable Music Bingo for venues, businesses, and private groups.', href: '/music-bingo-columbia-sc/' },
+        { name: 'DJ services', description: 'DJ entertainment for celebrations, formals, organizations, and private events.', href: '/dj-services-columbia-sc/' },
+        { name: 'Weddings', description: 'Wedding DJ entertainment and Almost Married Trivia options.', href: '/wedding-dj-columbia-sc/' },
+        { name: 'Restaurant entertainment', description: 'Recurring hosted programming for Columbia bars and restaurants.', href: '/restaurant-entertainment-columbia-sc/' },
+        { name: 'Corporate events', description: 'Interactive entertainment for companies and organizations.', href: '/corporate-event-entertainment-columbia-sc/' },
+      ],
+      nearby: ['Columbia', 'Northeast Columbia', 'Forest Acres area', 'West Columbia', 'Cayce', 'Lexington and surrounding Midlands communities'],
+      venueIds: ['top-dawg'],
+      faqs: [
+        { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM.' },
+        { question: 'Does Four Dogs offer DJ and wedding entertainment in Columbia?', answer: 'Yes. Four Dogs offers DJ entertainment for weddings, private events, formals, businesses, organizations, and community gatherings.' },
+        { question: 'Can a Columbia restaurant book recurring entertainment?', answer: 'Yes. Four Dogs works with bars and restaurants on recurring trivia, Music Bingo, and compatible specialty game formats.' },
+      ],
+    },
+    {
+      slug: 'irmo-chapin-sc',
+      name: 'Irmo & Chapin',
+      title: 'Irmo & Chapin SC Event Entertainment | Four Dogs Entertainment',
+      description: 'Book Four Dogs Entertainment for DJ events, trivia, Music Bingo, weddings, private parties, communities, organizations, and venue entertainment in Irmo and Chapin, South Carolina.',
+      lead: 'Bookable Four Dogs entertainment for celebrations, organizations, communities, and venues in the Irmo and Chapin area.',
+      intro: [
+        'Four Dogs offers entertainment booking options for Irmo and Chapin events, including DJ entertainment, Trivia, Music Bingo, Karaoke, weddings, private events, corporate events, and interactive specialty formats.',
+        'Recurring public venue schedules can change as partnerships develop. Check the Events page for current public locations, or use the booking form to ask about bringing Four Dogs to an Irmo or Chapin event.',
+      ],
+      services: [
+        { name: 'Private & corporate events', description: 'Interactive entertainment for companies, organizations, communities, and parties.', href: '/services/private-corporate-events/' },
+        { name: 'Weddings', description: 'Wedding DJ entertainment and personalized wedding-weekend options.', href: '/weddings/' },
+        { name: 'Trivia', description: 'Hosted general knowledge, themed trivia, and specialty formats.', href: '/services/trivia/' },
+        { name: 'Music Bingo', description: 'Music-driven hosted entertainment for mixed groups.', href: '/services/music-bingo/' },
+      ],
+      nearby: ['Irmo', 'Chapin', 'Lake Murray area', 'Lexington', 'Columbia and surrounding Midlands communities'],
+      venueIds: [],
+      faqs: [
+        { question: 'Can Four Dogs come to an Irmo or Chapin private event?', answer: 'Yes. Four Dogs books private, community, company, wedding, and organizational entertainment throughout the Midlands.' },
+        { question: 'What entertainment formats are available?', answer: 'Options include DJ entertainment, Trivia, Music Bingo, Karaoke, Survey Showdown, Are You Smarter Than a Barstool?, and other compatible formats.' },
+        { question: 'How do I find current public Four Dogs events?', answer: 'Use the Events page for the current public schedule and venue details.' },
+      ],
+    },
+    {
+      slug: 'west-columbia-cayce-sc',
+      name: 'West Columbia & Cayce',
+      title: 'West Columbia & Cayce SC Event Entertainment | Four Dogs',
+      description: 'Book Four Dogs Entertainment for DJ events, trivia, Music Bingo, weddings, private parties, companies, communities, and venue entertainment in West Columbia and Cayce, South Carolina.',
+      lead: 'Entertainment for West Columbia and Cayce private events, communities, organizations, celebrations, and venue partners.',
+      intro: [
+        'Four Dogs provides bookable entertainment throughout West Columbia and Cayce, including DJ services, Trivia, Music Bingo, Karaoke, weddings, private events, community events, and interactive specialty games.',
+        'Public recurring locations and dates can change. Check the Events page for current public programming, or use the booking form to discuss an event or venue partnership in West Columbia or Cayce.',
+      ],
+      services: [
+        { name: 'Private & corporate events', description: 'Hosted entertainment for parties, organizations, companies, and communities.', href: '/services/private-corporate-events/' },
+        { name: 'DJ entertainment', description: 'Music and hosting for celebrations and private events.', href: '/private-event-dj-midlands-sc/' },
+        { name: 'Trivia', description: 'Traditional, themed, and specialty hosted trivia.', href: '/services/trivia/' },
+        { name: 'Music Bingo', description: 'Interactive music-based entertainment for venues and groups.', href: '/services/music-bingo/' },
+      ],
+      nearby: ['West Columbia', 'Cayce', 'Lexington', 'Columbia', 'Lake Murray area and surrounding Midlands communities'],
+      venueIds: [],
+      faqs: [
+        { question: 'Does Four Dogs serve West Columbia and Cayce?', answer: 'Yes. Four Dogs books private, wedding, company, community, and venue entertainment throughout the Midlands, including West Columbia and Cayce.' },
+        { question: 'Can a venue ask about recurring Trivia or Music Bingo?', answer: 'Yes. Venue partners can use the booking form to discuss recurring programming or a test event.' },
+        { question: 'Where can I see current public events?', answer: 'The Events page lists the current Four Dogs public schedule.' },
+      ],
+    },
+  ];
+
+  return areas.map((area) => ({ params: { slug: area.slug }, props: { area } }));
+}
+
+const { area } = Astro.props as Props;
+const areaVenues = venues.filter((venue) => area.venueIds.includes(venue.id));
+const areaEvents = upcomingEvents().filter((event) => area.venueIds.includes(event.venueId)).slice(0, 4);
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: area.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+<Base title={area.title} description={area.description} schema={faqSchema}>
+  <section class="section dark">
+    <div class="container">
+      <p class="eyebrow">South Carolina entertainment</p>
+      <h1>{area.name}</h1>
+      <p class="lead">{area.lead}</p>
+      <div class="actions">
+        <a class="button" href="/events/">Find an event</a>
+        <a class="button secondary" href="/booking/">Book Four Dogs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose">{area.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
+      <img src="/images/hero.jpg" alt={`Four Dogs Entertainment in ${area.name}, South Carolina`} loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Entertainment options</p>
+      <h2>Ways to bring people together in {area.name}.</h2>
+      <div class="grid">
+        {area.services.map((service) => (
+          <a class="card" href={service.href}><h3>{service.name}</h3><p>{service.description}</p><p>Learn more →</p></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {areaVenues.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Current venue partners</p>
+        <h2>See Four Dogs in the room.</h2>
+        <div class="grid">
+          {areaVenues.map((venue) => (
+            <a class="card" href={`/venues/${venue.slug}/`}>
+              <h3>{venue.name}</h3>
+              <p>{venue.description}</p>
+              {venue.weeklySchedule.map((schedule) => <p><strong>{schedule.day} at {schedule.time}</strong><br />{schedule.format}</p>)}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {areaEvents.length > 0 && (
+    <section class="section alt">
+      <div class="container">
+        <p class="eyebrow">Coming up</p>
+        <h2>Upcoming Four Dogs events in {area.name}.</h2>
+        <div class="grid">{areaEvents.map((event) => <EventCard event={event} />)}</div>
+        <div class="actions"><a class="button" href="/events/">See all events</a></div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Service area</p>
+        <h2>Serving {area.name} and nearby Midlands communities.</h2>
+      </div>
+      <ul>{area.nearby.map((place) => <li>{place}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>Planning entertainment in {area.name}.</h2>
+      <div class="prose">
+        {area.faqs.map((faq) => <section><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
+      <p>Tell us what you are planning in {area.name}.</p>
+      <a class="button" href="/booking/">Book Four Dogs</a>
+    </div>
+  </section>
+</Base>
