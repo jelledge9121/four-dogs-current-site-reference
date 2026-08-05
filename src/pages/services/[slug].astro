@@ -2,9 +2,198 @@
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { services, type Service } from '../../data/services';
+import { reviews } from '../../data/reviews';
 
-type Props = {
-  service: Service;
+type Props = { service: Service };
+
+type ServiceDetail = {
+  title: string;
+  description: string;
+  intro: string[];
+  audiences: string[];
+  includes: string[];
+  faqs: { question: string; answer: string }[];
+  related: { label: string; href: string }[];
+  reviewId?: string;
+};
+
+const details: Record<string, ServiceDetail> = {
+  trivia: {
+    title: 'Trivia Night Hosting in Columbia & Lexington SC | Four Dogs',
+    description: 'Four Dogs Entertainment provides hosted trivia nights for bars, restaurants, private events, companies, communities, and organizations throughout Columbia, Lexington, and the South Carolina Midlands.',
+    intro: [
+      'Four Dogs trivia is built around participation. Teams gather, answer, compete, laugh, and have a reason to stay engaged with the room instead of simply sitting through background entertainment.',
+      'Formats can include general knowledge, themed trivia, specialty concepts, and rotating game experiences for recurring venues or one-time private events.',
+    ],
+    audiences: ['Bars and restaurants', 'Private parties', 'Companies and organizations', 'HOAs and communities', 'Public recurring events', 'Special events'],
+    includes: ['Professional host and game pacing', 'Questions and game materials', 'General knowledge or themed formats', 'Recurring venue or one-time event options', 'Promotional support for venue partners'],
+    faqs: [
+      { question: 'Where does Four Dogs host trivia?', answer: 'Four Dogs currently hosts recurring public trivia in Lexington at Charter 803 Bar & Grill and in Columbia at Top Dawg Tavern, with additional private and venue bookings throughout the Midlands.' },
+      { question: 'Can Four Dogs create themed trivia?', answer: 'Yes. Four Dogs uses both general knowledge and themed trivia, along with original interactive formats.' },
+      { question: 'Can trivia be booked for a private or corporate event?', answer: 'Yes. Trivia can be used for private parties, companies, organizations, communities, and other group events.' },
+    ],
+    related: [
+      { label: 'Trivia in Lexington', href: '/trivia-night-lexington-sc/' },
+      { label: 'Trivia in Columbia', href: '/trivia-night-columbia-sc/' },
+      { label: 'Upcoming trivia events', href: '/events/' },
+      { label: 'For venue owners', href: '/for-venues/' },
+    ],
+    reviewId: 'sparky-superfan-facebook',
+  },
+  'music-bingo': {
+    title: 'Music Bingo in Columbia & Lexington SC | Four Dogs Entertainment',
+    description: 'Four Dogs Entertainment provides hosted Music Bingo for bars, restaurants, private events, companies, communities, and celebrations throughout Columbia, Lexington, and the South Carolina Midlands.',
+    intro: [
+      'Music Bingo turns recognizable songs into a social game that is easy for first-time players to understand and fun for groups to play together.',
+      'Four Dogs rotates music themes and keeps the room moving with a professional host, structured rounds, and an approachable format that works for public venue nights and private events.',
+    ],
+    audiences: ['Bars and restaurants', 'Private parties', 'Companies and organizations', 'Community events', 'Mixed-age adult groups', 'Recurring venue nights'],
+    includes: ['Hosted Music Bingo rounds', 'Curated music themes', 'Game materials and pacing', 'Recurring or one-time event options', 'Promotional support for venue partners'],
+    faqs: [
+      { question: 'Where can I play Four Dogs Music Bingo?', answer: 'Charter 803 Bar & Grill in Lexington currently hosts recurring Four Dogs Music Bingo on Wednesdays at 6:30 PM. Check the Events page for current public dates and themes.' },
+      { question: 'Do players need strong music knowledge?', answer: 'No. The format is designed to be approachable. Players listen for songs and match them to their game cards.' },
+      { question: 'Can Music Bingo be booked privately?', answer: 'Yes. Four Dogs offers Music Bingo for private, company, community, and other hosted events throughout the Midlands.' },
+    ],
+    related: [
+      { label: 'Music Bingo in Lexington', href: '/music-bingo-lexington-sc/' },
+      { label: 'Music Bingo in Columbia', href: '/music-bingo-columbia-sc/' },
+      { label: 'Upcoming events', href: '/events/' },
+      { label: 'For venue owners', href: '/for-venues/' },
+    ],
+    reviewId: 'angela-music-bingo-guest',
+  },
+  karaoke: {
+    title: 'Karaoke Hosting in Columbia & Lexington SC | Four Dogs',
+    description: 'Book Four Dogs Entertainment for hosted karaoke in Columbia, Lexington, and the South Carolina Midlands for venues, private parties, communities, and special events.',
+    intro: [
+      'Four Dogs Karaoke is hosted entertainment for confident singers, first-timers, friend groups, and crowds that want a night built around participation.',
+      'The host manages the flow of singers and keeps the event moving so the experience feels organized without becoming stiff or overproduced.',
+    ],
+    audiences: ['Bars and restaurants', 'Private parties', 'Community events', 'Organizations', 'Celebrations', 'One-time venue events'],
+    includes: ['Hosted singer rotation', 'Professional event pacing', 'Audio setup when required', 'Private and venue booking options', 'A low-pressure environment for participants'],
+    faqs: [
+      { question: 'Does Four Dogs offer karaoke in both Lexington and Columbia?', answer: 'Yes. Karaoke can be booked for venues and private events throughout Lexington, Columbia, and the surrounding Midlands.' },
+      { question: 'Is karaoke only for bars?', answer: 'No. It can also work for private parties, community events, organizations, and celebrations.' },
+      { question: 'Can a venue book karaoke as a one-time event?', answer: 'Yes. Four Dogs can discuss one-time or recurring hosted entertainment depending on the venue and schedule.' },
+    ],
+    related: [
+      { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
+      { label: 'Lexington entertainment', href: '/areas/lexington-sc/' },
+      { label: 'Columbia entertainment', href: '/areas/columbia-sc/' },
+      { label: 'Book Four Dogs', href: '/booking/' },
+    ],
+    reviewId: 'adrian-blessed-mejia-guest',
+  },
+  weddings: {
+    title: 'Wedding DJ & Entertainment in Columbia & Lexington SC | Four Dogs',
+    description: 'Four Dogs Entertainment provides wedding DJ services and interactive wedding entertainment throughout Columbia, Lexington, and the South Carolina Midlands.',
+    intro: [
+      'The best celebrations feel like the people they are celebrating. Four Dogs approaches weddings around the couple, the guest experience, music preferences, important moments, and the overall flow of the day.',
+      'Couples can also add interactive options such as the Almost Married Trivia Experience for rehearsal dinners, engagement events, showers, and other wedding-weekend gatherings.',
+    ],
+    audiences: ['Wedding receptions', 'Engagement parties', 'Rehearsal dinners', 'Wedding-weekend events', 'Couples who want interactive entertainment', 'Private celebrations'],
+    includes: ['Wedding DJ entertainment', 'Music planning around the couple', 'Professional sound and event setup', 'Planning for important moments', 'Almost Married Trivia Experience option'],
+    faqs: [
+      { question: 'Does Four Dogs DJ weddings in Columbia and Lexington?', answer: 'Yes. Four Dogs provides wedding DJ entertainment throughout Columbia, Lexington, and surrounding Midlands communities.' },
+      { question: 'Can we provide song preferences?', answer: 'Yes. Music preferences and important selections are part of the planning process.' },
+      { question: 'What is Almost Married Trivia?', answer: 'It is customized couple trivia built around the couple’s story, proposal, memories, friends, family, and wedding weekend.' },
+    ],
+    related: [
+      { label: 'Wedding DJ in Columbia', href: '/wedding-dj-columbia-sc/' },
+      { label: 'Wedding DJ in Lexington', href: '/wedding-dj-lexington-sc/' },
+      { label: 'Almost Married Trivia', href: '/services/almost-married-trivia-experience/' },
+      { label: 'Wedding overview', href: '/weddings/' },
+    ],
+    reviewId: 'susan-leonard-facebook',
+  },
+  'private-corporate-events': {
+    title: 'Private & Corporate Event Entertainment in SC | Four Dogs',
+    description: 'Four Dogs Entertainment provides DJ entertainment, trivia, Music Bingo, Karaoke, Survey Showdown, and interactive event formats for private and corporate events in Columbia, Lexington, and the South Carolina Midlands.',
+    intro: [
+      'People remember what they participated in. Four Dogs creates private and corporate event entertainment that gets guests talking, laughing, competing, singing, and celebrating together.',
+      'Events can be built around DJ entertainment, Trivia, Music Bingo, Karaoke, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, or another compatible format based on the audience and purpose of the gathering.',
+    ],
+    audiences: ['Companies and organizations', 'Private parties', 'HOAs and communities', 'Churches and nonprofits', 'Formal events', 'Celebrations and special events'],
+    includes: ['Professional hosting', 'DJ and interactive entertainment options', 'Game materials when needed', 'Event planning around the group', 'Audio support based on the selected format'],
+    faqs: [
+      { question: 'What private-event formats does Four Dogs offer?', answer: 'Options include DJ entertainment, Trivia, Music Bingo, Karaoke, Survey Showdown, Are You Smarter Than a Barstool?, and other compatible hosted formats.' },
+      { question: 'Can Four Dogs host a corporate team event?', answer: 'Yes. Interactive formats can be selected around the group size, venue, schedule, and desired level of participation.' },
+      { question: 'What areas does Four Dogs serve?', answer: 'Four Dogs serves Columbia, Lexington, and other communities throughout the South Carolina Midlands.' },
+    ],
+    related: [
+      { label: 'Private events in the Midlands', href: '/private-event-dj-midlands-sc/' },
+      { label: 'Corporate entertainment in Columbia', href: '/corporate-event-entertainment-columbia-sc/' },
+      { label: 'DJ services in Columbia', href: '/dj-services-columbia-sc/' },
+      { label: 'DJ services in Lexington', href: '/dj-services-lexington-sc/' },
+    ],
+    reviewId: 'jordan-anderson-facebook',
+  },
+  'four-dogs-survey-showdown': {
+    title: 'Four Dogs Survey Showdown | Interactive Game Show Entertainment',
+    description: 'Four Dogs Survey Showdown is a team-based survey competition for bars, restaurants, companies, private events, communities, and organizations in South Carolina.',
+    intro: [
+      'Four Dogs Survey Showdown turns the room into teams competing to identify popular survey answers in a familiar, fast-moving game-show-style format.',
+      'It is designed for participation and works for recurring venue nights, companies, private groups, and community events. Four Dogs Survey Showdown is a Four Dogs experience and is not affiliated with Family Feud.',
+    ],
+    audiences: ['Bars and restaurants', 'Companies and organizations', 'Private parties', 'Communities', 'Public game nights', 'Groups that want team competition'],
+    includes: ['Professional host', 'Survey-style game content', 'Team-based competition', 'Public and private event options', 'A structured format that keeps the whole room involved'],
+    faqs: [
+      { question: 'Is Four Dogs Survey Showdown Family Feud?', answer: 'No. It is a Four Dogs survey-style game experience and is not affiliated with Family Feud.' },
+      { question: 'Can Survey Showdown be booked for a company event?', answer: 'Yes. The format can work well for companies, organizations, private groups, communities, and venue events.' },
+      { question: 'Where can I see upcoming Survey Showdown dates?', answer: 'Check the Four Dogs Events page for scheduled public events.' },
+    ],
+    related: [
+      { label: 'Upcoming events', href: '/events/' },
+      { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
+      { label: 'For venue owners', href: '/for-venues/' },
+      { label: 'Columbia entertainment', href: '/areas/columbia-sc/' },
+    ],
+    reviewId: 'arif-charter-803-business-owner',
+  },
+  'are-you-smarter-than-a-barstool': {
+    title: 'Are You Smarter Than a Barstool? | Four Dogs Entertainment',
+    description: 'Are You Smarter Than a Barstool? is a Four Dogs school-subject-inspired trivia and game-night experience for venues, companies, private events, and communities.',
+    intro: [
+      'Are You Smarter Than a Barstool? is a Four Dogs original game experience built around school-subject knowledge, general knowledge, and a playful classroom-style challenge.',
+      'It can be used for public venue nights, companies, organizations, and private events. The experience is not affiliated with Are You Smarter Than a 5th Grader?.',
+    ],
+    audiences: ['Bars and restaurants', 'Companies', 'Private groups', 'Communities', 'Public game nights', 'Trivia audiences looking for a different format'],
+    includes: ['Professional host', 'School-subject-inspired questions', 'Structured rounds and pacing', 'Public and private booking options', 'A recognizable concept with Four Dogs original execution'],
+    faqs: [
+      { question: 'Is this affiliated with Are You Smarter Than a 5th Grader?', answer: 'No. Are You Smarter Than a Barstool? is a Four Dogs original experience and is not affiliated with that television property.' },
+      { question: 'Can a restaurant use this instead of traditional trivia?', answer: 'Yes. It can be used as a specialty game night or as part of a rotating entertainment schedule.' },
+      { question: 'Can it be booked privately?', answer: 'Yes. The format is available for companies, organizations, communities, and private events.' },
+    ],
+    related: [
+      { label: 'Upcoming events', href: '/events/' },
+      { label: 'Traditional Trivia', href: '/services/trivia/' },
+      { label: 'For venue owners', href: '/for-venues/' },
+      { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
+    ],
+    reviewId: 'arif-charter-803-business-owner',
+  },
+  'almost-married-trivia-experience': {
+    title: 'Almost Married Trivia Experience | Wedding Weekend Entertainment',
+    description: 'Almost Married Trivia Experience is customized couple trivia for rehearsal dinners, engagement parties, wedding weekends, showers, and celebrations from Four Dogs Entertainment.',
+    intro: [
+      'Almost Married Trivia turns the couple’s story into an interactive game for the people who know them best.',
+      'Questions can explore how the couple met, first dates, the proposal, relationship milestones, family, friends, wedding-party stories, favorite memories, and the details that make the relationship theirs.',
+    ],
+    audiences: ['Rehearsal dinners', 'Engagement parties', 'Wedding weekends', 'Wedding showers', 'Couples and wedding parties', 'Friends and family gatherings'],
+    includes: ['Customized couple questions', 'Professional hosting', 'Story-driven rounds', 'Planning around supplied couple details', 'An interactive alternative or addition to traditional wedding-weekend entertainment'],
+    faqs: [
+      { question: 'Is the trivia customized to the couple?', answer: 'Yes. The experience is built from information and stories supplied during planning.' },
+      { question: 'When can Almost Married Trivia be used?', answer: 'It can work for rehearsal dinners, engagement parties, showers, wedding weekends, and other pre-wedding gatherings.' },
+      { question: 'Can it be combined with other Four Dogs wedding entertainment?', answer: 'Yes. Couples can discuss combining it with wedding DJ or other Four Dogs entertainment depending on the event schedule.' },
+    ],
+    related: [
+      { label: 'Wedding entertainment', href: '/weddings/' },
+      { label: 'Wedding DJ in Columbia', href: '/wedding-dj-columbia-sc/' },
+      { label: 'Wedding DJ in Lexington', href: '/wedding-dj-lexington-sc/' },
+      { label: 'Book Four Dogs', href: '/booking/?service=Almost%20Married%20Trivia%20Experience' },
+    ],
+    reviewId: 'susan-leonard-facebook',
+  },
 };
 
 export function getStaticPaths() {
@@ -15,75 +204,100 @@ export function getStaticPaths() {
 }
 
 const { service } = Astro.props as Props;
-
-const schema = {
+const detail = details[service.slug];
+const review = detail.reviewId ? reviews.find((item) => item.id === detail.reviewId) : undefined;
+const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.name,
-  description: service.summary,
-  provider: {
-    '@type': 'Organization',
-    name: 'Four Dogs Entertainment',
-  },
+  description: detail.description,
+  provider: { '@type': 'Organization', name: 'Four Dogs Entertainment', url: 'https://4dogsentertainment.com' },
+  areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
 };
-
-const sectionHeading =
-  service.slug === 'private-corporate-events'
-    ? 'Turn the room into something people participate in.'
-    : 'Make it a night people share.';
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: detail.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
 ---
-<Base
-  title={`${service.name} | Four Dogs Entertainment`}
-  description={`${service.summary} ${service.description}`}
-  schema={schema}
->
-  <Breadcrumbs
-    items={[
-      { name: 'Home', href: '/' },
-      { name: 'Services', href: '/services/' },
-      { name: service.name },
-    ]}
-  />
+<Base title={detail.title} description={detail.description} schema={[serviceSchema, faqSchema]}>
+  <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Services', href: '/services/' }, { name: service.name }]} />
 
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">Four Dogs experience</p>
       <h1>{service.name}</h1>
       <p class="lead">{service.summary}</p>
+      <div class="actions">
+        <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
+        <a class="button secondary" href="/events/">Find an event</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
+      <img src={service.slug === 'weddings' || service.slug === 'almost-married-trivia-experience' ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={`Guests enjoying ${service.name} with Four Dogs Entertainment`} loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Who it works for</p>
+      <h2>Built around the group in the room.</h2>
+      <div class="grid">{detail.audiences.map((audience) => <article class="card"><h3>{audience}</h3></article>)}</div>
     </div>
   </section>
 
   <section class="section">
     <div class="container split">
       <div>
-        <h2>{sectionHeading}</h2>
-        <p>{service.description}</p>
-
-        {
-          service.slug === 'almost-married-trivia-experience' && (
-            <p>
-              Build questions around how you met, your first date, proposal, relationship history,
-              family, friends, wedding party, funny stories, memories, and milestones—then see who
-              knows the couple best.
-            </p>
-          )
-        }
-
-        <div class="actions">
-          <a
-            class="button"
-            href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}
-          >
-            Book {service.name}
-          </a>
-          <a href="/services/">All services</a>
-        </div>
+        <p class="eyebrow">What Four Dogs provides</p>
+        <h2>A hosted experience from planning through the event.</h2>
       </div>
+      <ul>{detail.includes.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </section>
 
-      <img
-        src={service.slug === 'weddings' ? '/images/wedding.jpg' : '/images/hero.jpg'}
-        alt={`Guests enjoying ${service.name} with Four Dogs Entertainment`}
-      />
+  {review && (
+    <section class="section alt">
+      <div class="container">
+        <p class="eyebrow">Real feedback</p>
+        <h2>What people say about Four Dogs.</h2>
+        <figure class="testimonial">
+          <blockquote><p>“{review.excerpts.homepage}”</p></blockquote>
+          <figcaption><strong>{review.name}</strong><br />{review.title}</figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>What to know before you book.</h2>
+      <div class="prose">{detail.faqs.map((faq) => <section><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}</div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Related Four Dogs pages</p>
+      <h2>Keep exploring.</h2>
+      <div class="grid">{detail.related.map((link) => <a class="card" href={link.href}><h3>{link.label}</h3><p>Learn more →</p></a>)}</div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
+      <p>Tell us about your date, location, group, and the kind of experience you want to create.</p>
+      <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
     </div>
   </section>
 </Base>
