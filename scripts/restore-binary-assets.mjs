@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
@@ -85,47 +86,23 @@ if (missing.length > 0) {
 }
 
 const songDestination = 'public/audio/four-dogs-song.mp3';
-if (!existsSync(join(root, songDestination))) {
-  const mp3Candidates = [];
-  for (const [archive, entries] of entriesByArchive) {
-    for (const entry of entries) {
-      if (entry.toLowerCase().endsWith('.mp3')) mp3Candidates.push({ archive, entry });
-    }
-  }
+const songUrl = 'https://cdn1.suno.ai/0bf1367d-28d6-4e1b-ac2e-23295d074829.mp3';
+const expectedSongSha256 = 'ebf3c2d40c5203213b894b6814805feebfb768d1ecf3cadd56a14140790baa6d';
+const songPath = join(root, songDestination);
 
-  const score = ({ entry }) => {
-    const name = entry.toLowerCase().replace(/[-_]+/g, ' ');
-    let points = 0;
-    if (name.includes('four dogs')) points += 10;
-    if (name.includes('doggone')) points += 8;
-    if (name.includes('song')) points += 5;
-    if (name.includes('theme')) points += 4;
-    if (name.includes('anthem')) points += 4;
-    if (name.includes('brand')) points += 2;
-    return points;
-  };
-
-  const ranked = mp3Candidates
-    .map((candidate) => ({ ...candidate, score: score(candidate) }))
-    .sort((a, b) => b.score - a.score);
-
-  let song = null;
-  if (ranked.length === 1) {
-    song = ranked[0];
-  } else if (ranked.length > 1 && ranked[0].score > 0 && ranked[0].score > ranked[1].score) {
-    song = ranked[0];
-  }
-
-  if (!song) {
-    const choices = ranked.length
-      ? ranked.map(({ archive, entry, score: points }) => `${archive}: ${entry} (score ${points})`).join('\n')
-      : 'No MP3 files found.';
-    throw new Error(`Could not identify the Four Dogs brand song unambiguously. MP3 candidates:\n${choices}`);
-  }
-
-  restoreEntry(song.archive, song.entry, songDestination);
-} else {
-  console.log(`Already present: ${songDestination}`);
+mkdirSync(dirname(songPath), { recursive: true });
+const songResponse = await fetch(songUrl);
+if (!songResponse.ok) {
+  throw new Error(`Could not download the current Four Dogs song: HTTP ${songResponse.status}`);
 }
+
+const songBytes = Buffer.from(await songResponse.arrayBuffer());
+const actualSongSha256 = createHash('sha256').update(songBytes).digest('hex');
+if (actualSongSha256 !== expectedSongSha256) {
+  throw new Error(`Downloaded Four Dogs song did not match the approved MP3. Expected ${expectedSongSha256}, received ${actualSongSha256}.`);
+}
+
+writeFileSync(songPath, songBytes);
+console.log(`Restored ${songDestination} from the approved Four Dogs song source.`);
 
 console.log(`Restored/verified ${requiredAssets.length} required binary assets plus the Four Dogs brand song.`);
