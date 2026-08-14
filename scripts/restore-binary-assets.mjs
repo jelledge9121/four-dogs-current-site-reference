@@ -85,6 +85,7 @@ if (missing.length > 0) {
   throw new Error(`Required assets were not found in the reference ZIPs:\n${missing.join('\n')}`);
 }
 
+// Keep the approved Four Dogs song same-origin so iOS/Safari can play it reliably.
 const songDestination = 'public/audio/four-dogs-song.mp3';
 const songUrl = 'https://cdn1.suno.ai/0bf1367d-28d6-4e1b-ac2e-23295d074829.mp3';
 const expectedSongSha256 = 'ebf3c2d40c5203213b894b6814805feebfb768d1ecf3cadd56a14140790baa6d';
