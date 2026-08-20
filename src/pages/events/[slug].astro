@@ -18,15 +18,54 @@ export function getStaticPaths() {
 const { event } = Astro.props as Props;
 const venue = venueById(event.venueId);
 const past = event.date < new Date().toISOString().slice(0, 10);
-const isoTime = new Date(`${event.date} ${event.startTime}`).toISOString();
+
+const eventbrite = {
+  charterTrivia: 'https://www.eventbrite.com/e/trivia-at-charter-803-hosted-by-four-dogs-entertainment-tickets-1998508023296?aff=oddtdtcreator',
+  topDawgTrivia: 'https://www.eventbrite.com/e/weekly-trivia-at-top-dawg-tavern-ne-hosted-by-four-dogs-entertainment-tickets-1998507457604?aff=oddtdtcreator',
+  charterMusicBingo: 'https://www.eventbrite.com/e/music-bingo-at-charter-803-hosted-by-four-dogs-entertainment-tickets-1998507656198?aff=oddtdtcreator',
+  wescoTrivia: 'https://www.eventbrite.com/e/weekly-trivia-at-wesco-brew-and-bowl-hosted-by-four-dogs-entertainment-tickets-1998507141659?aff=oddtdtcreator',
+};
+
+function eventbriteUrlFor(event: Event) {
+  if (event.venueId === 'top-dawg') return eventbrite.topDawgTrivia;
+  if (event.venueId === 'wesco') return eventbrite.wescoTrivia;
+  if (event.venueId === 'charter-803') {
+    return event.eventType === 'Music Bingo' ? eventbrite.charterMusicBingo : eventbrite.charterTrivia;
+  }
+  return undefined;
+}
+
+function localIsoDateTime(date: string, time: string) {
+  const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return date;
+  let hour = Number(match[1]);
+  const minute = match[2];
+  const meridiem = match[3].toUpperCase();
+  if (meridiem === 'PM' && hour !== 12) hour += 12;
+  if (meridiem === 'AM' && hour === 12) hour = 0;
+  return `${date}T${String(hour).padStart(2, '0')}:${minute}:00`;
+}
+
+const eventbriteUrl = !past ? eventbriteUrlFor(event) : undefined;
+const eventUrl = new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString();
+const imageUrl = new URL(event.image, 'https://4dogsentertainment.com').toString();
+
+const statusMap = {
+  scheduled: 'https://schema.org/EventScheduled',
+  cancelled: 'https://schema.org/EventCancelled',
+  postponed: 'https://schema.org/EventPostponed',
+} as const;
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: event.title,
-  startDate: isoTime,
-  eventStatus: 'https://schema.org/EventScheduled',
+  startDate: localIsoDateTime(event.date, event.startTime),
+  eventStatus: statusMap[event.status],
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  url: eventUrl,
+  image: [imageUrl],
+  description: event.description,
   location: {
     '@type': 'Place',
     name: venue.name,
@@ -39,6 +78,14 @@ const schema = {
       addressCountry: 'US',
     },
   },
+  ...(eventbriteUrl
+    ? {
+        offers: {
+          '@type': 'Offer',
+          url: eventbriteUrl,
+        },
+      }
+    : {}),
   organizer: {
     '@type': 'Organization',
     name: 'Four Dogs Entertainment',
@@ -80,7 +127,12 @@ const schema = {
           {venue.zip && <>, {venue.zip}</>}
         </p>
         <div class="actions">
-          <a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
+          {eventbriteUrl && (
+            <a class="button" href={eventbriteUrl} target="_blank" rel="noopener noreferrer">
+              View on Eventbrite
+            </a>
+          )}
+          <a class={eventbriteUrl ? undefined : 'button'} href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
           <a href="/events/">See all events</a>
         </div>
       </div>
