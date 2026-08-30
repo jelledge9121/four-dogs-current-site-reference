@@ -1,9 +1,12 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 const root = process.cwd();
-const archives = readdirSync(root).filter((name) => name.toLowerCase().endsWith('.zip'));
+const archiveNames = readdirSync(root).filter((name) => {
+  const lower = name.toLowerCase();
+  return lower.endsWith('.zip') || lower.endsWith('.zip.b64');
+});
 
 const requiredAssets = [
   ['assets/four-dogs-favicon-32.png', 'public/favicon.png'],
@@ -30,30 +33,47 @@ const requiredAssets = [
   ['assets/gallery/four-dogs-wedding-dance-floor-crowd.mp4', 'public/videos/gallery/four-dogs-wedding-dance-floor-crowd.mp4'],
 ];
 
-if (archives.length === 0) {
+if (archiveNames.length === 0) {
   throw new Error('No root-level reference ZIP archives were found.');
 }
 
+const archivePaths = new Map();
+const decodedArchivePaths = [];
+
+for (const archiveName of archiveNames) {
+  const sourcePath = join(root, archiveName);
+  if (archiveName.toLowerCase().endsWith('.zip.b64')) {
+    const decodedPath = join(root, `.${archiveName}.decoded.zip`);
+    const encoded = readFileSync(sourcePath, 'utf8').replace(/\s+/g, '');
+    writeFileSync(decodedPath, Buffer.from(encoded, 'base64'));
+    archivePaths.set(archiveName, decodedPath);
+    decodedArchivePaths.push(decodedPath);
+  } else {
+    archivePaths.set(archiveName, sourcePath);
+  }
+}
+
 const entriesByArchive = new Map();
-for (const archive of archives) {
-  const listing = execFileSync('unzip', ['-Z1', join(root, archive)], {
+for (const archiveName of archiveNames) {
+  const archivePath = archivePaths.get(archiveName);
+  const listing = execFileSync('unzip', ['-Z1', archivePath], {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
   })
     .split(/\r?\n/)
     .filter(Boolean);
-  entriesByArchive.set(archive, listing);
+  entriesByArchive.set(archiveName, listing);
 }
 
-function restoreEntry(archive, entry, destinationPath) {
+function restoreEntry(archiveName, entry, destinationPath) {
   const destination = join(root, destinationPath);
   mkdirSync(dirname(destination), { recursive: true });
-  const bytes = execFileSync('unzip', ['-p', join(root, archive), entry], {
+  const bytes = execFileSync('unzip', ['-p', archivePaths.get(archiveName), entry], {
     encoding: 'buffer',
     maxBuffer: 100 * 1024 * 1024,
   });
   writeFileSync(destination, bytes);
-  console.log(`Restored ${destinationPath} from ${archive}: ${entry}`);
+  console.log(`Restored ${destinationPath} from ${archiveName}: ${entry}`);
 }
 
 const missing = [];
@@ -66,12 +86,12 @@ for (const [sourcePath, destinationPath] of requiredAssets) {
   }
 
   let found = null;
-  for (const [archive, entries] of entriesByArchive) {
+  for (const [archiveName, entries] of entriesByArchive) {
     const entry = entries.find(
       (candidate) => candidate === sourcePath || candidate.endsWith(`/${sourcePath}`),
     );
     if (entry) {
-      found = { archive, entry };
+      found = { archiveName, entry };
       break;
     }
   }
@@ -81,7 +101,11 @@ for (const [sourcePath, destinationPath] of requiredAssets) {
     continue;
   }
 
-  restoreEntry(found.archive, found.entry, destinationPath);
+  restoreEntry(found.archiveName, found.entry, destinationPath);
+}
+
+for (const decodedPath of decodedArchivePaths) {
+  rmSync(decodedPath, { force: true });
 }
 
 if (missing.length > 0) {
