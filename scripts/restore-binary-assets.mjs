@@ -24,6 +24,10 @@ const requiredAssets = [
   ['assets/gallery/four-dogs-entertainment-event-photo-37.webp', 'public/images/gallery/four-dogs-entertainment-event-photo-37.webp'],
   ['assets/gallery/four-dogs-private-event-dance-floor-01-poster.webp', 'public/images/gallery/four-dogs-private-event-dance-floor-01-poster.webp'],
   ['assets/gallery/four-dogs-private-event-dance-floor-02-poster.webp', 'public/images/gallery/four-dogs-private-event-dance-floor-02-poster.webp'],
+  ['assets/gallery/four-dogs-trivia-first-place-winner.webp', 'public/images/gallery/four-dogs-trivia-first-place-winner.webp'],
+  ['assets/gallery/four-dogs-wedding-ceremony-crowd.webp', 'public/images/gallery/four-dogs-wedding-ceremony-crowd.webp'],
+  ['assets/gallery/four-dogs-wedding-dance-floor-crowd-poster.webp', 'public/images/gallery/four-dogs-wedding-dance-floor-crowd-poster.webp'],
+  ['assets/gallery/four-dogs-wedding-dance-floor-crowd.mp4', 'public/videos/gallery/four-dogs-wedding-dance-floor-crowd.mp4'],
 ];
 
 if (archives.length === 0) {

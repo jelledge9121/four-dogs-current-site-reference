@@ -2,22 +2,45 @@
 import Base from '../layouts/Base.astro';
 import { gallery } from '../data/gallery';
 ---
-<Base title="Real Four Dogs Events | Photo Gallery" description="See authentic Four Dogs Entertainment photos from trivia, Music Bingo, private events, venues, celebrations, crowds, and winners.">
+<Base title="Real Four Dogs Events | Photo & Video Gallery" description="See authentic Four Dogs Entertainment photos and videos from trivia, Music Bingo, weddings, private events, venues, celebrations, crowds, and winners.">
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">Real events</p>
       <h1>Meet us in the middle of the fun.</h1>
-      <p class="lead">Real Four Dogs crowds, winners, celebrations, venues, and nights out across South Carolina.</p>
+      <p class="lead">Real Four Dogs crowds, winners, celebrations, weddings, venues, and nights out across South Carolina.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="gallery">
-        {gallery.map((photo) => (
+        {gallery.map((item) => (
           <figure>
-            <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
-            <figcaption>{photo.category}</figcaption>
+            {item.type === 'video' ? (
+              <video
+                src={item.videoSrc}
+                poster={item.poster}
+                controls
+                playsinline
+                preload="none"
+                aria-label={item.alt}
+                width={item.width}
+                height={item.height}
+                style="width:100%;height:auto;border-radius:6px;display:block;background:#000"
+              >
+                Your browser does not support HTML5 video.
+              </video>
+            ) : (
+              <img
+                src={item.src}
+                alt={item.alt}
+                loading="lazy"
+                decoding="async"
+                width={item.width}
+                height={item.height}
+              />
+            )}
+            <figcaption>{item.category}</figcaption>
           </figure>
         ))}
       </div>
