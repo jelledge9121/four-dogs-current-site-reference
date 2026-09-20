@@ -117,6 +117,7 @@ export const venues: Venue[] = [
     city: 'Fountain Inn',
     state: 'SC',
     zip: '29644',
+    website: 'https://themillatfountaininn.com/',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=100+Ellison+Street+Fountain+Inn+SC+29644',
     description: 'Weekly Monday Are You Smarter Than a Barstool? with Four Dogs Entertainment in Fountain Inn.',
     image: '/images/hero.jpg',
