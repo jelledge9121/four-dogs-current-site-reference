@@ -14,6 +14,7 @@ type Area = {
   services: { name: string; description: string; href: string }[];
   nearby: string[];
   venueIds: string[];
+  serviceRegion?: string;
   faqs: { question: string; answer: string }[];
 };
 
@@ -97,6 +98,35 @@ export function getStaticPaths() {
       ],
     },
     {
+      slug: 'fountain-inn-sc',
+      name: 'Fountain Inn',
+      title: 'Fountain Inn SC Trivia & Event Entertainment | Four Dogs',
+      description: 'Play Four Dogs trivia in Fountain Inn at The Mill and book Four Dogs Entertainment for trivia, Music Bingo, DJ entertainment, private events, corporate events, and venue programming.',
+      lead: 'Weekly Four Dogs game night at The Mill plus bookable entertainment for Fountain Inn venues, businesses, organizations, communities, and private events.',
+      intro: [
+        'Four Dogs Entertainment now has a recurring home in Fountain Inn, bringing Are You Smarter Than a Barstool? to The Mill at Fountain Inn on Mondays at 7:00 PM.',
+        'The Mill at Fountain Inn is located at 100 Ellison Street and combines a food hall, Fountain Inn Brewing, an arcade, community lawn, and event spaces. Four Dogs guests can make a full night of dinner, drinks, games, and trivia in one place.',
+        'Are You Smarter Than a Barstool? takes familiar school subjects and turns them into a social trivia game for adults. Teams work through four rounds, the Four Dogs Sound Check, and a Final Wager. You do not need to be a trivia expert to play.',
+      ],
+      services: [
+        { name: 'Are You Smarter Than a Barstool?', description: 'The weekly Monday game at The Mill, built around school subjects adults learned once and may have forgotten.', href: '/services/are-you-smarter-than-a-barstool/' },
+        { name: 'Trivia in Fountain Inn', description: 'Hosted general knowledge, themed trivia, and specialty game formats for venues and groups.', href: '/services/trivia/' },
+        { name: 'Music Bingo', description: 'Music-driven hosted entertainment for restaurants, private groups, companies, and community events.', href: '/services/music-bingo/' },
+        { name: 'Private & corporate events', description: 'Interactive entertainment for companies, organizations, parties, and community groups.', href: '/services/private-corporate-events/' },
+        { name: 'DJ entertainment', description: 'Music, hosting, and event entertainment for celebrations and private events.', href: '/booking/?service=DJ' },
+      ],
+      nearby: ['Fountain Inn', 'Simpsonville', 'Mauldin', 'Greenville', 'and surrounding Upstate communities'],
+      venueIds: ['the-mill'],
+      serviceRegion: 'Upstate communities',
+      faqs: [
+        { question: 'Where can I play Four Dogs trivia in Fountain Inn?', answer: 'Four Dogs Entertainment hosts Are You Smarter Than a Barstool? at The Mill at Fountain Inn, 100 Ellison Street, on Mondays at 7:00 PM. Check the Events page for the next date.' },
+        { question: 'What is Are You Smarter Than a Barstool?', answer: 'It is a Four Dogs trivia format built around familiar school subjects and general knowledge, with four rounds, the Four Dogs Sound Check, and a Final Wager.' },
+        { question: 'Do I need to be a trivia expert to play?', answer: 'No. The game is designed to be social and approachable, with different subjects so teammates can contribute in different ways.' },
+        { question: 'Can Four Dogs host a private or corporate event in Fountain Inn?', answer: 'Yes. Four Dogs offers trivia, Music Bingo, DJ entertainment, Survey Showdown, Are You Smarter Than a Barstool?, and other hosted formats for private groups, businesses, organizations, and community events.' },
+        { question: 'Where is The Mill at Fountain Inn?', answer: 'The Mill at Fountain Inn is at 100 Ellison Street, Fountain Inn, South Carolina 29644.' },
+      ],
+    },
+    {
       slug: 'west-columbia-cayce-sc',
       name: 'West Columbia & Cayce',
       title: 'West Columbia & Cayce SC Trivia & Event Entertainment | Four Dogs',
@@ -127,7 +157,24 @@ export function getStaticPaths() {
 
 const { area } = Astro.props as Props;
 const areaVenues = venues.filter((venue) => area.venueIds.includes(venue.id));
-const areaEvents = upcomingEvents().filter((event) => area.venueIds.includes(event.venueId)).slice(0, 4);
+const areaEvents = upcomingEvents().filter((event) => area.venueIds.includes(event.venueId));
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `Four Dogs Entertainment in ${area.name}, South Carolina`,
+  description: area.description,
+  provider: {
+    '@type': 'Organization',
+    name: 'Four Dogs Entertainment',
+    url: 'https://4dogsentertainment.com',
+  },
+  areaServed: {
+    '@type': 'City',
+    name: area.name,
+  },
+  url: new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString(),
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -138,7 +185,7 @@ const faqSchema = {
   })),
 };
 ---
-<Base title={area.title} description={area.description} schema={faqSchema}>
+<Base title={area.title} description={area.description} schema={[serviceSchema, faqSchema]}>
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">South Carolina entertainment</p>
@@ -193,7 +240,7 @@ const faqSchema = {
       <div class="container">
         <p class="eyebrow">Coming up</p>
         <h2>Upcoming Four Dogs events in {area.name}.</h2>
-        <div class="grid">{areaEvents.map((event) => <EventCard event={event} />)}</div>
+        <div class="grid" data-event-list data-max-visible="4">{areaEvents.map((event) => <EventCard event={event} />)}</div>
         <div class="actions"><a class="button" href="/events/">See all events</a></div>
       </div>
     </section>
@@ -203,7 +250,7 @@ const faqSchema = {
     <div class="container split">
       <div>
         <p class="eyebrow">Service area</p>
-        <h2>Serving {area.name} and nearby Midlands communities.</h2>
+        <h2>Serving {area.name} and nearby {area.serviceRegion ?? 'Midlands communities'}.</h2>
       </div>
       <ul>{area.nearby.map((place) => <li>{place}</li>)}</ul>
     </div>
