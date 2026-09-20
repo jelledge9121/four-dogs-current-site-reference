@@ -62,6 +62,13 @@ const schemas=Array.isArray(schema)?schema:[schema];
           const visible = Array.from(list.querySelectorAll('[data-event-date]')).filter((item) => !item.hidden);
           visible.slice(max).forEach((item) => { item.hidden = true; });
         });
+
+        document.querySelectorAll('[data-event-detail-date]').forEach((detail) => {
+          const date = detail.getAttribute('data-event-detail-date');
+          const isPast = Boolean(date && date < today);
+          detail.querySelectorAll('[data-past-only]').forEach((item) => { item.hidden = !isPast; });
+          detail.querySelectorAll('[data-future-only]').forEach((item) => { item.hidden = isPast; });
+        });
       })();
     </script>
   </body>
