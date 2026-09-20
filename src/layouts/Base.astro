@@ -34,10 +34,34 @@ const schemas=Array.isArray(schema)?schema:[schema];
     <Footer/>
     <script is:inline>
       (() => {
+        const now = new Date();
+
         const banner = document.querySelector('[data-holiday-banner]');
-        if (!banner) return;
-        const month = new Date().getMonth();
-        if (month >= 8 && month <= 11) banner.hidden = false;
+        if (banner) {
+          const month = now.getMonth();
+          if (month >= 8 && month <= 11) banner.hidden = false;
+        }
+
+        const parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/New_York',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        }).formatToParts(now);
+        const part = (type) => parts.find((item) => item.type === type)?.value ?? '';
+        const today = `${part('year')}-${part('month')}-${part('day')}`;
+
+        document.querySelectorAll('[data-event-date]').forEach((item) => {
+          const date = item.getAttribute('data-event-date');
+          if (date && date < today) item.hidden = true;
+        });
+
+        document.querySelectorAll('[data-event-list]').forEach((list) => {
+          const max = Number(list.getAttribute('data-max-visible') || 0);
+          if (!max) return;
+          const visible = Array.from(list.querySelectorAll('[data-event-date]')).filter((item) => !item.hidden);
+          visible.slice(max).forEach((item) => { item.hidden = true; });
+        });
       })();
     </script>
   </body>
