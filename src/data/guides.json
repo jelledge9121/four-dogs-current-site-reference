@@ -236,6 +236,24 @@
         "tag": "p",
         "text": "Four Dogs hosts trivia, music bingo, DJ services, and private event entertainment across Lexington, Columbia, and the Midlands."
       }
+    ],
+    "relatedLinks": [
+      {
+        "label": "Play in Fountain Inn",
+        "href": "/areas/fountain-inn-sc/"
+      },
+      {
+        "label": "The Mill at Fountain Inn",
+        "href": "/venues/the-mill-fountain-inn-trivia-sc/"
+      },
+      {
+        "label": "Are You Smarter Than a Barstool?",
+        "href": "/services/are-you-smarter-than-a-barstool/"
+      },
+      {
+        "label": "Upcoming events",
+        "href": "/events/"
+      }
     ]
   },
   {
