@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import guides from '../../data/guides.json';
+const sortedGuides = [...guides].sort((a, b) => (b.published ?? '').localeCompare(a.published ?? ''));
 ---
 <Base title="Entertainment Guides | Four Dogs Entertainment" description="Four Dogs guides for venue entertainment, trivia, Music Bingo, weddings, and private events in South Carolina.">
   <section class="section dark">
@@ -13,8 +14,9 @@ import guides from '../../data/guides.json';
 
   <section class="section">
     <div class="container grid">
-      {guides.map((guide) => (
+      {sortedGuides.map((guide) => (
         <article class="card">
+          {guide.category && <p class="eyebrow">{guide.category}</p>}
           <h3>{guide.title}</h3>
           <p>{guide.description}</p>
           <a href={`/guides/${guide.slug}/`}>Read the guide →</a>
