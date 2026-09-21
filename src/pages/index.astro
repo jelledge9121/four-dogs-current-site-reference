@@ -138,7 +138,7 @@ const org = {
         {homepageGallery.map((photo) => (
           <figure>
             <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
-            <figcaption>{photo.category}</figcaption>
+            <figcaption>{photo.title ?? photo.category}</figcaption>
           </figure>
         ))}
       </div>
