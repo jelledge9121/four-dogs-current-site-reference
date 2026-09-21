@@ -22,7 +22,7 @@ export const localSeoPages: LocalSeoPage[] = [
     h1: 'Trivia Night Hosting in Lexington, SC',
     lead: 'Hosted trivia built to give Lexington guests a reason to show up, play together, and come back.',
     intro: [
-      'Four Dogs Entertainment provides hosted trivia for bars, restaurants, private groups, businesses, organizations, and community events in Lexington and the surrounding Midlands.',
+      'Four Dogs Entertainment provides hosted trivia for bars, restaurants, private groups, businesses, organizations, and community events in Lexington, with Four Dogs also available for events throughout South Carolina.',
       'Our current Lexington public schedule includes Thursday trivia and rotating specialty game nights at Charter 803 Bar & Grill, 269 Charter Oak Road. Public schedules can change, so the Events page is the authoritative source for upcoming dates and themes.',
     ],
     highlights: [
@@ -54,7 +54,7 @@ export const localSeoPages: LocalSeoPage[] = [
     h1: 'Trivia Night Hosting in Columbia, SC',
     lead: 'Interactive trivia for Columbia venues and events, hosted with the pacing and personality that keep a room involved.',
     intro: [
-      'Four Dogs Entertainment provides hosted trivia and game-night entertainment throughout Columbia and the surrounding Midlands for restaurants, bars, businesses, private events, and community gatherings.',
+      'Four Dogs Entertainment provides hosted trivia and game-night entertainment throughout Columbia for restaurants, bars, businesses, private events, and community gatherings, with statewide availability across South Carolina.',
       'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM. Check the Events page for the latest public schedule and themes.',
     ],
     highlights: [
@@ -81,17 +81,17 @@ export const localSeoPages: LocalSeoPage[] = [
   {
     slug: 'trivia-nights-columbia-lexington-sc',
     title: 'Trivia Nights in Columbia & Lexington SC | Four Dogs Entertainment',
-    description: 'Find Four Dogs trivia nights and book hosted trivia throughout Columbia, Lexington, and the South Carolina Midlands.',
-    eyebrow: 'Midlands trivia',
+    description: 'Find Four Dogs trivia nights in Columbia and Lexington and book hosted trivia anywhere in South Carolina.',
+    eyebrow: 'Columbia & Lexington trivia',
     h1: 'Trivia Nights in Columbia & Lexington, SC',
-    lead: 'Public trivia nights, specialty games, and private-event trivia across the Midlands.',
+    lead: 'Public trivia nights in Columbia and Lexington, plus private-event trivia available across South Carolina.',
     intro: [
-      'Four Dogs Entertainment produces recurring trivia and interactive game nights in both Columbia and Lexington, with additional availability for private events and organizations across the Midlands.',
+      'Four Dogs Entertainment produces recurring trivia and interactive game nights in both Columbia and Lexington, with additional availability for private events and organizations throughout South Carolina.',
       'Current recurring public locations include Top Dawg Tavern in Columbia and Charter 803 Bar & Grill in Lexington. The Events page is the best place to confirm dates, times, and themes.',
     ],
     highlights: ['Weekly public trivia', 'Themed and general knowledge games', 'Private and corporate trivia', 'Original Four Dogs game-show formats', 'Venue partnership programming'],
     faqs: [
-      { question: 'Does Four Dogs host trivia in both Columbia and Lexington?', answer: 'Yes. Four Dogs currently has recurring public trivia programming in both markets and also books private and venue events throughout the Midlands.' },
+      { question: 'Does Four Dogs host trivia in both Columbia and Lexington?', answer: 'Yes. Four Dogs currently has recurring public trivia programming in both markets and also books private and venue events throughout South Carolina.' },
       { question: 'What time do current recurring Four Dogs events start?', answer: 'Current recurring public Four Dogs events are scheduled for 6:30 PM. Check individual event listings before attending.' },
       { question: 'Where should I check for upcoming themes?', answer: 'Use the Four Dogs Events page for the current event calendar.' },
     ],
@@ -159,12 +159,12 @@ export const localSeoPages: LocalSeoPage[] = [
   {
     slug: 'music-bingo-columbia-lexington-sc',
     title: 'Music Bingo in Columbia & Lexington SC | Four Dogs Entertainment',
-    description: 'Four Dogs Entertainment provides Music Bingo for Lexington, Columbia, and Midlands venues, private events, companies, communities, and celebrations.',
-    eyebrow: 'Midlands Music Bingo',
+    description: 'Four Dogs Entertainment provides Music Bingo for Lexington and Columbia venues and for private events, companies, communities, and celebrations anywhere in South Carolina.',
+    eyebrow: 'Columbia & Lexington Music Bingo',
     h1: 'Music Bingo in Columbia & Lexington, SC',
-    lead: 'Four Dogs Music Bingo for public venue nights and private gatherings throughout the Midlands.',
+    lead: 'Four Dogs Music Bingo for public venue nights in Columbia and Lexington, with private and booked events available statewide.',
     intro: [
-      'Four Dogs brings hosted Music Bingo to venue partners, private parties, businesses, and community events across Lexington, Columbia, and surrounding Midlands communities.',
+      'Four Dogs brings hosted Music Bingo to venue partners, private parties, businesses, and community events across Lexington and Columbia, with statewide availability throughout South Carolina.',
       'Lexington currently has recurring Wednesday Music Bingo at Charter 803 Bar & Grill. Use the Events page for the latest public schedule in both markets.',
     ],
     highlights: ['Public and private Music Bingo', 'Rotating music themes', 'Lexington and Columbia service coverage', 'Recurring venue programming', 'Professional host and game management'],
@@ -214,7 +214,7 @@ export const localSeoPages: LocalSeoPage[] = [
     description: 'Book Four Dogs Entertainment for DJ services in Columbia, South Carolina for weddings, private parties, formal events, companies, communities, and celebrations.',
     eyebrow: 'Columbia DJ services',
     h1: 'DJ Services in Columbia, SC',
-    lead: 'Professional DJ entertainment for celebrations and events throughout Columbia and the Midlands.',
+    lead: 'Professional DJ entertainment for celebrations in Columbia and events throughout South Carolina.',
     intro: [
       'Four Dogs provides DJ entertainment for Columbia weddings, formal events, private celebrations, organizations, and community gatherings.',
       'The goal is not simply to play a playlist. Planning considers the audience, timing, requested music, key moments, sound needs, and how the event should feel from start to finish.',
@@ -237,17 +237,17 @@ export const localSeoPages: LocalSeoPage[] = [
   {
     slug: 'wedding-dj-columbia-sc',
     title: 'Wedding DJ in Columbia SC | Four Dogs Entertainment',
-    description: 'Four Dogs Entertainment provides wedding DJ and interactive wedding entertainment in Columbia, South Carolina and the surrounding Midlands.',
+    description: 'Four Dogs Entertainment provides wedding DJ and interactive wedding entertainment in Columbia and throughout South Carolina.',
     eyebrow: 'Columbia weddings',
     h1: 'Wedding DJ in Columbia, SC',
     lead: 'Wedding entertainment shaped around your people, your music, and the way you want the celebration to feel.',
     intro: [
-      'Four Dogs provides wedding DJ entertainment in Columbia and the surrounding Midlands, with planning centered on the couple, the guest experience, music preferences, and the flow of the celebration.',
+      'Four Dogs provides wedding DJ entertainment in Columbia and throughout South Carolina, with planning centered on the couple, the guest experience, music preferences, and the flow of the celebration.',
       'Couples can also add the Almost Married Trivia Experience for rehearsal dinners, engagement events, showers, and other wedding-weekend gatherings.',
     ],
     highlights: ['Wedding DJ entertainment', 'Music planning around the couple’s preferences', 'Professional sound and event setup', 'Almost Married Trivia Experience option', 'Planning for wedding-weekend and engagement events'],
     faqs: [
-      { question: 'Does Four Dogs DJ weddings in Columbia?', answer: 'Yes. Weddings are a core Four Dogs service in Columbia and the Midlands.' },
+      { question: 'Does Four Dogs DJ weddings in Columbia?', answer: 'Yes. Weddings are a core Four Dogs service in Columbia and throughout South Carolina.' },
       { question: 'What is Almost Married Trivia?', answer: 'It is a customized couple-trivia experience built around the couple’s story, memories, friends, family, and wedding weekend.' },
       { question: 'How do we request availability?', answer: 'Use the Four Dogs booking form and include your preferred date, venue or location, guest count, and event details.' },
     ],
@@ -263,17 +263,17 @@ export const localSeoPages: LocalSeoPage[] = [
   {
     slug: 'wedding-dj-lexington-sc',
     title: 'Wedding DJ in Lexington SC | Four Dogs Entertainment',
-    description: 'Four Dogs Entertainment provides wedding DJ and interactive wedding entertainment in Lexington, South Carolina and the surrounding Midlands.',
+    description: 'Four Dogs Entertainment provides wedding DJ and interactive wedding entertainment in Lexington and throughout South Carolina.',
     eyebrow: 'Lexington weddings',
     h1: 'Wedding DJ in Lexington, SC',
     lead: 'A wedding experience built around the couple, the guests, and the moments you want people to remember.',
     intro: [
-      'Four Dogs provides wedding DJ entertainment for Lexington couples and wedding events throughout the Midlands.',
+      'Four Dogs provides wedding DJ entertainment for Lexington couples and wedding events throughout South Carolina.',
       'Music, timing, sound, key moments, and guest experience are planned around the celebration rather than forcing every wedding into the same template.',
     ],
     highlights: ['Wedding DJ entertainment', 'Couple-focused music planning', 'Professional sound setup', 'Engagement and wedding-weekend events', 'Almost Married Trivia Experience availability'],
     faqs: [
-      { question: 'Does Four Dogs provide wedding DJ services in Lexington?', answer: 'Yes. Four Dogs serves Lexington weddings and celebrations throughout the surrounding Midlands.' },
+      { question: 'Does Four Dogs provide wedding DJ services in Lexington?', answer: 'Yes. Four Dogs serves Lexington weddings and celebrations throughout South Carolina.' },
       { question: 'Can we share a list of requested songs?', answer: 'Yes. Music preferences and important selections are part of the planning process.' },
       { question: 'Can Four Dogs entertain at an engagement party?', answer: 'Yes. Four Dogs also books engagement parties and other wedding-related celebrations.' },
     ],
@@ -299,7 +299,7 @@ export const localSeoPages: LocalSeoPage[] = [
     ],
     highlights: ['Recurring weekly or rotating entertainment', 'Professional host and game management', 'Trivia, Music Bingo, and specialty formats', 'Promotional creative and event support', 'Programming selected for the venue and audience'],
     faqs: [
-      { question: 'Does Four Dogs work with Columbia restaurants?', answer: 'Yes. Four Dogs provides recurring and one-time entertainment for bars and restaurants in Columbia and the Midlands.' },
+      { question: 'Does Four Dogs work with Columbia restaurants?', answer: 'Yes. Four Dogs provides recurring and one-time entertainment for bars and restaurants in Columbia and can travel statewide for venue events.' },
       { question: 'What formats can a venue choose from?', answer: 'Options include Trivia, Music Bingo, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, and other hosted formats.' },
       { question: 'Can we start with a test event?', answer: 'Yes. Venue owners can use the booking form to discuss a test night or recurring partnership.' },
     ],
@@ -314,20 +314,20 @@ export const localSeoPages: LocalSeoPage[] = [
   },
   {
     slug: 'private-event-dj-midlands-sc',
-    title: 'Private Event DJ in the SC Midlands | Four Dogs Entertainment',
-    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations throughout the South Carolina Midlands.',
+    title: 'Private Event Entertainment Across South Carolina | Four Dogs Entertainment',
+    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations anywhere in South Carolina.',
     eyebrow: 'Private events',
-    h1: 'Private Event Entertainment in the South Carolina Midlands',
+    h1: 'Private Event Entertainment Across South Carolina',
     lead: 'DJ entertainment and interactive formats for parties, communities, organizations, and celebrations.',
     intro: [
-      'Four Dogs provides private-event entertainment throughout the Midlands, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',
+      'Four Dogs provides private-event entertainment throughout South Carolina, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',
       'The format can be selected around the audience and purpose of the gathering, whether the goal is a dance floor, a structured game, or a mix of entertainment throughout the event.',
     ],
     highlights: ['DJ entertainment', 'Trivia and Music Bingo', 'Karaoke and interactive games', 'Community and HOA events', 'Custom event planning around the group'],
     faqs: [
       { question: 'What types of private events can Four Dogs support?', answer: 'Four Dogs books private parties, community gatherings, organizational events, engagement celebrations, and other hosted events.' },
       { question: 'Can we choose between DJ entertainment and games?', answer: 'Yes. Four Dogs offers multiple formats, and the booking conversation can determine the best fit for the group.' },
-      { question: 'What areas does Four Dogs serve?', answer: 'Four Dogs serves Lexington, Columbia, and other communities throughout the South Carolina Midlands.' },
+      { question: 'What areas does Four Dogs serve?', answer: 'Four Dogs serves the entire state of South Carolina.' },
     ],
     bookingValue: 'Private Event',
     relatedLinks: [
@@ -351,7 +351,7 @@ export const localSeoPages: LocalSeoPage[] = [
     ],
     highlights: ['Team-based interactive entertainment', 'Trivia and Music Bingo', 'DJ entertainment', 'Survey Showdown and Barstool formats', 'Professional hosting and event coordination'],
     faqs: [
-      { question: 'Can Four Dogs host a company event in Columbia?', answer: 'Yes. Four Dogs books corporate and organizational events throughout Columbia and the Midlands.' },
+      { question: 'Can Four Dogs host a company event in Columbia?', answer: 'Yes. Four Dogs books corporate and organizational events in Columbia and throughout South Carolina.' },
       { question: 'What works well for groups that do not want a dance floor?', answer: 'Trivia, Music Bingo, Survey Showdown, and Are You Smarter Than a Barstool? are participation-focused alternatives to a traditional DJ-only event.' },
       { question: 'Can the entertainment be adapted to our group?', answer: 'Yes. The format and event plan can be selected around the audience, venue, timing, and event goals.' },
     ],
