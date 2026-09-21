@@ -17,8 +17,6 @@ export function getStaticPaths() {
 
 const { event } = Astro.props as Props;
 const venue = venueById(event.venueId);
-const past = event.date < new Date().toISOString().slice(0, 10);
-
 const eventbrite = {
   charterTrivia: 'https://www.eventbrite.com/e/trivia-at-charter-803-hosted-by-four-dogs-entertainment-tickets-1998508023296?aff=oddtdtcreator',
   topDawgTrivia: 'https://www.eventbrite.com/e/weekly-trivia-at-top-dawg-tavern-ne-hosted-by-four-dogs-entertainment-tickets-1998507457604?aff=oddtdtcreator',
@@ -35,7 +33,8 @@ function eventbriteUrlFor(event: Event) {
   return undefined;
 }
 
-function localIsoDateTime(date: string, time: string) {
+function localIsoDateTime(date: string, time?: string) {
+  if (!time) return date;
   const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
   if (!match) return date;
   let hour = Number(match[1]);
@@ -46,7 +45,7 @@ function localIsoDateTime(date: string, time: string) {
   return `${date}T${String(hour).padStart(2, '0')}:${minute}:00`;
 }
 
-const eventbriteUrl = !past ? eventbriteUrlFor(event) : undefined;
+const registrationUrl = event.registrationUrl ?? eventbriteUrlFor(event);
 const eventUrl = new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString();
 const imageUrl = new URL(event.image, 'https://4dogsentertainment.com').toString();
 
@@ -78,11 +77,11 @@ const schema = {
       addressCountry: 'US',
     },
   },
-  ...(eventbriteUrl
+  ...(registrationUrl
     ? {
         offers: {
           '@type': 'Offer',
-          url: eventbriteUrl,
+          url: registrationUrl,
         },
       }
     : {}),
@@ -106,12 +105,12 @@ const schema = {
     ]}
   />
 
-  <section class="section dark">
+  <section class="section dark" data-event-detail-date={event.date}>
     <div class="container">
-      <p class="eyebrow">{past ? 'Event archive' : event.eventType}</p>
+      <p class="eyebrow"><span data-future-only>{event.eventType}</span><span data-past-only hidden>Event archive</span></p>
       <h1>{event.title}</h1>
       <p class="lead">
-        {event.date} · {event.startTime}<br />
+        {event.date}{event.startTime ? ` · ${event.startTime}` : ' · Time TBA'}<br />
         {venue.name} · {venue.city}, {venue.state}
       </p>
     </div>
@@ -120,19 +119,20 @@ const schema = {
   <section class="section">
     <div class="container split">
       <div>
-        <h2>{past ? 'This event has passed' : 'Come play'}</h2>
+        <h2><span data-future-only>Come play</span><span data-past-only hidden>This event has passed</span></h2>
         <p>{event.description}</p>
         <p>
           {venue.address}
           {venue.zip && <>, {venue.zip}</>}
         </p>
         <div class="actions">
-          {eventbriteUrl && (
-            <a class="button" href={eventbriteUrl} target="_blank" rel="noopener noreferrer">
-              View on Eventbrite
+          {registrationUrl && (
+            <a class="button" data-future-only href={registrationUrl} target="_blank" rel="noopener noreferrer">
+              {event.registrationLabel ?? (event.ticketed ? 'Get tickets' : 'View event details')}
             </a>
           )}
-          <a class={eventbriteUrl ? undefined : 'button'} href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
+          {event.ticketed && !registrationUrl && <span class="tag" data-future-only>Ticket details coming soon</span>}
+          <a class={registrationUrl ? undefined : 'button'} href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
           <a href="/events/">See all events</a>
         </div>
       </div>

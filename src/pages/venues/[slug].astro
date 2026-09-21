@@ -13,16 +13,36 @@ const { venue } = Astro.props as { venue: Venue };
 const events = eventsForVenue(venue.id);
 const isLexington = venue.city === 'Lexington';
 const isColumbia = venue.city === 'Columbia';
+const isFountainInn = venue.city === 'Fountain Inn';
 const title = isLexington
   ? `Trivia & Music Bingo at ${venue.name} Lexington SC | Four Dogs`
-  : `Trivia at ${venue.name} ${venue.city} SC | Four Dogs`;
+  : isFountainInn
+    ? `Trivia at The Mill at Fountain Inn SC | Four Dogs`
+    : `Trivia at ${venue.name} ${venue.city} SC | Four Dogs`;
 const description = isLexington
   ? `See Four Dogs Trivia, Music Bingo, and specialty game nights at ${venue.name} in Lexington, South Carolina. View the weekly schedule and upcoming events.`
   : isColumbia
     ? `See Four Dogs Trivia and rotating game experiences at ${venue.name} in Columbia, South Carolina. View the weekly schedule and upcoming events.`
-    : `See Four Dogs Trivia at ${venue.name} in ${venue.city}, South Carolina. View the weekly schedule, upcoming themes, directions, and venue details.`;
+    : isFountainInn
+      ? 'Play Are You Smarter Than a Barstool? with Four Dogs Entertainment at The Mill at Fountain Inn every Monday at 7 PM. See upcoming dates, directions, and game details.'
+      : `See Four Dogs entertainment at ${venue.name} in ${venue.city}, South Carolina. View the weekly schedule, upcoming themes, directions, and venue details.`;
+
+const placeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Place',
+  name: venue.name,
+  url: new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString(),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: venue.address,
+    addressLocality: venue.city,
+    addressRegion: venue.state,
+    postalCode: venue.zip,
+    addressCountry: 'US',
+  },
+};
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} schema={placeSchema}>
   <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Events', href: '/events/' }, { name: venue.name }]} />
 
   <section class="section dark">
@@ -78,10 +98,16 @@ const description = isLexington
             <a class="card" href="/restaurant-entertainment-columbia-sc/"><h3>Restaurant entertainment</h3><p>Recurring Four Dogs venue programming in Columbia.</p></a>
             <a class="card" href="/areas/columbia-sc/"><h3>Columbia entertainment</h3><p>Explore Four Dogs services and current local events.</p></a>
           </>
+        ) : isFountainInn ? (
+          <>
+            <a class="card" href="/areas/fountain-inn-sc/"><h3>Fountain Inn entertainment</h3><p>See weekly Four Dogs events and booking options in Fountain Inn.</p></a>
+            <a class="card" href="/services/are-you-smarter-than-a-barstool/"><h3>Are You Smarter Than a Barstool?</h3><p>Learn how the school-subject trivia format works before your first Monday at The Mill.</p></a>
+            <a class="card" href="/guides/where-to-play-trivia-fountain-inn-sc/"><h3>Fountain Inn trivia guide</h3><p>What to know before playing Four Dogs trivia at The Mill.</p></a>
+          </>
         ) : (
           <>
             <a class="card" href="/services/trivia/"><h3>Four Dogs Trivia</h3><p>See how Four Dogs trivia works for public and private events.</p></a>
-            <a class="card" href="/areas/west-columbia-cayce-sc/"><h3>West Columbia & Cayce entertainment</h3><p>Explore current local events and Four Dogs booking options.</p></a>
+            <a class="card" href={`/areas/${venue.areaSlug}/`}><h3>{venue.city} area entertainment</h3><p>Explore current local events and Four Dogs booking options.</p></a>
             <a class="card" href="/for-venues/"><h3>Venue entertainment</h3><p>Recurring entertainment for bars, restaurants, and local venues.</p></a>
           </>
         )}

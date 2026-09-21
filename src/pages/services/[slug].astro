@@ -19,8 +19,8 @@ type ServiceDetail = {
 
 const details: Record<string, ServiceDetail> = {
   trivia: {
-    title: 'Trivia Night Hosting in Columbia & Lexington SC | Four Dogs',
-    description: 'Four Dogs Entertainment provides hosted trivia nights for bars, restaurants, private events, companies, communities, and organizations throughout Columbia, Lexington, and the South Carolina Midlands.',
+    title: 'Trivia Night Hosting in South Carolina | Four Dogs',
+    description: 'Four Dogs Entertainment provides hosted trivia nights for bars, restaurants, private events, companies, communities, and organizations across South Carolina, including weekly game nights in Fountain Inn, Columbia, Lexington, and Cayce.',
     intro: [
       'Four Dogs trivia is built around participation. Teams gather, answer, compete, laugh, and have a reason to stay engaged with the room instead of simply sitting through background entertainment.',
       'Formats can include general knowledge, themed trivia, specialty concepts, and rotating game experiences for recurring venues or one-time private events.',
@@ -28,13 +28,14 @@ const details: Record<string, ServiceDetail> = {
     audiences: ['Bars and restaurants', 'Private parties', 'Companies and organizations', 'HOAs and communities', 'Public recurring events', 'Special events'],
     includes: ['Professional host and game pacing', 'Questions and game materials', 'General knowledge or themed formats', 'Recurring venue or one-time event options', 'Promotional support for venue partners'],
     faqs: [
-      { question: 'Where does Four Dogs host trivia?', answer: 'Four Dogs currently hosts recurring public trivia in Lexington at Charter 803 Bar & Grill and in Columbia at Top Dawg Tavern, with additional private and venue bookings throughout the Midlands.' },
+      { question: 'Where does Four Dogs host trivia?', answer: 'Four Dogs currently hosts recurring public trivia and game nights at The Mill at Fountain Inn, Charter 803 Bar & Grill in Lexington, Top Dawg Tavern in Columbia, WesCo Brew & Bowl in Cayce, and other active partner venues. Check the Events page for the current schedule.' },
       { question: 'Can Four Dogs create themed trivia?', answer: 'Yes. Four Dogs uses both general knowledge and themed trivia, along with original interactive formats.' },
       { question: 'Can trivia be booked for a private or corporate event?', answer: 'Yes. Trivia can be used for private parties, companies, organizations, communities, and other group events.' },
     ],
     related: [
       { label: 'Trivia in Lexington', href: '/trivia-night-lexington-sc/' },
       { label: 'Trivia in Columbia', href: '/trivia-night-columbia-sc/' },
+      { label: 'Fountain Inn trivia', href: '/areas/fountain-inn-sc/' },
       { label: 'Upcoming trivia events', href: '/events/' },
       { label: 'For venue owners', href: '/for-venues/' },
     ],
@@ -152,19 +153,22 @@ const details: Record<string, ServiceDetail> = {
   },
   'are-you-smarter-than-a-barstool': {
     title: 'Are You Smarter Than a Barstool? | Four Dogs Entertainment',
-    description: 'Are You Smarter Than a Barstool? is a Four Dogs school-subject-inspired trivia and game-night experience for venues, companies, private events, and communities.',
+    description: 'Are You Smarter Than a Barstool? is a Four Dogs school-subject-inspired trivia experience hosted Mondays at The Mill at Fountain Inn and available for venues, companies, private events, and communities across South Carolina.',
     intro: [
-      'Are You Smarter Than a Barstool? is a Four Dogs original game experience built around school-subject knowledge, general knowledge, and a playful classroom-style challenge.',
+      'Are You Smarter Than a Barstool? is a Four Dogs original game experience built around school-subject knowledge, general knowledge, and a playful classroom-style challenge. Four Dogs hosts the game Mondays at 7 PM at The Mill at Fountain Inn.',
       'It can be used for public venue nights, companies, organizations, and private events. The experience is not affiliated with Are You Smarter Than a 5th Grader?.',
     ],
     audiences: ['Bars and restaurants', 'Companies', 'Private groups', 'Communities', 'Public game nights', 'Trivia audiences looking for a different format'],
     includes: ['Professional host', 'School-subject-inspired questions', 'Structured rounds and pacing', 'Public and private booking options', 'A recognizable concept with Four Dogs original execution'],
     faqs: [
       { question: 'Is this affiliated with Are You Smarter Than a 5th Grader?', answer: 'No. Are You Smarter Than a Barstool? is a Four Dogs original experience and is not affiliated with that television property.' },
+      { question: 'Where can I play Are You Smarter Than a Barstool?', answer: 'Four Dogs hosts the game Mondays at 7 PM at The Mill at Fountain Inn, 100 Ellison Street, Fountain Inn, South Carolina.' },
       { question: 'Can a restaurant use this instead of traditional trivia?', answer: 'Yes. It can be used as a specialty game night or as part of a rotating entertainment schedule.' },
       { question: 'Can it be booked privately?', answer: 'Yes. The format is available for companies, organizations, communities, and private events.' },
     ],
     related: [
+      { label: 'Fountain Inn game nights', href: '/areas/fountain-inn-sc/' },
+      { label: 'Fountain Inn trivia guide', href: '/guides/where-to-play-trivia-fountain-inn-sc/' },
       { label: 'Upcoming events', href: '/events/' },
       { label: 'Traditional Trivia', href: '/services/trivia/' },
       { label: 'For venue owners', href: '/for-venues/' },
@@ -213,7 +217,7 @@ const serviceSchema = {
   name: service.name,
   description: detail.description,
   provider: { '@type': 'Organization', name: 'Four Dogs Entertainment', url: 'https://4dogsentertainment.com' },
-  areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
+  areaServed: ['South Carolina', 'Fountain Inn, South Carolina', 'Lexington, South Carolina', 'Columbia, South Carolina', 'Cayce, South Carolina', 'West Columbia, South Carolina'],
 };
 const faqSchema = {
   '@context': 'https://schema.org',

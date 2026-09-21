@@ -2,13 +2,15 @@
 import Base from '../layouts/Base.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import { featuredReviews } from '../data/reviews';
+import { venues } from '../data/venues';
+const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedule.length > 0);
 ---
-<Base title="Bar & Restaurant Entertainment in Columbia & Lexington SC | Four Dogs" description="Four Dogs Entertainment provides recurring trivia, Music Bingo, and interactive game nights for bars and restaurants throughout Columbia, Lexington, and the South Carolina Midlands.">
+<Base title="Bar & Restaurant Entertainment in South Carolina | Four Dogs" description="Four Dogs Entertainment provides recurring trivia, Music Bingo, and interactive game nights for bars, restaurants, breweries, and entertainment venues across South Carolina.">
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">For bars & restaurants</p>
       <h1>People come back to places where they feel connected.</h1>
-      <p class="lead">Four Dogs helps Columbia, Lexington, and Midlands venues create recurring nights worth putting on the calendar.</p>
+      <p class="lead">Four Dogs helps South Carolina venues create recurring nights worth putting on the calendar.</p>
       <a class="button" href="/booking/?service=Venue%20Entertainment">Ask about a test night</a>
     </div>
   </section>
@@ -64,10 +66,19 @@ import { featuredReviews } from '../data/reviews';
       <p class="eyebrow">See the model locally</p>
       <h2>Current Four Dogs venue partnerships.</h2>
       <div class="grid">
-        <a class="card" href="/venues/charter-803-trivia-music-bingo-lexington-sc/"><h3>Charter 803 Bar & Grill</h3><p>Weekly Music Bingo plus trivia and specialty game nights in Lexington.</p></a>
-        <a class="card" href="/venues/top-dawg-tavern-sandhills-trivia-columbia-sc/"><h3>Top Dawg Tavern</h3><p>Weekly trivia and rotating game experiences in Columbia.</p></a>
-        <a class="card" href="/restaurant-entertainment-columbia-sc/"><h3>Restaurant entertainment in Columbia</h3><p>Local venue entertainment options and recurring-programming details.</p></a>
-        <a class="card" href="/areas/lexington-sc/"><h3>Entertainment in Lexington</h3><p>Explore current venue events and Four Dogs services in Lexington.</p></a>
+        {activeVenues.map((venue) => (
+          <a class="card" href={`/venues/${venue.slug}/`}>
+            <h3>{venue.name}</h3>
+            <p>{venue.description}</p>
+            <p>{venue.city}, {venue.state} →</p>
+          </a>
+        ))}
+      </div>
+      <div class="actions">
+        <a href="/areas/fountain-inn-sc/">Fountain Inn entertainment →</a>
+        <a href="/areas/lexington-sc/">Lexington entertainment →</a>
+        <a href="/areas/columbia-sc/">Columbia entertainment →</a>
+        <a href="/areas/west-columbia-cayce-sc/">West Columbia & Cayce entertainment →</a>
       </div>
     </div>
   </section>
