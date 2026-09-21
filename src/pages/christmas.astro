@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: 'Where is holiday entertainment available?',
-    answer: 'Four Dogs serves Lexington, Columbia, West Columbia, Cayce, Irmo, Chapin, and other communities throughout the South Carolina Midlands. Availability depends on the date and event details.',
+    answer: 'Four Dogs serves all of South Carolina. Holiday entertainment and Santa Jim availability depend on the date, travel, and event details.',
   },
 ];
 
@@ -31,13 +31,13 @@ const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Holiday Party Entertainment and Santa Jim',
-  description: 'Holiday entertainment from Four Dogs Entertainment can combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa Jim appearance for events in the South Carolina Midlands.',
+  description: 'Holiday entertainment from Four Dogs Entertainment can combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa Jim appearance for events across South Carolina.',
   provider: {
     '@type': 'Organization',
     name: 'Four Dogs Entertainment',
     url: 'https://4dogsentertainment.com',
   },
-  areaServed: ['Lexington, South Carolina', 'Columbia, South Carolina', 'South Carolina Midlands'],
+  areaServed: ['South Carolina'],
 };
 
 const faqSchema = {
@@ -51,8 +51,8 @@ const faqSchema = {
 };
 ---
 <Base
-  title="Holiday Party Entertainment & Santa in Lexington & Columbia SC | Four Dogs"
-  description="Plan a holiday party with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience for company, HOA, community, and private events in the South Carolina Midlands."
+  title="Holiday Party Entertainment & Santa Across South Carolina | Four Dogs"
+  description="Plan a holiday party anywhere in South Carolina with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience."
   schema={[serviceSchema, faqSchema]}
 >
   <section class="section dark">
@@ -154,7 +154,7 @@ const faqSchema = {
   <section class="section alt">
     <div class="container">
       <p class="eyebrow">Frequently asked questions</p>
-      <h2>Planning holiday entertainment in the Midlands.</h2>
+      <h2>Planning holiday entertainment in South Carolina.</h2>
       <div class="prose">
         {faqs.map((faq) => <section><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}
       </div>
