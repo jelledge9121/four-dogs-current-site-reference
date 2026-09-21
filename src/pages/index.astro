@@ -10,7 +10,7 @@ import { site } from '../data/site';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
 
 const upcoming = upcomingEvents();
-const homepageGallery = gallery.filter((item) => item.type === 'image' && item.featured).slice(0, 6);
+const homepageGallery = gallery.filter((item) => item.type === 'image').slice(0, 6);
 const org = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -21,12 +21,12 @@ const org = {
   areaServed: { '@type': 'State', name: 'South Carolina' },
 };
 ---
-<Base title="Trivia, Music Bingo, DJ & Event Entertainment Across South Carolina | Four Dogs" description="Four Dogs Entertainment provides trivia, Music Bingo, DJ entertainment, weddings, private events, corporate events, and interactive game nights across South Carolina." schema={org}>
+<Base title="Trivia, Music Bingo, DJ & Event Entertainment Across South Carolina | Four Dogs" description="Four Dogs Entertainment provides trivia, Music Bingo, DJ entertainment, weddings, private events, and interactive game nights across all of South Carolina." schema={org}>
   <section class="hero">
     <div class="container">
       <p class="eyebrow">Four Dogs Entertainment</p>
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p>People need more reasons to come together. Four Dogs creates trivia, Music Bingo, DJ entertainment, weddings, private events, and interactive game nights across South Carolina.</p>
+      <p>People need more reasons to come together. Four Dogs creates trivia, Music Bingo, DJ entertainment, weddings, private events, and interactive game nights across all of South Carolina.</p><p class="fine"><strong>Based in South Carolina. Available statewide.</strong></p>
       <div class="actions">
         <a class="button" href="/events/">Find an event</a>
         <a class="button secondary" href="/booking/">Book Four Dogs</a>
@@ -99,7 +99,7 @@ const org = {
     <div class="container">
       <p class="eyebrow">Entertainment near you</p>
       <h2>Four Dogs across South Carolina.</h2>
-      <p class="lead">Four Dogs is based in South Carolina and serves events statewide. These local pages highlight communities where we currently host recurring events, but bookings are available throughout the state.</p>
+      <p class="lead">Explore current local hubs below. Four Dogs also travels statewide for weddings, private events, corporate events, community events, and venue entertainment anywhere in South Carolina.</p>
       <div class="grid">
         <a class="card" href="/areas/lexington-sc/"><h3>Lexington</h3><p>Trivia, Music Bingo, weddings, private events, and venue entertainment.</p></a>
         <a class="card" href="/areas/columbia-sc/"><h3>Columbia</h3><p>Trivia, DJ entertainment, weddings, private events, and venue programming.</p></a>
@@ -134,7 +134,7 @@ const org = {
     <div class="container">
       <p class="eyebrow">Real events</p>
       <h2>Good nights look like this.</h2>
-      <div class="home-gallery">
+      <div class="gallery-preview">
         {homepageGallery.map((photo) => (
           <figure>
             <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
