@@ -1,49 +1,155 @@
 ---
 import Base from '../layouts/Base.astro';
 import { gallery } from '../data/gallery';
+
+const categories = ['All', 'Trivia', 'Music Bingo', 'Weddings', 'Private Events', 'Crowds & Winners', 'Venue Events'];
+const counts = categories.slice(1).map((category) => ({
+  category,
+  count: gallery.filter((item) => item.category === category).length,
+}));
 ---
-<Base title="Real Four Dogs Events | Photo & Video Gallery" description="See authentic Four Dogs Entertainment photos and videos from trivia, Music Bingo, weddings, private events, venues, celebrations, crowds, and winners.">
-  <section class="section dark">
+<Base title="Real Four Dogs Events Across South Carolina | Gallery" description="See authentic Four Dogs Entertainment photos and videos from trivia, Music Bingo, weddings, private events, venue nights, crowds, and winners across South Carolina.">
+  <section class="section dark gallery-hero">
     <div class="container">
-      <p class="eyebrow">Real events</p>
-      <h1>Meet us in the middle of the fun.</h1>
-      <p class="lead">Real Four Dogs crowds, winners, celebrations, weddings, venues, and nights out across South Carolina.</p>
+      <p class="eyebrow">Real people. Real nights.</p>
+      <h1>This is what a Doggone Good Time looks like.</h1>
+      <p class="lead">No stock crowds and no staged event photos. These are real Four Dogs guests, teams, winners, weddings, hosts, and venue nights from across South Carolina.</p>
+      <div class="gallery-stats" aria-label="Gallery categories">
+        {counts.map((item) => <span><strong>{item.count}</strong> {item.category}</span>)}
+      </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="gallery-intro">
+    <div class="container gallery-intro-grid">
+      <div>
+        <p class="eyebrow">See Four Dogs in the room</p>
+        <h2>The people are the point.</h2>
+      </div>
+      <p>Trivia works when teammates start debating. Music Bingo works when the table starts singing. A wedding works when the dance floor feels like the couple. We build the event around the people who showed up.</p>
+    </div>
+  </section>
+
+  <section class="gallery-section">
     <div class="container">
-      <div class="gallery">
+      <div class="gallery-filters" role="group" aria-label="Filter gallery">
+        {categories.map((category) => (
+          <button
+            type="button"
+            class:list={['gallery-filter', category === 'All' && 'active']}
+            data-gallery-filter={category}
+            aria-pressed={category === 'All' ? 'true' : 'false'}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div class="gallery-wall" data-gallery-wall>
         {gallery.map((item) => (
-          <figure>
-            {item.type === 'video' ? (
-              <video
-                src={item.videoSrc}
-                poster={item.poster}
-                controls
-                playsinline
-                preload="none"
-                aria-label={item.alt}
-                width={item.width}
-                height={item.height}
-                style="width:100%;height:auto;border-radius:6px;display:block;background:#000"
-              >
-                Your browser does not support HTML5 video.
-              </video>
-            ) : (
-              <img
-                src={item.src}
-                alt={item.alt}
-                loading="lazy"
-                decoding="async"
-                width={item.width}
-                height={item.height}
-              />
-            )}
-            <figcaption>{item.category}</figcaption>
+          <figure class="gallery-card" data-gallery-category={item.category}>
+            <div class="gallery-media">
+              {item.type === 'video' ? (
+                <>
+                  <video
+                    src={item.videoSrc}
+                    poster={item.poster}
+                    controls
+                    playsinline
+                    preload="metadata"
+                    aria-label={item.alt}
+                    width={item.width}
+                    height={item.height}
+                  >
+                    Your browser does not support HTML5 video.
+                  </video>
+                  <span class="gallery-video-label">Video</span>
+                </>
+              ) : (
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  decoding="async"
+                  width={item.width}
+                  height={item.height}
+                />
+              )}
+            </div>
+            <figcaption>
+              <span>{item.category}</span>
+              <strong>{item.title}</strong>
+            </figcaption>
           </figure>
         ))}
       </div>
     </div>
   </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">From weekly game nights to once-in-a-lifetime nights</p>
+        <h2>Four Dogs travels across South Carolina.</h2>
+        <p>We host recurring venue events, weddings, private parties, company events, community gatherings, and specialty experiences throughout the state.</p>
+      </div>
+      <div class="actions">
+        <a class="button" href="/events/">Find a public event</a>
+        <a class="button secondary gallery-dark-button" href="/booking/">Book Four Dogs</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-gallery-filter]');
+    const cards = document.querySelectorAll<HTMLElement>('[data-gallery-category]');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.galleryFilter;
+        filterButtons.forEach((item) => {
+          const selected = item === button;
+          item.classList.toggle('active', selected);
+          item.setAttribute('aria-pressed', String(selected));
+        });
+        cards.forEach((card) => {
+          card.hidden = category !== 'All' && card.dataset.galleryCategory !== category;
+        });
+      });
+    });
+  </script>
+
+  <style>
+    .gallery-hero h1{max-width:900px}.gallery-hero .lead{max-width:850px}
+    .gallery-stats{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:2rem}
+    .gallery-stats span{border:1px solid #ffffff33;background:#ffffff0d;border-radius:999px;padding:.45rem .75rem;font-size:.82rem}
+    .gallery-stats strong{color:var(--gold)}
+    .gallery-intro{padding:clamp(2.75rem,6vw,5rem) 0 1.5rem}
+    .gallery-intro-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(2rem,6vw,5rem);align-items:end}
+    .gallery-intro-grid p:last-child{font-size:1.15rem;max-width:720px;margin:0}
+    .gallery-section{padding:1rem 0 clamp(4rem,8vw,7rem)}
+    .gallery-filters{display:flex;gap:.55rem;flex-wrap:wrap;position:sticky;top:96px;z-index:10;background:#fff;padding:.8rem 0 1rem;margin-bottom:1.25rem;border-bottom:1px solid #e4e7ec}
+    .gallery-filter{appearance:none;border:1px solid #ccd3dc;background:#fff;color:var(--ink);border-radius:999px;padding:.55rem .85rem;font:inherit;font-size:.88rem;font-weight:800;cursor:pointer}
+    .gallery-filter.active{background:var(--navy);border-color:var(--navy);color:#fff}
+    .gallery-wall{columns:3 290px;column-gap:1.25rem}
+    .gallery-card{break-inside:avoid;margin:0 0 1.25rem;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #e8ebef}
+    .gallery-card[hidden]{display:none}
+    .gallery-media{position:relative;background:#0b1324}
+    .gallery-media img,.gallery-media video{display:block;width:100%;height:auto}
+    .gallery-video-label{position:absolute;right:.7rem;top:.7rem;background:#101b33e8;color:#fff;border-radius:999px;padding:.3rem .55rem;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+    .gallery-card figcaption{padding:.85rem 1rem 1rem;display:grid;gap:.15rem}
+    .gallery-card figcaption span{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:900;color:var(--blue)}
+    .gallery-card figcaption strong{font-family:Georgia,serif;font-size:1.05rem}
+    .gallery-dark-button{color:var(--navy)}
+    @media(max-width:800px){
+      .gallery-intro-grid{grid-template-columns:1fr}
+      .gallery-filters{top:86px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:.75rem}
+      .gallery-filter{flex:0 0 auto}
+      .gallery-wall{columns:2 150px;column-gap:.8rem}
+      .gallery-card{margin-bottom:.8rem;border-radius:8px}
+      .gallery-card figcaption{padding:.7rem .75rem .8rem}
+      .gallery-card figcaption strong{font-size:.95rem}
+    }
+    @media(max-width:480px){.gallery-wall{columns:1}.gallery-card{margin-bottom:1rem}}
+  </style>
 </Base>
