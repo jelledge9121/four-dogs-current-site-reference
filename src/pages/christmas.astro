@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: 'Where is holiday entertainment available?',
-    answer: 'Four Dogs serves holiday events throughout South Carolina. Availability and travel depend on the date, location, and event details.',
+    answer: 'Four Dogs serves all of South Carolina. Holiday entertainment and Santa Jim availability depend on the date, travel, and event details.',
   },
 ];
 
@@ -37,7 +37,7 @@ const serviceSchema = {
     name: 'Four Dogs Entertainment',
     url: 'https://4dogsentertainment.com',
   },
-  areaServed: [{ '@type': 'State', name: 'South Carolina' }],
+  areaServed: ['South Carolina'],
 };
 
 const faqSchema = {
@@ -52,7 +52,7 @@ const faqSchema = {
 ---
 <Base
   title="Holiday Party Entertainment & Santa Across South Carolina | Four Dogs"
-  description="Plan a holiday party with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience for company, HOA, community, and private events across South Carolina."
+  description="Plan a holiday party anywhere in South Carolina with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience."
   schema={[serviceSchema, faqSchema]}
 >
   <section class="section dark">
