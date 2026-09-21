@@ -17,7 +17,7 @@ const org = {
   name: site.name,
   url: site.url,
   logo: `${site.url}/images/logo.png`,
-  sameAs: [site.facebook, site.instagram, site.tiktok],
+  sameAs: [site.facebook, site.instagram, site.tiktok, site.meetup],
   areaServed: { '@type': 'State', name: 'South Carolina' },
 };
 ---
@@ -189,6 +189,7 @@ const org = {
         <a class="button" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
         <a class="button secondary" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
         <a class="button secondary" href={site.tiktok} target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a class="button secondary" href={site.meetup} target="_blank" rel="noopener noreferrer">Meetup</a>
       </div>
     </div>
   </section>
