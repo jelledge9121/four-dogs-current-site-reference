@@ -134,11 +134,11 @@ const org = {
     <div class="container">
       <p class="eyebrow">Real events</p>
       <h2>Good nights look like this.</h2>
-      <div class="gallery">
+      <div class="gallery-preview">
         {homepageGallery.map((photo) => (
           <figure>
             <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
-            <figcaption>{photo.category}</figcaption>
+            <figcaption>{photo.title ?? photo.category}</figcaption>
           </figure>
         ))}
       </div>
