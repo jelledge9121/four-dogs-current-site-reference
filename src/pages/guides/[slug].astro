@@ -9,11 +9,11 @@ const articleSchema={'@context':'https://schema.org','@type':'Article',headline:
   <section class="section dark"><div class="container"><p class="eyebrow">{guide.category ?? 'Four Dogs guide'}</p><h1>{guide.title}</h1><p class="lead">{guide.description}</p>{guide.published && <p class="fine">Published {new Date(`${guide.published}T12:00:00`).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</p>}</div></section>
   <article class="section"><div class="container prose">
     {guide.blocks.slice(2).map((block) => block.tag === 'h2' ? <h2>{block.text}</h2> : block.tag === 'h3' ? <h3>{block.text}</h3> : block.tag === 'li' ? <ul><li>{block.text}</li></ul> : <p>{block.text}</p>)}
-    {guide.relatedLinks?.length > 0 && (
+    {(guide.relatedLinks ?? []).length > 0 && (
       <aside class="card" style="margin-top:2rem">
         <p class="eyebrow">Keep exploring</p>
         <h2>Plan your next Four Dogs night.</h2>
-        <div class="actions">{guide.relatedLinks.map((link) => <a href={link.href}>{link.label} →</a>)}</div>
+        <div class="actions">{(guide.relatedLinks ?? []).map((link) => <a href={link.href}>{link.label} →</a>)}</div>
       </aside>
     )}
     <div class="actions"><a class="button" href="/booking/">Plan an event</a><a href="/guides/">More guides</a></div>
