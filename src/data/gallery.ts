@@ -1,39 +1,46 @@
-export type GalleryItem =
-  | {
-      type: 'image';
-      src: string;
-      alt: string;
-      category: string;
-      width: number;
-      height: number;
-    }
-  | {
-      type: 'video';
-      src: string;
-      videoSrc: string;
-      poster: string;
-      alt: string;
-      category: string;
-      width: number;
-      height: number;
-    };
+export type GalleryItem = {
+  type: 'image' | 'video';
+  src: string;
+  alt: string;
+  category: 'Trivia' | 'Music Bingo' | 'Weddings' | 'Private Events' | 'Crowds & Winners' | 'Venue Events';
+  title: string;
+  width: number;
+  height: number;
+  featured?: boolean;
+  videoSrc?: string;
+  poster?: string;
+};
 
 export const gallery: GalleryItem[] = [
   {
     type: 'image',
-    src: '/images/gallery/four-dogs-wedding-ceremony-crowd.webp',
-    alt: 'Wedding ceremony inside a bright reception venue with guests seated on both sides of the aisle',
-    category: 'Weddings',
-    width: 1080,
-    height: 1440,
+    src: '/images/gallery/four-dogs-host-live-event-bozes.svg',
+    alt: 'Four Dogs Entertainment host speaking into a microphone during a live event at Boze’s Restaurant and Bar in West Columbia, South Carolina',
+    category: 'Venue Events',
+    title: 'In the room, on the mic',
+    width: 1536,
+    height: 1152,
+    featured: true,
   },
   {
     type: 'image',
-    src: '/images/gallery/four-dogs-trivia-first-place-winner.webp',
-    alt: 'Four Dogs Entertainment trivia winner holding a first-place envelope and championship trophy at a venue event',
+    src: '/images/gallery/four-dogs-team-night-bozes.svg',
+    alt: 'Friends gathered around a table during a Four Dogs Entertainment game night at Boze’s Restaurant and Bar in West Columbia',
     category: 'Trivia',
-    width: 1080,
-    height: 1440,
+    title: 'Bring your team',
+    width: 1536,
+    height: 1152,
+    featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-music-bingo-couple-winners.svg',
+    alt: 'A smiling couple with a Four Dogs championship trophy and Music Bingo cards after a venue event',
+    category: 'Music Bingo',
+    title: 'Music Bingo champions',
+    width: 1536,
+    height: 1152,
+    featured: true,
   },
   {
     type: 'video',
@@ -42,14 +49,118 @@ export const gallery: GalleryItem[] = [
     poster: '/images/gallery/four-dogs-wedding-dance-floor-crowd-poster.webp',
     alt: 'Guests dancing together on a crowded wedding dance floor during a Four Dogs Entertainment DJ event',
     category: 'Weddings',
+    title: 'When the dance floor fills up',
     width: 1280,
     height: 720,
+    featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-champion-poster-winner.svg',
+    alt: 'Four Dogs Entertainment event champion smiling while holding a Four Dogs champion poster and prize',
+    category: 'Crowds & Winners',
+    title: 'Four Dogs champion',
+    width: 1152,
+    height: 1536,
+    featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-family-team-game-night.svg',
+    alt: 'A family team smiling together around their table during a Four Dogs Entertainment game night',
+    category: 'Trivia',
+    title: 'Game night together',
+    width: 1536,
+    height: 1152,
+    featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-wedding-ceremony-crowd.webp',
+    alt: 'Wedding ceremony inside a bright reception venue with guests seated on both sides of the aisle',
+    category: 'Weddings',
+    title: 'Wedding day moments',
+    width: 1080,
+    height: 1440,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-host-trivia-prize-table-top-dawg.svg',
+    alt: 'Four Dogs Entertainment host and guests at the prize table during a live trivia event at Top Dawg Tavern in Columbia',
+    category: 'Venue Events',
+    title: 'Ready for the room',
+    width: 1536,
+    height: 1152,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-bingo-brunch-winner.svg',
+    alt: 'A smiling Four Dogs Bingo Brunch winner holding a championship trophy and winner card',
+    category: 'Music Bingo',
+    title: 'Bingo Brunch winner',
+    width: 1152,
+    height: 1536,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-championship-belt-winners.svg',
+    alt: 'Two Four Dogs Entertainment winners celebrating with a championship belt and champion poster',
+    category: 'Crowds & Winners',
+    title: 'Championship energy',
+    width: 1152,
+    height: 1536,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-we-dont-cheat-winners.svg',
+    alt: 'Two Four Dogs Entertainment winners smiling with a trophy and a playful We Don’t Cheat winner poster',
+    category: 'Crowds & Winners',
+    title: 'We don’t cheat',
+    width: 1542,
+    height: 2048,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-trivia-winner-wesco.svg',
+    alt: 'Four Dogs Entertainment winner at WesCo Brew and Bowl holding a championship trophy beside a branded event poster',
+    category: 'Trivia',
+    title: 'WesCo winner',
+    width: 1152,
+    height: 1536,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-music-bingo-winner-celebration.svg',
+    alt: 'Four Dogs Music Bingo winner holding a trophy while another guest celebrates behind her',
+    category: 'Music Bingo',
+    title: 'The best photobomb',
+    width: 1152,
+    height: 1536,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-music-bingo-couple-trophy.svg',
+    alt: 'A couple celebrating a Four Dogs Music Bingo win with a championship trophy at their table',
+    category: 'Music Bingo',
+    title: 'A winning table',
+    width: 1536,
+    height: 1152,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-trivia-first-place-winner.webp',
+    alt: 'Four Dogs Entertainment trivia winner holding a first-place envelope and championship trophy at a venue event',
+    category: 'Trivia',
+    title: 'First place feels good',
+    width: 1080,
+    height: 1440,
   },
   {
     type: 'image',
     src: '/images/gallery/four-dogs-private-event-dance-floor-02-poster.webp',
     alt: 'Guests gathered at a Four Dogs private event',
     category: 'Private Events',
+    title: 'Private event energy',
     width: 800,
     height: 600,
   },
@@ -58,6 +169,7 @@ export const gallery: GalleryItem[] = [
     src: '/images/gallery/four-dogs-entertainment-event-photo-34.webp',
     alt: 'Guests celebrating together at a Four Dogs wedding',
     category: 'Weddings',
+    title: 'Celebrate together',
     width: 800,
     height: 600,
   },
@@ -66,6 +178,7 @@ export const gallery: GalleryItem[] = [
     src: '/images/gallery/four-dogs-entertainment-event-photo-19.webp',
     alt: 'Guests playing together at a Four Dogs trivia night',
     category: 'Trivia',
+    title: 'Around the table',
     width: 800,
     height: 600,
   },
@@ -74,6 +187,7 @@ export const gallery: GalleryItem[] = [
     src: '/images/gallery/four-dogs-entertainment-event-photo-37.webp',
     alt: 'A Four Dogs Music Bingo winner celebrating with a prize',
     category: 'Music Bingo',
+    title: 'Another Doggone Good winner',
     width: 800,
     height: 600,
   },
@@ -82,6 +196,7 @@ export const gallery: GalleryItem[] = [
     src: '/images/gallery/four-dogs-private-event-dance-floor-01-poster.webp',
     alt: 'A lively Four Dogs crowd celebrating together',
     category: 'Crowds & Winners',
+    title: 'A room worth remembering',
     width: 800,
     height: 600,
   },
@@ -90,6 +205,7 @@ export const gallery: GalleryItem[] = [
     src: '/images/gallery/four-dogs-entertainment-event-photo-29.webp',
     alt: 'Guests gathered inside a Four Dogs partner venue',
     category: 'Venue Events',
+    title: 'Four Dogs in the room',
     width: 800,
     height: 600,
   },
