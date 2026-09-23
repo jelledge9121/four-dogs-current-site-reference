@@ -1,7 +1,124 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="About Four Dogs Entertainment | South Carolina" description="Four Dogs Entertainment creates hosted events and entertainment experiences designed to bring people together across South Carolina.">
+<Base title="About Four Dogs Entertainment | South Carolina" description="Meet the Four Dogs Entertainment team and learn how we create affordable, fun hosted entertainment for events across South Carolina.">
 <section class="section dark"><div class="container"><p class="eyebrow">About Four Dogs</p><h1>People need more reasons to come together.</h1><p class="lead">That belief sits underneath everything Four Dogs creates.</p></div></section>
-<section class="section"><div class="container split"><div><h2>Entertainment built around participation and connection.</h2><p>Four Dogs creates hosted experiences for public venues, weddings, businesses, organizations, communities, and private celebrations throughout South Carolina.</p><p><strong>We serve the entire state of South Carolina.</strong> Our recurring public events are concentrated in several local markets, but weddings, private events, corporate events, community events, and venue entertainment can be booked statewide.</p><p>Our work spans recurring trivia and Music Bingo, interactive game nights, karaoke, weddings, and custom private and corporate events, all delivered with local personality, strong hosting, professional organization, and a focus on giving people something worth showing up for.</p><p>Bring your people. We’ll bring the Doggone Good Time.</p><div class="actions"><a class="button" href="/events/">Find an event</a><a href="/booking/">Book Four Dogs →</a></div></div><img src="/images/hero.jpg" alt="A Four Dogs Entertainment crowd"></div></section>
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <h2>Entertainment built around participation and connection.</h2>
+      <p>Four Dogs creates hosted experiences for public venues, weddings, businesses, organizations, communities, and private celebrations throughout South Carolina.</p>
+      <p><strong>We serve the entire state of South Carolina.</strong> Our recurring public events are concentrated in several local markets, but weddings, private events, corporate events, community events, and venue entertainment can be booked statewide.</p>
+      <p>Our work spans recurring trivia and Music Bingo, interactive game nights, karaoke, weddings, and custom private and corporate events, all delivered with local personality, strong hosting, professional organization, and a focus on giving people something worth showing up for.</p>
+      <p>Bring your people. We’ll bring the Doggone Good Time.</p>
+      <div class="actions"><a class="button" href="/events/">Find an event</a><a href="/booking/">Book Four Dogs →</a></div>
+    </div>
+    <img src="/images/hero.jpg" alt="A Four Dogs Entertainment crowd">
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="team-intro">
+      <p class="eyebrow">Meet the team</p>
+      <h2>The people behind the Doggone Good Time.</h2>
+      <p class="lead">Four Dogs is built by people who know how to read a room, keep an event moving, and make guests feel like part of the night.</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card">
+        <img class="team-photo team-photo-joey" src="/images/team/joey-elledge.webp" alt="Joey Elledge, owner and host of Four Dogs Entertainment" width="500" height="718" loading="lazy">
+        <div class="team-body">
+          <p class="team-role">Owner &amp; Host</p>
+          <h3>Joey Elledge</h3>
+          <p>Joey has a background in sport and event management and is also a college professor. Four Dogs is named for Cookie, Sammy, Boone, and Darla, the four dogs who inspired the company. His vision is simple: make professional entertainment affordable, flexible, and genuinely fun for any kind of event, from a weekly game night to a wedding, private party, or company event.</p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img class="team-photo team-photo-jim" src="/images/team/jim-kennedy.webp" alt="Jim Kennedy, lead host with Four Dogs Entertainment" width="500" height="500" loading="lazy">
+        <div class="team-body">
+          <p class="team-role">Lead Host</p>
+          <h3>Jim Kennedy</h3>
+          <p>Originally from New Jersey, Jim is a musician and drummer who has played in bands. That background shows up in the way he hosts: good timing, strong crowd awareness, and the ability to keep a room moving without making the night feel forced.</p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img class="team-photo team-photo-elle" src="/images/team/elle.webp" alt="Elle, host and marketing team member with Four Dogs Entertainment" width="500" height="617" loading="lazy">
+        <div class="team-body">
+          <p class="team-role">Host &amp; Marketing</p>
+          <h3>Elle</h3>
+          <p>Originally from Florida, Elle is a musician, dog lover, and part of both the hosting and marketing side of Four Dogs. She brings creativity, energy, and an easygoing style to live events while helping shape how Four Dogs connects with people off the mic, too.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .team-intro {
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .team-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border-top: 5px solid var(--gold);
+  }
+
+  .team-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: var(--navy);
+  }
+
+  .team-photo-joey { object-position: center 22%; }
+  .team-photo-jim { object-position: center 28%; }
+  .team-photo-elle { object-position: center 28%; }
+
+  .team-body {
+    padding: 1.35rem 1.4rem 1.5rem;
+  }
+
+  .team-role {
+    margin: 0 0 .35rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: .76rem;
+    font-weight: 900;
+    color: var(--blue);
+  }
+
+  .team-body h3 {
+    margin-bottom: .6rem;
+  }
+
+  .team-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 850px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-photo {
+      aspect-ratio: 5 / 4;
+      object-position: center 25%;
+    }
+  }
+</style>
 </Base>
