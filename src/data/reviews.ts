@@ -33,6 +33,21 @@ export const reviews: Review[] = [
     approved: true,
   },
   {
+    id: 'hydrocephalus-association-walk-facebook',
+    quote: 'We were looking for a DJ at the very last minute, and these guys not only came through for us, they were absolutely wonderful! They were incredibly easy to work with, professional, accommodating, and truly took the time to understand exactly what we needed. They helped make our event even more special and kept everything running smoothly. We were very impressed with their service and would highly recommend them to anyone looking for a fantastic DJ!',
+    excerpts: {
+      homepage: 'We were looking for a DJ at the very last minute, and these guys not only came through for us, they were absolutely wonderful! They were incredibly easy to work with, professional, accommodating, and truly took the time to understand exactly what we needed. They helped make our event even more special and kept everything running smoothly. We were very impressed with their service and would highly recommend them to anyone looking for a fantastic DJ!',
+      forVenues: 'They were incredibly easy to work with, professional, accommodating, and truly took the time to understand exactly what we needed.',
+    },
+    name: 'Columbia, South Carolina - Hydrocephalus Association WALK',
+    title: 'DJ & Event Entertainment · Facebook Recommendation',
+    source: 'Facebook recommendation provided by Four Dogs Entertainment',
+    location: 'Columbia, South Carolina',
+    eventType: 'DJ & Event Entertainment',
+    featured: true,
+    approved: true,
+  },
+  {
     id: 'angela-music-bingo-guest',
     quote: 'Recently we checked out music bingo at another restaurant in Lexington with a different entertainment group, and it was so boring. You guys are doing awesome and blow your competition out of the water!',
     excerpts: {
