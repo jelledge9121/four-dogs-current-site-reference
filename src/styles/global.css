@@ -42,3 +42,5 @@
   .gallery-preview figure,.gallery-preview figure:first-child{grid-column:auto;grid-row:auto}
   .gallery-preview img,.gallery-preview figure:first-child img{height:auto;min-height:0;object-fit:contain}
 }
+
+.home-hero{background-image:linear-gradient(90deg,#101b33f5,#101b3375),url('/images/gallery/four-dogs-survey-showdown-bozes-women.jpg');background-position:center,55% center}
