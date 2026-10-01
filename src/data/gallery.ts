@@ -1,6 +1,8 @@
 export type GalleryItem = {
   type: 'image' | 'video';
   src: string;
+  srcSet?: string;
+  sizes?: string;
   alt: string;
   category: 'Trivia' | 'Music Bingo' | 'Weddings' | 'Private Events' | 'Crowds & Winners' | 'Venue Events';
   title: string;
@@ -73,6 +75,50 @@ export const gallery: GalleryItem[] = [
     width: 1536,
     height: 1152,
     featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-survey-showdown-bozes-men-signs.jpg',
+    srcSet: '/.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-men-signs.jpg&w=480&fm=webp&q=78 480w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-men-signs.jpg&w=800&fm=webp&q=78 800w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-men-signs.jpg&w=1200&fm=webp&q=78 1200w',
+    sizes: '(max-width: 800px) calc(100vw - 2rem), (max-width: 1100px) calc(50vw - 2rem), 380px',
+    alt: 'Two winners at Four Dogs Entertainment Survey Showdown at Boze’s Restaurant & Bar holding Four Dogs signs and a prize',
+    category: 'Crowds & Winners',
+    title: 'Four Dogs champions at Boze’s',
+    width: 2048,
+    height: 1542,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-survey-showdown-bozes-women.jpg',
+    srcSet: '/.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-women.jpg&w=480&fm=webp&q=78 480w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-women.jpg&w=800&fm=webp&q=78 800w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-women.jpg&w=1200&fm=webp&q=78 1200w',
+    sizes: '(max-width: 800px) calc(100vw - 2rem), (max-width: 1100px) calc(50vw - 2rem), 380px',
+    alt: 'Four women at Four Dogs Entertainment Survey Showdown at Boze’s Restaurant & Bar holding a Four Dogs sign and branded koozies',
+    category: 'Crowds & Winners',
+    title: 'Bringing the vibes at Survey Showdown',
+    width: 2048,
+    height: 1542,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-survey-showdown-bozes-group.jpg',
+    srcSet: '/.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-group.jpg&w=480&fm=webp&q=78 480w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-group.jpg&w=800&fm=webp&q=78 800w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-group.jpg&w=1200&fm=webp&q=78 1200w',
+    sizes: '(max-width: 800px) calc(100vw - 2rem), (max-width: 1100px) calc(50vw - 2rem), 380px',
+    alt: 'Friends gathered around a table during Four Dogs Entertainment Survey Showdown at Boze’s Restaurant & Bar',
+    category: 'Venue Events',
+    title: 'Survey Showdown crew',
+    width: 2048,
+    height: 1542,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-survey-showdown-bozes-champions.jpg',
+    srcSet: '/.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-champions.jpg&w=480&fm=webp&q=78 480w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-champions.jpg&w=800&fm=webp&q=78 800w, /.netlify/images?url=%2Fimages%2Fgallery%2Ffour-dogs-survey-showdown-bozes-champions.jpg&w=1200&fm=webp&q=78 1200w',
+    sizes: '(max-width: 800px) calc(100vw - 2rem), (max-width: 1100px) calc(50vw - 2rem), 380px',
+    alt: 'Two winners posing with the Four Dogs Entertainment championship trophy after Survey Showdown at Boze’s Restaurant & Bar',
+    category: 'Crowds & Winners',
+    title: 'Survey Showdown at Boze’s',
+    width: 1542,
+    height: 2048,
   },
   {
     type: 'image',

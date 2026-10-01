@@ -80,6 +80,11 @@ const featured = gallery.filter((item) => item.featured).slice(0, 4);
                 >
                   Your browser does not support HTML5 video.
                 </video>
+              ) : item.srcSet ? (
+                <picture>
+                  <source type="image/webp" srcset={item.srcSet} sizes={item.sizes} />
+                  <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width={item.width} height={item.height} sizes={item.sizes} />
+                </picture>
               ) : (
                 <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width={item.width} height={item.height} />
               )}
