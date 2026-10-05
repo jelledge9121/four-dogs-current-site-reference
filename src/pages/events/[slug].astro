@@ -25,11 +25,21 @@ const eventbrite = {
 };
 
 function eventbriteUrlFor(event: Event) {
-  if (event.venueId === 'top-dawg') return eventbrite.topDawgTrivia;
-  if (event.venueId === 'wesco') return eventbrite.wescoTrivia;
-  if (event.venueId === 'charter-803') {
-    return event.eventType === 'Music Bingo' ? eventbrite.charterMusicBingo : eventbrite.charterTrivia;
+  if (event.ticketed) return undefined;
+
+  if (event.venueId === 'top-dawg') {
+    return event.eventType === 'Trivia' ? eventbrite.topDawgTrivia : undefined;
   }
+
+  if (event.venueId === 'wesco') {
+    return event.eventType === 'Trivia' ? eventbrite.wescoTrivia : undefined;
+  }
+
+  if (event.venueId === 'charter-803') {
+    if (event.eventType === 'Music Bingo') return eventbrite.charterMusicBingo;
+    if (event.eventType === 'Trivia') return eventbrite.charterTrivia;
+  }
+
   return undefined;
 }
 
