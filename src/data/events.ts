@@ -577,7 +577,7 @@ const currentEvents: Event[] = [
     eventType: 'Trivia',
     theme: 'Black Sheep Bourbon Society',
     shortDescription: 'A featured ticketed Murder Mystery Trivia event where teams answer questions, follow clues, and solve the case.',
-    description: 'A mystery awaits. Four Dogs Entertainment presents Murder Mystery Trivia: Black Sheep Bourbon Society, a featured ticketed event where teams answer questions, follow clues, and solve the case.'
+    description: 'A mystery awaits. Four Dogs Entertainment presents Murder Mystery Trivia: Black Sheep Bourbon Society, a featured ticketed event where teams answer questions, follow clues, and solve the case.',
     image: '/images/hero.jpg',
     registrationUrl: 'https://form.jotform.com/262725992611059',
     registrationLabel: 'Get tickets',
