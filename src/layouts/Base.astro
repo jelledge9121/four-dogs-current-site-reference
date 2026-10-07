@@ -24,6 +24,19 @@ const schemas=Array.isArray(schema)?schema:[schema];
     <meta property="og:image" content={new URL(image,site.url)}>
     <meta name="twitter:card" content="summary_large_image">
     {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s)}></script>)}
+    {Astro.url.pathname === '/' && (
+      <>
+        <!-- Begin SlickText Tag -->
+        <script is:inline>
+          window.sTagConfig = window.sTagConfig || [];
+          function sTag(){window.sTagConfig.push(arguments);}
+          sTag('bid', 36547);
+          sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
+        </script>
+        <script is:inline async src="https://static.slicktext.com/s-tag/init.js" type="module"></script>
+        <!-- End SlickText Tag -->
+      </>
+    )}
   </head>
   <body>
     <div class="seasonal-banner" data-holiday-banner hidden aria-label="Holiday entertainment announcement">
