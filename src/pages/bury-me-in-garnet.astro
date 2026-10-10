@@ -33,7 +33,7 @@ import Base from '../layouts/Base.astro';
               <span class="bmig-artist">Bury Me in Garnet</span>
               <h3 data-title>Florida Edition</h3>
               <p data-subtitle>October 10, 2026 · Gamecock football</p>
-              <audio data-audio preload="metadata" src="/audio/bury-me-in-garnet/uf-edition.mp3" aria-label="Bury Me in Garnet song audio"></audio>
+              <audio data-audio controls preload="metadata" src="/audio/bury-me-in-garnet/uf-edition.mp3" aria-label="Bury Me in Garnet song audio"></audio>
               <div class="bmig-timeline">
                 <label for="bmig-seek" class="bmig-visually-hidden">Playback position</label>
                 <input id="bmig-seek" data-seek type="range" min="0" max="251" value="0" step="1" />
@@ -71,6 +71,12 @@ import Base from '../layouts/Base.astro';
   </div>
 </Base>
 <style is:global>
+  /* Visible browser-native playback is reliable and familiar on iPhone and desktop. */
+  .bmig-player audio[data-audio] {display:block;width:100%;height:54px;margin:18px 0 22px;accent-color:#efc78f;}
+  .bmig-timeline {display:none;}
+  .bmig-buttons .bmig-primary {display:none;}
+  .bmig-buttons {margin:0 0 20px;gap:36px;}
+
   .bmig{--bmig-garnet:#7d1734;--bmig-rose:#c63e60;--bmig-cream:#f7eee0;--bmig-ivory:#fffaf0;--bmig-dark:#141222;--bmig-gold:#edc690;font-family:Inter,system-ui,sans-serif;background:var(--bmig-dark);color:var(--bmig-cream)}
   .bmig *{box-sizing:border-box}.bmig button,.bmig input{font:inherit}.bmig-inner{width:min(1140px,calc(100% - 36px));margin:0 auto}
   .bmig h1,.bmig h2,.bmig h3{font-family:Georgia,serif;letter-spacing:-.035em;line-height:1.06}.bmig h2{font-size:clamp(2.2rem,4vw,3.5rem)}.bmig p{line-height:1.7}
