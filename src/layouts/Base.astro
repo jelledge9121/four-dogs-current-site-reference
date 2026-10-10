@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import {site} from '../data/site';
 
-const {title,description,image='/images/social-card.jpg',schema=[]}=Astro.props;
+const {title,description,image='/images/social-card-statewide.jpg',schema=[]}=Astro.props;
 const canonical=new URL(Astro.url.pathname,site.url);
 const schemas=Array.isArray(schema)?schema:[schema];
 const slickTextTag = `<!-- Begin SlickText Tag -->
@@ -31,6 +31,10 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     <meta property="og:description" content={description}>
     <meta property="og:url" content={canonical}>
     <meta property="og:image" content={new URL(image,site.url)}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Four Dogs Entertainment serving Columbia, Lexington, Greenville, Charleston, and all of South Carolina">
+    <meta name="twitter:image" content={new URL(image,site.url)}>
     <meta name="twitter:card" content="summary_large_image">
     {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s)}></script>)}
   </head>
