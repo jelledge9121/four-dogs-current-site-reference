@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PackPopup from '../components/PackPopup.astro';
 import '../styles/global.css';
 import {site} from '../data/site';
 
@@ -45,6 +46,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     <Header/>
     <main id="main"><slot/></main>
     <Footer/>
+    <PackPopup/>
     <script is:inline>
       (() => {
         const now = new Date();
