@@ -33,21 +33,11 @@ import Base from '../layouts/Base.astro';
               <span class="bmig-artist">Bury Me in Garnet</span>
               <h3 data-title>Florida Edition</h3>
               <p data-subtitle>October 10, 2026 · Gamecock football</p>
-              <audio data-audio preload="metadata" src="/audio/bury-me-in-garnet/uf-edition.mp3" aria-label="Bury Me in Garnet song audio"></audio>
-              <div class="bmig-timeline">
-                <label for="bmig-seek" class="bmig-visually-hidden">Playback position</label>
-                <input id="bmig-seek" data-seek type="range" min="0" max="251" value="0" step="1" />
-                <div class="bmig-time"><span data-elapsed>0:00</span><span data-duration>4:11</span></div>
+              <div class="bmig-embed">
+                <iframe data-bmig-frame title="Suno player for Bury Me in Garnet Florida Edition" src="https://suno.com/embed/889f70df-b662-4115-a5cb-2c58faa77315" allow="autoplay; encrypted-media" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
               </div>
-              <div class="bmig-buttons">
-                <button type="button" data-prev aria-label="Previous song" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h2v14H5zm13 0v14L8 12z" /></svg></button>
-                <button type="button" class="bmig-primary" data-play aria-label="Play song"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg></button>
-                <button type="button" data-next aria-label="Next song"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5h-2v14h2zM6 5v14l10-7z" /></svg></button>
-              </div>
-              <div class="bmig-extras">
-                <label for="bmig-volume">Volume <input id="bmig-volume" type="range" data-volume min="0" max="100" value="85" /></label>
-                <button type="button" class="bmig-share" data-share>Share this series ↗</button>
-              </div>
+              <p class="bmig-player-note">Choose a song, then press play in the embedded player.</p>
+              <div class="bmig-extras"><button type="button" class="bmig-share" data-share>Share this series ↗</button></div>
               <p class="bmig-alert" role="status" data-status aria-live="polite"></p>
               <a class="bmig-suno" data-suno href="https://suno.com/song/889f70df-b662-4115-a5cb-2c58faa77315" target="_blank" rel="noopener noreferrer">Listen on Suno ↗</a>
             </div>
@@ -123,50 +113,38 @@ import Base from '../layouts/Base.astro';
   @media(max-width:520px){.bmig-inner{width:min(100% - 30px,1140px)}.bmig-record{max-width:360px}.bmig-tags{gap:9px}.bmig-player-top{font-size:.64rem;padding:12px 18px}.bmig-player-main{padding:25px 21px}.bmig-extras{gap:9px}.bmig-track{gap:10px;padding:17px 15px}.bmig-track.bmig-selected{padding-left:10px}.bmig-length{font-size:.75rem}.bmig-tracks-heading{padding:23px}.bmig-story{padding:60px 0}}
   @media(prefers-reduced-motion:reduce){.bmig *{scroll-behavior:auto!important;transition:none!important}}
 </style>
+<style is:global>
+  .bmig-embed{width:100%;background:#fff3;border:1px solid #ffffff30;border-radius:12px;overflow:hidden;margin:27px 0 13px}
+  .bmig-embed iframe{display:block;width:100%;height:220px;border:0;background:#281825;color:white}
+  .bmig-player-note{font-size:.82rem!important;color:#dec7d2;margin:8px 0 22px!important}
+  .bmig-extras{justify-content:end}
+  @media(max-width:520px){.bmig-embed iframe{height:210px}}
+</style>
 <script is:inline>
 (() => {
   const root = document.querySelector('[data-bmig]'); if (!root) return;
   const songs = [
-    { title:'Florida Edition',sub:'October 10, 2026 · Gamecock football',file:'uf-edition.mp3',suno:'889f70df-b662-4115-a5cb-2c58faa77315',duration:251 },
-    { title:'Kentucky Edition',sub:'October 2026 · Gamecock football',file:'kentucky-edition.mp3',suno:'8358d720-39cd-41d6-8d3f-6204ccb40163',duration:258 },
-    { title:'The Original',sub:'September 26, 2026 · Where it started',file:'original.mp3',suno:'bc0ef21c-9db7-41da-a788-67abe51822c4',duration:224 }
+    { title:'Florida Edition',sub:'October 10, 2026 · Gamecock football',id:'889f70df-b662-4115-a5cb-2c58faa77315' },
+    { title:'Kentucky Edition',sub:'October 2026 · Gamecock football',id:'8358d720-39cd-41d6-8d3f-6204ccb40163' },
+    { title:'The Original',sub:'September 26, 2026 · Where it started',id:'bc0ef21c-9db7-41da-a788-67abe51822c4' }
   ];
-  const $ = selector => root.querySelector(selector);
-  const sound = $('[data-audio]'), title=$('[data-title]'),subtitle=$('[data-subtitle]'),elapsed=$('[data-elapsed]'),duration=$('[data-duration]'),seek=$('[data-seek]'),prev=$('[data-prev]'),next=$('[data-next]'),play=$('[data-play]'),volume=$('[data-volume]'),status=$('[data-status]'),suno=$('[data-suno]');
+  const frame = root.querySelector('[data-bmig-frame]');
+  const title = root.querySelector('[data-title]'), subtitle = root.querySelector('[data-subtitle]');
+  const suno = root.querySelector('[data-suno]'), notice=root.querySelector('[data-status]');
   const rows=[...root.querySelectorAll('[data-track]')];
-  let index=0,usedFallback=false;
-  const time=n=>{ const t=Math.max(0,Math.floor(Number.isFinite(n)?n:0));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0'); };
-  const icons={play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',pause:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h5v14H6zm8 0h5v14h-5z"/></svg>'};
-  const sync=()=>{play.innerHTML=sound.paused?icons.play:icons.pause;play.setAttribute('aria-label',sound.paused?'Play song':'Pause song');};
-  function load(i,start=false){
+  function select(i){
     if(i<0||i>=songs.length)return;
-    index=i;usedFallback=false;sound.pause();
-    const s=songs[i];sound.src='/audio/bury-me-in-garnet/'+s.file;sound.load();
-    title.textContent=s.title;subtitle.textContent=s.sub;elapsed.textContent='0:00';duration.textContent=time(s.duration);seek.max=String(s.duration);seek.value='0';status.textContent='';
-    suno.href='https://suno.com/song/'+s.suno;
-    rows.forEach((row,n)=>{row.classList.toggle('bmig-selected',n===i);row.setAttribute('aria-pressed',String(n===i));});
-    prev.disabled=i===0;next.disabled=i===songs.length-1;sync();
-    if(start) sound.play().catch(()=>{status.textContent='Tap play to start this song.';});
+    const song=songs[i];frame.src='https://suno.com/embed/'+song.id;
+    frame.title='Suno player for Bury Me in Garnet '+song.title;
+    title.textContent=song.title;subtitle.textContent=song.sub;
+    suno.href='https://suno.com/song/'+song.id;notice.textContent='';
+    rows.forEach((row,index)=>{row.classList.toggle('bmig-selected',index===i);row.setAttribute('aria-pressed',String(index===i));});
   }
-  sound.addEventListener('error',()=>{
-    if(!usedFallback){
-      usedFallback=true;
-      const wasWanted=!sound.paused;
-      sound.src='https://cdn1.suno.ai/'+songs[index].suno+'.mp3';
-      sound.load();
-      if(wasWanted) sound.play().catch(()=>{status.textContent='Unable to load this track. Use the Suno link below.';});
-    }else{status.textContent='Unable to load this track. Use the Suno link below.';}
+  rows.forEach(row=>row.addEventListener('click',()=>select(Number(row.dataset.track))));
+  root.querySelector('[data-share]').addEventListener('click',async()=>{
+    const url='https://4dogsentertainment.com/bury-me-in-garnet/';
+    try{if(navigator.share)await navigator.share({title:'Bury Me in Garnet',url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);notice.textContent='Link copied to clipboard.';}else notice.textContent=url;}
+    catch(e){if(e.name!=='AbortError')notice.textContent=url;}
   });
-  play.addEventListener('click',async()=>{if(sound.paused){try{await sound.play();status.textContent='';}catch{status.textContent='Unable to start. Try the Suno link below.';}}else sound.pause();sync();});
-  prev.addEventListener('click',()=>load(index-1,true));next.addEventListener('click',()=>load(index+1,true));
-  rows.forEach(row=>row.addEventListener('click',()=>load(Number(row.dataset.track),true)));
-  sound.addEventListener('play',sync);sound.addEventListener('pause',sync);
-  sound.addEventListener('ended',()=>{if(index<songs.length-1) load(index+1,true);else sync();});
-  sound.addEventListener('loadedmetadata',()=>{if(Number.isFinite(sound.duration)){duration.textContent=time(sound.duration);seek.max=String(Math.floor(sound.duration));}});
-  sound.addEventListener('timeupdate',()=>{elapsed.textContent=time(sound.currentTime);if(!seek.matches(':active'))seek.value=String(Math.floor(sound.currentTime));});
-  seek.addEventListener('input',()=>{if(sound.readyState>0)sound.currentTime=Number(seek.value);elapsed.textContent=time(Number(seek.value));});
-  volume.addEventListener('input',()=>{sound.volume=Number(volume.value)/100;});sound.volume=.85;
-  $('[data-share]').addEventListener('click',async()=>{const url='https://4dogsentertainment.com/bury-me-in-garnet/';try{if(navigator.share)await navigator.share({title:'Bury Me in Garnet',url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);status.textContent='Link copied to clipboard.';}else status.textContent=url;}catch(e){if(e.name!=='AbortError')status.textContent=url;}});
-  load(0);
 })();
 </script>
