@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "restore-assets": "node scripts/restore-binary-assets.mjs",
-    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && astro check && astro build && node scripts/qa.mjs",
+    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && node scripts/assemble-bury-me-in-garnet.mjs && astro check && astro build && node scripts/qa.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "qa": "node scripts/qa.mjs"
