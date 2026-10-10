@@ -44,3 +44,6 @@
 }
 
 .home-hero{background-image:linear-gradient(90deg,#101b33f5,#101b3375),url('/images/gallery/four-dogs-survey-showdown-bozes-women.jpg');background-position:center,55% center}
+
+/* Keep the music tab legible across laptop widths. */
+@media (min-width:801px) and (max-width:1240px) { #navlinks { gap:.7rem } nav a, nav summary { font-size:.88rem; } }
