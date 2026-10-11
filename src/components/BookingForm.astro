@@ -1,5 +1,6 @@
 ---
 import {services} from '../data/services';
+import { site } from '../data/site';
 ---
 <form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="booking">
@@ -65,6 +66,7 @@ import {services} from '../data/services';
 
   <button class="button" type="submit">Send booking request</button>
   <p class="fine">Submitting this form starts a conversation. It does not confirm a booking.</p>
+  <p class="fine">Prefer to email us directly? <a href={`mailto:${site.bookingEmail}`}>{site.bookingEmail}</a></p>
 </form>
 
 <script>
