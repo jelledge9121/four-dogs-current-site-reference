@@ -63,6 +63,28 @@ const details: Record<string, ServiceDetail> = {
     ],
     reviewId: 'angela-music-bingo-guest',
   },
+  'photo-booth': {
+    title: 'Photo Booth Rentals in South Carolina | Four Dogs Entertainment',
+    description: 'Four Dogs Entertainment offers professional photo booth rentals for weddings, corporate events, parties, and celebrations across South Carolina. Three-hour packages start at $450.',
+    intro: [
+      'Give your guests a place to make memories together. Our attended photo booth brings a professional DSLR camera and studio flash setup to your wedding, party, or special event, with instant digital photo delivery and an online gallery after the celebration.',
+      'Photo booth packages start at $450 for three hours. This base package includes an on-site attendant, instant sharing by text, email, or QR code, a basic digital event overlay, and a complete post-event online gallery. Additional hours, travel, and optional upgrades are quoted separately.',
+      'Looking for ceremony and reception music too? Ask us about combining a Four Dogs DJ with your photo booth rental so your entertainment is coordinated through one booking conversation.',
+    ],
+    audiences: ['Weddings and receptions', 'Birthdays and celebrations', 'Corporate events', 'Private parties', 'Community gatherings', 'School and organization events'],
+    includes: ['Three hours of continuous photo booth service in the starting package', 'Professional DSLR camera and studio flash', 'Dedicated on-site photo booth attendant', 'Instant digital delivery via text, email, and QR code', 'Basic digital photo overlay and online gallery', 'Optional prints, props, backdrops, and memory-book upgrades'],
+    faqs: [
+      { question: 'How much does a Four Dogs photo booth cost?', answer: 'Photo booth rentals start at $450 for three continuous hours. Additional hours cost extra, and travel or optional enhancements may change the final quote.' },
+      { question: 'Are printed photos included?', answer: 'The starting package includes digital sharing and an online gallery. Unlimited physical prints, backdrops, props, and keepsake scrapbooks can be added for an additional charge.' },
+      { question: 'Can I book a photo booth with a wedding DJ?', answer: 'Yes. Four Dogs offers both wedding DJ entertainment and photo booth rentals. Tell us about your date, venue, and desired coverage, and we can discuss a coordinated package.' },
+      { question: 'Does Four Dogs travel for photo booth events?', answer: 'Yes, depending on the event location and availability. Travel beyond the included service area may affect the quote.' },
+    ],
+    related: [
+      { label: 'Wedding DJ entertainment', href: '/weddings/' },
+      { label: 'All Four Dogs services', href: '/services/' },
+      { label: 'Ask for a photo booth quote', href: '/booking/?service=Photo%20Booth' },
+    ],
+  },
   karaoke: {
     title: 'Karaoke Hosting in South Carolina | Four Dogs',
     description: 'Book Four Dogs Entertainment for hosted karaoke anywhere in South Carolina for venues, private parties, communities, and special events.',
@@ -247,7 +269,7 @@ const faqSchema = {
   <section class="section">
     <div class="container split">
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={service.slug === 'weddings' || service.slug === 'almost-married-trivia-experience' ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={`Guests enjoying ${service.name} with Four Dogs Entertainment`} loading="lazy" />
+      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : `Guests enjoying ${service.name} with Four Dogs Entertainment`} loading="lazy" />
     </div>
   </section>
 
