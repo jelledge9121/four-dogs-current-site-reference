@@ -17,6 +17,20 @@ export type Review = {
 
 export const reviews: Review[] = [
   {
+    id: 'mckell-tew-girls-in-aviation-google',
+    quote: 'Joey and Four Dogs Entertainment were amazing at our Girls In Aviation Day! Kept the 150+ person crowd engaged, and hyped up for the entire afternoon. All family friendly music, high quality equipment with amazing sound and a very aesthetic set up! We love Four Dogs Entertainment!!!',
+    excerpts: {
+      homepage: 'Kept the 150+ person crowd engaged, and hyped up for the entire afternoon. All family friendly music, high quality equipment with amazing sound and a very aesthetic set up!',
+      forVenues: 'Kept the 150+ person crowd engaged, and hyped up for the entire afternoon.',
+    },
+    name: 'McKell Tew',
+    title: 'Girls In Aviation Day · Google 5-Star Review',
+    source: 'Google 5-star review',
+    eventType: 'Community Event DJ & Hosting',
+    featured: true,
+    approved: true,
+  },
+  {
     id: 'brooke-holladay-google',
     quote: 'The dance music and karaoke that Four Dogs provided for my 50th birthday party made it an absolute blast! I will definitely use them again in the future.',
     excerpts: {
