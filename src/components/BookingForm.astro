@@ -15,6 +15,7 @@ import { site } from '../data/site';
       <select id="service" name="service" required>
         <option value="">Choose one</option>
         {services.map(s=><option value={s.bookingValue} data-service-slug={s.slug}>{s.bookingValue}</option>)}
+        <option>DJ</option>
         <option>Corporate Event</option>
         <option>Venue Entertainment</option>
         <option>Christmas / Holiday Entertainment</option>

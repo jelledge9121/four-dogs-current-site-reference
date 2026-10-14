@@ -48,6 +48,15 @@ const booking = fs.readFileSync(path.join(root, 'booking', 'index.html'), 'utf8'
 for (const marker of ['name="booking"', 'data-netlify="true"', 'netlify-honeypot="bot-field"', 'name="form-name"', 'action="/thank-you/"', 'name="referral-source"', 'data-service-slug="music-bingo"', 'data-service-slug="almost-married-trivia-experience"']) {
   if (!booking.includes(marker)) errors.push(`booking/index.html: missing ${marker}`);
 }
+// Every rendered booking CTA must resolve to a real service option.
+const decode = (value) => value.replaceAll('&amp;', '&').replaceAll('&#39;', "'").replaceAll('&quot;', '"');
+const options = [...booking.matchAll(/<option\b([^>]*)>(.*?)<\/option>/g)].map(([, attrs, label]) => decode(attrs.match(/value="([^"]*)"/)?.[1] ?? label));
+for (const file of htmlFiles) {
+  for (const [, href] of fs.readFileSync(file, 'utf8').matchAll(/href="(\/booking\/\?service=[^"]*)"/g)) {
+    const service = new URL(decode(href), 'https://4dogsentertainment.com').searchParams.get('service');
+    if (!options.includes(service)) errors.push(`${file}: booking service does not match a form option: ${service}`);
+  }
+}
 for (const asset of ['_redirects', '_headers', 'robots.txt', 'llms.txt', 'sitemap-index.xml']) {
   if (!publicFiles.has(`/${asset}`)) errors.push(`dist: missing ${asset}`);
 }

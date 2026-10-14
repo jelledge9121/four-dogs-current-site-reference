@@ -157,7 +157,7 @@ export function getStaticPaths() {
 
 const { area } = Astro.props as Props;
 const areaVenues = venues.filter((venue) => area.venueIds.includes(venue.id));
-const areaEvents = upcomingEvents().filter((event) => area.venueIds.includes(event.venueId));
+const areaEvents = upcomingEvents().filter((event) => !event.locationName && area.venueIds.includes(event.venueId));
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',

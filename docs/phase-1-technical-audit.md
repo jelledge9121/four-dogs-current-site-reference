@@ -1,6 +1,6 @@
 # Phase 1 technical optimization review
 
-Status: implementation prepared on an isolated branch. Not approved for production. Do not merge without Joey's explicit approval.
+Status: draft PR #12 and working Netlify deploy preview. Not approved for production. Do not merge without Joey's explicit approval.
 
 ## Confirmed production baseline
 
@@ -44,7 +44,7 @@ Status: implementation prepared on an isolated branch. Not approved for producti
 
 - Existing wedding/event-detail photos gain lazy loading, async decoding, and verified intrinsic dimensions. Image bytes and visible quality are unchanged.
 - Fingerprinted `/_astro/` assets receive a one-year immutable cache policy. Existing unversioned media cache rules stay intact.
-- No image/video replacements, dependencies, scripts, business integrations, or stylesheet changes.
+- No image/video replacements, new dependencies, removed scripts, disabled business integrations, or stylesheet changes.
 
 ## Measurements and verification
 
@@ -52,7 +52,7 @@ Status: implementation prepared on an isolated branch. Not approved for producti
 - QA now also checks duplicate descriptions, one H1 per page, image alt attributes, and valid JSON-LD, in addition to existing metadata, canonical, link/asset and booking integration checks.
 - Date tests cover Eastern midnight, DST offsets, simulated future dates without rebuilding, six-card homepage cap, empty states, archived CTA/schema removal, feed expiry, and response-header safety.
 - All 48 baseline generated media files are byte-identical after the changes. Both existing song content and all existing gallery files are retained.
-- Booking form HTML is byte-identical. Netlify's read-only Forms API confirms the existing `booking` form, all current fields, honeypot protection, 11 submissions, and a last submission on October 11. No test inquiry, registration, payment, or SMS was submitted.
+- All existing booking field names and choices are preserved. A missing DJ option was added so the existing `service=DJ` CTA can preselect correctly. All rendered service-preselection links are now checked against actual form options. Netlify's read-only Forms API confirms the existing `booking` form, all current fields, honeypot protection, 11 submissions, and a last submission on October 11. No test inquiry, registration, payment, or SMS was submitted.
 - Main stylesheet SHA-256 is unchanged: `458b7ad8d2ed32ae8e0c8313d96f2f3de6dbc73760f50d13e2c221fdeae827be`.
 
 Reproducible HTML payload comparison: baseline production-commit build versus optimized build with the exact edge transform applied for October 14, 2026. Gzip uses Node's `gzipSync` default settings. These are payload measurements, not Lighthouse scores or measured user load times.
@@ -63,7 +63,7 @@ Reproducible HTML payload comparison: baseline production-commit build versus op
 | Events | 39,083 | 24,146 | 7,417 | 6,029 |
 | Weddings | 15,367 | 15,961 | 5,011 | 5,094 |
 | Private/corporate events | 19,274 | 19,783 | 5,835 | 5,898 |
-| Booking | 16,760 | 17,204 | 5,448 | 5,509 |
+| Booking | 16,760 | 17,224 | 5,448 | 5,515 |
 | Gallery | 30,054 | 30,778 | 6,555 | 6,660 |
 
 The home/calendar HTML reduction comes from removing hidden/archive event markup. Other pages grow slightly from social/accessibility metadata. Homepage cards drop from 82 serialized cards to six delivered cards; calendar cards drop from 82 to 31, including four added Aura events.
@@ -73,12 +73,21 @@ The home/calendar HTML reduction comes from removing hidden/archive event markup
 - PageSpeed Insights API returned HTTP 429, daily quota exceeded. No before/after LCP, INP, CLS, Lighthouse or CrUX scores are available.
 - The cloud browser timed out. Local Playwright could not launch because no browser executable was installed; browser downloads failed with invalid/truncated ZIP archives. Screenshot comparisons, viewport checks, keyboard interactions, popup behavior, service-preselection interactions, and video playback are therefore not verified.
 - Static source and output checks do not prove live form delivery or downstream automation. No submission was authorized to trigger a real workflow.
-- External link reachability, SMS device handoff, registration/payment completion, and rich-result eligibility are not claimed as tested.
+- Both existing Jotform links and the official Aura, Top Dawg, Boze’s, WesCo, and The Mill sites returned HTTP 200. This verifies reachability only. SMS device handoff, registration/payment completion, and rich-result eligibility are not claimed as tested.
 - No pixel-level claim of identical appearance is made. CSS, colors, fonts, logo, layout components, and media bytes are preserved. Necessary visible differences are corrected/added event content, removal of past listings, archive labels, selected venue-owner testimonial, and removal of unverified Charter address/directions from the Saluda Mill page.
+
+## Deploy preview verification
+
+- [Draft PR #12](https://github.com/jelledge9121/four-dogs-current-site-reference/pull/12)
+- [Netlify preview](https://deploy-preview-12--4dogsentertainment.netlify.app)
+- Initial preview deploy `6acf952d1f570a7a36053d35` is ready with one edge function, 44 redirect rules and four header rules. GitHub Actions build run `38583137905` passed.
+- Twelve representative GET requests returned 200, including the six priority pages, dated corrections, Aura venue, archive, confirmation and feed. Preview HTML delivers six homepage event cards and 31 calendar cards, none dated before October 14. The archive GET contains no Event schema or registration CTA. Preview platform `X-Robots-Tag: noindex` and production canonicals are present. The existing CSP survives edge transformation.
+- A broader HTTP HEAD sweep passed all 201 requests: 149 page routes, 48 baseline media files, and four legacy aliases. All four aliases resolved to their intended existing pages. HEAD checks demonstrate reachability, not rendering or playback.
+- Production deploy was rechecked and remains `6acf6e6b2863452a7ab52b47`. No merge, production publish or auto-merge was performed.
 
 ## Items requiring confirmation before production approval
 
-1. October 19 Charter event: source still says Comedy Night at 7 PM. No verified Open Mic format, signup link, or updated description was found. Do not guess whether the existing registration form is correct.
+1. October 19 Charter event: source and the live Jotform title still say Comedy Night (source time: 7 PM). No verified Open Mic format, signup link, or updated description was found. Do not guess whether the existing registration form is correct.
 2. Confirm Black Sheep Bourbon Society's physical address/directions. Do not assume it shares Charter's address based on a third-party event aggregator.
 3. Review The Mill October 19/26 dated themes and Charter October 22/29 themes against the current business plan. Source and older planning notes differ. November WesCo themes also require current confirmation. Existing values remain pending that review.
 4. SlickText: the live CSP blocks its external tag. Inspecting the public tag settings reveals a second active homepage popup with a “Want 20% Off?” minimized message. Enabling the tag could produce overlapping popups and a misleading offer. The policy, tag, and current PACK/SMS popup were preserved because this requires an owner decision and interactive validation. Do not silently enable or disable either integration.
