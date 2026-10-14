@@ -154,7 +154,7 @@ const org = {
       <div class="review-grid">
         {guestReviews.map((review) => (
           <article class="review-card">
-            <p class="review-quote">“{review.quote}”</p>
+            <p class="review-quote">“{review.excerpts.homepage}”</p>
             <p class="review-attribution"><strong>{review.name}</strong><br />{review.title}</p>
           </article>
         ))}
