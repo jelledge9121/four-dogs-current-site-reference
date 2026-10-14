@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { events } from '../data/events';
+import { upcomingEvents } from '../data/events';
 
 const siteUrl = 'https://4dogsentertainment.com';
 
@@ -22,7 +22,7 @@ function formatEventDate(date: string) {
 }
 
 export const GET: APIRoute = () => {
-  const featuredEvents = events
+  const featuredEvents = upcomingEvents()
     .filter(
       (event) =>
         event.status === 'scheduled' &&
@@ -45,6 +45,7 @@ export const GET: APIRoute = () => {
       const description = `${event.shortDescription} ${dateLabel}${timeLabel}. ${ctaLabel}.`;
 
       return `    <item>
+      <fd:eventDate>${event.date}</fd:eventDate>
       <title>${escapeXml(`${event.title} | ${dateLabel}`)}</title>
       <link>${escapeXml(actionUrl)}</link>
       <guid isPermaLink="true">${escapeXml(eventPageUrl)}</guid>
@@ -55,7 +56,7 @@ export const GET: APIRoute = () => {
     .join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:fd="https://4dogsentertainment.com/ns/events">
   <channel>
     <title>Four Dogs Entertainment Featured Events</title>
     <link>${siteUrl}/events/</link>

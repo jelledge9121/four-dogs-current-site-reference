@@ -23,6 +23,23 @@ export type Venue = {
 
 export const venues: Venue[] = [
   {
+    id: 'aura',
+    slug: 'aura-kitchen-bar-music-bingo-columbia-sc',
+    name: 'Aura Kitchen & Bar',
+    address: '916 Gervais Street',
+    city: 'Columbia',
+    state: 'SC',
+    zip: '29201',
+    website: 'https://www.aurakitchenbar.com/',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=916+Gervais+Street+Columbia+SC+29201',
+    description: 'Four Thursday Music Bingo trial dates: October 22, October 29, November 5, and November 12, 2026, from 7:30–9:30 PM.',
+    image: '/images/hero.jpg',
+    active: true,
+    areaSlug: 'columbia-sc',
+    // A limited trial is not an indefinite recurring commitment.
+    weeklySchedule: [],
+  },
+  {
     id: 'top-dawg',
     slug: 'top-dawg-tavern-sandhills-trivia-columbia-sc',
     name: 'Top Dawg Tavern',

@@ -13,6 +13,6 @@ const date = new Date(`${event.date}T12:00:00`).toLocaleDateString('en-US', {
 <article class="card event" data-event-date={event.date}>
   <p class="eyebrow">{date}{event.startTime ? ` · ${event.startTime}` : ''}</p>
   <h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3>
-  <p>{venue.name}<br />{venue.city}, {venue.state}</p>
+  <p>{event.locationName ?? venue.name}{!event.locationName && <><br />{venue.city}, {venue.state}</>}</p>
   <span class="tag">{event.eventType}</span>
 </article>

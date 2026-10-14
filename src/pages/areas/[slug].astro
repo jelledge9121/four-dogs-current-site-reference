@@ -66,7 +66,7 @@ export function getStaticPaths() {
         { name: 'Corporate events', description: 'Interactive entertainment for companies and organizations.', href: '/corporate-event-entertainment-columbia-sc/' },
       ],
       nearby: ['Columbia', 'Northeast Columbia', 'Forest Acres area', 'West Columbia', 'Cayce', 'Lexington and surrounding Midlands communities'],
-      venueIds: ['top-dawg'],
+      venueIds: ['top-dawg', 'aura'],
       faqs: [
         { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM.' },
         { question: 'Does Four Dogs offer DJ and wedding entertainment in Columbia?', answer: 'Yes. Four Dogs offers DJ entertainment for weddings, private events, formals, businesses, organizations, and community gatherings.' },
@@ -240,7 +240,7 @@ const faqSchema = {
       <div class="container">
         <p class="eyebrow">Coming up</p>
         <h2>Upcoming Four Dogs events in {area.name}.</h2>
-        <div class="grid" data-event-list data-max-visible="4">{areaEvents.map((event) => <EventCard event={event} />)}</div>
+        <div class="grid" data-upcoming-list data-event-list data-max-visible="4">{areaEvents.map((event) => <EventCard event={event} />)}</div>
         <div class="actions"><a class="button" href="/events/">See all events</a></div>
       </div>
     </section>

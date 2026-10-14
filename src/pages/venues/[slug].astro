@@ -72,7 +72,7 @@ const placeSchema = {
   <section class="section">
     <div class="container">
       <h2>Coming up here</h2>
-      {events.length ? <div class="grid">{events.map((event) => <EventCard event={event} />)}</div> : <p>No dated themes are currently listed. The weekly schedule above remains the place to start.</p>}
+      {events.length ? <div class="grid" data-upcoming-list>{events.map((event) => <EventCard event={event} />)}</div> : <p>No dated themes are currently listed. The weekly schedule above remains the place to start.</p>}
       <div class="actions">
         <a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a>
         {venue.website && <a href={venue.website} target="_blank" rel="noopener noreferrer">Venue website →</a>}
