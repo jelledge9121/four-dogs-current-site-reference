@@ -25,6 +25,7 @@ Status: draft PR #12 and working Netlify deploy preview. Not approved for produc
 
 ### Verified event changes
 
+- October 19, Charter 803: corrected the event title, type, theme, and description from Comedy Night to Open Mic based on owner confirmation. Existing 7 PM start time and legacy URL retained. The Jotform signup page still displays Comedy Night and must be corrected or reverified before merging.
 - October 20, Top Dawg: Music Bingo supporting the Hydrocephalus Association; 6:30 PM retained. Old indexed slug preserved.
 - October 30: The Saluda Mill Murder, Black Sheep Bourbon Society, 7:30 PM. Existing ticket link and URL preserved. Charter's address/directions are deliberately not reused. The location has a verified name only; its physical address requires owner confirmation before address-based rich-result eligibility can be claimed.
 - Aura: October 22, October 29, November 5, November 12, 7:30–9:30 PM. Added as four trial dates, not an indefinite recurring schedule. Themes respectively: College Hits: Throughout the Years; Spooky Vibes; DJ Jimbo's Master Class; Screen Time.
@@ -87,7 +88,7 @@ The home/calendar HTML reduction comes from removing hidden/archive event markup
 
 ## Items requiring confirmation before production approval
 
-1. October 19 Charter event: source and the live Jotform title still say Comedy Night (source time: 7 PM). No verified Open Mic format, signup link, or updated description was found. Do not guess whether the existing registration form is correct.
+1. October 19 Charter event: the owner confirmed **Open Mic**, and the draft PR listing has been corrected. The existing linked Jotform signup still says **Comedy Night**. Confirm that this form should serve Open Mic and update its public title/copy before production approval. The 7 PM start time is unchanged from the previous listing.
 2. Confirm Black Sheep Bourbon Society's physical address/directions. Do not assume it shares Charter's address based on a third-party event aggregator.
 3. Review The Mill October 19/26 dated themes and Charter October 22/29 themes against the current business plan. Source and older planning notes differ. November WesCo themes also require current confirmation. Existing values remain pending that review.
 4. SlickText: the live CSP blocks its external tag. Inspecting the public tag settings reveals a second active homepage popup with a “Want 20% Off?” minimized message. Enabling the tag could produce overlapping popups and a misleading offer. The policy, tag, and current PACK/SMS popup were preserved because this requires an owner decision and interactive validation. Do not silently enable or disable either integration.
