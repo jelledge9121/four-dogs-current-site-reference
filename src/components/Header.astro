@@ -35,4 +35,11 @@ import { services } from '../data/services';
     button.setAttribute('aria-expanded', String(!open));
     navLinks?.classList.toggle('open', !open);
   });
+  navLinks?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {
+      button.setAttribute('aria-expanded', 'false');
+      navLinks.classList.remove('open');
+      button.focus();
+    }
+  });
 </script>

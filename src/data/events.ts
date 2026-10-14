@@ -1,9 +1,78 @@
+import { easternToday } from '../lib/event-time.mjs';
 import { events as baseEvents } from './events-base';
 import type { Event } from './events-base';
 
 export type { Event, EventStatus } from './events-base';
 
 const currentEvents: Event[] = [
+  {
+    id: 'aura-2026-10-22',
+    slug: 'college-hits-music-bingo-aura-2026-10-22',
+    title: "College Hits: Throughout the Years Music Bingo",
+    date: '2026-10-22',
+    startTime: '7:30 PM',
+    endTime: '9:30 PM',
+    venueId: 'aura',
+    eventType: 'Music Bingo',
+    theme: "College Hits: Throughout the Years",
+    shortDescription: "College Hits: Throughout the Years Music Bingo at Aura Kitchen & Bar, part of the four-night Thursday trial.",
+    description: "Join Four Dogs Entertainment at Aura Kitchen & Bar for College Hits: Throughout the Years Music Bingo from 7:30–9:30 PM. This is one of four confirmed Thursday trial dates.",
+    image: '/images/hero.jpg',
+    featured: false,
+    status: 'scheduled',
+  },
+
+  {
+    id: 'aura-2026-10-29',
+    slug: 'spooky-vibes-music-bingo-aura-2026-10-29',
+    title: "Spooky Vibes Music Bingo",
+    date: '2026-10-29',
+    startTime: '7:30 PM',
+    endTime: '9:30 PM',
+    venueId: 'aura',
+    eventType: 'Music Bingo',
+    theme: "Spooky Vibes",
+    shortDescription: "Spooky Vibes Music Bingo at Aura Kitchen & Bar, part of the four-night Thursday trial.",
+    description: "Join Four Dogs Entertainment at Aura Kitchen & Bar for Spooky Vibes Music Bingo from 7:30–9:30 PM. This is one of four confirmed Thursday trial dates.",
+    image: '/images/hero.jpg',
+    featured: false,
+    status: 'scheduled',
+  },
+
+  {
+    id: 'aura-2026-11-05',
+    slug: 'dj-jimbo-master-class-music-bingo-aura-2026-11-05',
+    title: "DJ Jimbo’s Master Class Music Bingo",
+    date: '2026-11-05',
+    startTime: '7:30 PM',
+    endTime: '9:30 PM',
+    venueId: 'aura',
+    eventType: 'Music Bingo',
+    theme: "DJ Jimbo’s Master Class",
+    shortDescription: "DJ Jimbo’s Master Class Music Bingo at Aura Kitchen & Bar, part of the four-night Thursday trial.",
+    description: "Join Four Dogs Entertainment at Aura Kitchen & Bar for DJ Jimbo’s Master Class Music Bingo from 7:30–9:30 PM. This is one of four confirmed Thursday trial dates.",
+    image: '/images/hero.jpg',
+    featured: false,
+    status: 'scheduled',
+  },
+
+  {
+    id: 'aura-2026-11-12',
+    slug: 'screen-time-music-bingo-aura-2026-11-12',
+    title: "Screen Time Music Bingo",
+    date: '2026-11-12',
+    startTime: '7:30 PM',
+    endTime: '9:30 PM',
+    venueId: 'aura',
+    eventType: 'Music Bingo',
+    theme: "Screen Time",
+    shortDescription: "Screen Time Music Bingo at Aura Kitchen & Bar, part of the four-night Thursday trial.",
+    description: "Join Four Dogs Entertainment at Aura Kitchen & Bar for Screen Time Music Bingo from 7:30–9:30 PM. This is one of four confirmed Thursday trial dates.",
+    image: '/images/hero.jpg',
+    featured: false,
+    status: 'scheduled',
+  },
+
   {
     id: 'mill-2026-09-21',
     slug: 'are-you-smarter-than-a-barstool-mill-fountain-inn-2026-09-21',
@@ -387,14 +456,14 @@ const currentEvents: Event[] = [
   {
     id: 'charter-2026-10-19',
     slug: 'comedy-night-charter-803-2026-10-19',
-    title: 'Comedy Night',
+    title: 'Open Mic',
     date: '2026-10-19',
     startTime: '7:00 PM',
     venueId: 'charter-803',
-    eventType: 'Comedy Night',
-    theme: 'Comedy Night',
-    shortDescription: 'A new Four Dogs event at Charter 803, open to comics.',
-    description: 'Four Dogs Entertainment presents Comedy Night at Charter 803. This is a new event and is open to comics.',
+    eventType: 'Open Mic',
+    theme: 'Open Mic',
+    shortDescription: 'Open Mic at Charter 803, hosted by Four Dogs Entertainment.',
+    description: 'Four Dogs Entertainment presents Open Mic at Charter 803 on October 19 at 7:00 PM.',
     image: '/images/hero.jpg',
     registrationUrl: 'https://form.jotform.com/262635497584068',
     registrationLabel: 'Sign up to compete',
@@ -419,14 +488,14 @@ const currentEvents: Event[] = [
   {
     id: 'top-dawg-2026-10-20',
     slug: 'spooky-season-music-bingo-top-dawg-2026-10-20',
-    title: 'Spooky Season Music Bingo',
+    title: 'Music Bingo: Hydrocephalus Association Fundraiser',
     date: '2026-10-20',
     startTime: '6:30 PM',
     venueId: 'top-dawg',
     eventType: 'Music Bingo',
-    theme: 'Spooky Season Music Bingo',
-    shortDescription: 'Halloween-season favorites, spooky songs, and recognizable crowd-pleasers fill the bingo cards.',
-    description: 'Join Four Dogs Entertainment at Top Dawg Tavern for Spooky Season Music Bingo.',
+    theme: 'Hydrocephalus Association Fundraiser',
+    shortDescription: 'Music Bingo at Top Dawg Tavern supporting the Hydrocephalus Association.',
+    description: 'Join Four Dogs Entertainment at Top Dawg Tavern for Music Bingo supporting the Hydrocephalus Association.',
     image: '/images/hero.jpg',
     featured: false,
     status: 'scheduled',
@@ -570,14 +639,15 @@ const currentEvents: Event[] = [
   {
     id: 'charter-2026-10-30',
     slug: 'murder-mystery-black-sheep-bourbon-society-charter-803-2026-10-30',
-    title: 'Murder Mystery Trivia: Black Sheep Bourbon Society',
+    title: 'The Saluda Mill Murder',
     date: '2026-10-30',
     startTime: '7:30 PM',
     venueId: 'charter-803',
     eventType: 'Trivia',
-    theme: 'Black Sheep Bourbon Society',
+    theme: 'The Saluda Mill Murder',
+    locationName: 'Black Sheep Bourbon Society',
     shortDescription: 'A featured ticketed Murder Mystery Trivia event where teams answer questions, follow clues, and solve the case.',
-    description: 'A mystery awaits. Four Dogs Entertainment presents Murder Mystery Trivia: Black Sheep Bourbon Society, a featured ticketed event where teams answer questions, follow clues, and solve the case.',
+    description: 'Four Dogs Entertainment presents The Saluda Mill Murder at Black Sheep Bourbon Society on October 30 at 7:30 PM. Follow clues and solve the case at this ticketed murder mystery event.',
     image: '/images/hero.jpg',
     registrationUrl: 'https://form.jotform.com/262725992611059',
     registrationLabel: 'Get tickets',
@@ -598,10 +668,10 @@ export const events: Event[] = [...outsideCurrentWindow, ...currentEvents].sort(
     a.title.localeCompare(b.title),
 );
 
-export const upcomingEvents = (today?: string) => {
+export const upcomingEvents = (today: string = easternToday()) => {
   const scheduled = events.filter((event) => event.status === 'scheduled');
   return today ? scheduled.filter((event) => event.date >= today) : scheduled;
 };
 
 export const eventsForVenue = (id: string, today?: string) =>
-  upcomingEvents(today).filter((event) => event.venueId === id);
+  upcomingEvents(today).filter((event) => event.venueId === id && !event.locationName);

@@ -68,7 +68,7 @@ const org = {
       {upcoming.length > 0 && (
         <>
           <h2 style="margin-top:3rem">Coming up</h2>
-          <div class="grid" data-event-list data-max-visible="6">{upcoming.map((event) => <EventCard event={event} />)}</div>
+          <div class="grid" data-upcoming-list data-event-list data-max-visible="6">{upcoming.map((event) => <EventCard event={event} />)}</div>
         </>
       )}
     </div>

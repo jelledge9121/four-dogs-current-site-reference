@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "restore-assets": "node scripts/restore-binary-assets.mjs",
-    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && node scripts/assemble-bury-me-in-garnet.mjs && astro check && astro build && node scripts/qa.mjs",
+    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && node scripts/assemble-bury-me-in-garnet.mjs && astro check && astro build && node scripts/qa.mjs && npm run test:events",
     "preview": "astro preview",
     "check": "astro check",
-    "qa": "node scripts/qa.mjs"
+    "qa": "node scripts/qa.mjs",
+    "test:events": "node scripts/test-event-freshness.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

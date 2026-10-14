@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ReviewCard from '../components/ReviewCard.astro';
-import { featuredReviews } from '../data/reviews';
+import { venueOwnerReview } from '../data/reviews';
 import { venues } from '../data/venues';
 const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedule.length > 0);
 ---
@@ -87,7 +87,7 @@ const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedu
     <div class="container">
       <p class="eyebrow">A venue owner’s perspective</p>
       <h2>A partnership built around memorable experiences.</h2>
-      {featuredReviews[0] && <ReviewCard review={featuredReviews[0]} excerpt="forVenues" showFull={true} />}
+      {venueOwnerReview && <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />}
     </div>
   </section>
 
