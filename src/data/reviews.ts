@@ -17,6 +17,20 @@ export type Review = {
 
 export const reviews: Review[] = [
   {
+    id: 'leslie-lane-girls-in-aviation-facebook',
+    quote: "I want to reach out and thank this DJ Joey for his incredible generosity and support and our girls in aviation day he graciously donated his time drove 2 hours to be a part of our event and did not charge; his willingness to give back and make this a special day a success speaks volumes about his character and heart for the community. his time and talent and generosity helped make the event more memorable to the girls and everyone involved it's wonderful to work with somebody who goes above and beyond to support such a meaningful cause we are truly grateful for his kindness professionalism and willingness to make a difference highly recommend Joey to anyone looking for a DJ who only not does a great job but has a heart for giving back to our community thank you for helping make girls and aviation day so special",
+    excerpts: {
+      homepage: "It's wonderful to work with somebody who goes above and beyond to support such a meaningful cause.",
+      forVenues: 'His time and talent and generosity helped make the event more memorable to the girls and everyone involved.',
+    },
+    name: 'Leslie Lane',
+    title: 'Girls In Aviation Day · Facebook Recommendation',
+    source: 'Facebook recommendation',
+    eventType: 'Community Event DJ & Hosting',
+    featured: true,
+    approved: true,
+  },
+  {
     id: 'mckell-tew-girls-in-aviation-google',
     quote: 'Joey and Four Dogs Entertainment were amazing at our Girls In Aviation Day! Kept the 150+ person crowd engaged, and hyped up for the entire afternoon. All family friendly music, high quality equipment with amazing sound and a very aesthetic set up! We love Four Dogs Entertainment!!!',
     excerpts: {
