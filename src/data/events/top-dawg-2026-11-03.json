@@ -1,0 +1,27 @@
+{
+  "id": "top-dawg-2026-11-03",
+  "slug": "disney-trivia-top-dawg-2026-11-03",
+  "title": "Disney Trivia",
+  "date": "2026-11-03",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "Disney Trivia",
+  "shortDescription": "Disney Trivia with Four Dogs Entertainment at Top Dawg Tavern.",
+  "description": "Bring your people to Top Dawg Tavern for Disney Trivia with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false
+}

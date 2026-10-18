@@ -11,6 +11,16 @@ const now=new Date('2026-10-18T02:11:33Z');
 const sample=all.find(e=>e.id==='wesco-2026-10-20')!;
 const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
+test('November publication follows the owner-issued October 16 schedule without tentative themes or Thanksgiving bookings',()=>{
+ const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
+ assert.equal(november.length,26);
+ assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:4,'charter-803':7,bozes:4,aura:2});
+ assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
+ assert.match(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title||'',/Passport Pop/);
+ assert.ok(!november.some(e=>e.venueId==='charter-803'&&e.date==='2026-11-26'));
+ assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
+ assert.equal(november.find(e=>e.venueId==='top-dawg'&&e.date==='2026-11-03')?.endTime,undefined);
+});
 test('Upcoming listings exclude July, August, September, and expired October dates',()=>assert.ok(selectEvents(all,venues,{now}).every(e=>e.date>='2026-10-17')));
 test('Chronology uses timestamps across noon, PM, and overnight events',()=>{const morning=mutate({id:'m',slug:'m',startTime:'11:00 AM'}),evening=mutate({id:'e',slug:'e',startTime:'6:00 PM',endTime:'8:00 PM'});assert.deepEqual(selectEvents([evening,morning],venues,{now}).map(e=>e.id),['m','e']);});
 test('An event remains live until its scheduled end, then expires exactly at the end',()=>{assert.equal(phase(sample,new Date('2026-10-21T00:59:59Z')),'live');assert.equal(phase(sample,new Date('2026-10-21T01:00:00Z')),'completed');});

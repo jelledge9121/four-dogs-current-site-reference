@@ -1,0 +1,28 @@
+{
+  "id": "the-mill-2026-11-30",
+  "slug": "are-you-smarter-than-a-barstool-the-mill-2026-11-30",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-11-30",
+  "startTime": "7:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "Are You Smarter Than a Barstool? with Four Dogs Entertainment at The Mill at Fountain Inn.",
+  "description": "Bring your people to The Mill at Fountain Inn for Are You Smarter Than a Barstool? with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false,
+  "endTime": "9:00 PM"
+}

@@ -2,6 +2,7 @@ backend:
   name: github
   repo: jelledge9121/four-dogs-current-site-reference
   branch: main
+  auth_scope: public_repo
   site_domain: 4dogsentertainment.netlify.app
 publish_mode: editorial_workflow
 media_folder: public/images/events

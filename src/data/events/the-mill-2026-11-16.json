@@ -1,0 +1,28 @@
+{
+  "id": "the-mill-2026-11-16",
+  "slug": "trivia-at-the-mill-the-mill-2026-11-16",
+  "title": "Trivia at The Mill",
+  "date": "2026-11-16",
+  "startTime": "7:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Trivia",
+  "theme": "Trivia at The Mill",
+  "shortDescription": "Trivia at The Mill with Four Dogs Entertainment at The Mill at Fountain Inn.",
+  "description": "Bring your team for Four Dogs trivia at The Mill at Fountain Inn. The theme will be announced after confirmation.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false,
+  "endTime": "9:00 PM"
+}

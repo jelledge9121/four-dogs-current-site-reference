@@ -1,6 +1,6 @@
 # Four Dogs event administrator guide
 
-The central event source and public calendar have been tested in the hosted preview. The editor configuration loads, but its Netlify GitHub OAuth endpoint returns Not Found. A Netlify project administrator must complete the one-time connection below before nontechnical editing is available.
+The central event source and public calendar have been tested in production. The editor configuration loads, but its Netlify GitHub OAuth endpoint returns Not Found. The existing Netlify project has no authentication provider installed. A project administrator must complete the one-time connection below before nontechnical editing is available.
 
 ## One-time connection
 
@@ -9,6 +9,10 @@ The site keeps its existing Astro code and GitHub repository. The event editor i
 A Netlify project administrator must configure GitHub OAuth for this existing project using Netlify's authentication-provider setup. This is separate from Netlify Identity and from public-site access restrictions. Give each editor their own GitHub identity and the repository access needed to edit public content. Do not share access tokens or put credentials in the source. Instructions: https://decapcms.org/docs/github-backend/ and https://docs.netlify.com/manage/security/secure-access-to-sites/oauth-provider-tokens/
 
 Keep editorial workflow enabled. GitHub and Netlify successfully built the implementation pull request and Netlify created its deploy preview. After connecting OAuth, verify the complete editor flow with a draft: save, upload an authentic image, inspect its preview, and publish a confirmed public change. A successful source build alone does not verify editor authentication or permissions.
+
+Use the existing project's **Project configuration → Security → OAuth → Install provider → GitHub**. Register or reuse a GitHub OAuth application with homepage `https://4dogsentertainment.com` and callback `https://api.netlify.com/auth/done`. The account owner must create and enter the client secret securely in Netlify. Do not put it in this repository, screenshots, reports, or chat. This setup does not require Netlify Identity or a new authentication service.
+
+The editor requests `public_repo`, supported by the pinned Decap version, instead of the broader `repo` scope. This repository is public. GitHub OAuth cannot limit that scope to one repository, so the owner must review the consent screen. Only GitHub users with push access to the content repository can edit it. Keep open authoring disabled. Do not grant staff access to unrelated repositories for this workflow.
 
 ## Add or edit a public event
 

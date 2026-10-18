@@ -1,0 +1,27 @@
+{
+  "id": "charter-803-2026-11-18",
+  "slug": "boots-beer-and-bingo-charter-803-2026-11-18",
+  "title": "Boots, Beer and Bingo",
+  "date": "2026-11-18",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Boots, Beer and Bingo",
+  "shortDescription": "Boots, Beer and Bingo with Four Dogs Entertainment at Charter 803 Bar & Grill.",
+  "description": "Bring your people to Charter 803 Bar & Grill for Boots, Beer and Bingo with Four Dogs Entertainment. Listen for songs, mark your card, and join the Music Bingo fun.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false
+}

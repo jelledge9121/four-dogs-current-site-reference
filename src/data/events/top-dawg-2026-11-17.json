@@ -1,0 +1,27 @@
+{
+  "id": "top-dawg-2026-11-17",
+  "slug": "pass-the-plate-jim-s-favorite-things-top-dawg-2026-11-17",
+  "title": "Pass the Plate: Jim’s Favorite Things",
+  "date": "2026-11-17",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "Pass the Plate: Jim’s Favorite Things",
+  "shortDescription": "Pass the Plate: Jim’s Favorite Things with Four Dogs Entertainment at Top Dawg Tavern.",
+  "description": "Bring your people to Top Dawg Tavern for Pass the Plate: Jim’s Favorite Things with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false
+}

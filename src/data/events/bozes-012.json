@@ -1,20 +1,20 @@
 {
   "id": "bozes-012",
   "slug": "one-hit-wonders-guilty-pleasures-music-bingo-bozes-2026-11-04",
-  "title": "One-Hit Wonders & Guilty-Pleasure Singalongs Music Bingo",
+  "title": "Boots, Beer and Bingo",
   "date": "2026-11-04",
   "startTime": "7:30 PM",
   "venueId": "bozes",
   "eventType": "Music Bingo",
-  "theme": "One-Hit Wonders & Guilty-Pleasure Singalongs",
-  "shortDescription": "Recognizable one-hit wonders and songs everybody knows whether they admit it or not.",
-  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for One-Hit Wonders & Guilty-Pleasure Singalongs Music Bingo.",
+  "theme": "Boots, Beer and Bingo",
+  "shortDescription": "Boots, Beer and Bingo with Four Dogs Entertainment at Boze's Restaurant & Bar.",
+  "description": "Bring your people to Boze's Restaurant & Bar for Boots, Beer and Bingo with Four Dogs Entertainment. Listen for songs, mark your card, and join the Music Bingo fun.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,7 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details.",
-  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ.",
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
   "ticketed": false
 }
