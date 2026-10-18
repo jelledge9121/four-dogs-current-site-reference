@@ -14,10 +14,15 @@
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T02:26:33Z",
+  "lastUpdated": "2026-10-18T03:29:55Z",
   "admission": {
-    "kind": "unknown"
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
   },
-  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
-  "reviewReason": "Website says Movies, Music & Monsters. Staffing calendar says Strange But True Trivia. Confirm the current theme before republishing."
+  "instructions": "Contact the venue for seating or participation details.",
+  "reviewReason": "Website says Movies, Music & Monsters. Staffing calendar says Strange But True Trivia. Confirm the current theme before republishing.",
+  "ticketed": false
 }

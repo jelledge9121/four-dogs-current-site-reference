@@ -15,9 +15,14 @@
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T02:26:33Z",
+  "lastUpdated": "2026-10-18T03:29:55Z",
   "admission": {
-    "kind": "unknown"
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
   },
-  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+  "instructions": "Contact the venue for seating or participation details.",
+  "ticketed": false
 }
