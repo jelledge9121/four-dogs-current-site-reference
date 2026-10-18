@@ -1,6 +1,6 @@
 # Four Dogs event administrator guide
 
-This guide describes the editor included in the event-discovery branch. Editor sign-in, hosted preview, and publication must be verified before the workflow is considered live.
+The central event source and public calendar have been tested in the hosted preview. The editor configuration loads, but its Netlify GitHub OAuth endpoint returns Not Found. A Netlify project administrator must complete the one-time connection below before nontechnical editing is available.
 
 ## One-time connection
 
@@ -8,7 +8,7 @@ The site keeps its existing Astro code and GitHub repository. The event editor i
 
 A Netlify project administrator must configure GitHub OAuth for this existing project using Netlify's authentication-provider setup. This is separate from Netlify Identity and from public-site access restrictions. Give each editor their own GitHub identity and the repository access needed to edit public content. Do not share access tokens or put credentials in the source. Instructions: https://decapcms.org/docs/github-backend/ and https://docs.netlify.com/manage/security/secure-access-to-sites/oauth-provider-tokens/
 
-Keep editorial workflow enabled. Verify that Netlify builds a preview for the editor's pull request and that the production branch deploys only a successful build. The connected tools did not establish either setting, and no main-branch merge or production deployment was performed as part of preparing this branch.
+Keep editorial workflow enabled. GitHub and Netlify successfully built the implementation pull request and Netlify created its deploy preview. After connecting OAuth, verify the complete editor flow with a draft: save, upload an authentic image, inspect its preview, and publish a confirmed public change. A successful source build alone does not verify editor authentication or permissions.
 
 ## Add or edit a public event
 

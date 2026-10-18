@@ -1,6 +1,6 @@
 # Event discovery implementation status
 
-Prepared October 17, 2026, America/New_York. Implemented on `event-discovery-upgrade-2026-10-17`. Production deployment and hosted acceptance checks are pending. No production release or external calendar submission is claimed.
+Prepared October 17, 2026, America/New_York. Implemented on `event-discovery-upgrade-2026-10-17` and verified in Netlify deploy preview #13. Release status is recorded in the completion report and the GitHub pull request. External calendar submissions and the editor OAuth connection remain pending.
 
 ## Baseline and recovery
 
@@ -35,15 +35,19 @@ The calendar defaults to 30 days and supports normal HTML GET filters. Every eli
 
 The murder-mystery venue identity, title, 7:30 PM start, $25 admission, first-drink inclusion, and 21+ photo-ID requirement are corrected. Its calendar placeholder end time is deliberately omitted. WesCo's October 20 start is 7 PM. Its October 27 theme conflict is placed into review instead of silently resolved. Aura's recurring series stops on November 12.
 
-JSON-LD uses explicit EDT/EST offsets, verified location and organizer data, known end times, status/previous-date handling, and verified prices only. The sitemap includes stable public occurrences and excludes private, draft, and unresolved-review records. Googlebot and OAI-SearchBot are explicitly allowed; existing public-site protections are preserved. The admin route alone has the narrower third-party access needed for editor authentication.
+JSON-LD uses explicit EDT/EST offsets, verified location and organizer data, known end times, status/previous-date handling, and verified prices only. The sitemap includes stable public occurrences and excludes private, draft, and unresolved-review records. Googlebot and OAI-SearchBot are explicitly allowed; existing public-site protections are preserved. The admin route alone permits the pinned official Decap bundle and GitHub/Netlify connections. Decap's AJV schema validator also needs runtime compilation, so its `unsafe-eval` exception is confined to `/admin/`; public pages retain their previous policy.
 
-The editor configuration supports event facts, venue changes, status changes, photographs, admission, registration, recurrence bounds, exceptions, and external listing tracking. Its GitHub OAuth connection and publish flow have not been authenticated or tested. Host assignments remain in the existing private staffing calendar because the source repository is public.
+The editor configuration supports event facts, venue changes, status changes, photographs, admission, registration, recurrence bounds, exceptions, and external listing tracking. The editor now loads its configuration successfully. Its GitHub sign-in reaches a Netlify OAuth endpoint that returns Not Found, so authentication, image upload, and save/publish round trips remain blocked until a Netlify administrator configures the existing project connection. Host assignments remain in the existing private staffing calendar because the source repository is public.
 
 ## Verification
 
 Automated behavior tests, Astro checks, static-output QA, and request-based rendering QA are part of the build. See the generated completion report for final counts. These checks cover schedule ordering, expiry at known end time, overnight events, DST gaps and repeated hours, private/draft suppression, bounded recurrences, exceptions, filters, metadata, JSON-LD, links, sitemap, and preserved booking markup.
 
-Pending: hosted preview, phone/browser and keyboard testing, editor login and image-upload round trip, a preview booking-form submission, hosted ticket-link checks, Google Rich Results Test, Schema.org validator, Search Console access, and production deployment. Browser QA could not be performed with the available supported website workflow. The available Netlify connector exposes project/deploy inspection but no callable deployment operation. GitHub branch and pull-request preparation are available.
+Hosted preview checks passed for calendar navigation, city filters, event details, 320 px and 390 px phone layouts without horizontal overflow, mobile navigation, and keyboard focus. The existing booking form and its holiday-service interaction work; its required fields and Netlify form metadata remain intact. No test booking was sent to the production notification recipients.
+
+Google Rich Results Test detected one valid Event and one valid Breadcrumb on both the murder-mystery and October 19 Mill pages. Optional event-property warnings remain where facts are not confirmed. Netlify intentionally applies noindex to deploy previews, so these previews are not indexable. Schema.org Validator reported zero errors and zero warnings for the murder-mystery page. Hosted HTTP checks confirm public route responses and crawler user-agent access.
+
+GitHub Actions and Netlify both built the tested branch successfully. Production uses the existing Git deployment path after merge; the original production deploy and backup branch remain the rollback point. Editor authentication and its upload/save/publish round trip, Search Console submission, and a booking-form delivery test remain unverified. The completion report records the final production smoke-test result.
 
 ## Fact review queue
 

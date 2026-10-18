@@ -4,7 +4,7 @@ The website's canonical event page is the public source of truth. This branch pr
 
 | Channel | Prepared support | Remaining action |
 | --- | --- | --- |
-| Google event discovery | JSON-LD on each eligible occurrence; event sitemap; crawlable links | Deploy, run Rich Results Test, and submit/inspect the sitemap in Search Console with authorized access |
+| Google event discovery | JSON-LD on each eligible occurrence; event sitemap; crawlable links | Representative Rich Results and Schema.org tests passed; submit/inspect the production sitemap in Search Console with authorized access |
 | Venue Google Business Profiles | Exact occurrence URL and listing text | Venue owner publishes or corrects their own listing |
 | Facebook Events | Dated title, description, location, price, canonical URL, and image reference | Update Four Dogs-owned events through authorized Facebook access |
 | Meetup | Same listing package | Verify organizer access and recurring-event exception support |
