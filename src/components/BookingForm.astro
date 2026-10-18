@@ -2,16 +2,17 @@
 import {services} from '../data/services';
 import { site } from '../data/site';
 ---
-<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
+<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field" aria-describedby="booking-form-hint">
   <input type="hidden" name="form-name" value="booking">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
+  <p id="booking-form-hint" class="fine">Required fields are marked “required.”</p>
   <div class="form-grid">
-    <label>Name <input name="name" autocomplete="name" required></label>
-    <label>Phone <input name="phone" type="tel" autocomplete="tel" required></label>
-    <label>Email <input name="email" type="email" autocomplete="email" required></label>
+    <label>Name (required) <input name="name" autocomplete="name" required></label>
+    <label>Phone (required) <input name="phone" type="tel" autocomplete="tel" required></label>
+    <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
     <label>Preferred date <input id="preferred-date" name="preferred-date" type="date"></label>
-    <label>Service
+    <label>Service (required)
       <select id="service" name="service" required>
         <option value="">Choose one</option>
         {services.map(s=><option value={s.bookingValue} data-service-slug={s.slug}>{s.bookingValue}</option>)}
@@ -51,6 +52,7 @@ import { site } from '../data/site';
 
     <label class="wide">How did you hear about Four Dogs?
       <select name="referral-source">
+        <option value="">Choose one if you’d like</option>
         <option>Google</option>
         <option>ChatGPT / AI Search</option>
         <option>Facebook</option>

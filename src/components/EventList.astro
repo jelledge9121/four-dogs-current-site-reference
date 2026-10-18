@@ -7,4 +7,4 @@ const { city, venue, category, limit = 6 } = Astro.props;
 const end = addDays(localToday(),30);
 const matches = upcomingEvents().filter(e=>e.date<=end && (!city || (Array.isArray(city) ? city.includes(venueById(e.venueId).city) : venueById(e.venueId).city===city)) && (!venue || e.venueId===venue) && (!category || e.eventType===category || e.secondaryCategories?.includes(category))).slice(0,limit);
 ---
-{matches.length ? <div class="grid">{matches.map(event=><EventCard event={event}/>)}</div> : <p>No confirmed public events match this location or activity in the next 30 days. <a href="/events/">Explore all events</a> or <a href="/booking/">plan an event with Four Dogs</a>.</p>}
+{matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <p>No confirmed public events match this location or activity in the next 30 days. <a href="/events/">Explore all events</a> or <a href="/booking/">plan an event with Four Dogs</a>.</p>}

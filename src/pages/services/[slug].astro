@@ -254,37 +254,37 @@ const faqSchema = {
 <Base title={detail.title} description={detail.description} schema={[serviceSchema, faqSchema]}>
   <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Services', href: '/services/' }, { name: service.name }]} />
 
-  <section class="section dark">
+  <section class="section dark service-hero">
     <div class="container">
-      <p class="eyebrow">Four Dogs experience</p>
+      
       <h1>{service.name}</h1>
       <p class="lead">{service.summary}</p>
       <div class="actions">
         <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
-        <a class="button secondary" href="/events/">Find an event</a>
+        <a class="button secondary" href={'/events/'+(['trivia','music-bingo','karaoke'].includes(service.slug)?`?category=${encodeURIComponent(service.name)}`:'')}>Find an event</a>
       </div>
     </div>
   </section>
 
+  {['trivia','music-bingo','karaoke'].includes(service.slug) && <section class="service-calendar-link"><div class="container"><h2>Come play at a local event.</h2><p>Find confirmed dates, themes, and venues in the current calendar.</p><a class="button" href={`/events/?category=${encodeURIComponent(service.name)}`}>Find upcoming {service.name}</a></div></section>}
+
   <section class="section">
     <div class="container split">
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : `Guests enjoying ${service.name} with Four Dogs Entertainment`} loading="lazy" />
+      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} loading="lazy" />
     </div>
   </section>
 
   <section class="section alt">
     <div class="container">
-      <p class="eyebrow">Who it works for</p>
       <h2>Built around the group in the room.</h2>
-      <div class="grid">{detail.audiences.map((audience) => <article class="card"><h3>{audience}</h3></article>)}</div>
+      <ul class="audience-list">{detail.audiences.map(audience=><li>{audience}</li>)}</ul>
     </div>
   </section>
 
   <section class="section">
     <div class="container split">
       <div>
-        <p class="eyebrow">What Four Dogs provides</p>
         <h2>A hosted experience from planning through the event.</h2>
       </div>
       <ul>{detail.includes.map((item) => <li>{item}</li>)}</ul>
@@ -294,7 +294,6 @@ const faqSchema = {
   {holidayEligible && (
     <section class="section alt">
       <div class="container holiday-callout">
-        <p class="eyebrow">Holiday add-on</p>
         <h2>One holiday party can work for the whole crowd.</h2>
         <p>For company parties, HOA celebrations, community events, and mixed-age private gatherings, pair Four Dogs entertainment with a traditional real-beard Santa Jim appearance. Santa can anchor the family-friendly holiday moment while Four Dogs keeps the broader event moving with DJ entertainment, Music Bingo, trivia, Survey Showdown, or hosted games.</p>
         <div class="actions">
@@ -308,7 +307,6 @@ const faqSchema = {
   {review && (
     <section class="section alt">
       <div class="container">
-        <p class="eyebrow">Real feedback</p>
         <h2>What people say about Four Dogs.</h2>
         <figure class="testimonial">
           <blockquote><p>“{review.excerpts.homepage}”</p></blockquote>
@@ -320,7 +318,6 @@ const faqSchema = {
 
   <section class="section">
     <div class="container">
-      <p class="eyebrow">Frequently asked questions</p>
       <h2>What to know before you book.</h2>
       <div class="prose">{detail.faqs.map((faq) => <section><h3>{faq.question}</h3><p>{faq.answer}</p></section>)}</div>
     </div>
@@ -328,7 +325,6 @@ const faqSchema = {
 
   <section class="section alt">
     <div class="container">
-      <p class="eyebrow">Related Four Dogs pages</p>
       <h2>Keep exploring.</h2>
       <div class="grid">{detail.related.map((link) => <a class="card" href={link.href}><h3>{link.label}</h3><p>Learn more →</p></a>)}</div>
     </div>

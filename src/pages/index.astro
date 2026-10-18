@@ -8,193 +8,44 @@ import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
-
 const upcoming = upcomingEvents().slice(0,6);
-const homepageGallery = gallery.filter((item) => item.type === 'image').slice(0, 6);
-const org = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: site.name,
-  url: site.url,
-  logo: `${site.url}/images/logo.png`,
-  sameAs: [site.facebook, site.instagram, site.tiktok, site.meetup],
-  areaServed: { '@type': 'State', name: 'South Carolina' },
-};
+const homepageGallery = gallery.filter(item=>item.type==='image').slice(0,6);
+const org = {'@context':'https://schema.org','@type':'Organization',name:site.name,url:site.url,logo:`${site.url}/images/logo.png`,sameAs:[site.facebook,site.instagram,site.tiktok,site.meetup],areaServed:{'@type':'State',name:'South Carolina'}};
 ---
-<Base title="Trivia, Music Bingo, DJ & Event Entertainment Across South Carolina | Four Dogs" description="Four Dogs Entertainment brings trivia, Music Bingo, DJs, photo booth rentals, weddings, and private-event entertainment to Columbia, Lexington, Greenville, Charleston, and across South Carolina." schema={org}>
-  <section class="hero home-hero">
-    <div class="container">
-      <p class="eyebrow">Four Dogs Entertainment</p>
+<Base title="Trivia, Music Bingo, DJ & Event Entertainment Across South Carolina | Four Dogs" description="Find Four Dogs trivia, Music Bingo, and local events in Lexington, Columbia, West Columbia, Cayce, and Fountain Inn. Book DJs, weddings, and private entertainment across South Carolina." schema={org}>
+<section class="home-intro">
+  <div class="container home-intro-grid">
+    <div class="home-intro-copy">
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p>People need more reasons to come together. Four Dogs creates trivia, Music Bingo, DJ entertainment, photo booth rentals, weddings, private events, and interactive game nights across all of South Carolina.</p><p class="fine"><strong>Based in South Carolina. Available statewide.</strong></p>
-      <div class="actions">
-        <a class="button" href="/events/">Find an event</a>
-        <a class="button secondary" href="/booking/">Book Four Dogs</a>
-      </div>
+      <p class="lead">Trivia, Music Bingo, karaoke, and nights worth getting your friends together for. Wedding DJs and private entertainment, too.</p>
+      <p class="home-location">Locally owned in South Carolina. Find us around the Midlands and Fountain Inn. Book us statewide.</p>
+      <div class="actions"><a class="button" href="/events/">Find an event</a><a class="button secondary" href="/booking/">Book Four Dogs</a></div>
     </div>
-  </section>
-
-  <section class="section alt" id="four-dogs-song">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">The Four Dogs Song</p>
-        <h2>Turn it up. This is Four Dogs.</h2>
-        <p class="lead">Our original brand song puts the Doggone Good Time into music. Press play and meet the sound of the pack.</p>
-      </div>
-      <div class="card song-card">
-        <p class="eyebrow">Press play</p>
-        <h3>The Four Dogs Entertainment Song</h3>
-        <audio class="song-player" style="width:100%" controls preload="metadata" src="/audio/four-dogs-song.mp3">
-          Your browser does not support the audio player.
-        </audio>
-        <p style="margin:1rem 0 0"><a href="/bury-me-in-garnet/" style="font-weight:900;color:var(--navy)">Hear Bury Me in Garnet, our Gamecock fan song series →</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">This week with Four Dogs</p>
-      <h2>Your week needs something to look forward to.</h2>
-      <p>Confirmed dates, themes, and times come straight from our event calendar.</p>
-      <div class="actions"><a href="/events/">Browse by city, venue, or activity →</a></div>
-      {upcoming.length > 0 ? (
-        <>
-          <h2 style="margin-top:3rem">Coming up</h2>
-          <div class="grid" >{upcoming.map((event) => <EventCard event={event} />)}</div>
-        </>
-      ) : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <p class="eyebrow">Who are you planning for?</p>
-      <h2>There’s a Four Dogs path for your people.</h2>
-      <div class="grid">
-        {[
-          ['Bar & restaurant owners', 'Give guests a reason to come back every week.', '/for-venues/'],
-          ['Brides & couples', 'Create a celebration that feels like your people.', '/weddings/'],
-          ['Businesses & organizations', 'Turn the room into something everyone participates in.', '/services/private-corporate-events/'],
-          ['Private parties & communities', 'Give your group something memorable to do together.', '/services/private-corporate-events/'],
-          ['People looking for something fun', 'Grab your people and find your next night out.', '/events/'],
-        ].map((path) => (
-          <a class="card" href={path[2]}>
-            <h3>{path[0]}</h3>
-            <p>{path[1]}</p>
-            <p>Explore your options →</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">Entertainment near you</p>
-      <h2>Four Dogs across South Carolina.</h2>
-      <p class="lead">Explore current local hubs below. Four Dogs also travels statewide for weddings, private events, corporate events, community events, and venue entertainment anywhere in South Carolina.</p>
-      <div class="grid">
-        <a class="card" href="/areas/lexington-sc/"><h3>Lexington</h3><p>Trivia, Music Bingo, weddings, private events, and venue entertainment.</p></a>
-        <a class="card" href="/areas/columbia-sc/"><h3>Columbia</h3><p>Trivia, DJ entertainment, weddings, private events, and venue programming.</p></a>
-        <a class="card" href="/areas/west-columbia-cayce-sc/"><h3>West Columbia & Cayce</h3><p>Private, community, and venue entertainment options.</p></a>
-        <a class="card" href="/areas/irmo-chapin-sc/"><h3>Irmo & Chapin</h3><p>Entertainment booking options for celebrations, organizations, and venues.</p></a>
-        <a class="card" href="/areas/fountain-inn-sc/"><h3>Fountain Inn</h3><p>Weekly Are You Smarter Than a Barstool? at The Mill plus bookable Four Dogs entertainment.</p></a>
-      </div>
-      <div class="actions">
-        <a href="/trivia-nights-columbia-lexington-sc/">Trivia in Columbia & Lexington →</a>
-        <a href="/music-bingo-columbia-lexington-sc/">Music Bingo in Columbia & Lexington →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section dark">
-    <div class="container">
-      <p class="eyebrow">Four Dogs experiences</p>
-      <h2>Different ways to bring people together.</h2>
-      <div class="grid">
-        {services.map((service) => (
-          <article class="card">
-            <h3>{service.name}</h3>
-            <p>{service.summary}</p>
-            <a href={`/services/${service.slug}/`}>Explore {service.name} →</a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <p class="eyebrow">Real events</p>
-      <h2>Good nights look like this.</h2>
-      <div class="gallery-preview">
-        {homepageGallery.map((photo) => (
-          <figure>
-            <img src={photo.src} alt={photo.alt} loading="lazy" width="800" height="600" />
-            <figcaption>{photo.title ?? photo.category}</figcaption>
-          </figure>
-        ))}
-      </div>
-      <a class="button" href="/gallery/">See the gallery</a>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">What people are saying</p>
-      <h2>Real feedback from Four Dogs guests and clients.</h2>
-      <div class="review-grid">
-        {guestReviews.map((review) => (
-          <article class="review-card">
-            <p class="review-quote">“{review.excerpts.homepage}”</p>
-            <p class="review-attribution"><strong>{review.name}</strong><br />{review.title}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">From a venue partner</p>
-      <h2>Built on collaboration.</h2>
-      {venueOwnerReview && <ReviewCard review={venueOwnerReview} excerpt="homepage" />}
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">For venues</p>
-        <h2>Give people a reason to put your venue on the calendar.</h2>
-        <p>Recurring hosted entertainment creates participation, connection, and something guests can look forward to together.</p>
-        <a class="button" href="/for-venues/">See the venue model</a>
-      </div>
-      <img src="/images/hero.jpg" alt="Guests gathered for a Four Dogs venue event" loading="lazy" />
-    </div>
-  </section>
-
-  <section class="section dark">
-    <div class="container">
-      <p class="eyebrow">Follow the pack</p>
-      <h2>See where Four Dogs goes next.</h2>
-      <div class="actions">
-        <a class="button" href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a class="button secondary" href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a class="button secondary" href={site.tiktok} target="_blank" rel="noopener noreferrer">TikTok</a>
-        <a class="button secondary" href={site.meetup} target="_blank" rel="noopener noreferrer">Meetup</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
-      <div class="actions">
-        <a class="button" href="/events/">Find an event</a>
-        <a class="button secondary" style="color:var(--navy)" href="/booking/">Book Four Dogs</a>
-      </div>
-    </div>
-  </section>
+    <figure class="home-intro-photo">
+      <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="2048" height="1542" alt="Friends at Four Dogs Survey Showdown at Boze’s, holding their team sign and prize" fetchpriority="high"/>
+      <figcaption>Good people. Good nights. Four Dogs at Boze’s in West Columbia.</figcaption>
+    </figure>
+  </div>
+</section>
+<section class="section home-upcoming" aria-labelledby="upcoming-title">
+  <div class="container">
+    <div class="section-heading"><div><h2 id="upcoming-title">Your next night out.</h2><p>See what’s coming up, then bring your people.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>
+    {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
+  </div>
+</section>
+<section class="section alt home-services">
+  <div class="container">
+    <div class="section-heading"><div><h2>Give your people a good time.</h2><p class="lead">A weekly reason to go out. A celebration that feels like you. We’ll help you find the right fit.</p></div><a class="text-action" href="/services/">Explore all experiences →</a></div>
+    <div class="service-directory">{services.filter(s=>!s.featured).map(s=><a href={s.slug==='weddings'?'/weddings/':`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}<a href="/dj-services-columbia-sc/"><h3>DJ entertainment</h3><p>Music and hosting for parties, communities, and celebrations.</p><span aria-hidden="true">→</span></a></div>
+    <details class="original-games"><summary>Looking for something a little different?</summary><div class="service-directory">{services.filter(s=>s.featured).map(s=><a href={`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}</div></details>
+    <div class="home-venue-note"><h3>Run a bar or restaurant?</h3><p>Give guests a reason to come back every week. <a href="/for-venues/">Explore recurring venue entertainment →</a></p></div>
+  </div>
+</section>
+<section class="section">
+  <div class="container"><div class="section-heading"><h2>Good nights look like this.</h2><a class="text-action" href="/gallery/">See the gallery →</a></div><div class="home-photo-grid">{homepageGallery.map(photo=><figure><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async"/><figcaption>{photo.title}</figcaption></figure>)}</div></div>
+</section>
+<section class="section alt home-reviews"><div class="container"><h2>From the people in the room.</h2><div class="review-grid">{guestReviews.slice(0,3).map(review=><article class="review-card"><p class="review-quote">“{review.excerpts.homepage}”</p><p class="review-attribution"><strong>{review.name}</strong><br/>{review.title}</p></article>)}</div><details class="more-reviews"><summary>More guest and client feedback</summary><div class="review-grid">{guestReviews.slice(3).map(review=><article class="review-card"><p class="review-quote">“{review.excerpts.homepage}”</p><p class="review-attribution"><strong>{review.name}</strong><br/>{review.title}</p></article>)}</div></details>{venueOwnerReview && <ReviewCard review={venueOwnerReview} excerpt="homepage"/>}</div></section>
+<section class="section home-local"><div class="container split"><div><h2>Local nights. Statewide celebrations.</h2><p>Find public events around Lexington, Columbia, West Columbia, Cayce, and Fountain Inn. Planning a wedding, company event, or private party? Four Dogs travels across South Carolina.</p></div><div class="local-links"><a href="/areas/lexington-sc/">Lexington</a><a href="/areas/columbia-sc/">Columbia</a><a href="/areas/west-columbia-cayce-sc/">West Columbia & Cayce</a><a href="/areas/irmo-chapin-sc/">Irmo & Chapin</a><a href="/areas/fountain-inn-sc/">Fountain Inn</a><a href="/trivia-nights-columbia-lexington-sc/">Local trivia nights</a><a href="/music-bingo-columbia-lexington-sc/">Local Music Bingo</a></div></div></section>
+<section class="section alt" id="four-dogs-song"><div class="container split"><div><h2>Turn it up. This is Four Dogs.</h2><p>Our original brand song puts the Doggone Good Time into music.</p></div><div><h3>The Four Dogs Entertainment Song</h3><audio style="width:100%" controls preload="none" src="/audio/four-dogs-song.mp3">Your browser does not support the audio player.</audio><p><a href="/bury-me-in-garnet/">Hear Bury Me in Garnet, our Gamecock fan song series →</a></p></div></div></section>
+<section class="section dark"><div class="container split"><div><h2>Let’s put something good on the calendar.</h2><p>Tell us your date, your people, and what you have in mind.</p><div class="actions"><a class="button" href="/booking/">Book Four Dogs</a><a class="button secondary" href="/events/">Find an event</a></div></div><div><h3>Follow the pack.</h3><div class="social-links"><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a><a href={site.tiktok} target="_blank" rel="noopener noreferrer">TikTok</a><a href={site.meetup} target="_blank" rel="noopener noreferrer">Meetup</a></div><p><button class="button secondary" type="button" data-pack-open>Get event text updates</button></p></div></div></section>
 </Base>

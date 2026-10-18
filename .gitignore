@@ -8,3 +8,16 @@ dist/
 
 .netlify/
 artifacts/
+
+# Project-local Impeccable engine and runtime state
+.agents/skills/impeccable/scripts/bin/
+.impeccable/config.local.json
+.impeccable/hook.*.json
+.impeccable/review/
+.impeccable/live/server.json
+.impeccable/*.png
+
+# Reinstall pinned third-party design tooling with scripts/install-design-toolkit.mjs
+.agents/
+
+public/images/optimized/

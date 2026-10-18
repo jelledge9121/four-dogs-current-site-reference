@@ -56,18 +56,7 @@
   (() => {
     const overlay = document.querySelector('[data-pack-popup]');
     if (!overlay) return;
-    // Skip checkout/confirmation pages and limit the interruption to once every seven days.
-    const pathname = window.location.pathname;
-    if (/^\/(booking|thank-you)(\/|$)/.test(pathname)) return;
-    const key = 'four-dogs-pack-popup-last-seen-v1';
-    const sevenDays = 7 * 24 * 60 * 60 * 1000;
-    try {
-      const lastSeen = Number(window.localStorage.getItem(key));
-      if (lastSeen && Date.now() - lastSeen < sevenDays) return;
-    } catch (_) {
-      // Continue in browsers where local storage is unavailable.
-    }
-
+    // This dialog opens only after a visitor requests text updates.
     const isAppleMobile = /iPad|iPhone|iPod/i.test(navigator.userAgent);
     overlay.querySelectorAll('[data-pack-sms]').forEach((link) => {
       link.setAttribute('href', isAppleMobile ? 'sms:+18336315496&body=PACK' : 'sms:+18336315496?body=PACK');
@@ -114,10 +103,9 @@
       originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       overlay.hidden = false;
-      try { window.localStorage.setItem(key, String(Date.now())); } catch (_) {}
       document.addEventListener('keydown', onKeyDown);
       closeButtons[0]?.focus({ preventScroll: true });
     };
-    window.setTimeout(show, 7000);
+    document.querySelectorAll('[data-pack-open]').forEach(button => button.addEventListener('click', show));
   })();
 </script>
