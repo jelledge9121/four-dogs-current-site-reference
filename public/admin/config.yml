@@ -265,7 +265,7 @@ collections:
       name: checkedAt
       widget: datetime
       required: false
-    - label: Website last-updated value copied when synchronized
+    - label: Website revision copied from /admin/distribution/
       name: syncedRevision
       widget: string
       required: false

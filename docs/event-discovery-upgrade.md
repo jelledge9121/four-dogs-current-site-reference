@@ -59,6 +59,6 @@ GitHub Actions and Netlify both built the tested branch successfully. Production
 
 ## External distribution and weekly operation
 
-The next-30-days export command generates submission-ready packages and an update tracker. No external platform listing was submitted, no account created, and no subscription purchased. Use `docs/event-distribution.md` for priorities and source links. Use `docs/event-admin-guide.md` for adding, reviewing, publishing, canceling, and updating events.
+The next-30-days export command generates submission-ready packages and an update tracker. The read-only `/admin/distribution/` listing desk provides copy buttons and outside-listing status. Synchronization compares a revision of public event facts and venue details, so saving tracking metadata does not create false update alerts; shared venue corrections flag affected listings. No external platform listing was submitted, no account created, and no subscription purchased. Use `docs/event-distribution.md` for priorities and source links. Use `docs/event-admin-guide.md` for adding, reviewing, publishing, canceling, and updating events.
 
 Weekly: confirm the next two weeks; edit public records and exceptions once; review the build and mobile preview; publish; then synchronize outside listings using the recorded website revision. Extend a recurring agreement only after the venue confirms its next dates.

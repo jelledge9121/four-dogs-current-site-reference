@@ -44,7 +44,7 @@ This repository is public. Keep weddings, confidential client events, client con
 
 ## External listing updates
 
-Each event has an external-listings list. Record the platform, published URL, check date, and status. After checking an external page, copy the event's latest `lastUpdated` value into that listing's `syncedRevision` and mark it current. A revision mismatch is flagged in listing exports.
+Each event has an external-listings list. Record the platform, published URL, check date, and status. Open `/admin/distribution/` for ready-to-copy event text, website revisions, and a list of outside pages needing attention. After checking an external page, copy its website revision into that listing's `syncedRevision` and mark it current. The revision tracks public facts and shared venue details. Saving only a synchronization update does not falsely mark the listing stale again.
 
 The developer command `npm run export-events` creates submission-ready text and JSON for the next 30 days. A single event's package is also available at `/events/ITS-SLUG/listing.json` after deployment.
 

@@ -34,3 +34,22 @@ test('Stored content contains public copy only, with no private clients or staff
 test('Unverified venue addresses and unconfirmed start times block public publication',()=>{assert.ok(validateEvents([sample],venues.map(v=>({...v,addressVerified:false}))).length);assert.ok(validateEvents([mutate({startTime:undefined,endTime:undefined})],venues).length);});
 test('Duplicate or out-of-agreement recurrence overrides are rejected',()=>{const s=structuredClone(catalog.series[0]) as Series;s.overrides=[{originalDate:'2026-10-22',changes:{}},{originalDate:'2026-10-22',changes:{}}];assert.throws(()=>expandCatalog({events:[],series:[s]},venues));s.overrides=[{originalDate:'2026-11-19',changes:{}}];assert.throws(()=>expandCatalog({events:[],series:[s]},venues));});
 test('External listing packages explicitly carry cancellation and rescheduling status',()=>{assert.equal(listingPackage(mutate({status:'cancelled'}),venues[0]).eventStatus,'cancelled');const p=listingPackage(mutate({status:'rescheduled',previousStartDate:'2026-10-18T19:00:00-04:00'}),venues[0]);assert.equal(p.eventStatus,'rescheduled');assert.ok(p.previousStartDate);});
+test('Recording a successful external update stays current after the editor stamps its save',()=>{
+ const venue=venues.find(v=>v.id===sample.venueId)!;
+ const revision=listingPackage(sample,venue).listingRevision;
+ const saved=mutate({lastUpdated:'2026-10-19T12:00:00Z',externalListings:[{platform:'Community calendar',status:'current',syncedRevision:revision}]});
+ assert.equal(listingPackage(saved,venue).externalListings[0].needsUpdate,false);
+});
+test('A shared venue correction flags previously synchronized listings',()=>{
+ const venue=venues.find(v=>v.id===sample.venueId)!;
+ const revision=listingPackage(sample,venue).listingRevision;
+ const saved=mutate({externalListings:[{platform:'Community calendar',status:'current',syncedRevision:revision}]});
+ assert.equal(listingPackage(saved,{...venue,address:'A corrected verified street address'}).externalListings[0].needsUpdate,true);
+});
+test('Admission and status corrections flag external updates while staffing remains excluded',()=>{
+ const venue=venues.find(v=>v.id===sample.venueId)!;
+ const revision=listingPackage(sample,venue).listingRevision;
+ assert.notEqual(listingPackage(mutate({status:'cancelled'}),venue).listingRevision,revision);
+ assert.notEqual(listingPackage(mutate({admission:{kind:'free',verified:true}}),venue).listingRevision,revision);
+ assert.equal(listingPackage(mutate({assignedHost:'PRIVATE'}),venue).listingRevision,revision);
+});

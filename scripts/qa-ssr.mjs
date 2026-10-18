@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import { App } from 'astro/app';
 import { localSeoPages } from '../src/data/localSeoPages.ts';
-import { expandCatalog, CATEGORIES, categorySlug, phase, isPublic, selectEvents, localToday } from '../src/lib/event-system.ts';
+import { expandCatalog, CATEGORIES, categorySlug, phase, isPublic, selectEvents, localToday, addDays } from '../src/lib/event-system.ts';
 const manifestName=fs.readdirSync('.netlify/build').find(f=>/^manifest_.*\.mjs$/.test(f));
 await import('../.netlify/build/entry.mjs');
 const {manifest}=await import(`../.netlify/build/${manifestName}`);
@@ -22,7 +22,7 @@ async function request(path){
 const staticRoutes=new Set();
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).forEach(e=>e.isDirectory()?walk(dir+'/'+e.name):staticRoutes.add('/'+(dir+'/'+e.name).slice(5)));
 walk('dist');
-const paths=['/','/events/','/admin/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
+const paths=['/','/events/','/admin/','/admin/distribution/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
 const titles=new Map();
 let eventSchemas=0;
 for(const path of paths){
@@ -30,7 +30,7 @@ for(const path of paths){
  assert.equal(page.headers.get('cache-control'),'no-store',`${path} status must refresh on each request`);
  if(!page.headers.get('content-type')?.includes('text/html'))continue;
  const title=page.body.match(/<title>(.*?)<\/title>/)?.[1];assert.ok(title,`${path} title`);assert.ok(!titles.has(title),`${path} duplicate title ${title}`);titles.set(title,path);
- if(path!=='/admin/'){
+ if(!path.startsWith('/admin/')){
   assert.ok(page.body.includes(`rel="canonical" href="${base}${path}"`),`${path} canonical`);
   assert.ok(/<meta name="description" content="[^"]+"/.test(page.body),`${path} description`);
  }
@@ -53,9 +53,10 @@ for(const path of paths){
 }
 const home=await request('/');assert.ok(!home.body.includes('Marvel Trivia'),'homepage excludes expired July event');assert.ok(!home.body.includes('data-past-only'),'no duplicate hidden past status text');
 const calendar=await request('/events/');assert.ok(!calendar.body.includes('Marvel Trivia'),'calendar excludes expired July event');
-const future=await request('/events/stranger-things-trivia-charter-803-2026-10-22/');assert.ok(!future.body.includes('This event has passed'),'future event has no passed label');
+const futureEvent=publicEvents.find(e=>['upcoming','live'].includes(phase(e)));
+if(futureEvent){const future=await request(`/events/${futureEvent.slug}/`);assert.ok(!future.body.includes('This event has passed'),'future event has no passed label');assert.ok(!future.body.includes('This event has ended'),'future event has no completed label');}
 for(const [query,venue] of [['city=Cayce','wesco'],['venue=black-sheep','black-sheep']]){
- const p=await request('/events/?'+query);const ids=[...p.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);assert.ok(ids.length>0);assert.ok(ids.every(id=>all.find(e=>e.id===id)?.venueId===venue));
+ const p=await request('/events/?'+query);const ids=[...p.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);assert.ok(ids.every(id=>all.find(e=>e.id===id)?.venueId===venue));const expected=selectEvents(all,venues,{from:localToday(),to:addDays(localToday(),30),...(query.startsWith('city=')?{city:'Cayce'}:{venue})});assert.deepEqual(ids,expected.map(e=>e.id));
 }
 const archive=await request('/events/?view=archive');assert.ok(archive.body.includes('Marvel Trivia'));
 const noMatches=await request('/events/?city=Irmo');assert.ok(noMatches.body.includes('No matching events'));
@@ -67,5 +68,6 @@ const sitemap=await request('/event-sitemap.xml');assert.ok(sitemap.body.include
 const feed=JSON.parse((await request('/events/feed.json')).body);assert.ok(feed.events.every(e=>!('assignedHost' in e)));assert.ok(feed.events.every(e=>!e.title.includes('Wedding')));
 const listing=JSON.parse((await request('/events/2026-10-30-saluda-mill-murder-black-sheep-bourbon-society-lexington-sc/listing.json')).body);assert.equal(listing.venue,'Black Sheep Bourbon Society');assert.equal(listing.end,'Not confirmed');assert.ok(listing.externalListings.every(l=>l.needsUpdate));
 assert.equal((await request('/events/not-a-real-event/')).status,404);
-const result={testedAt:new Date().toISOString(),dynamicRoutes:paths.length,eventSchemas,renderedRequests:cache.size,checks:'Initial HTML, chronology/archives, filters, event status, canonical URLs, schema, internal links/assets, sitemap, public feeds, conflict suppression, and 404s passed. Browser/mobile interaction and hosted Google Rich Results Test remain pending.'};
+const desk=await request('/admin/distribution/');assert.ok(desk.body.includes('Event listing desk'));if(publicEvents.some(e=>e.externalListings?.length)||selectEvents(all,venues,{from:localToday(),to:addDays(localToday(),30)}).length){assert.ok(desk.body.includes('Ready-to-submit event text'));assert.ok(desk.body.includes('sha256:'));}assert.ok(desk.headers.get('x-robots-tag')?.includes('noindex'));
+const result={testedAt:new Date().toISOString(),dynamicRoutes:paths.length,eventSchemas,renderedRequests:cache.size,checks:'Initial HTML, chronology/archives, filters, event status, canonical URLs, schema, internal links/assets, sitemap, public feeds, conflict suppression, and 404s passed. Hosted browser and external validator results are recorded separately in the completion report.'};
 fs.mkdirSync('artifacts',{recursive:true});fs.writeFileSync('artifacts/ssr-qa.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));

@@ -1,4 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
+import { createHash } from 'node:crypto';
 import type { Venue } from '../data/venues';
 
 export const TIME_ZONE = 'America/New_York';
@@ -128,7 +129,23 @@ export function eventSchema(event: Event, venue: Venue) {
   };
 }
 export const formatDate = (date: string) => new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:TIME_ZONE}).format(new Date(`${date}T12:00:00Z`));
+export function listingRevision(event: Event, venue: Venue) {
+  // Track public facts, including shared venue changes. Saving tracking metadata
+  // or a new lastUpdated timestamp must not invalidate a completed synchronization.
+  const facts = {
+    id:event.id, title:event.title, theme:event.theme, description:event.description,
+    date:event.date, start:startIso(event), end:endIso(event) || null,
+    status:event.status, previousStartDate:event.previousStartDate || null,
+    venue:{id:venue.id,name:venue.name,address:venue.address,city:venue.city,state:venue.state,zip:venue.zip},
+    admission:{kind:event.admission.kind,verified:!!event.admission.verified,price:event.admission.price ?? null,currency:event.admission.currency || null,note:event.admission.note || null},
+    instructions:event.instructions, slug:event.slug, category:event.eventType,
+    secondaryCategories:event.secondaryCategories || [], image:event.image,
+    registrationUrl:event.registrationUrl || null,
+  };
+  return `sha256:${createHash('sha256').update(JSON.stringify(facts)).digest('hex')}`;
+}
 export function listingPackage(event: Event, venue: Venue) {
   if (!isPublic(event)) throw new Error('Only published public events can be distributed');
-  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, displayStatus:statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.', instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== event.lastUpdated || l.status !== 'current'})) };
+  const revision=listingRevision(event,venue);
+  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, displayStatus:statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.', instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, listingRevision:revision, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== revision || l.status !== 'current'})) };
 }
