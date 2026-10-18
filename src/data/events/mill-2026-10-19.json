@@ -15,11 +15,14 @@
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T02:26:33Z",
+  "lastUpdated": "2026-10-18T03:29:55Z",
   "admission": {
     "kind": "free",
     "verified": true,
-    "note": "Trivia is free to play. Food and drinks are purchased separately."
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
   },
-  "instructions": "Bring a team and join the game. Trivia is free to play; food and drinks are purchased separately."
+  "instructions": "Bring a team and join the game. Trivia is free to play; food and drinks are purchased separately.",
+  "ticketed": false
 }
