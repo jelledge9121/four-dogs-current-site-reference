@@ -27,3 +27,9 @@ Are You Smarter Than a Barstool?: https://4dogsentertainment.com/services/are-yo
 The Events page is the authoritative source for dated events, themes, special events, and schedule changes.
 Four Dogs Survey Showdown is a Four Dogs survey-style competition and is not affiliated with Family Feud.
 Are You Smarter Than a Barstool? is a Four Dogs original experience and is not affiliated with Are You Smarter Than a 5th Grader?
+
+## Current public event discovery
+- [Public events](https://4dogsentertainment.com/events/): Confirmed upcoming dates, with city, venue, activity, date, and verified admission filters.
+- [Public event feed](https://4dogsentertainment.com/events/feed.json): Current public events in America/New_York with explicit UTC offsets.
+- [Event sitemap](https://4dogsentertainment.com/event-sitemap.xml): Canonical public event occurrences and activity pages.
+Individual event pages are authoritative for current times, venue identities, cancellation notices, admission, and ticket links. Private client bookings are excluded.

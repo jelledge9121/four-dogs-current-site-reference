@@ -1,0 +1,23 @@
+{
+  "id": "charter-2026-10-28",
+  "slug": "karaoke-costume-contest-charter-803-2026-10-28",
+  "title": "Karaoke & Costume Contest",
+  "date": "2026-10-28",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Karaoke",
+  "theme": "Karaoke & Costume Contest",
+  "shortDescription": "Karaoke meets Halloween costumes for a special Charter 803 event.",
+  "description": "Give your costume a microphone. Four Dogs brings Karaoke & Costume Contest to Charter 803 for a night of familiar songs and Halloween looks. Check with the venue for participation and costume-contest details.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM"
+}

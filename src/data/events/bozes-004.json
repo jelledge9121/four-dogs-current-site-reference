@@ -1,0 +1,22 @@
+{
+  "id": "bozes-004",
+  "slug": "country-roads-rock-anthems-music-bingo-bozes-2026-09-09",
+  "title": "Country Roads & Rock Anthems Music Bingo",
+  "date": "2026-09-09",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Music Bingo",
+  "theme": "Country Roads & Rock Anthems",
+  "shortDescription": "Country favorites and big rock songs share the Music Bingo cards.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for Country Roads & Rock Anthems Music Bingo, mixing familiar country favorites with big rock songs.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "wesco-010",
+  "slug": "american-life-wesco-brew-bowl-2026-11-10",
+  "title": "American Life",
+  "date": "2026-11-10",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "American Life",
+  "shortDescription": "History, music, road trips, traditions, and everyday American culture.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for American Life. History, music, road trips, traditions, and everyday American culture.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

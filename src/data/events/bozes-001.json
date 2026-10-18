@@ -1,0 +1,22 @@
+{
+  "id": "bozes-001",
+  "slug": "general-doggone-trivia-bozes-2026-08-19",
+  "title": "General Doggone Trivia",
+  "date": "2026-08-19",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "theme": "Boze's Opening Night",
+  "shortDescription": "General Doggone Trivia for Four Dogs' opening night at Boze's Restaurant & Bar.",
+  "description": "Four Dogs Entertainment launches Wednesday nights at Boze's Restaurant & Bar with General Doggone Trivia, a broad mix of familiar categories built for teams and casual players.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

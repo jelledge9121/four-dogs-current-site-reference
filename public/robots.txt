@@ -1,3 +1,13 @@
 User-agent: *
+Disallow: /admin/
 Allow: /
+
+User-agent: Googlebot
+Disallow: /admin/
+Allow: /
+
+User-agent: OAI-SearchBot
+Disallow: /admin/
+Allow: /
+
 Sitemap: https://4dogsentertainment.com/sitemap-index.xml

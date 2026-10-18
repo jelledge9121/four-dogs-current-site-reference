@@ -1,0 +1,22 @@
+{
+  "id": "archive-90s-2026-07-21",
+  "slug": "90s-music-pop-culture-trivia-top-dawg-tavern-sandhills-july-21-2026",
+  "title": "90s Music & Pop Culture Trivia",
+  "date": "2026-07-21",
+  "startTime": "7:00 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "90s Music & Pop Culture Trivia",
+  "shortDescription": "A trip back through 90s music and pop culture, from familiar songs to movies, television, celebrities, and defining moments.",
+  "description": "A trip back through 90s music and pop culture, from familiar songs to movies, television, celebrities, and defining moments.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

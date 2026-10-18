@@ -1,0 +1,23 @@
+{
+  "id": "wesco-009",
+  "slug": "food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03",
+  "title": "Food, Drinks + Famous Flavors",
+  "date": "2026-11-03",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Food, Drinks + Famous Flavors",
+  "shortDescription": "Restaurant-friendly trivia built around food, drinks, brands, flavors, and familiar favorites.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Food, Drinks + Famous Flavors. Restaurant-friendly trivia built around food, drinks, brands, flavors, and familiar favorites.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

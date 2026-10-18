@@ -1,0 +1,12 @@
+---
+export const prerender=false;
+import Base from '../../../layouts/Base.astro';
+import EventList from '../../../components/EventList.astro';
+import { CATEGORIES, categorySlug } from '../../../lib/event-system';
+const category=CATEGORIES.find(c=>categorySlug(c)===Astro.params.category);
+if(!category)return new Response('Activity not found',{status:404});
+---
+<Base title={`${category} Events in South Carolina | Four Dogs`} description={`Find confirmed Four Dogs ${category} dates with venue, location, time, and admission details.`}>
+<section class="section dark"><div class="container"><p class="eyebrow">Find your activity</p><h1>{category} with Four Dogs</h1><p>Pick a confirmed date and open the event for everything you need before you go.</p></div></section>
+<section class="section"><div class="container"><EventList category={category} limit={30}/><div class="actions"><a href={`/events/?category=${encodeURIComponent(category)}`}>Filter all {category} dates</a><a href="/events/">All events</a></div></div></section>
+</Base>

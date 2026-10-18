@@ -1,0 +1,22 @@
+{
+  "id": "wesco-2026-10-06",
+  "slug": "are-you-smarter-than-a-barstool-wesco-2026-10-06",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-10-06",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "School-subject trivia for adults built around things you learned once and probably forgot.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Are You Smarter Than a Barstool?.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

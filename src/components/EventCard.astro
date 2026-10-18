@@ -1,18 +1,16 @@
 ---
 import type { Event } from '../data/events';
 import { venueById } from '../data/venues';
-
+import { formatDate, startIso, statusLabel, categorySlug } from '../lib/event-system';
 const { event } = Astro.props as { event: Event };
 const venue = venueById(event.venueId);
-const date = new Date(`${event.date}T12:00:00`).toLocaleDateString('en-US', {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
-});
 ---
-<article class="card event" data-event-date={event.date}>
-  <p class="eyebrow">{date}{event.startTime ? ` · ${event.startTime}` : ''}</p>
+<article class="card event" data-event-id={event.id}>
+  <p class="eyebrow"><time datetime={startIso(event)}>{formatDate(event.date)}</time><br/>{event.startTime || 'Time to be confirmed'}{event.endTime ? ` to ${event.endTime}` : ''} · Eastern Time</p>
   <h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3>
-  <p>{venue.name}<br />{venue.city}, {venue.state}</p>
-  <span class="tag">{event.eventType}</span>
+  <p><a href={`/venues/${venue.slug}/`}>{venue.name}</a><br/>{venue.city}, {venue.state}</p>
+  <p>{event.shortDescription}</p>
+  <a class="tag" href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a>
+  <p class="fine">{statusLabel(event)}{event.admission.verified && event.admission.kind === 'free' ? ' · Free to play' : event.admission.verified && event.admission.kind === 'paid' ? ` · $${event.admission.price} per person` : ''}</p>
+  <a href={`/events/${event.slug}/`}>Event details →</a>
 </article>

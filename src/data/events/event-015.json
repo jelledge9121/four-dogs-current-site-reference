@@ -1,0 +1,22 @@
+{
+  "id": "event-015",
+  "slug": "2000s-pop-culture-trivia-2026-09-03",
+  "title": "2000s Pop Culture Trivia",
+  "date": "2026-09-03",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "2000s Pop Culture Trivia",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for 2000s Pop Culture Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

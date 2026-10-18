@@ -1,0 +1,26 @@
+---
+export const prerender=false;
+import { events } from '../../data/events';
+import { venues, venueById } from '../../data/venues';
+import { selectEvents, localToday, addDays, listingPackage, formatDate } from '../../lib/event-system';
+const selected=selectEvents(events,venues,{from:localToday(),to:addDays(localToday(),30)});
+const tracked=events.filter(e=>e.externalListings?.length);
+const packages=[...new Map([...selected,...tracked].map(e=>[e.id,e])).values()]
+ .map(e=>listingPackage(e,venueById(e.venueId))).sort((a,b)=>a.start.localeCompare(b.start));
+const textFor=(e:typeof packages[number])=>`${e.title}\n\n${e.description}\n\nDate: ${formatDate(e.date)}\nStart: ${e.start}\nEnd: ${e.end}\nTime zone: ${e.timeZone}\nStatus: ${e.displayStatus}\nVenue: ${e.venue}\nAddress: ${e.address}\nAdmission: ${e.admission}\nParticipation: ${e.instructions}\nEvent URL: ${e.url}\nCategory: ${e.category}\nImage: ${e.image}`;
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="noindex,nofollow"/><title>Event listing desk | Four Dogs</title><style>
+*{box-sizing:border-box}body{margin:0;background:#F2F0E8;color:#0C0F26;font:17px/1.5 system-ui,sans-serif}header{background:#0C0F26;color:#F2F0E8;padding:24px}header a{color:#29C4DC}main,.header-inner{max-width:960px;margin:auto}main{padding:24px}nav{display:flex;gap:20px;flex-wrap:wrap}h1{margin:8px 0}h2{font-size:1.25rem}details{background:white;border:1px solid #0C0F2633;border-radius:8px;margin:20px 0;padding:18px}summary{cursor:pointer;font-weight:700}label{display:block;margin-top:20px;font-weight:700}textarea,input{display:block;width:100%;font:inherit;padding:10px;border:1px solid #526078;border-radius:4px;background:#fff;color:#0C0F26}textarea{min-height:280px;font-size:.9rem}button{background:#29C4DC;color:#0C0F26;border:0;border-radius:4px;font:inherit;font-weight:700;padding:10px 16px;cursor:pointer;margin:10px 0}a{color:#064c73;overflow-wrap:anywhere}small{display:block}li{margin:8px 0}:focus-visible{outline:3px solid #29C4DC;outline-offset:3px}.status{font-weight:700}img{vertical-align:middle}
+</style></head><body><header><div class="header-inner"><img src="/images/logo.png" width="72" height="72" alt="Four Dogs Entertainment"/><h1>Event listing desk</h1><p>Bring your people. We’ll bring the Doggone Good Time.</p><nav aria-label="Event administration"><a href="/admin/">Edit public events</a><a href="/events/">Public calendar</a><a href="https://github.com/jelledge9121/four-dogs-current-site-reference/blob/main/docs/event-admin-guide.md">Administrator guide</a></nav></div></header><main>
+<p>Copy confirmed event information for outside calendars. This page includes the next 30 days and any event with a tracked outside listing, including canceled or past dates that may still need a correction.</p>
+<p>After updating an outside page, copy its website revision into that platform’s <strong>syncedRevision</strong> field in the editor and mark it current. Revisions change when public event facts or the shared venue address change. No listing is submitted by this page.</p>
+<p role="status" id="copy-status" aria-live="polite"></p>
+{packages.length ? packages.map((e,index)=><details><summary>{e.title} · {e.date} · {e.venue}</summary><p class="status">{e.displayStatus}</p><a href={e.url}>Open authoritative event page</a><h2>Outside listings</h2>{e.externalListings.length ? <ul>{e.externalListings.map(l=><li>{l.platform}: <strong>{l.needsUpdate?'Needs attention':'Current'}</strong> ({l.status}) {l.url && <a href={l.url} target="_blank" rel="noopener noreferrer">Open listing</a>}</li>)}</ul> : <p>No outside listing is tracked yet. Add its platform and URL in the editor after it is published.</p>}<label for={`listing-${index}`}>Ready-to-submit event text</label><textarea id={`listing-${index}`} readonly>{textFor(e)}</textarea><button type="button" data-copy={`listing-${index}`}>Copy event text</button><label for={`revision-${index}`}>Website revision</label><input id={`revision-${index}`} value={e.listingRevision} readonly/><button type="button" data-copy={`revision-${index}`}>Copy website revision</button><small><a href={`${e.url}listing.json`}>Open the event’s JSON package</a></small></details>) : <p>No public events are currently ready for distribution.</p>}
+</main><script is:inline>
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('button[data-copy]');if(!button)return;
+ const input=document.getElementById(button.dataset.copy);const status=document.getElementById('copy-status');
+ try{await navigator.clipboard.writeText(input.value);status.textContent='Copied. Paste this into the relevant listing or editor field.';}
+ catch{input.focus();input.select();status.textContent='Text selected. Use your device’s Copy command.';}
+});
+</script></body></html>

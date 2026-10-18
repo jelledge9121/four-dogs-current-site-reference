@@ -1,0 +1,23 @@
+{
+  "id": "charter-2026-10-29",
+  "slug": "halloween-movie-bingo-charter-803-2026-10-29",
+  "title": "Halloween Movie Bingo",
+  "date": "2026-10-29",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Halloween Movie Bingo",
+  "shortDescription": "A new Four Dogs game built around Halloween movies and recognizable screen moments.",
+  "description": "The costumes, the creatures, the scenes you know by heart. Join Four Dogs at Charter 803 for Halloween Movie Bingo, a hosted game built around familiar Halloween films and screen moments.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM"
+}

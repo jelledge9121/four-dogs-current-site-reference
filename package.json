@@ -6,18 +6,23 @@
   "scripts": {
     "dev": "astro dev",
     "restore-assets": "node scripts/restore-binary-assets.mjs",
-    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && node scripts/assemble-bury-me-in-garnet.mjs && astro check && astro build && node scripts/qa.mjs",
+    "build": "node scripts/restore-binary-assets.mjs && node scripts/generate-social-card.mjs && node scripts/fetch-current-song.mjs && node scripts/assemble-bury-me-in-garnet.mjs && npm test && astro check && astro build && node --import tsx scripts/qa.mjs && node --import tsx scripts/qa-ssr.mjs",
     "preview": "astro preview",
     "check": "astro check",
-    "qa": "node scripts/qa.mjs"
+    "qa": "node --import tsx scripts/qa.mjs && node --import tsx scripts/qa-ssr.mjs",
+    "test": "node --import tsx --test tests/events.test.ts",
+    "export-events": "node --import tsx scripts/export-events.ts"
   },
   "dependencies": {
+    "@astrojs/netlify": "6.6.5",
     "@astrojs/sitemap": "^3.6.0",
+    "@js-temporal/polyfill": "0.5.1",
     "astro": "5.18.2",
     "sharp": "0.34.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "tsx": "4.21.0",
     "typescript": "^5.9.2"
   }
 }

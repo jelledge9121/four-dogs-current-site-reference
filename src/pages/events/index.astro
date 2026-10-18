@@ -1,9 +1,38 @@
 ---
-import Base from '../../layouts/Base.astro'; import EventCard from '../../components/EventCard.astro'; import {upcomingEvents} from '../../data/events'; import {venues} from '../../data/venues'; const upcoming=upcomingEvents();
+export const prerender = false;
+import Base from '../../layouts/Base.astro';
+import EventCard from '../../components/EventCard.astro';
+import { events } from '../../data/events';
+import { venues } from '../../data/venues';
+import { selectEvents, CATEGORIES, addDays, localToday, categorySlug } from '../../lib/event-system';
+const q=Astro.url.searchParams;
+const today=localToday();
+const view=['archive','updates'].includes(q.get('view')||'') ? q.get('view')! : 'upcoming';
+const validDate=(value:string|null) => value && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) ? value : '';
+const from=validDate(q.get('from')) || (view==='upcoming' ? today : '');
+const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,30) : '');
+const filters={view,from,to,city:q.get('city')||'',venue:q.get('venue')||'',category:q.get('category')||'',price:q.get('price')||''};
+const matches=selectEvents(events,venues,filters);
+const cities=[...new Set(venues.map(v=>v.city))].sort();
 ---
-<Base title="Upcoming Events | Four Dogs Entertainment" description="See current Four Dogs public events across South Carolina and book trivia, Music Bingo, DJ entertainment, weddings, and private events statewide.">
-<section class="section dark"><div class="container"><p class="eyebrow">Find an event</p><h1>Your week needs something to look forward to.</h1><p class="lead">Grab your people, pick a night, and come play with the pack. Public events are listed here, and Four Dogs is available for bookings throughout South Carolina.</p></div></section>
-<section class="section alt"><div class="container"><h2>Play every week</h2><div class="grid">{venues.map(v=>v.weeklySchedule.map(s=><article class="card"><p class="eyebrow">{s.day}</p><h3><a href={`/venues/${v.slug}/`}>{v.name}</a></h3><p>{s.format}<br><strong>{s.time}</strong><br>{v.city}</p></article>))}</div></div></section>
-<section class="section"><div class="container"><h2>Coming up</h2>{upcoming.length?<div class="grid">{upcoming.map(e=><EventCard event={e}/>)}</div>:<p>No dated events are currently listed. Check the weekly schedule above and follow Four Dogs for theme announcements.</p>}</div></section>
-<section class="section dark"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><div class="actions"><a class="button" href="/booking/">Book Four Dogs</a></div></div></section>
+<Base title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
+<section class="section dark"><div class="container"><p class="eyebrow">Find your next night out</p><h1>Your week needs something to look forward to.</h1><p class="lead">Pick a date, bring your people, and find a Four Dogs event near you. All times are local to South Carolina.</p></div></section>
+<section class="section"><div class="container">
+<nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
+<form class="event-filters" method="get" action="/events/" aria-label="Filter public events">
+<input type="hidden" name="view" value={view}/>
+<label>City<select name="city"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>
+<label>Venue<select name="venue"><option value="">All venues</option>{venues.map(v=><option value={v.id} selected={filters.venue===v.id}>{v.name}</option>)}</select></label>
+<label>Activity<select name="category"><option value="">All activities</option>{CATEGORIES.map(c=><option value={c} selected={filters.category===c}>{c}</option>)}</select></label>
+<label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
+<label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Verified free</option><option value="paid" selected={filters.price==='paid'}>Verified ticketed</option></select></label>
+<div class="actions"><button class="button" type="submit">Find events</button><a href="/events/">Reset</a></div>
+</form>
+<h2>{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
+<p>{matches.length} {matches.length===1?'event':'events'}{from && to ? ` from ${from} through ${to}` : ''}. {view==='upcoming'?'The default calendar shows the next 30 days. Change the dates to look ahead.':''}</p>
+{from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="grid">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="card"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
+<div class="actions"><a href={`/events/?from=${addDays(today,31)}&to=${addDays(today,90)}`}>Explore the following 60 days →</a><a href="/events/feed.json">Public event feed</a></div>
+<details><summary>Browse by activity</summary><div class="actions">{CATEGORIES.map(c=><a href={`/events/category/${categorySlug(c)}/`}>{c}</a>)}</div></details>
+</div></section>
+<section class="section dark"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><a class="button" href="/booking/">Plan your own event</a></div></section>
 </Base>

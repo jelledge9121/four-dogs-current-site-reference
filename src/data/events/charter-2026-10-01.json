@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-10-01",
+  "slug": "name-that-tune-trivia-charter-803-2026-10-01",
+  "title": "Name That Tune Trivia",
+  "date": "2026-10-01",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "Name That Tune Trivia",
+  "shortDescription": "A music-focused trivia night built around songs, artists, and recognizable hits.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for Name That Tune Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "bozes-2026-10-28",
+  "slug": "true-crime-trivia-bozes-2026-10-28",
+  "title": "True Crime Trivia",
+  "date": "2026-10-28",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "theme": "True Crime Trivia",
+  "shortDescription": "Famous cases, investigations, notorious names, and true-crime pop culture.",
+  "description": "Bring the friend who always has a true-crime recommendation. Four Dogs takes over Boze’s with questions about famous cases, investigations, notorious names, and true-crime pop culture.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "9:30 PM"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-10-08",
+  "slug": "four-dogs-survey-showdown-charter-803-2026-10-08",
+  "title": "Four Dogs Survey Showdown",
+  "date": "2026-10-08",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "Teams try to guess the most popular responses to real survey questions.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for Four Dogs Survey Showdown.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

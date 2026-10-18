@@ -1,0 +1,22 @@
+{
+  "id": "event-005",
+  "slug": "80s-vs-90s-music-bingo-2026-08-12",
+  "title": "80s vs. 90s Music Bingo",
+  "date": "2026-08-12",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "80s vs. 90s Music Bingo",
+  "shortDescription": "Music Bingo at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for 80s vs. 90s Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

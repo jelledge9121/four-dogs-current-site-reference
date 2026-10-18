@@ -1,0 +1,22 @@
+{
+  "id": "wesco-2026-10-13",
+  "slug": "fall-festival-trivia-wesco-2026-10-13",
+  "title": "Fall Festival Trivia",
+  "date": "2026-10-13",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Fall Festival Trivia",
+  "shortDescription": "A fall-themed trivia night with seasonal favorites, food, traditions, entertainment, and familiar autumn topics.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Fall Festival Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

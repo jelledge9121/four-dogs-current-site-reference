@@ -1,0 +1,23 @@
+{
+  "id": "wesco-015",
+  "slug": "best-of-the-year-wesco-brew-bowl-2026-12-15",
+  "title": "Best of the Year",
+  "date": "2026-12-15",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Best of the Year",
+  "shortDescription": "A launch-season finale featuring favorite categories plus Christmas movies and music.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Best of the Year, a launch-season finale featuring favorite categories plus Christmas movies and music.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

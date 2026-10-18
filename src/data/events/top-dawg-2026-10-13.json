@@ -1,0 +1,22 @@
+{
+  "id": "top-dawg-2026-10-13",
+  "slug": "four-dogs-survey-showdown-top-dawg-2026-10-13",
+  "title": "Four Dogs Survey Showdown",
+  "date": "2026-10-13",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "A fast-moving team game built around guessing the most popular survey responses.",
+  "description": "Join Four Dogs Entertainment at Top Dawg Tavern for Four Dogs Survey Showdown.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

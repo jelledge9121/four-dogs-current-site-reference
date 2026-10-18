@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-10-07",
+  "slug": "ladies-first-music-bingo-charter-803-2026-10-07",
+  "title": "Ladies First Music Bingo",
+  "date": "2026-10-07",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Ladies First Music Bingo",
+  "shortDescription": "A Music Bingo night celebrating recognizable songs from women across decades and genres.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for Ladies First Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

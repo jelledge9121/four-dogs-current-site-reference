@@ -1,0 +1,23 @@
+{
+  "id": "wesco-014",
+  "slug": "music-through-the-decades-wesco-brew-bowl-2026-12-08",
+  "title": "Music Through the Decades",
+  "date": "2026-12-08",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Music Through the Decades",
+  "shortDescription": "A cross-generational music night with different knowledge lanes for every teammate.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Music Through the Decades, a cross-generational music night with different knowledge lanes for every teammate.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

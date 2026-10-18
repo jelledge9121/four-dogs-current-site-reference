@@ -1,0 +1,22 @@
+{
+  "id": "event-021",
+  "slug": "world-war-trivia-2026-09-17",
+  "title": "World War Trivia",
+  "date": "2026-09-17",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "World War Trivia",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for World War Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

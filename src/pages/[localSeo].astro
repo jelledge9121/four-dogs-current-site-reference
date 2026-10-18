@@ -1,19 +1,17 @@
 ---
+export const prerender = false;
 import Base from '../layouts/Base.astro';
+import EventList from '../components/EventList.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { localSeoPages, type LocalSeoPage } from '../data/localSeoPages';
 import { reviews } from '../data/reviews';
 
 type Props = { page: LocalSeoPage };
 
-export function getStaticPaths() {
-  return localSeoPages.map((page) => ({
-    params: { localSeo: page.slug },
-    props: { page },
-  }));
-}
-
-const { page } = Astro.props as Props;
+const page=localSeoPages.find(p=>p.slug===Astro.params.localSeo);
+if(!page) return new Response('Page not found',{status:404});
+const eventCity=page.slug.includes('lexington') && page.slug.includes('columbia') ? ['Lexington','Columbia'] : page.slug.includes('lexington') ? 'Lexington' : page.slug.includes('columbia') ? 'Columbia' : undefined;
+const eventCategory=page.slug.includes('music-bingo') ? 'Music Bingo' : page.slug.includes('trivia') ? 'Trivia' : undefined;
 const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId) : undefined;
 const seoTitle = page.slug === 'music-bingo-columbia-lexington-sc'
   ? 'Music Bingo in Columbia & Lexington SC | Local Guide | Four Dogs'
@@ -72,6 +70,8 @@ const serviceSchema = {
       <img src="/images/hero.jpg" alt={`${page.h1} with Four Dogs Entertainment`} loading="lazy" />
     </div>
   </section>
+
+  <section class="section"><div class="container"><h2>Confirmed public events near you</h2><EventList city={eventCity} category={eventCategory}/><a href="/events/">Browse the full calendar →</a></div></section>
 
   <section class="section alt">
     <div class="container">

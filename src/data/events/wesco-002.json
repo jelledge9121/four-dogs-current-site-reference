@@ -1,0 +1,22 @@
+{
+  "id": "wesco-002",
+  "slug": "90s-2000s-pop-culture-wesco-brew-bowl-2026-09-15",
+  "title": "90s + 2000s Pop Culture",
+  "date": "2026-09-15",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "90s + 2000s Pop Culture",
+  "shortDescription": "Music, television, movies, celebrities, trends, and nostalgia.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for 90s + 2000s Pop Culture. Music, television, movies, celebrities, trends, and nostalgia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "bozes-2026-09-30",
+  "slug": "four-dogs-survey-showdown-bozes-2026-09-30",
+  "title": "Four Dogs Survey Showdown",
+  "date": "2026-09-30",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "No obscure trivia required. Teams try to guess the most popular responses to real survey questions.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for Four Dogs Survey Showdown.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

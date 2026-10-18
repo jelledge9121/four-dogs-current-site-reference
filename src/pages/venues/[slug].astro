@@ -1,117 +1,21 @@
 ---
+export const prerender = false;
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import EventCard from '../../components/EventCard.astro';
-import { venues, type Venue, type WeeklySchedule } from '../../data/venues';
+import EventList from '../../components/EventList.astro';
+import { venues } from '../../data/venues';
 import { eventsForVenue } from '../../data/events';
-
-export function getStaticPaths() {
-  return venues.map((venue) => ({ params: { slug: venue.slug }, props: { venue } }));
-}
-
-const { venue } = Astro.props as { venue: Venue };
-const events = eventsForVenue(venue.id);
-const isLexington = venue.city === 'Lexington';
-const isColumbia = venue.city === 'Columbia';
-const isFountainInn = venue.city === 'Fountain Inn';
-const title = isLexington
-  ? `Trivia & Music Bingo at ${venue.name} Lexington SC | Four Dogs`
-  : isFountainInn
-    ? `Trivia at The Mill at Fountain Inn SC | Four Dogs`
-    : `Trivia at ${venue.name} ${venue.city} SC | Four Dogs`;
-const description = isLexington
-  ? `See Four Dogs Trivia, Music Bingo, and specialty game nights at ${venue.name} in Lexington, South Carolina. View the weekly schedule and upcoming events.`
-  : isColumbia
-    ? `See Four Dogs Trivia and rotating game experiences at ${venue.name} in Columbia, South Carolina. View the weekly schedule and upcoming events.`
-    : isFountainInn
-      ? 'Play Are You Smarter Than a Barstool? with Four Dogs Entertainment at The Mill at Fountain Inn every Monday at 7 PM. See upcoming dates, directions, and game details.'
-      : `See Four Dogs entertainment at ${venue.name} in ${venue.city}, South Carolina. View the weekly schedule, upcoming themes, directions, and venue details.`;
-
-const placeSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Place',
-  name: venue.name,
-  url: new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString(),
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: venue.address,
-    addressLocality: venue.city,
-    addressRegion: venue.state,
-    postalCode: venue.zip,
-    addressCountry: 'US',
-  },
-};
+const venue=venues.find(v=>v.slug===Astro.params.slug);
+if(!venue) return new Response('Venue not found',{status:404});
+const upcoming=eventsForVenue(venue.id);
+const formats=[...new Set(upcoming.map(e=>e.eventType))];
+const title=`Four Dogs Events at ${venue.name}, ${venue.city} SC`;
+const description=`Find confirmed Four Dogs dates at ${venue.name} in ${venue.city}, South Carolina. Event times, themes, admission information, and directions.`;
+const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,url:new URL(Astro.url.pathname,'https://4dogsentertainment.com').href,address:{'@type':'PostalAddress',streetAddress:venue.address,addressLocality:venue.city,addressRegion:venue.state,postalCode:venue.zip,addressCountry:'US'}};
 ---
-<Base title={title} description={description} schema={placeSchema}>
-  <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Events', href: '/events/' }, { name: venue.name }]} />
-
-  <section class="section dark">
-    <div class="container">
-      <p class="eyebrow">Four Dogs venue</p>
-      <h1>{venue.name}</h1>
-      <p class="lead">{venue.address}<br />{venue.city}, {venue.state} {venue.zip}</p>
-      <p>{venue.description}</p>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <h2>Play every week</h2>
-      <div class="grid">
-        {venue.weeklySchedule.map((schedule: WeeklySchedule) => (
-          <article class="card">
-            <p class="eyebrow">{schedule.day}</p>
-            <h3>{schedule.format}</h3>
-            <p>{schedule.time}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2>Coming up here</h2>
-      {events.length ? <div class="grid">{events.map((event) => <EventCard event={event} />)}</div> : <p>No dated themes are currently listed. The weekly schedule above remains the place to start.</p>}
-      <div class="actions">
-        <a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a>
-        {venue.website && <a href={venue.website} target="_blank" rel="noopener noreferrer">Venue website →</a>}
-        <a href="/events/">All events</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">Explore locally</p>
-      <h2>More Four Dogs entertainment in {venue.city}.</h2>
-      <div class="grid">
-        {isLexington ? (
-          <>
-            <a class="card" href="/trivia-night-lexington-sc/"><h3>Trivia in Lexington</h3><p>Local trivia details and booking options.</p></a>
-            <a class="card" href="/music-bingo-lexington-sc/"><h3>Music Bingo in Lexington</h3><p>Recurring and private Music Bingo options.</p></a>
-            <a class="card" href="/areas/lexington-sc/"><h3>Lexington entertainment</h3><p>Explore Four Dogs services and current local events.</p></a>
-          </>
-        ) : isColumbia ? (
-          <>
-            <a class="card" href="/trivia-night-columbia-sc/"><h3>Trivia in Columbia</h3><p>Local trivia details and booking options.</p></a>
-            <a class="card" href="/restaurant-entertainment-columbia-sc/"><h3>Restaurant entertainment</h3><p>Recurring Four Dogs venue programming in Columbia.</p></a>
-            <a class="card" href="/areas/columbia-sc/"><h3>Columbia entertainment</h3><p>Explore Four Dogs services and current local events.</p></a>
-          </>
-        ) : isFountainInn ? (
-          <>
-            <a class="card" href="/areas/fountain-inn-sc/"><h3>Fountain Inn entertainment</h3><p>See weekly Four Dogs events and booking options in Fountain Inn.</p></a>
-            <a class="card" href="/services/are-you-smarter-than-a-barstool/"><h3>Are You Smarter Than a Barstool?</h3><p>Learn how the school-subject trivia format works before your first Monday at The Mill.</p></a>
-            <a class="card" href="/guides/where-to-play-trivia-fountain-inn-sc/"><h3>Fountain Inn trivia guide</h3><p>What to know before playing Four Dogs trivia at The Mill.</p></a>
-          </>
-        ) : (
-          <>
-            <a class="card" href="/services/trivia/"><h3>Four Dogs Trivia</h3><p>See how Four Dogs trivia works for public and private events.</p></a>
-            <a class="card" href={`/areas/${venue.areaSlug}/`}><h3>{venue.city} area entertainment</h3><p>Explore current local events and Four Dogs booking options.</p></a>
-            <a class="card" href="/for-venues/"><h3>Venue entertainment</h3><p>Recurring entertainment for bars, restaurants, and local venues.</p></a>
-          </>
-        )}
-      </div>
-    </div>
-  </section>
+<Base title={title} description={description} schema={schema}>
+<Breadcrumbs items={[{name:'Home',href:'/'},{name:'Events',href:'/events/'},{name:venue.name}]}/>
+<section class="section dark"><div class="container"><p class="eyebrow">Four Dogs venue</p><h1>{venue.name}</h1><p class="lead">{venue.address}<br/>{venue.city}, {venue.state} {venue.zip}</p><p>{venue.description}</p></div></section>
+<section class="section"><div class="container"><h2>Coming up here</h2><p>{formats.length?`Current confirmed formats: ${formats.join(', ')}.`:'New public dates will appear when confirmed.'} Check the individual event for its exact time and participation details.</p><EventList venue={venue.id} limit={12}/><div class="actions"><a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a>{venue.website && <a href={venue.website} target="_blank" rel="noopener noreferrer">Venue website →</a>}<a href={`/events/?venue=${venue.id}`}>Full venue calendar</a></div></div></section>
+<section class="section alt"><div class="container prose"><h2>Before you come</h2><h3>When does Four Dogs start?</h3><p>Each confirmed date has its own start time. Schedule exceptions and special events appear in the calendar above.</p><h3>Is admission free?</h3><p>Admission depends on the event. Open its details for verified prices or ticket instructions. If pricing is unconfirmed, check with the venue.</p><h3>Do I need a reservation?</h3><p>Check your event page for registration and seating instructions before attending.</p><h3>What if the schedule changes?</h3><p>Cancellations, postponements, and rescheduled dates stay visible on their original event links.</p><a href={`/areas/${venue.areaSlug}/`}>More entertainment in the {venue.city} area →</a></div></section>
 </Base>

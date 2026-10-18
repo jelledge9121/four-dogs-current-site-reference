@@ -1,0 +1,23 @@
+{
+  "id": "wesco-012",
+  "slug": "family-favorites-wesco-brew-bowl-2026-11-24",
+  "title": "Family Favorites",
+  "date": "2026-11-24",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Family Favorites",
+  "shortDescription": "Mixed-age trivia with Thanksgiving food, traditions, movies, music, and familiar favorites.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Family Favorites. Mixed-age trivia with Thanksgiving food, traditions, movies, music, and familiar favorites.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

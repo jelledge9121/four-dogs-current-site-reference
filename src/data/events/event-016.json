@@ -1,0 +1,22 @@
+{
+  "id": "event-016",
+  "slug": "totally-80s-trivia-2026-09-08",
+  "title": "Totally 80s Trivia",
+  "date": "2026-09-08",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "Totally 80s Trivia",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for Totally 80s Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "bozes-2026-10-14",
+  "slug": "professional-wrestling-trivia-bozes-2026-10-14",
+  "title": "Professional Wrestling Trivia",
+  "date": "2026-10-14",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "theme": "Professional Wrestling Trivia",
+  "shortDescription": "Wrestlers, rivalries, promotions, championships, catchphrases, and iconic moments.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for Professional Wrestling Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

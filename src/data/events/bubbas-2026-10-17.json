@@ -1,0 +1,23 @@
+{
+  "id": "bubbas-2026-10-17",
+  "slug": "mimosas-bingo-bubbas-2026-10-17",
+  "title": "Mimosas & Bingo at Bubba's",
+  "date": "2026-10-17",
+  "venueId": "bubbas",
+  "eventType": "Music Bingo",
+  "theme": "Mimosas & Bingo at Bubba's",
+  "shortDescription": "A Saturday event combining brunch, mimosas, Music Bingo, and bingo at Bubba’s.",
+  "description": "Join Four Dogs Entertainment at Bubba's for Mimosas & Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "startTime": "10:30 AM",
+  "endTime": "12:30 PM"
+}

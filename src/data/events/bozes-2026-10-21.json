@@ -1,0 +1,23 @@
+{
+  "id": "bozes-2026-10-21",
+  "slug": "spooky-vibes-music-bingo-costume-contest-bozes-2026-10-21",
+  "title": "Spooky Vibes Music Bingo + Costume Contest",
+  "date": "2026-10-21",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Music Bingo",
+  "theme": "Spooky Vibes Music Bingo + Costume Contest",
+  "shortDescription": "Spooky-season Music Bingo plus a costume contest at Boze’s.",
+  "description": "Your costume deserves a night out. Join Four Dogs at Boze’s for Spooky Vibes Music Bingo and a costume contest. Bring your people, dress for the occasion, and settle in for a Wednesday night of familiar music and Halloween fun.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "9:30 PM"
+}

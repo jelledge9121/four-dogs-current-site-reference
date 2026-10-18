@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-09-23",
+  "slug": "elles-choice-music-bingo-charter-803-2026-09-23",
+  "title": "Elle's Choice Music Bingo",
+  "date": "2026-09-23",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Elle's Choice Music Bingo",
+  "shortDescription": "A Music Bingo night hand-picked by Elle with familiar songs and crowd favorites.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for Elle's Choice Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

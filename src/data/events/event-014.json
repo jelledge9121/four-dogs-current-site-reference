@@ -1,0 +1,22 @@
+{
+  "id": "event-014",
+  "slug": "70s-and-80s-sing-alongs-music-bingo-2026-09-02",
+  "title": "70s and 80s Sing-Alongs Music Bingo",
+  "date": "2026-09-02",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "70s and 80s Sing-Alongs Music Bingo",
+  "shortDescription": "Music Bingo at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for 70s and 80s Sing-Alongs Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

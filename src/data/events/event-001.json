@@ -1,0 +1,22 @@
+{
+  "id": "event-001",
+  "slug": "general-doggone-trivia-2026-08-04",
+  "title": "General Doggone Trivia",
+  "date": "2026-08-04",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "General Doggone Trivia",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for General Doggone Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

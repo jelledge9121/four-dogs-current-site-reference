@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-10-14",
+  "slug": "classic-rock-block-party-music-bingo-charter-803-2026-10-14",
+  "title": "Classic Rock Block Party Music Bingo",
+  "date": "2026-10-14",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Classic Rock Block Party Music Bingo",
+  "shortDescription": "Big guitar songs, classic-rock favorites, and crowd-ready singalongs fill the bingo cards.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for Classic Rock Block Party Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}
