@@ -1,0 +1,23 @@
+[
+  {
+    "eventId": "charter-2026-10-30",
+    "title": "The Saluda Mill Murder: Murder Mystery Trivia",
+    "lastUpdated": "2026-10-18T02:26:33Z",
+    "listingRevision": "sha256:406fb65a5d6597f7db1aea001e05afcda4ae713f5b89ccbb836691dae8a9e2f5",
+    "listings": [
+      {
+        "platform": "HappeningNext",
+        "url": "https://happeningnext.com/event/trivia-night-special-event-saluda-mill-murder-mystery-ticketed-event-eid3a0e6883l3",
+        "status": "needs-update",
+        "notes": "Lists Charter 803 and 6:30 PM UTC-05:00. Actual event starts 7:30 PM America/New_York (UTC-04:00). Venue identity must be Black Sheep Bourbon Society.",
+        "needsUpdate": true
+      },
+      {
+        "platform": "AllEvents",
+        "status": "needs-claim",
+        "notes": "October 13 organizer notice says listing ownership is unverified. Correct venue identity and local start time after claiming.",
+        "needsUpdate": true
+      }
+    ]
+  }
+]

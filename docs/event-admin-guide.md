@@ -1,10 +1,10 @@
 # Four Dogs event administrator guide
 
-The central event source and public calendar have been tested in the hosted preview. The editor configuration loads, but its Netlify GitHub OAuth endpoint returns Not Found. A Netlify project administrator must complete the one-time connection below before nontechnical editing is available.
+The central event source and public calendar are live at https://4dogsentertainment.com/events/ and have passed preview and production checks. The editor configuration loads, but its Netlify GitHub OAuth endpoint returns Not Found. A Netlify project administrator must complete the one-time connection below before nontechnical editing is available.
 
 ## One-time connection
 
-The site keeps its existing Astro code and GitHub repository. The event editor is Decap CMS, an open-source interface to that repository, at `/admin/` after deployment. No new subscription was purchased.
+The site keeps its existing Astro code and GitHub repository. The event editor is Decap CMS, an open-source interface to that repository, at https://4dogsentertainment.com/admin/. No new subscription was purchased.
 
 A Netlify project administrator must configure GitHub OAuth for this existing project using Netlify's authentication-provider setup. This is separate from Netlify Identity and from public-site access restrictions. Give each editor their own GitHub identity and the repository access needed to edit public content. Do not share access tokens or put credentials in the source. Instructions: https://decapcms.org/docs/github-backend/ and https://docs.netlify.com/manage/security/secure-access-to-sites/oauth-provider-tokens/
 
@@ -44,7 +44,7 @@ This repository is public. Keep weddings, confidential client events, client con
 
 ## External listing updates
 
-Each event has an external-listings list. Record the platform, published URL, check date, and status. Open `/admin/distribution/` for ready-to-copy event text, website revisions, and a list of outside pages needing attention. After checking an external page, copy its website revision into that listing's `syncedRevision` and mark it current. The revision tracks public facts and shared venue details. Saving only a synchronization update does not falsely mark the listing stale again.
+Each event has an external-listings list. Record the platform, published URL, check date, and status. Open https://4dogsentertainment.com/admin/distribution/ for ready-to-copy event text, website revisions, and a list of outside pages needing attention. After checking an external page, copy its website revision into that listing's `syncedRevision` and mark it current. The revision tracks public facts and shared venue details. Saving only a synchronization update does not falsely mark the listing stale again.
 
 The developer command `npm run export-events` creates submission-ready text and JSON for the next 30 days. A single event's package is also available at `/events/ITS-SLUG/listing.json` after deployment.
 
