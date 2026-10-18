@@ -19,11 +19,16 @@
     "status": "scheduled",
     "visibility": "public",
     "publicationStatus": "published",
-    "lastUpdated": "2026-10-18T02:26:33Z",
+    "lastUpdated": "2026-10-18T03:29:55Z",
     "admission": {
-      "kind": "unknown"
+      "kind": "free",
+      "verified": true,
+      "price": 0,
+      "currency": "USD",
+      "note": "Free admission."
     },
-    "instructions": "Contact Aura for seating, admission, and participation requirements. Music Bingo runs from 7:30 to 9:30 PM."
+    "instructions": "Contact Aura for seating and participation details. Music Bingo runs from 7:30 to 9:30 PM.",
+    "ticketed": false
   },
   "overrides": [
     {

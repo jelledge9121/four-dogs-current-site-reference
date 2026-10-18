@@ -11,6 +11,12 @@ Production deployment: `6ad438635154bc12862388bf`
 
 The repository name includes “reference.” Its original main commit exactly matched the real Netlify production deployment. The work was implemented on a separate branch, tested in a deploy preview, and merged through the existing production deployment path. The separate ChatGPT reference Site was not modified.
 
+## Owner-confirmed admission update
+
+Published to the real site in commit `23c8fedba355fe7b20939a45c69daad79f3b2b85`, Netlify deployment `6ad43de3a9576a7e6b8de505`. All 28 behavior tests and all 10 admission-specific preview and production checks passed. The current calendar has 16 free events and one ticketed murder mystery.
+
+Joey confirmed that all Four Dogs public events have free admission except murder mystery events. All non-murder-mystery public occurrences and recurring templates now record verified $0 admission. Guest-facing cards, event pages, venue FAQs, filters, metadata, JSON-LD, feeds, and listing packages reflect this. The Saluda Mill Murder remains $25 including the first drink, ages 21+ with valid photo ID. Admission-confirmation notices and the technical feed link were removed from the guest calendar. Records with unresolved themes or dates remain in review.
+
 ## 1. Problems discovered
 
 The actual live website, original source, Netlify production record, routing, event records, sitemap, robots.txt, and representative pages were inspected before changes. The existing stack was Astro 5.18.2, TypeScript event and venue arrays, GitHub, Netlify hosting, and Netlify Forms. No separate event database or content editor was found.
@@ -83,7 +89,7 @@ Search Console submission and indexing inspection were not performed because aut
 
 | Check | Result |
 | --- | --- |
-| Behavior regression suite | 27 tests passed |
+| Behavior regression suite | 28 tests passed |
 | Astro type/template checks | 0 errors, 0 warnings; 1 existing deprecated iframe-attribute hint |
 | Static page QA | 37 pages passed metadata, internal link/asset, and booking-markup checks |
 | Built request-rendering QA | 129 dynamic routes, 137 rendered requests, 76 Event schemas passed |

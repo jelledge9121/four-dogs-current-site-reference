@@ -135,12 +135,13 @@ collections:
       - unknown
       - free
       - paid
-      default: unknown
-    - label: I have verified this price
+      default: free
+    - label: Admission confirmed
       name: verified
       widget: boolean
       required: true
-      default: false
+      default: true
+      hint: Four Dogs public events are free. Select paid and enter the confirmed price for murder mystery events.
     - label: Price per person
       name: price
       widget: number

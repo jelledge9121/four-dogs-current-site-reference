@@ -5,7 +5,7 @@ Prepared October 17, 2026, America/New_York. These 17 public event packages have
 The canonical website is deployed and checked: https://4dogsentertainment.com/events/
 The live listing desk has copy buttons and update status: https://4dogsentertainment.com/admin/distribution/
 
-Review each event before submission. Unknown admission and end times are explicitly marked. No private client events or host assignments are included.
+Review each event before submission. Admission is free for all public events except murder mystery. Unknown end times are explicitly marked. No private client events or host assignments are included.
 
 Start with PUBLISHING-CHECKLIST.md. Individual Markdown files contain submission text; event-listings.json contains the complete machine-readable set. external-listing-tracker.json identifies existing listings needing attention. The outside-calendar workflow document describes channel opportunities and the urgent murder-mystery correction.
 
