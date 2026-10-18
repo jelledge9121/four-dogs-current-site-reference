@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
+import ReviewCard from '../components/ReviewCard.astro';
 import { reviews } from '../data/reviews';
 const review = reviews.find((item) => item.id === 'susan-leonard-facebook');
+const weddingReview = reviews.find((item) => item.id === 'gabrielle-stephen-howland-wedding-google' && item.approved);
 ---
 <Base title="Wedding DJ Services Across South Carolina | Four Dogs" description="Four Dogs Entertainment provides wedding DJ services and personalized wedding entertainment across all of South Carolina, including the Almost Married Trivia Experience.">
   <section class="section dark wedding-intro">
@@ -42,6 +44,15 @@ const review = reviews.find((item) => item.id === 'susan-leonard-facebook');
       </div>
     </div>
   </section>
+
+  {weddingReview && (
+    <section class="section">
+      <div class="container">
+        <h2>A wedding night worth talking about.</h2>
+        <ReviewCard review={weddingReview} excerpt="homepage" showFull={true} />
+      </div>
+    </section>
+  )}
 
   {review && (
     <section class="section">

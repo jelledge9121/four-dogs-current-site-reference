@@ -17,6 +17,20 @@ export type Review = {
 
 export const reviews: Review[] = [
   {
+    id: 'gabrielle-stephen-howland-wedding-google',
+    quote: "Four Dogs Entertainment! You’s guys has LESS THAN A WEEK and you still over delivered! Having you’s guys was a serious relieve for my ✨husband✨ (oh how I love saying that) and I. The party was jumpin’ and for someone that doesn’t usually get on the floor I was absolutely BOPPING! You’s guys brought the party and the house down even with only 5 days to prepare and I am in AWE!",
+    excerpts: {
+      homepage: "The party was jumpin’ and for someone that doesn’t usually get on the floor I was absolutely BOPPING!",
+      forVenues: "You’s guys brought the party and the house down even with only 5 days to prepare and I am in AWE!",
+    },
+    name: 'Gabrielle and Stephen Howland',
+    title: 'Wedding Couple · Google 5-Star Review',
+    source: 'Google 5-star review',
+    eventType: 'Wedding DJ & MC',
+    featured: true,
+    approved: true,
+  },
+  {
     id: 'leslie-lane-girls-in-aviation-facebook',
     quote: "I want to reach out and thank this DJ Joey for his incredible generosity and support and our girls in aviation day he graciously donated his time drove 2 hours to be a part of our event and did not charge; his willingness to give back and make this a special day a success speaks volumes about his character and heart for the community. his time and talent and generosity helped make the event more memorable to the girls and everyone involved it's wonderful to work with somebody who goes above and beyond to support such a meaningful cause we are truly grateful for his kindness professionalism and willingness to make a difference highly recommend Joey to anyone looking for a DJ who only not does a great job but has a heart for giving back to our community thank you for helping make girls and aviation day so special",
     excerpts: {
