@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import EventCard from '../../components/EventCard.astro';
 import { events } from '../../data/events';
 import { venues } from '../../data/venues';
-import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, formatDate } from '../../lib/event-system';
+import { selectEvents, CATEGORIES, addDays, localToday, categorySlug } from '../../lib/event-system';
 const q=Astro.url.searchParams;
 const today=localToday();
 const view=['archive','updates'].includes(q.get('view')||'') ? q.get('view')! : 'upcoming';
@@ -16,7 +16,8 @@ const matches=selectEvents(events,venues,filters);
 const cities=[...new Set(venues.map(v=>v.city))].sort();
 const hasFilters = !!(filters.city || filters.venue || filters.category || filters.price || q.has('from') || q.has('to'));
 const rangeLink = (days:number) => { const params = new URLSearchParams(); for(const key of ['city','venue','category','price']) if(q.get(key))params.set(key,q.get(key)!);params.set('from',today);params.set('to',addDays(today,days));return `/events/?${params}`; };
-const rangeLabel = from && to ? `${formatDate(from)} through ${formatDate(to)}` : '';
+const shortDate = (date:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'}).format(new Date(`${date}T12:00:00Z`));
+const rangeLabel = from && to ? `${shortDate(from)} to ${shortDate(to)}` : '';
 const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name, filters.category, filters.price==='free'?'Free admission':filters.price==='paid'?'Ticketed events':''].filter(Boolean);
 
 ---

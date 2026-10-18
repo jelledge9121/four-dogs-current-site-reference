@@ -8,7 +8,7 @@ const photos = {
 };
 fs.mkdirSync('public/images/optimized', { recursive: true });
 for (const [name, source] of Object.entries(photos)) {
-  for (const width of [480, 960, 1440]) {
+  for (const width of (name === 'wedding-floor' ? [480, 800] : [480, 960, 1440])) {
     await sharp(source).rotate().resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toFile(`public/images/optimized/${name}-${width}.webp`);
   }
 }

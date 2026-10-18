@@ -271,7 +271,7 @@ const faqSchema = {
   <section class="section">
     <div class="container split">
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : `Guests enjoying ${service.name} with Four Dogs Entertainment`} loading="lazy" />
+      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} loading="lazy" />
     </div>
   </section>
 
