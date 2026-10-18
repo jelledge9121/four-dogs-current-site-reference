@@ -1,0 +1,23 @@
+{
+  "id": "charter-2026-10-22",
+  "slug": "stranger-things-trivia-charter-803-2026-10-22",
+  "title": "Stranger Things Trivia",
+  "date": "2026-10-22",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "Stranger Things Trivia",
+  "shortDescription": "Hawkins, the Upside Down, characters, episodes, music, monsters, and memorable moments.",
+  "description": "How well do you know Hawkins? Bring your team to Charter 803 for Stranger Things Trivia covering characters, episodes, music, monsters, and memorable moments from the series.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM"
+}

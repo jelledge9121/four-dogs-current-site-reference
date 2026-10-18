@@ -1,0 +1,22 @@
+{
+  "id": "event-010",
+  "slug": "the-great-sitcom-trivia-showdown-2026-08-25",
+  "title": "The Great Sitcom Trivia Showdown",
+  "date": "2026-08-25",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "The Great Sitcom Trivia Showdown",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for The Great Sitcom Trivia Showdown.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

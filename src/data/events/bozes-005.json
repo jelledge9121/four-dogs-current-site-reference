@@ -1,0 +1,22 @@
+{
+  "id": "bozes-005",
+  "slug": "carolina-showdown-trivia-bozes-2026-09-16",
+  "title": "Carolina Showdown Trivia",
+  "date": "2026-09-16",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "theme": "Gamecocks, Tigers & the Palmetto State",
+  "shortDescription": "A Carolina-themed trivia night covering rivalries, state culture, sports, places, and familiar local knowledge.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for Carolina Showdown Trivia, covering Gamecocks, Tigers, Palmetto State culture, sports, places, and familiar local knowledge.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

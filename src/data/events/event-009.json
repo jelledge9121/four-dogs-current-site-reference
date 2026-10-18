@@ -1,0 +1,22 @@
+{
+  "id": "event-009",
+  "slug": "garnet-vs-orange-rivalry-trivia-2026-08-20",
+  "title": "Garnet vs. Orange Rivalry Trivia",
+  "date": "2026-08-20",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "Garnet vs. Orange Rivalry Trivia",
+  "shortDescription": "Trivia at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for Garnet vs. Orange Rivalry Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

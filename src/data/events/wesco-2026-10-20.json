@@ -1,0 +1,23 @@
+{
+  "id": "wesco-2026-10-20",
+  "slug": "heroes-villains-everything-in-between-wesco-2026-10-20",
+  "title": "Heroes, Villains & Everything in Between",
+  "date": "2026-10-20",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Heroes, Villains & Everything in Between",
+  "shortDescription": "Superheroes, Disney villains, movies, TV, cartoons, famous bad guys, and pop culture.",
+  "description": "The heroes you rooted for. The villains you secretly liked. Bring a team to WesCo for a night of superheroes, Disney villains, movies, television, and familiar pop culture with Four Dogs. The confirmed start time is 7 PM.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "9:00 PM"
+}

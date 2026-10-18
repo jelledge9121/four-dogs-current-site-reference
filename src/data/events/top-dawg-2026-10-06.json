@@ -1,0 +1,22 @@
+{
+  "id": "top-dawg-2026-10-06",
+  "slug": "nascar-trivia-top-dawg-2026-10-06",
+  "title": "NASCAR Trivia",
+  "date": "2026-10-06",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "NASCAR Trivia",
+  "shortDescription": "Drivers, tracks, races, history, moments, and NASCAR culture take over Tuesday night.",
+  "description": "Join Four Dogs Entertainment at Top Dawg Tavern for NASCAR Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

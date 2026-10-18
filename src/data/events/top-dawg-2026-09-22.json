@@ -1,0 +1,22 @@
+{
+  "id": "top-dawg-2026-09-22",
+  "slug": "doggone-good-general-knowledge-trivia-top-dawg-2026-09-22",
+  "title": "Doggone Good General Knowledge Trivia",
+  "date": "2026-09-22",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "Doggone Good General Knowledge Trivia",
+  "shortDescription": "A classic Four Dogs general knowledge night with a little bit of everything.",
+  "description": "Join Four Dogs Entertainment at Top Dawg Tavern for Doggone Good General Knowledge Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

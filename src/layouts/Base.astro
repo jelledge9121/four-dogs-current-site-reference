@@ -5,7 +5,7 @@ import PackPopup from '../components/PackPopup.astro';
 import '../styles/global.css';
 import {site} from '../data/site';
 
-const {title,description,image='/images/social-card-statewide.jpg',schema=[]}=Astro.props;
+const {title,description,image='/images/social-card-statewide.jpg',schema=[],noindex=false}=Astro.props;
 const canonical=new URL(Astro.url.pathname,site.url);
 const schemas=Array.isArray(schema)?schema:[schema];
 const slickTextTag = `<!-- Begin SlickText Tag -->
@@ -25,6 +25,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     <meta name="viewport" content="width=device-width">
     <title>{title}</title>
     <meta name="description" content={description}>
+    {noindex && <meta name="robots" content="noindex,follow"/>}
     <link rel="canonical" href={canonical}>
     <link rel="icon" href="/favicon.png">
     <meta property="og:type" content="website">
@@ -37,7 +38,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     <meta property="og:image:alt" content="Four Dogs Entertainment serving Columbia, Lexington, Greenville, Charleston, and all of South Carolina">
     <meta name="twitter:image" content={new URL(image,site.url)}>
     <meta name="twitter:card" content="summary_large_image">
-    {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s)}></script>)}
+    {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s).replace(/</g, '\\u003c')}></script>)}
   </head>
   <body>
     <div class="seasonal-banner" data-holiday-banner hidden aria-label="Holiday entertainment announcement">
@@ -57,33 +58,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
           if (month >= 8 && month <= 11) banner.hidden = false;
         }
 
-        const parts = new Intl.DateTimeFormat('en-US', {
-          timeZone: 'America/New_York',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        }).formatToParts(now);
-        const part = (type) => parts.find((item) => item.type === type)?.value ?? '';
-        const today = `${part('year')}-${part('month')}-${part('day')}`;
 
-        document.querySelectorAll('[data-event-date]').forEach((item) => {
-          const date = item.getAttribute('data-event-date');
-          if (date && date < today) item.hidden = true;
-        });
-
-        document.querySelectorAll('[data-event-list]').forEach((list) => {
-          const max = Number(list.getAttribute('data-max-visible') || 0);
-          if (!max) return;
-          const visible = Array.from(list.querySelectorAll('[data-event-date]')).filter((item) => !item.hidden);
-          visible.slice(max).forEach((item) => { item.hidden = true; });
-        });
-
-        document.querySelectorAll('[data-event-detail-date]').forEach((detail) => {
-          const date = detail.getAttribute('data-event-detail-date');
-          const isPast = Boolean(date && date < today);
-          detail.querySelectorAll('[data-past-only]').forEach((item) => { item.hidden = !isPast; });
-          detail.querySelectorAll('[data-future-only]').forEach((item) => { item.hidden = isPast; });
-        });
       })();
     </script>
     <Fragment set:html={slickTextTag} />

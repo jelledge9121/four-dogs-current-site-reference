@@ -1,0 +1,23 @@
+{
+  "id": "top-dawg-2026-10-27",
+  "slug": "monsters-mysteries-mayhem-trivia-top-dawg-2026-10-27",
+  "title": "Monsters, Mysteries & Mayhem Trivia",
+  "date": "2026-10-27",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "theme": "Monsters, Mysteries & Mayhem Trivia",
+  "shortDescription": "Monsters, mysteries, spooky stories, pop culture, and Halloween-season mayhem.",
+  "description": "Join Four Dogs Entertainment at Top Dawg Tavern for Monsters, Mysteries & Mayhem Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM"
+}

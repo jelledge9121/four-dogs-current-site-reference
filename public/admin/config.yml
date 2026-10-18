@@ -1,0 +1,577 @@
+backend:
+  name: github
+  repo: jelledge9121/four-dogs-current-site-reference
+  branch: main
+  site_domain: 4dogsentertainment.netlify.app
+publish_mode: editorial_workflow
+media_folder: public/images/events
+public_folder: /images/events
+site_url: https://4dogsentertainment.com
+display_url: https://4dogsentertainment.com
+logo_url: /images/logo.png
+collections:
+- name: events
+  label: Public event occurrences
+  folder: src/data/events
+  create: true
+  delete: false
+  extension: json
+  format: json
+  identifier_field: id
+  slug: '{{id}}'
+  summary: '{{title}} | {{date}} | {{venueId}}'
+  fields:
+  - label: Stable event ID
+    name: id
+    widget: string
+    required: true
+  - label: Stable URL slug
+    name: slug
+    widget: string
+    required: true
+  - &id002
+    label: Event title
+    name: title
+    widget: string
+    required: true
+  - &id003
+    label: Theme
+    name: theme
+    widget: string
+    required: true
+  - label: Date (YYYY-MM-DD)
+    name: date
+    widget: string
+    required: true
+    pattern:
+    - ^\d{4}-\d{2}-\d{2}$
+    - Use YYYY-MM-DD
+  - &id004
+    label: 'Start (example: 7:30 PM)'
+    name: startTime
+    widget: string
+    required: false
+  - &id005
+    label: Confirmed end time
+    name: endTime
+    widget: string
+    required: false
+  - &id006
+    label: End date for overnight events
+    name: endDate
+    widget: string
+    required: false
+  - &id007
+    label: Venue
+    name: venueId
+    widget: relation
+    required: true
+    collection: settings
+    file: venues
+    search_fields: &id028
+    - venues.*.name
+    display_fields: &id029
+    - venues.*.name
+    value_field: venues.*.id
+  - &id008
+    label: Activity
+    name: eventType
+    widget: select
+    required: true
+    options: &id001
+    - Trivia
+    - Music Bingo
+    - Karaoke
+    - Survey Showdown
+    - Are You Smarter Than a Barstool?
+    - Comedy
+    - Murder Mystery
+    - Fundraisers
+    - Community Events
+    - Other Public Events
+  - &id009
+    label: Also listed under
+    name: secondaryCategories
+    widget: select
+    required: false
+    multiple: true
+    options: *id001
+  - &id010
+    label: Card description
+    name: shortDescription
+    widget: text
+    required: true
+  - &id011
+    label: Full description
+    name: description
+    widget: text
+    required: true
+  - &id012
+    label: Event photograph
+    name: image
+    widget: image
+    required: true
+  - &id013
+    label: Photo description
+    name: imageAlt
+    widget: string
+    required: false
+  - &id014
+    label: Participation and seating instructions
+    name: instructions
+    widget: text
+    required: true
+  - &id015
+    label: Admission
+    name: admission
+    widget: object
+    required: true
+    fields: &id030
+    - label: Admission type
+      name: kind
+      widget: select
+      required: true
+      options:
+      - unknown
+      - free
+      - paid
+      default: unknown
+    - label: I have verified this price
+      name: verified
+      widget: boolean
+      required: true
+      default: false
+    - label: Price per person
+      name: price
+      widget: number
+      required: false
+      value_type: float
+      min: 0
+    - label: Currency
+      name: currency
+      widget: string
+      required: false
+      default: USD
+    - label: Visible admission details
+      name: note
+      widget: text
+      required: false
+  - &id016
+    label: Ticket or registration URL
+    name: registrationUrl
+    widget: string
+    required: false
+  - &id017
+    label: Ticket button text
+    name: registrationLabel
+    widget: string
+    required: false
+  - &id018
+    label: Visibility
+    name: visibility
+    widget: select
+    required: true
+    options: &id031
+    - public
+    - private
+    default: public
+    hint: Only public event copy belongs in this repository. Keep private bookings
+      and staffing in the private calendar.
+  - &id019
+    label: Fact confirmation
+    name: publicationStatus
+    widget: select
+    required: true
+    options: &id032
+    - draft
+    - review
+    - published
+    default: draft
+    hint: Choose published only after the date, venue, theme, and participation details
+      are confirmed.
+  - &id020
+    label: Event status
+    name: status
+    widget: select
+    required: true
+    options: &id033
+    - scheduled
+    - cancelled
+    - postponed
+    - rescheduled
+    default: scheduled
+  - &id021
+    label: Previous start with offset (rescheduled only)
+    name: previousStartDate
+    widget: string
+    required: false
+  - &id022
+    label: Repeated DST hour choice
+    name: dstDisambiguation
+    widget: select
+    required: false
+    options: &id034
+    - earlier
+    - later
+  - &id023
+    label: Feature this event
+    name: featured
+    widget: boolean
+    required: true
+    default: false
+  - &id024
+    label: Optional SEO title
+    name: seoTitle
+    widget: string
+    required: false
+  - &id025
+    label: Optional search description
+    name: metaDescription
+    widget: text
+    required: false
+  - &id026
+    label: Last updated
+    name: lastUpdated
+    widget: datetime
+    required: false
+  - &id027
+    label: Fact conflict or confirmation needed
+    name: reviewReason
+    widget: text
+    required: false
+  - label: External listings
+    name: externalListings
+    widget: list
+    required: false
+    fields:
+    - label: Platform
+      name: platform
+      widget: string
+      required: true
+    - label: Listing URL
+      name: url
+      widget: string
+      required: false
+    - label: Update status
+      name: status
+      widget: select
+      required: true
+      options:
+      - not-submitted
+      - needs-claim
+      - needs-update
+      - current
+    - label: Last checked
+      name: checkedAt
+      widget: datetime
+      required: false
+    - label: Website last-updated value copied when synchronized
+      name: syncedRevision
+      widget: string
+      required: false
+    - label: Update notes
+      name: notes
+      widget: text
+      required: false
+- name: series
+  label: Confirmed recurring agreements
+  folder: src/data/series
+  create: true
+  delete: false
+  extension: json
+  format: json
+  identifier_field: id
+  slug: '{{id}}'
+  fields:
+  - label: Stable series ID
+    name: id
+    widget: string
+    required: true
+  - label: First confirmed date
+    name: confirmedFrom
+    widget: string
+    required: true
+  - label: Last confirmed date
+    name: confirmedThrough
+    widget: string
+    required: true
+  - label: 'Weekday: Monday = 1, Sunday = 7'
+    name: weekday
+    widget: number
+    required: true
+    min: 1
+    max: 7
+    value_type: int
+  - label: Repeat every N weeks
+    name: intervalWeeks
+    widget: number
+    required: true
+    min: 1
+    default: 1
+    value_type: int
+  - label: Dates to skip
+    name: excludedDates
+    widget: list
+    required: false
+    field:
+      label: Date
+      name: date
+      widget: string
+      required: true
+  - label: Default event details
+    name: template
+    widget: object
+    required: true
+    fields:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - *id006
+    - *id007
+    - *id008
+    - *id009
+    - *id010
+    - *id011
+    - *id012
+    - *id013
+    - *id014
+    - *id015
+    - *id016
+    - *id017
+    - *id018
+    - *id019
+    - *id020
+    - *id021
+    - *id022
+    - *id023
+    - *id024
+    - *id025
+    - *id026
+    - *id027
+  - label: Exceptions for individual dates
+    name: overrides
+    widget: list
+    required: false
+    fields:
+    - label: Original occurrence date
+      name: originalDate
+      widget: string
+      required: true
+    - label: Changed details only
+      name: changes
+      widget: object
+      required: true
+      fields:
+      - label: Event title
+        name: title
+        widget: string
+        required: false
+      - label: Theme
+        name: theme
+        widget: string
+        required: false
+      - label: 'Start (example: 7:30 PM)'
+        name: startTime
+        widget: string
+        required: false
+      - label: Confirmed end time
+        name: endTime
+        widget: string
+        required: false
+      - label: End date for overnight events
+        name: endDate
+        widget: string
+        required: false
+      - label: Venue
+        name: venueId
+        widget: relation
+        required: false
+        collection: settings
+        file: venues
+        search_fields: *id028
+        display_fields: *id029
+        value_field: venues.*.id
+      - label: Activity
+        name: eventType
+        widget: select
+        required: false
+        options: *id001
+      - label: Also listed under
+        name: secondaryCategories
+        widget: select
+        required: false
+        multiple: true
+        options: *id001
+      - label: Card description
+        name: shortDescription
+        widget: text
+        required: false
+      - label: Full description
+        name: description
+        widget: text
+        required: false
+      - label: Event photograph
+        name: image
+        widget: image
+        required: false
+      - label: Photo description
+        name: imageAlt
+        widget: string
+        required: false
+      - label: Participation and seating instructions
+        name: instructions
+        widget: text
+        required: false
+      - label: Admission
+        name: admission
+        widget: object
+        required: false
+        fields: *id030
+      - label: Ticket or registration URL
+        name: registrationUrl
+        widget: string
+        required: false
+      - label: Ticket button text
+        name: registrationLabel
+        widget: string
+        required: false
+      - label: Visibility
+        name: visibility
+        widget: select
+        required: false
+        options: *id031
+        hint: Only public event copy belongs in this repository. Keep private bookings
+          and staffing in the private calendar.
+      - label: Fact confirmation
+        name: publicationStatus
+        widget: select
+        required: false
+        options: *id032
+        hint: Choose published only after the date, venue, theme, and participation
+          details are confirmed.
+      - label: Event status
+        name: status
+        widget: select
+        required: false
+        options: *id033
+      - label: Previous start with offset (rescheduled only)
+        name: previousStartDate
+        widget: string
+        required: false
+      - label: Repeated DST hour choice
+        name: dstDisambiguation
+        widget: select
+        required: false
+        options: *id034
+      - label: Feature this event
+        name: featured
+        widget: boolean
+        required: false
+      - label: Optional SEO title
+        name: seoTitle
+        widget: string
+        required: false
+      - label: Optional search description
+        name: metaDescription
+        widget: text
+        required: false
+      - label: Fact conflict or confirmation needed
+        name: reviewReason
+        widget: text
+        required: false
+      - label: New date
+        name: date
+        widget: string
+        required: false
+- name: settings
+  label: Venues
+  files:
+  - name: venues
+    label: Verified venue records
+    file: src/data/venues.json
+    fields:
+    - label: Venues
+      name: venues
+      widget: list
+      required: true
+      fields:
+      - label: Venue ID
+        name: id
+        widget: string
+        required: true
+      - label: Venue page slug
+        name: slug
+        widget: string
+        required: true
+      - label: Venue name
+        name: name
+        widget: string
+        required: true
+      - label: Street address
+        name: address
+        widget: string
+        required: true
+      - label: Actual city
+        name: city
+        widget: string
+        required: true
+      - label: State
+        name: state
+        widget: string
+        required: true
+        default: SC
+      - label: ZIP
+        name: zip
+        widget: string
+        required: true
+        pattern:
+        - ^\d{5}$
+        - Use a five-digit ZIP
+      - label: Address verified
+        name: addressVerified
+        widget: boolean
+        required: true
+        default: false
+      - label: Venue website
+        name: website
+        widget: string
+        required: false
+      - label: Directions URL
+        name: mapUrl
+        widget: string
+        required: true
+      - label: Venue introduction
+        name: description
+        widget: text
+        required: true
+      - label: Authentic photo
+        name: image
+        widget: image
+        required: true
+      - label: Active partner
+        name: active
+        widget: boolean
+        required: true
+        default: true
+      - label: Area page slug
+        name: areaSlug
+        widget: string
+        required: true
+      - label: Legacy schedule (leave empty)
+        name: weeklySchedule
+        widget: list
+        required: false
+        fields:
+        - label: day
+          name: day
+          widget: string
+          required: true
+        - label: time
+          name: time
+          widget: string
+          required: true
+        - label: format
+          name: format
+          widget: string
+          required: true

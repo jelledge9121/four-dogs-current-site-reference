@@ -1,0 +1,38 @@
+{
+  "id": "aura-thursday-trial-2026",
+  "confirmedFrom": "2026-10-22",
+  "confirmedThrough": "2026-11-12",
+  "weekday": 4,
+  "intervalWeeks": 1,
+  "excludedDates": [],
+  "template": {
+    "title": "Music Bingo at Aura",
+    "startTime": "7:30 PM",
+    "endTime": "9:30 PM",
+    "venueId": "aura",
+    "eventType": "Music Bingo",
+    "theme": "Music Bingo",
+    "shortDescription": "Thursday Music Bingo in The Vista with Four Dogs Entertainment.",
+    "description": "Meet your people in The Vista for a Thursday night of familiar songs and Music Bingo with Four Dogs Entertainment at Aura Kitchen & Bar. The four confirmed trial dates are October 22, October 29, November 5, and November 12.",
+    "image": "/images/hero.jpg",
+    "featured": true,
+    "status": "scheduled",
+    "visibility": "public",
+    "publicationStatus": "published",
+    "lastUpdated": "2026-10-18T02:26:33Z",
+    "admission": {
+      "kind": "unknown"
+    },
+    "instructions": "Contact Aura for seating, admission, and participation requirements. Music Bingo runs from 7:30 to 9:30 PM."
+  },
+  "overrides": [
+    {
+      "originalDate": "2026-10-22",
+      "changes": {
+        "title": "2000s vs. 2010s Music Bingo at Aura",
+        "theme": "2000s vs. 2010s: Throwback Thursday",
+        "description": "Settle the throwback debate with your people. Four Dogs brings 2000s vs. 2010s Music Bingo to Aura Kitchen & Bar in The Vista. Listen for familiar hits and follow along with the host for a Thursday night of music and friendly competition."
+      }
+    }
+  ]
+}

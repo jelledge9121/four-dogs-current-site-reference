@@ -1,0 +1,23 @@
+{
+  "id": "charter-2026-10-21",
+  "slug": "screen-time-music-bingo-charter-803-2026-10-21",
+  "title": "Screen Time Music Bingo",
+  "date": "2026-10-21",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Screen Time Music Bingo",
+  "shortDescription": "Songs connected to movies, television, soundtracks, and unforgettable screen moments.",
+  "description": "Some songs take you straight back to a movie scene. Bring your people to Charter 803 for Screen Time Music Bingo, with recognizable songs connected to movies, television, and soundtracks. Follow the host and listen for your next match.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM"
+}

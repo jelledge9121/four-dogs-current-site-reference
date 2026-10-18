@@ -1,0 +1,42 @@
+{
+  "id": "charter-2026-10-30",
+  "slug": "2026-10-30-saluda-mill-murder-black-sheep-bourbon-society-lexington-sc",
+  "title": "The Saluda Mill Murder: Murder Mystery Trivia",
+  "date": "2026-10-30",
+  "startTime": "7:30 PM",
+  "venueId": "black-sheep",
+  "eventType": "Murder Mystery",
+  "theme": "The Saluda Mill Murder",
+  "shortDescription": "A featured ticketed Murder Mystery Trivia event where teams answer questions, follow clues, and solve the case.",
+  "description": "A celebration turns deadly. Five suspects. Conflicting stories. One truth to uncover. Gather your team at Black Sheep Bourbon Society for an interactive murder mystery where you examine evidence, challenge alibis, and piece together what happened at Saluda Mill.",
+  "image": "/images/hero.jpg",
+  "registrationUrl": "https://form.jotform.com/262725992611059",
+  "registrationLabel": "Get tickets",
+  "ticketed": true,
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "paid",
+    "verified": true,
+    "price": 25,
+    "currency": "USD",
+    "note": "$25 per person includes the first drink. Ages 21+ with valid photo ID."
+  },
+  "instructions": "Purchase your ticket using the registration link. Ages 21+ with valid photo ID. Your $25 ticket includes the first drink. The end time has not been confirmed.",
+  "externalListings": [
+    {
+      "platform": "HappeningNext",
+      "url": "https://happeningnext.com/event/trivia-night-special-event-saluda-mill-murder-mystery-ticketed-event-eid3a0e6883l3",
+      "status": "needs-update",
+      "notes": "Lists Charter 803 and 6:30 PM UTC-05:00. Actual event starts 7:30 PM America/New_York (UTC-04:00). Venue identity must be Black Sheep Bourbon Society."
+    },
+    {
+      "platform": "AllEvents",
+      "status": "needs-claim",
+      "notes": "October 13 organizer notice says listing ownership is unverified. Correct venue identity and local start time after claiming."
+    }
+  ]
+}

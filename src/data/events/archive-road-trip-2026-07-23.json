@@ -1,0 +1,22 @@
+{
+  "id": "archive-road-trip-2026-07-23",
+  "slug": "summer-road-trip-trivia-charter-803-july-23-2026",
+  "title": "Summer Road Trip Trivia",
+  "date": "2026-07-23",
+  "startTime": "7:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "Summer Road Trip Trivia",
+  "shortDescription": "Landmarks, road trip snacks, travel songs, and roadside stops filled this themed trivia night.",
+  "description": "Landmarks, road trip snacks, travel songs, and roadside stops filled this themed trivia night.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

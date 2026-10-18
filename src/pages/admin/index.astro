@@ -1,0 +1,23 @@
+---
+export const prerender=false;
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex,nofollow"/><title>Four Dogs Event Editor</title><link href="/admin/config.yml" type="text/yaml" rel="cms-config-url"/></head><body><noscript>This editor requires JavaScript. Public event pages work without JavaScript.</noscript><script is:inline>window.CMS_MANUAL_INIT=true;</script><script is:inline src="https://unpkg.com/decap-cms@3.17.1/dist/decap-cms.js"></script><script is:inline>
+if(window.CMS){
+ CMS.registerEventListener({name:'preSave',handler:({entry})=>{
+  let data=entry.get('data');
+  const collection=entry.get('collection');
+  if(collection==='events'){
+   if(data.get('visibility')!=='public')throw new Error('Keep private client bookings and host assignments in the private staffing calendar. This editor stores public event copy only.');
+   if(data.get('assignedHost'))throw new Error('Host assignments belong in the private staffing calendar.');
+   data=data.set('lastUpdated',new Date().toISOString());
+  }
+  if(collection==='series'){
+   if(data.getIn(['template','visibility'])!=='public')throw new Error('Private bookings must stay in the private staffing calendar.');
+   if((data.get('overrides')?.toJS() || []).some(o=>o.changes?.visibility==='private' || o.changes?.assignedHost))throw new Error('Private bookings and host assignments must stay in the private calendar.');
+   data=data.setIn(['template','lastUpdated'],new Date().toISOString());
+  }
+  return data;
+ }});
+ CMS.init();
+}
+</script></body></html>

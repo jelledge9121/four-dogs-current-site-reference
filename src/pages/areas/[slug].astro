@@ -1,8 +1,8 @@
 ---
+export const prerender = false;
 import Base from '../../layouts/Base.astro';
-import EventCard from '../../components/EventCard.astro';
+import EventList from '../../components/EventList.astro';
 import { venues } from '../../data/venues';
-import { upcomingEvents } from '../../data/events';
 
 type Area = {
   slug: string;
@@ -20,7 +20,7 @@ type Area = {
 
 type Props = { area: Area };
 
-export function getStaticPaths() {
+function getAreaPaths() {
   const areas: Area[] = [
     {
       slug: 'lexington-sc',
@@ -30,7 +30,7 @@ export function getStaticPaths() {
       lead: 'Recurring public events and bookable entertainment for Lexington venues, couples, businesses, communities, and private groups.',
       intro: [
         'Four Dogs Entertainment is active in Lexington with recurring public events plus wedding, private-event, community, and venue entertainment throughout the area.',
-        'Charter 803 Bar & Grill at 269 Charter Oak Road currently hosts Four Dogs Music Bingo on Wednesdays and trivia or specialty game nights on Thursdays, with current recurring events scheduled for 6:30 PM. The Events page is the authoritative source for dates and themes.',
+        'Charter 803 Bar & Grill at 269 Charter Oak Road hosts Four Dogs Music Bingo, trivia, and special game nights. The event calendar below has the confirmed dates, themes, and start times.',
       ],
       services: [
         { name: 'Trivia in Lexington', description: 'General knowledge, themed trivia, and specialty game nights.', href: '/trivia-night-lexington-sc/' },
@@ -55,7 +55,7 @@ export function getStaticPaths() {
       lead: 'Public trivia plus bookable DJ, wedding, private, corporate, community, and venue entertainment across Columbia.',
       intro: [
         'Four Dogs Entertainment serves Columbia with recurring public programming and bookable entertainment for venues, businesses, organizations, weddings, and private events.',
-        'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM. Public dates and themes should always be confirmed on the Events page.',
+        'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check its current dates, themes, and start times in the event calendar.',
       ],
       services: [
         { name: 'Trivia in Columbia', description: 'Recurring public trivia plus private and venue-hosted options.', href: '/trivia-night-columbia-sc/' },
@@ -68,7 +68,7 @@ export function getStaticPaths() {
       nearby: ['Columbia', 'Northeast Columbia', 'Forest Acres area', 'West Columbia', 'Cayce', 'Lexington and surrounding Midlands communities'],
       venueIds: ['top-dawg'],
       faqs: [
-        { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM.' },
+        { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check the event calendar for confirmed dates and times.' },
         { question: 'Does Four Dogs offer DJ and wedding entertainment in Columbia?', answer: 'Yes. Four Dogs offers DJ entertainment for weddings, private events, formals, businesses, organizations, and community gatherings.' },
         { question: 'Can a Columbia restaurant book recurring entertainment?', answer: 'Yes. Four Dogs works with bars and restaurants on recurring trivia, Music Bingo, and compatible specialty game formats.' },
       ],
@@ -134,7 +134,7 @@ export function getStaticPaths() {
       lead: 'Weekly trivia in Cayce plus entertainment for West Columbia and Cayce private events, communities, organizations, celebrations, and venue partners.',
       intro: [
         'Four Dogs provides recurring and bookable entertainment throughout West Columbia and Cayce, including Trivia, DJ services, Music Bingo, Karaoke, weddings, private events, community events, and interactive specialty games.',
-        'WesCo Brew & Bowl at 3040 Charleston Highway in Cayce, located in the former Piggly Wiggly, hosts Four Dogs Trivia every Tuesday at 6:30 PM beginning September 8, 2026. Check the Events page for the current weekly themes and exact dates.',
+        'WesCo Brew & Bowl at 3040 Charleston Highway in Cayce, located in the former Piggly Wiggly, hosts Four Dogs Trivia on confirmed Tuesdays at 7 PM from October 20, 2026. Check the Events page for the current weekly themes and exact dates.',
       ],
       services: [
         { name: 'Trivia', description: 'Weekly Cayce trivia plus traditional, themed, and specialty hosted trivia for venues and groups.', href: '/services/trivia/' },
@@ -143,9 +143,9 @@ export function getStaticPaths() {
         { name: 'Music Bingo', description: 'Interactive music-based entertainment for venues and groups.', href: '/services/music-bingo/' },
       ],
       nearby: ['West Columbia', 'Cayce', 'Lexington', 'Columbia', 'Lake Murray area and surrounding Midlands communities'],
-      venueIds: ['wesco'],
+      venueIds: ['wesco','bozes'],
       faqs: [
-        { question: 'Where can I play Four Dogs trivia in Cayce?', answer: 'WesCo Brew & Bowl at 3040 Charleston Highway hosts Four Dogs Trivia every Tuesday at 6:30 PM beginning September 8, 2026. Check the Events page for the current theme.' },
+        { question: 'Where can I play Four Dogs trivia in Cayce?', answer: 'WesCo Brew & Bowl at 3040 Charleston Highway hosts Four Dogs Trivia on confirmed Tuesdays at 7 PM from October 20, 2026. Check the Events page for the current theme.' },
         { question: 'Can a West Columbia or Cayce venue ask about recurring Trivia or Music Bingo?', answer: 'Yes. Venue partners can use the booking form to discuss recurring programming or a test event.' },
         { question: 'Where can I see current public events?', answer: 'The Events page lists the current Four Dogs public schedule, including the WesCo Brew & Bowl Tuesday lineup.' },
       ],
@@ -155,9 +155,10 @@ export function getStaticPaths() {
   return areas.map((area) => ({ params: { slug: area.slug }, props: { area } }));
 }
 
-const { area } = Astro.props as Props;
+const route = getAreaPaths().find(p=>p.params.slug===Astro.params.slug);
+if(!route) return new Response('Area not found',{status:404});
+const { area } = route.props;
 const areaVenues = venues.filter((venue) => area.venueIds.includes(venue.id));
-const areaEvents = upcomingEvents().filter((event) => area.venueIds.includes(event.venueId));
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -235,16 +236,7 @@ const faqSchema = {
     </section>
   )}
 
-  {areaEvents.length > 0 && (
-    <section class="section alt">
-      <div class="container">
-        <p class="eyebrow">Coming up</p>
-        <h2>Upcoming Four Dogs events in {area.name}.</h2>
-        <div class="grid" data-event-list data-max-visible="4">{areaEvents.map((event) => <EventCard event={event} />)}</div>
-        <div class="actions"><a class="button" href="/events/">See all events</a></div>
-      </div>
-    </section>
-  )}
+  <section class="section alt"><div class="container"><p class="eyebrow">Coming up</p><h2>Confirmed Four Dogs events in {area.name}.</h2><EventList city={areaVenues.map(v=>v.city)}/><div class="actions"><a class="button" href="/events/">See all events</a></div></div></section>
 
   {area.slug === 'fountain-inn-sc' && (
     <section class="section">

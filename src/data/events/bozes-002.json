@@ -1,0 +1,22 @@
+{
+  "id": "bozes-002",
+  "slug": "80s-vs-90s-music-bingo-bozes-2026-08-26",
+  "title": "80s vs. 90s Music Bingo",
+  "date": "2026-08-26",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Music Bingo",
+  "theme": "80s vs. 90s Music Bingo",
+  "shortDescription": "A throwback Music Bingo night packed with recognizable 80s and 90s favorites.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for 80s vs. 90s Music Bingo, a throwback night packed with recognizable songs and singalong favorites.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

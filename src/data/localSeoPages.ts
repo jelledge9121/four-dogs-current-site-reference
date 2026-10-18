@@ -33,7 +33,7 @@ export const localSeoPages: LocalSeoPage[] = [
       'Interactive specialty formats including Four Dogs Survey Showdown and Are You Smarter Than a Barstool?',
     ],
     faqs: [
-      { question: 'Where can I play Four Dogs trivia in Lexington?', answer: 'Charter 803 Bar & Grill currently hosts recurring Four Dogs trivia and game nights on Thursdays at 6:30 PM. Check the Events page before attending for the latest schedule.' },
+      { question: 'Where can I play Four Dogs trivia in Lexington?', answer: 'Charter 803 Bar & Grill hosts Four Dogs trivia and game nights. Use the event calendar for each confirmed date, theme, and start time.' },
       { question: 'Can Four Dogs host trivia for a private event in Lexington?', answer: 'Yes. Trivia can be adapted for private parties, companies, organizations, communities, and other gatherings.' },
       { question: 'Does Four Dogs provide themed trivia?', answer: 'Yes. Four Dogs uses both general knowledge and themed formats, along with original interactive game experiences.' },
     ],
@@ -55,7 +55,7 @@ export const localSeoPages: LocalSeoPage[] = [
     lead: 'Interactive trivia for Columbia venues and events, hosted with the pacing and personality that keep a room involved.',
     intro: [
       'Four Dogs Entertainment provides hosted trivia and game-night entertainment throughout Columbia for restaurants, bars, businesses, private events, and community gatherings, with statewide availability across South Carolina.',
-      'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM. Check the Events page for the latest public schedule and themes.',
+      'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check the event calendar for confirmed dates and times. Check the Events page for the latest public schedule and themes.',
     ],
     highlights: [
       'General knowledge and themed trivia',
@@ -65,7 +65,7 @@ export const localSeoPages: LocalSeoPage[] = [
       'Rotating Four Dogs specialty game formats',
     ],
     faqs: [
-      { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill currently hosts Four Dogs trivia and rotating game experiences on Tuesdays at 6:30 PM. Check the Events page for current details.' },
+      { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check the event calendar for confirmed dates and times. Check the Events page for current details.' },
       { question: 'Can a Columbia restaurant book Four Dogs trivia?', answer: 'Yes. Four Dogs works with venue partners on recurring hosted entertainment and can also produce one-time events.' },
       { question: 'Can trivia be customized for a private group?', answer: 'Yes. The format can be selected or adapted to fit the audience, event type, and setting.' },
     ],
@@ -92,7 +92,7 @@ export const localSeoPages: LocalSeoPage[] = [
     highlights: ['Weekly public trivia', 'Themed and general knowledge games', 'Private and corporate trivia', 'Original Four Dogs game-show formats', 'Venue partnership programming'],
     faqs: [
       { question: 'Does Four Dogs host trivia in both Columbia and Lexington?', answer: 'Yes. Four Dogs currently has recurring public trivia programming in both markets and also books private and venue events throughout South Carolina.' },
-      { question: 'What time do current recurring Four Dogs events start?', answer: 'Current recurring public Four Dogs events are scheduled for 6:30 PM. Check individual event listings before attending.' },
+      { question: 'What time do current recurring Four Dogs events start?', answer: 'Start times vary by venue and date. The event calendar lists the current confirmed time for each occurrence.' },
       { question: 'Where should I check for upcoming themes?', answer: 'Use the Four Dogs Events page for the current event calendar.' },
     ],
     bookingValue: 'Trivia',
@@ -113,11 +113,11 @@ export const localSeoPages: LocalSeoPage[] = [
     lead: 'Recognizable songs, easy-to-join gameplay, and a hosted experience built around participation.',
     intro: [
       'Four Dogs Music Bingo combines familiar music with bingo-style gameplay for a social format that works for regulars, first-timers, friend groups, private parties, and venue crowds.',
-      'Charter 803 Bar & Grill currently hosts recurring Four Dogs Music Bingo on Wednesdays at 6:30 PM in Lexington. Check the Events page for the latest themes and dates.',
+      'Charter 803 Bar & Grill hosts Four Dogs Music Bingo in Lexington. The event calendar has confirmed themes, dates, and start times.',
     ],
     highlights: ['Hosted Music Bingo rounds', 'Rotating music themes', 'Recurring restaurant and bar entertainment', 'Private and corporate event availability', 'A low-pressure format that is easy for new players to join'],
     faqs: [
-      { question: 'Where can I play Four Dogs Music Bingo in Lexington?', answer: 'Charter 803 Bar & Grill currently hosts recurring Four Dogs Music Bingo on Wednesdays at 6:30 PM.' },
+      { question: 'Where can I play Four Dogs Music Bingo in Lexington?', answer: 'Charter 803 Bar & Grill hosts Four Dogs Music Bingo. Check its current dates and start times in the event calendar.' },
       { question: 'Do I need to know music trivia to play?', answer: 'No. Music Bingo is designed around recognizing songs and following the game card, so it is approachable for casual players.' },
       { question: 'Can Music Bingo be booked for a private Lexington event?', answer: 'Yes. Four Dogs offers Music Bingo for private, company, community, and other hosted events.' },
     ],
@@ -169,7 +169,7 @@ export const localSeoPages: LocalSeoPage[] = [
     ],
     highlights: ['Public and private Music Bingo', 'Rotating music themes', 'Lexington and Columbia service coverage', 'Recurring venue programming', 'Professional host and game management'],
     faqs: [
-      { question: 'Where is Four Dogs Music Bingo currently recurring?', answer: 'Charter 803 Bar & Grill in Lexington currently hosts recurring Wednesday Music Bingo at 6:30 PM.' },
+      { question: 'Where is Four Dogs Music Bingo currently recurring?', answer: 'Charter 803 Bar & Grill in Lexington hosts Four Dogs Music Bingo. Check the current event calendar for dates and start times.' },
       { question: 'Can Four Dogs bring Music Bingo to Columbia?', answer: 'Yes. Columbia venues, businesses, private groups, and community organizations can book the format.' },
       { question: 'How do I find the current public schedule?', answer: 'Visit the Events page for upcoming dates, themes, venues, and times.' },
     ],
@@ -295,7 +295,7 @@ export const localSeoPages: LocalSeoPage[] = [
     lead: 'Recurring hosted entertainment designed to give guests another reason to put your venue on the calendar.',
     intro: [
       'Four Dogs partners with bars and restaurants on hosted entertainment including trivia, Music Bingo, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, and other compatible game-night formats.',
-      'Top Dawg Tavern at Village at Sandhill currently hosts Tuesday Four Dogs trivia and rotating game experiences at 6:30 PM, providing a real Columbia example of the recurring venue model.',
+      'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences, providing a Columbia example of recurring venue entertainment. Confirm each date in the event calendar.',
     ],
     highlights: ['Recurring weekly or rotating entertainment', 'Professional host and game management', 'Trivia, Music Bingo, and specialty formats', 'Promotional creative and event support', 'Programming selected for the venue and audience'],
     faqs: [

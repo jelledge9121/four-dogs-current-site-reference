@@ -1,0 +1,23 @@
+{
+  "id": "event-026",
+  "slug": "four-dogs-survey-showdown-2026-11-12",
+  "title": "Four Dogs Survey Showdown",
+  "date": "2026-11-12",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "Survey Showdown at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for Four Dogs Survey Showdown.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "bozes-003",
+  "slug": "are-you-smarter-than-a-barstool-bozes-2026-09-02",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-09-02",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "A school-themed trivia game built around things adults definitely learned and probably forgot.",
+  "description": "Join Four Dogs Entertainment at Boze's Restaurant & Bar for Are You Smarter Than a Barstool?, a school-themed trivia game built around things adults definitely learned and probably forgot.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

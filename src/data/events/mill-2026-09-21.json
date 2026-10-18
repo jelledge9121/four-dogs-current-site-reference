@@ -1,0 +1,23 @@
+{
+  "id": "mill-2026-09-21",
+  "slug": "are-you-smarter-than-a-barstool-mill-fountain-inn-2026-09-21",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-09-21",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "School-subject trivia for adults featuring familiar questions, Four Dogs Sound Check, and a Final Wager.",
+  "description": "Join Four Dogs Entertainment at The Mill at Fountain Inn for Are You Smarter Than a Barstool?, a school-style trivia night built around things adults learned once and probably forgot.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

@@ -1,152 +1,21 @@
 ---
+export const prerender = false;
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { events, type Event } from '../../data/events';
+import { allEvents } from '../../data/events';
 import { venueById } from '../../data/venues';
-
-type Props = {
-  event: Event;
-};
-
-export function getStaticPaths() {
-  return events.map((event) => ({
-    params: { slug: event.slug },
-    props: { event },
-  }));
-}
-
-const { event } = Astro.props as Props;
-const venue = venueById(event.venueId);
-const eventbrite = {
-  charterTrivia: 'https://www.eventbrite.com/e/trivia-at-charter-803-hosted-by-four-dogs-entertainment-tickets-1998508023296?aff=oddtdtcreator',
-  topDawgTrivia: 'https://www.eventbrite.com/e/weekly-trivia-at-top-dawg-tavern-ne-hosted-by-four-dogs-entertainment-tickets-1998507457604?aff=oddtdtcreator',
-  charterMusicBingo: 'https://www.eventbrite.com/e/music-bingo-at-charter-803-hosted-by-four-dogs-entertainment-tickets-1998507656198?aff=oddtdtcreator',
-  wescoTrivia: 'https://www.eventbrite.com/e/weekly-trivia-at-wesco-brew-and-bowl-hosted-by-four-dogs-entertainment-tickets-1998507141659?aff=oddtdtcreator',
-};
-
-function eventbriteUrlFor(event: Event) {
-  if (event.ticketed) return undefined;
-
-  if (event.venueId === 'top-dawg') {
-    return event.eventType === 'Trivia' ? eventbrite.topDawgTrivia : undefined;
-  }
-
-  if (event.venueId === 'wesco') {
-    return event.eventType === 'Trivia' ? eventbrite.wescoTrivia : undefined;
-  }
-
-  if (event.venueId === 'charter-803') {
-    if (event.eventType === 'Music Bingo') return eventbrite.charterMusicBingo;
-    if (event.eventType === 'Trivia') return eventbrite.charterTrivia;
-  }
-
-  return undefined;
-}
-
-function localIsoDateTime(date: string, time?: string) {
-  if (!time) return date;
-  const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) return date;
-  let hour = Number(match[1]);
-  const minute = match[2];
-  const meridiem = match[3].toUpperCase();
-  if (meridiem === 'PM' && hour !== 12) hour += 12;
-  if (meridiem === 'AM' && hour === 12) hour = 0;
-  return `${date}T${String(hour).padStart(2, '0')}:${minute}:00`;
-}
-
-const registrationUrl = event.registrationUrl ?? eventbriteUrlFor(event);
-const eventUrl = new URL(Astro.url.pathname, 'https://4dogsentertainment.com').toString();
-const imageUrl = new URL(event.image, 'https://4dogsentertainment.com').toString();
-
-const statusMap = {
-  scheduled: 'https://schema.org/EventScheduled',
-  cancelled: 'https://schema.org/EventCancelled',
-  postponed: 'https://schema.org/EventPostponed',
-} as const;
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'Event',
-  name: event.title,
-  startDate: localIsoDateTime(event.date, event.startTime),
-  eventStatus: statusMap[event.status],
-  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  url: eventUrl,
-  image: [imageUrl],
-  description: event.description,
-  location: {
-    '@type': 'Place',
-    name: venue.name,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: venue.address,
-      addressLocality: venue.city,
-      addressRegion: venue.state,
-      postalCode: venue.zip,
-      addressCountry: 'US',
-    },
-  },
-  ...(registrationUrl
-    ? {
-        offers: {
-          '@type': 'Offer',
-          url: registrationUrl,
-        },
-      }
-    : {}),
-  organizer: {
-    '@type': 'Organization',
-    name: 'Four Dogs Entertainment',
-    url: 'https://4dogsentertainment.com',
-  },
-};
+import { categorySlug, eventSchema, formatDate, isPublic, phase, startIso, statusLabel } from '../../lib/event-system';
+const event=allEvents.find(e=>e.slug===Astro.params.slug && e.visibility==='public' && e.publicationStatus!=='draft');
+if(!event) return new Response('Event not found',{status:404,headers:{'Content-Type':'text/plain; charset=utf-8','X-Robots-Tag':'noindex'}});
+const venue=venueById(event.venueId);
+const published=isPublic(event);
+const state=phase(event);
+const canAttend=published && ['upcoming','live'].includes(state);
+const title=event.seoTitle || `${event.title} | ${event.date} | Four Dogs Entertainment`;
+const description=event.metaDescription || `${event.title} at ${venue.name}, ${venue.city}, SC. ${formatDate(event.date)}${event.startTime ? ` at ${event.startTime}` : ''}. See admission and event details.`;
 ---
-<Base
-  title={`${event.title} — ${event.date} | Four Dogs Entertainment`}
-  description={`${event.title} at ${venue.name} in ${venue.city}, SC on ${event.date} at ${event.startTime}.`}
-  schema={schema}
->
-  <Breadcrumbs
-    items={[
-      { name: 'Home', href: '/' },
-      { name: 'Events', href: '/events/' },
-      { name: event.title },
-    ]}
-  />
-
-  <section class="section dark" data-event-detail-date={event.date}>
-    <div class="container">
-      <p class="eyebrow"><span data-future-only>{event.eventType}</span><span data-past-only hidden>Event archive</span></p>
-      <h1>{event.title}</h1>
-      <p class="lead">
-        {event.date}{event.startTime ? ` · ${event.startTime}` : ' · Time TBA'}<br />
-        {venue.name} · {venue.city}, {venue.state}
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container split">
-      <div>
-        <h2><span data-future-only>Come play</span><span data-past-only hidden>This event has passed</span></h2>
-        <p>{event.description}</p>
-        <p>
-          {venue.address}
-          {venue.zip && <>, {venue.zip}</>}
-        </p>
-        <div class="actions">
-          {registrationUrl && (
-            <a class="button" data-future-only href={registrationUrl} target="_blank" rel="noopener noreferrer">
-              {event.registrationLabel ?? (event.ticketed ? 'Get tickets' : 'View event details')}
-            </a>
-          )}
-          {event.ticketed && !registrationUrl && <span class="tag" data-future-only>Ticket details coming soon</span>}
-          <a class={registrationUrl ? undefined : 'button'} href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
-          <a href="/events/">See all events</a>
-        </div>
-      </div>
-      <img src={event.image} alt={`Four Dogs entertainment at ${venue.name}`} />
-    </div>
-  </section>
+<Base title={title} description={description} image={event.image} schema={eventSchema(event,venue)} noindex={!published}>
+<Breadcrumbs items={[{name:'Home',href:'/'},{name:'Events',href:'/events/'},{name:event.title}]}/>
+<section class="section dark"><div class="container"><p class="eyebrow">{event.eventType}</p><h1>{event.title}</h1><p class="lead"><time datetime={startIso(event)}>{formatDate(event.date)}</time><br/>{event.startTime || 'Start time to be confirmed'}{event.endTime?` to ${event.endTime}`:''}{event.endDate && event.endDate!==event.date?` (${formatDate(event.endDate)})`:''} · Eastern Time<br/><a href={`/venues/${venue.slug}/`}>{venue.name}</a> · {venue.city}, {venue.state}</p><p class="event-status" role="status">{published ? statusLabel(event) : 'Details are being confirmed. Check back before making plans.'}</p>{event.status==='rescheduled' && <p>Previously scheduled for {event.previousStartDate}. Your event link remains the same.</p>}</div></section>
+<section class="section"><div class="container split"><div><h2>{canAttend?'Come play':'Event details'}</h2><p>{event.description}</p><h3>Where to go</h3><address>{venue.name}<br/>{venue.address}<br/>{venue.city}, {venue.state} {venue.zip}</address><h3>Admission & participation</h3><p>{event.admission.verified ? event.admission.note || (event.admission.kind==='free'?'Free to play.':`$${event.admission.price} per person.`) : 'Admission has not been confirmed. Contact the venue before attending.'}</p><p>{event.status==='cancelled' ? 'This event is canceled. Contact Four Dogs for any ticket or registration updates.' : event.status==='postponed' ? 'The replacement date has not been confirmed. Contact Four Dogs for ticket and registration updates.' : event.instructions}</p>{!event.endTime && <p class="fine">The event end time has not been confirmed.</p>}<div class="actions">{canAttend && event.registrationUrl && <a class="button" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">{event.registrationLabel || 'Registration details'}</a>}<a href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Get directions</a><a href={`/venues/${venue.slug}/`}>More at {venue.name}</a><a href={`/events/category/${categorySlug(event.eventType)}/`}>More {event.eventType}</a><a href="/events/">All events</a></div><p class="fine">Event details updated <time datetime={event.lastUpdated}>{formatDate(event.lastUpdated.slice(0,10))}</time>.</p></div><img src={event.image} alt={event.imageAlt || 'Four Dogs Entertainment event photograph'} width="1200" height="800" loading="lazy"/></div></section>
 </Base>

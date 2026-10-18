@@ -1,0 +1,22 @@
+{
+  "id": "event-012",
+  "slug": "are-you-smarter-than-a-barstool-2026-08-27",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-08-27",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "Game Night at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for Are You Smarter Than a Barstool?.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

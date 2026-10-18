@@ -1,0 +1,22 @@
+{
+  "id": "archive-lipstick-2026-07-29",
+  "slug": "lipstick-legends-music-bingo-charter-803-july-29-2026",
+  "title": "Lipstick & Legends Music Bingo",
+  "date": "2026-07-29",
+  "startTime": "7:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Lipstick & Legends Music Bingo",
+  "shortDescription": "A Music Bingo night built around powerhouse voices, unforgettable performers, and singalong songs.",
+  "description": "A Music Bingo night built around powerhouse voices, unforgettable performers, and singalong songs.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

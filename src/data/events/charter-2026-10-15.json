@@ -1,0 +1,22 @@
+{
+  "id": "charter-2026-10-15",
+  "slug": "state-fair-carolina-favorites-trivia-charter-803-2026-10-15",
+  "title": "State Fair & Carolina Favorites Trivia",
+  "date": "2026-10-15",
+  "startTime": "6:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "State Fair & Carolina Favorites Trivia",
+  "shortDescription": "State Fair season meets Carolina favorites, local culture, food, places, and familiar Palmetto State topics.",
+  "description": "Join Four Dogs Entertainment at Charter 803 Bar & Grill for State Fair & Carolina Favorites Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

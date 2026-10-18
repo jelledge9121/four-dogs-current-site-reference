@@ -1,0 +1,22 @@
+{
+  "id": "event-013",
+  "slug": "dc-trivia-night-2026-09-01",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-09-01",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Back-to-School Trivia",
+  "shortDescription": "A back-to-school trivia night featuring elementary and middle-school questions that adults definitely learned at some point and probably forgot.",
+  "description": "Join Four Dogs Entertainment at Top Dawg Tavern for Are You Smarter Than a Barstool?, a back-to-school trivia night featuring elementary and middle-school questions that adults definitely learned at some point and probably forgot.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

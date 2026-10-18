@@ -1,0 +1,23 @@
+{
+  "id": "wesco-013",
+  "slug": "holiday-pop-culture-wesco-brew-bowl-2026-12-01",
+  "title": "Holiday Pop Culture",
+  "date": "2026-12-01",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Holiday Pop Culture",
+  "shortDescription": "Movies, specials, advertising, music, traditions, and recognizable holiday moments.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Holiday Pop Culture. Movies, specials, advertising, music, traditions, and recognizable holiday moments.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "review",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ."
+}

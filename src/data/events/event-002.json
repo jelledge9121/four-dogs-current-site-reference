@@ -1,0 +1,22 @@
+{
+  "id": "event-002",
+  "slug": "work-like-a-dog-music-bingo-2026-08-05",
+  "title": "Work Like a Dog Music Bingo",
+  "date": "2026-08-05",
+  "startTime": "7:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Work Like a Dog Music Bingo",
+  "shortDescription": "Music Bingo at Four Dogs’ weekly venue.",
+  "description": "Join Four Dogs Entertainment for Work Like a Dog Music Bingo.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

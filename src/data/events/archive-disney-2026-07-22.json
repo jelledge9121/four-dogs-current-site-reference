@@ -1,0 +1,22 @@
+{
+  "id": "archive-disney-2026-07-22",
+  "slug": "disney-friends-music-bingo-charter-803-july-22-2026",
+  "title": "Disney & Friends Music Bingo",
+  "date": "2026-07-22",
+  "startTime": "7:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "theme": "Disney & Friends Music Bingo",
+  "shortDescription": "Disney favorites and familiar singalong songs took over the Music Bingo cards.",
+  "description": "Disney favorites and familiar singalong songs took over the Music Bingo cards.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

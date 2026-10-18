@@ -1,0 +1,26 @@
+{
+  "id": "top-dawg-2026-10-20",
+  "slug": "spooky-season-music-bingo-top-dawg-2026-10-20",
+  "title": "Spooky Season Music Bingo: Hydrocephalus Fundraiser",
+  "date": "2026-10-20",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Music Bingo",
+  "theme": "Spooky Season Music Bingo",
+  "shortDescription": "Halloween-season favorites, spooky songs, and recognizable crowd-pleasers fill the bingo cards.",
+  "description": "Spooky songs, familiar favorites, and a reason to bring your people together. Join Four Dogs for Music Bingo at Top Dawg Tavern in support of the Hydrocephalus Association WALK. Check with the host for the fundraiser details.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending.",
+  "endTime": "8:30 PM",
+  "secondaryCategories": [
+    "Fundraisers"
+  ]
+}

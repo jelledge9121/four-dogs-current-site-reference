@@ -1,0 +1,22 @@
+{
+  "id": "wesco-2026-09-29",
+  "slug": "everyday-knowledge-trivia-wesco-2026-09-29",
+  "title": "Everyday Knowledge Trivia",
+  "date": "2026-09-29",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "Everyday Knowledge Trivia",
+  "shortDescription": "Useful facts, common knowledge, familiar subjects, and things you probably encounter every day.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Everyday Knowledge Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

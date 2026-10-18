@@ -1,0 +1,22 @@
+{
+  "id": "wesco-001",
+  "slug": "the-big-mix-wesco-brew-bowl-2026-09-08",
+  "title": "The Big Mix",
+  "date": "2026-09-08",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "The Big Mix",
+  "shortDescription": "Music, movies, sports, food, pop culture, and general knowledge.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for The Big Mix. Music, movies, sports, food, pop culture, and general knowledge.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

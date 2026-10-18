@@ -1,0 +1,22 @@
+{
+  "id": "archive-barstool-2026-07-28",
+  "slug": "are-you-smarter-than-a-barstool-top-dawg-tavern-sandhills-july-28-2026",
+  "title": "Are You Smarter Than a Barstool?",
+  "date": "2026-07-28",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Are You Smarter Than a Barstool?",
+  "theme": "Are You Smarter Than a Barstool?",
+  "shortDescription": "A fast-paced parody trivia experience with school subjects, general knowledge, and pop culture questions.",
+  "description": "A fast-paced parody trivia experience with school subjects, general knowledge, and pop culture questions.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

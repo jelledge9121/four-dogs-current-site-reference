@@ -1,15 +1,15 @@
 ---
+export const prerender = false;
 import Base from '../layouts/Base.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import EventCard from '../components/EventCard.astro';
 import { upcomingEvents } from '../data/events';
-import { venues } from '../data/venues';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
 
-const upcoming = upcomingEvents();
+const upcoming = upcomingEvents().slice(0,6);
 const homepageGallery = gallery.filter((item) => item.type === 'image').slice(0, 6);
 const org = {
   '@context': 'https://schema.org',
@@ -56,21 +56,14 @@ const org = {
     <div class="container">
       <p class="eyebrow">This week with Four Dogs</p>
       <h2>Your week needs something to look forward to.</h2>
-      <div class="grid">
-        {venues.map((venue) => venue.weeklySchedule.map((schedule) => (
-          <article class="card">
-            <p class="eyebrow">{schedule.day}</p>
-            <h3>{venue.name}</h3>
-            <p>{schedule.format}<br /><strong>{schedule.time}</strong><br />{venue.city}</p>
-          </article>
-        )))}
-      </div>
-      {upcoming.length > 0 && (
+      <p>Confirmed dates, themes, and times come straight from our event calendar.</p>
+      <div class="actions"><a href="/events/">Browse by city, venue, or activity →</a></div>
+      {upcoming.length > 0 ? (
         <>
           <h2 style="margin-top:3rem">Coming up</h2>
-          <div class="grid" data-event-list data-max-visible="6">{upcoming.map((event) => <EventCard event={event} />)}</div>
+          <div class="grid" >{upcoming.map((event) => <EventCard event={event} />)}</div>
         </>
-      )}
+      ) : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
     </div>
   </section>
 

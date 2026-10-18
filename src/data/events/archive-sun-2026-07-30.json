@@ -1,0 +1,22 @@
+{
+  "id": "archive-sun-2026-07-30",
+  "slug": "sun-sand-waves-trivia-charter-803-july-30-2026",
+  "title": "Sun, Sand & Waves Trivia",
+  "date": "2026-07-30",
+  "startTime": "7:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Trivia",
+  "theme": "Sun, Sand & Waves Trivia",
+  "shortDescription": "Beach trips, ocean facts, summer movies, and coastal culture came together for this trivia night.",
+  "description": "Beach trips, ocean facts, summer movies, and coastal culture came together for this trivia night.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}

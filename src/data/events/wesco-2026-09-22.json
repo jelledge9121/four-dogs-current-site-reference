@@ -1,0 +1,22 @@
+{
+  "id": "wesco-2026-09-22",
+  "slug": "tv-movies-streaming-trivia-wesco-2026-09-22",
+  "title": "TV, Movies + Streaming Trivia",
+  "date": "2026-09-22",
+  "startTime": "6:30 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "theme": "TV, Movies + Streaming Trivia",
+  "shortDescription": "Big-screen favorites, television classics, streaming hits, characters, quotes, and recognizable entertainment.",
+  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for TV, Movies + Streaming Trivia.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T02:26:33Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Check with the venue for admission, seating, and participation details before attending."
+}
