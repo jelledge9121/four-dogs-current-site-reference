@@ -29,5 +29,9 @@ for(const file of htmlFiles){
 const booking=fs.readFileSync(path.join(root,'booking','index.html'),'utf8');
 for(const marker of ['name="booking"','data-netlify="true"','netlify-honeypot="bot-field"','name="form-name"','action="/thank-you/"','name="referral-source"','data-service-slug="music-bingo"','data-service-slug="almost-married-trivia-experience"'])if(!booking.includes(marker))errors.push(`booking: missing ${marker}`);
 for(const asset of ['_redirects','_headers','robots.txt','llms.txt','sitemap-index.xml'])if(!publicFiles.has(`/${asset}`))errors.push(`dist: missing ${asset}`);
+const confirmation=fs.readFileSync(path.join(root,'thank-you','index.html'),'utf8');
+if(!confirmation.includes('name="robots" content="noindex,follow"'))errors.push('booking confirmation must not be indexed');
+const sitemap=fs.readFileSync(path.join(root,'sitemap-0.xml'),'utf8');
+if(sitemap.includes('/thank-you/')||sitemap.includes('/admin/'))errors.push('sitemap includes a confirmation or admin URL');
 if(errors.length){console.error([...new Set(errors)].join('\n'));process.exit(1);}
 console.log(`Static QA passed: ${htmlFiles.length} pages; metadata, links/assets, discovery files, and original Netlify booking form verified. Dynamic routes are checked separately by SSR QA.`);

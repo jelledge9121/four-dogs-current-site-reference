@@ -13,6 +13,6 @@ export default defineConfig({
   integrations: [sitemap({
     customPages: [origin+'/', origin+'/events/', ...venues.map(v=>`${origin}/venues/${v.slug}/`), ...cities.map(c=>`${origin}/areas/${c}/`), ...localSeoPages.map(p=>`${origin}/${p.slug}/`)],
     customSitemaps: [origin+'/event-sitemap.xml'],
-    filter: url => !url.includes('/admin/'),
+    filter: url => !url.includes('/admin/') && !url.endsWith('/thank-you/'),
   })],
 });

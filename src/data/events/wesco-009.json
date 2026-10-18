@@ -1,20 +1,20 @@
 {
   "id": "wesco-009",
   "slug": "food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03",
-  "title": "Food, Drinks + Famous Flavors",
+  "title": "Harry Potter: Battle for Hogwarts",
   "date": "2026-11-03",
   "startTime": "7:00 PM",
   "venueId": "wesco",
   "eventType": "Trivia",
-  "theme": "Food, Drinks + Famous Flavors",
-  "shortDescription": "Restaurant-friendly trivia built around food, drinks, brands, flavors, and familiar favorites.",
-  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Food, Drinks + Famous Flavors. Restaurant-friendly trivia built around food, drinks, brands, flavors, and familiar favorites.",
+  "theme": "Harry Potter: Battle for Hogwarts",
+  "shortDescription": "Harry Potter: Battle for Hogwarts with Four Dogs Entertainment at WesCo Brew & Bowl.",
+  "description": "Bring your people to WesCo Brew & Bowl for Harry Potter: Battle for Hogwarts with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,7 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details.",
-  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ.",
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
   "ticketed": false
 }

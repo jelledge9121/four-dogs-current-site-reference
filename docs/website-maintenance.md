@@ -2,10 +2,10 @@
 
 Routine facts live in `src/data`; edit them once and run `npm run build`.
 
-- **Add an event:** copy one object in `src/data/events.ts`, give it a unique `id` and URL-safe `slug`, use `YYYY-MM-DD`, select an existing `venueId`, complete factual copy, and set `status: 'scheduled'`.
+- **Add an event:** create a JSON record in `src/data/events/`, give it a unique `id` and stable URL-safe `slug`, use `YYYY-MM-DD`, select an existing `venueId`, and complete factual copy. Use `status: 'scheduled'`, `visibility: 'public'`, and `publicationStatus: 'published'` only after confirming all public facts. Keep unresolved records in `draft` or `review`. The generated `src/data/events.ts` catalog loader is not the event-entry file. See `docs/event-admin-guide.md` for the editor and recurring agreements.
 - **Edit/time/feature an event:** change that event object’s copy, `startTime`, or `featured`. Do not edit the home, event, venue, schema, or sitemap separately.
 - **Past events:** leave the object in place. `upcomingEvents()` automatically removes dates before today from upcoming lists while preserving detail pages.
-- **Add a venue:** add one typed object to `src/data/venues.ts`, including a unique `id`/`slug`, verified address/map, active flag, and `weeklySchedule`. Events reference that `id`; the venue route generates automatically.
+- **Add a venue:** add a record to `src/data/venues.json`, including a unique `id`/`slug`, verified address/map, active flag, and `weeklySchedule`. Events reference that `id`; the venue route generates automatically. `src/data/venues.ts` loads this file.
 - **Update weekly schedule:** edit only `weeklySchedule` on the venue. Remember dated events still need their own exact times.
 - **Add/update a service:** edit `src/data/services.ts`. Keep `slug` stable unless you also add a permanent redirect. `bookingValue` must exactly match the desired form option.
 - **Add a review:** add only an owner-approved, correctly attributed record to `src/data/reviews.ts` and set `approved: true`. Never infer names or results.

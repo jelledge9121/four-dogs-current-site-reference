@@ -13,7 +13,7 @@ const state=phase(event);
 const canAttend=published && ['upcoming','live'].includes(state);
 const admissionText=event.admission.verified ? event.admission.note || (event.admission.kind==='free'?'Free admission.':`$${event.admission.price} per person.`) : 'Contact the venue for admission details.';
 const previousDate=event.previousStartDate ? new Intl.DateTimeFormat('en-US',{dateStyle:'long',timeStyle:'short',timeZone:'America/New_York'}).format(new Date(event.previousStartDate)) : '';
-const title=event.seoTitle || `${event.title} | ${event.date} | Four Dogs Entertainment`;
+const title=event.seoTitle || `${event.title} | ${venue.name}, ${venue.city} | ${event.date} | Four Dogs`;
 const description=event.metaDescription || `${event.title} at ${venue.name}, ${venue.city}, SC. ${formatDate(event.date)}${event.startTime ? ` at ${event.startTime}` : ''}. ${admissionText} See event details.`;
 ---
 <Base title={title} description={description} image={event.image} schema={eventSchema(event,venue)} noindex={!published}>

@@ -1,0 +1,27 @@
+{
+  "id": "top-dawg-2026-11-10",
+  "slug": "four-dogs-survey-showdown-top-dawg-2026-11-10",
+  "title": "Four Dogs Survey Showdown",
+  "date": "2026-11-10",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "Four Dogs Survey Showdown with Four Dogs Entertainment at Top Dawg Tavern.",
+  "description": "Bring your people to Top Dawg Tavern for Four Dogs Survey Showdown with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false
+}

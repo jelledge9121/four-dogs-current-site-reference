@@ -1,0 +1,31 @@
+{
+  "id": "bozes-2026-11-25",
+  "slug": "home-for-the-holidays-thanksgiving-eve-game-night-bozes-2026-11-25",
+  "title": "Home for the Holidays: Thanksgiving Eve Game Night",
+  "date": "2026-11-25",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Other Public Events",
+  "theme": "Home for the Holidays: Thanksgiving Eve Game Night",
+  "shortDescription": "Home for the Holidays: Thanksgiving Eve Game Night with Four Dogs Entertainment at Boze's Restaurant & Bar.",
+  "description": "Join Four Dogs at Boze's Restaurant & Bar for a Thanksgiving Eve game night with Survey Showdown, Name That Tune, Finish the Lyric, and other interactive challenges.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "ticketed": false,
+  "endTime": "9:30 PM",
+  "secondaryCategories": [
+    "Survey Showdown"
+  ]
+}
