@@ -7,6 +7,11 @@ colors:
   cream: "#F2F0E8"
   ink: "#152033"
   white: "#FFFFFF"
+  muted: "#48536A"
+  rule: "#C9CED5"
+  cyan-hover: "#8CE1ED"
+  cyan-active: "#A3E8F0"
+  control-border: "#747F8E"
 ---
 
 ## Overview

@@ -1,16 +1,16 @@
 ---
 import type { Event } from '../data/events';
 import { venueById } from '../data/venues';
-import { formatDate, startIso, statusLabel, categorySlug } from '../lib/event-system';
+import { formatDate, startIso, statusLabel, categorySlug, phase } from '../lib/event-system';
 const { event } = Astro.props as { event: Event };
 const venue = venueById(event.venueId);
+const date = new Date(`${event.date}T12:00:00Z`);
+const month = new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'America/New_York'}).format(date);
+const weekday = new Intl.DateTimeFormat('en-US',{weekday:'short',timeZone:'America/New_York'}).format(date);
+const status = phase(event);
 ---
-<article class="card event" data-event-id={event.id}>
-  <p class="eyebrow"><time datetime={startIso(event)}>{formatDate(event.date)}</time><br/>{event.startTime || 'Time to be confirmed'}{event.endTime ? ` to ${event.endTime}` : ''} · Eastern Time</p>
-  <h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3>
-  <p><a href={`/venues/${venue.slug}/`}>{venue.name}</a><br/>{venue.city}, {venue.state}</p>
-  <p>{event.shortDescription}</p>
-  <a class="tag" href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a>
-  <p class="fine">{statusLabel(event)}{event.admission.verified && event.admission.kind === 'free' ? ' · Free admission' : event.admission.verified && event.admission.kind === 'paid' ? ` · $${event.admission.price} per person` : ''}</p>
-  <a href={`/events/${event.slug}/`}>Event details →</a>
+<article class="event event-row" data-event-id={event.id} data-event-status={status}>
+  <time class="event-date" datetime={startIso(event)} aria-label={formatDate(event.date)}><span>{month}</span><strong>{Number(event.date.slice(-2))}</strong><span>{weekday} · {event.date.slice(0,4)}</span></time>
+  <div class="event-summary"><p class="event-time">{event.startTime || 'Time to be confirmed'}{event.endTime ? ` to ${event.endTime}` : ''} <span>· Eastern Time</span></p><h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3><p class="event-place"><a href={`/venues/${venue.slug}/`}>{venue.name}</a><span>{venue.city}, {venue.state}</span></p><p class="event-description">{event.shortDescription}</p><div class="event-meta"><a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a><span>{event.seriesId?'Recurring series':'Individual event'}</span><span>{event.admission.verified && event.admission.kind==='free'?'Free admission':event.admission.verified && event.admission.kind==='paid'?`$${event.admission.price} per person`:''}</span>{status!=='upcoming' && <span>{statusLabel(event)}</span>}</div></div>
+  <a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a>
 </article>

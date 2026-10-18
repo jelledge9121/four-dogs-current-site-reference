@@ -7,6 +7,7 @@ import { services } from '../data/services';
     <a class="brand" href="/">
       <img src="/images/logo.png" width="92" height="92" alt="Four Dogs Entertainment">
     </a>
+    <a class="button small nav-quick-book" href="/booking/">Book Four Dogs</a>
     <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks">
       <a href="/events/">Events</a>
@@ -17,12 +18,12 @@ import { services } from '../data/services';
           {services.map((service) => <a href={`/services/${service.slug}/`}>{service.name}</a>)}
         </div>
       </details>
-      <a href="/bury-me-in-garnet/">Bury Me in Garnet</a>
+      
       <a href="/for-venues/">For Venues</a>
       <a href="/weddings/">Weddings</a>
-      <a href="/christmas/">Christmas</a>
+      <details><summary>More</summary><div class="dropdown"><a href="/christmas/">Christmas & Santa Jim</a><a href="/bury-me-in-garnet/">Bury Me in Garnet</a><a href="/gallery/">Photo gallery</a></div></details>
       <a href="/about/">About</a>
-      <a class="button small" href="/booking/">Book</a>
+      <a class="button small" href="/booking/">Book Four Dogs</a>
     </div>
   </nav>
 </header>
@@ -34,5 +35,10 @@ import { services } from '../data/services';
     const open = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!open));
     navLinks?.classList.toggle('open', !open);
+  });
+  document.addEventListener('keydown', (event) => {
+    if(event.key !== 'Escape') return;
+    document.querySelectorAll('header details[open]').forEach(detail=>detail.removeAttribute('open'));
+    if(button?.getAttribute('aria-expanded')==='true'){button.setAttribute('aria-expanded','false');navLinks?.classList.remove('open');button.focus();}
   });
 </script>

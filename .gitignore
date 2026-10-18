@@ -19,3 +19,5 @@ artifacts/
 
 # Reinstall pinned third-party design tooling with scripts/install-design-toolkit.mjs
 .agents/
+
+public/images/optimized/

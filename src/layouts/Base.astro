@@ -22,7 +22,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title}</title>
     <meta name="description" content={description}>
     {noindex && <meta name="robots" content="noindex,follow"/>}
@@ -47,6 +47,7 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     <Header/>
     <main id="main"><slot/></main>
     <Footer/>
+    <script src="../scripts/action-tracking.ts"></script>
     <PackPopup/>
     <script is:inline>
       (() => {
