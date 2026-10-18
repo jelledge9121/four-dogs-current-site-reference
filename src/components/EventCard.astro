@@ -11,6 +11,6 @@ const venue = venueById(event.venueId);
   <p><a href={`/venues/${venue.slug}/`}>{venue.name}</a><br/>{venue.city}, {venue.state}</p>
   <p>{event.shortDescription}</p>
   <a class="tag" href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a>
-  <p class="fine">{statusLabel(event)}{event.admission.verified && event.admission.kind === 'free' ? ' · Free to play' : event.admission.verified && event.admission.kind === 'paid' ? ` · $${event.admission.price} per person` : ''}</p>
+  <p class="fine">{statusLabel(event)}{event.admission.verified && event.admission.kind === 'free' ? ' · Free admission' : event.admission.verified && event.admission.kind === 'paid' ? ` · $${event.admission.price} per person` : ''}</p>
   <a href={`/events/${event.slug}/`}>Event details →</a>
 </article>
