@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { localSeoPages } from '../src/data/localSeoPages.ts';
+import { CATEGORIES, categorySlug } from '../src/lib/event-system.ts';
 const root='dist';
 if(!fs.existsSync(root))throw new Error('dist is missing; run the production build first.');
 const files=[];
@@ -10,7 +11,7 @@ const htmlFiles=files.filter(f=>f.endsWith('.html'));
 const routes=new Set(htmlFiles.map(f=>`/${path.relative(root,f).replace(/index\.html$/,'').replace(/\\/g,'/')}`));
 const publicFiles=new Set(files.map(f=>`/${path.relative(root,f).replace(/\\/g,'/')}`));
 // These routes are rendered by the adapter. The SSR suite requests each one.
-for(const url of ['/','/events/','/admin/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...JSON.parse(fs.readFileSync('src/data/venues.json')).venues.map(v=>`/venues/${v.slug}/`)])routes.add(url);
+for(const url of ['/','/events/','/admin/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...localSeoPages.map(p=>`/${p.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...JSON.parse(fs.readFileSync('src/data/venues.json')).venues.map(v=>`/venues/${v.slug}/`)])routes.add(url);
 const data=fs.readdirSync('src/data/events').map(f=>JSON.parse(fs.readFileSync(`src/data/events/${f}`)));
 for(const e of data.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft'))routes.add(`/events/${e.slug}/`);
 const errors=[],titles=new Map();
