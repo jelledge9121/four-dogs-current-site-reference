@@ -13,10 +13,10 @@ const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
 test('November publication follows the owner-issued October 16 schedule without tentative themes or Thanksgiving bookings',()=>{
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
- assert.equal(november.length,26);
- assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:4,'charter-803':7,bozes:4,aura:2});
+ assert.equal(november.length,30);
+ assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:4,aura:2});
  assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
- assert.match(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title||'',/Passport Pop/);
+ assert.equal(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title,'DJ Jimbo’s Master Class Music Bingo');
  assert.ok(!november.some(e=>e.venueId==='charter-803'&&e.date==='2026-11-26'));
  assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
  assert.equal(november.find(e=>e.venueId==='top-dawg'&&e.date==='2026-11-03')?.endTime,undefined);
@@ -35,7 +35,7 @@ test('Rescheduling preserves canonical URL and includes previousStartDate',()=>{
 test('Venue and city filters only return actual matching locations',()=>{assert.ok(selectEvents(all,venues,{now,city:'Cayce'}).every(e=>e.venueId==='wesco'));assert.ok(selectEvents(all,venues,{now,venue:'black-sheep'}).every(e=>e.venueId==='black-sheep'));assert.equal(selectEvents(all,venues,{now,city:'Irmo'}).length,0);});
 test('Free and ticketed filters require verified pricing',()=>{assert.ok(selectEvents(all,venues,{now,price:'free'}).every(e=>e.admission.verified&&e.admission.kind==='free'));assert.ok(selectEvents(all,venues,{now,price:'paid'}).every(e=>e.admission.verified&&e.admission.kind==='paid'));});
 test('Drafts, private records, and unresolved conflicts stay out of public surfaces',()=>{for(const e of [mutate({visibility:'private'}),mutate({publicationStatus:'draft'}),mutate({publicationStatus:'review'})]){assert.equal(selectEvents([e],venues,{now}).length,0);assert.equal(eventSchema(e,venues[0]),null);assert.throws(()=>listingPackage(e,venues[0]));}});
-test('Recurring generation stops at the confirmed agreement and produces four Aura dates',()=>{const generated=all.filter(e=>e.seriesId);assert.deepEqual(generated.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12']);assert.throws(()=>expandCatalog({events:[],series:[{...catalog.series[0],confirmedThrough:''}]},venues));});
+test('Recurring generation stops at the confirmed agreement and produces four Aura dates',()=>{const generated=all.filter(e=>e.seriesId==='aura-thursday-trial-2026');assert.deepEqual(generated.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12']);assert.throws(()=>expandCatalog({events:[],series:[{...catalog.series[0],confirmedThrough:''}]},venues));});
 test('Recurring exceptions handle skip, cancellation, venue change, and rescheduling without changing identity',()=>{const s=structuredClone(catalog.series[0]) as Series;s.excludedDates=['2026-10-29'];s.overrides=[{originalDate:'2026-10-22',changes:{status:'cancelled'}},{originalDate:'2026-11-05',changes:{venueId:'charter-803',date:'2026-11-06',status:'rescheduled',previousStartDate:'2026-11-05T19:30:00-05:00'}}];const out=expandCatalog({events:[],series:[s]},venues);assert.equal(out.length,3);assert.equal(out[0].status,'cancelled');assert.equal(out[1].date,'2026-11-06');assert.equal(out[1].venueId,'charter-803');assert.ok(out[1].slug.startsWith('2026-11-05'));});
 test('Missing dates, unknown venues, false pricing, duplicates, and invalid end times fail validation',()=>{for(const patch of [{date:''},{venueId:'missing'},{endTime:'5:00 PM'},{admission:{kind:'free',verified:false}}] as Partial<Event>[]){assert.ok(validateEvents([mutate(patch)],venues).length);}assert.ok(validateEvents([sample,sample],venues).length);});
 test('Murder mystery has the verified venue, $25 offer, exact local time, and no placeholder end',()=>{const e=all.find(e=>e.id==='charter-2026-10-30')!;const s=eventSchema(e,venues.find(v=>v.id===e.venueId)!)!;assert.equal(s.location.name,'Black Sheep Bourbon Society');assert.equal(s.startDate,'2026-10-30T19:30:00-04:00');assert.equal(s.offers?.price,25);assert.equal(s.organizer.name,'Four Dogs Entertainment LLC');assert.equal(s.endDate,undefined);});
@@ -65,3 +65,19 @@ test('Admission and status corrections flag external updates while staffing rema
 });
 
 test('Owner-confirmed public admission is free except the $25 murder mystery',()=>{for(const e of all){if(e.eventType==='Murder Mystery'){assert.equal(e.admission.kind,'paid');assert.equal(e.admission.price,25);}else{assert.equal(e.admission.kind,'free');assert.equal(e.admission.verified,true);const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);if(schema){assert.equal(schema.isAccessibleForFree,true);assert.equal(schema.offers?.price,0);}}}});
+
+
+test('Aura four trial nights use their confirmed themes and retain stable recurrence URLs',()=>{
+ const expected=[['2026-10-22','College Hits: Throughout the Years Music Bingo'],['2026-10-29','Spooky Vibes Music Bingo'],['2026-11-05','DJ Jimbo’s Master Class Music Bingo'],['2026-11-12','Screen Time Music Bingo']];
+ for(const [date,title] of expected){const e=all.find(e=>e.venueId==='aura'&&e.date===date)!;assert.ok(e);assert.equal(e.title,title);assert.equal(e.eventType,'Music Bingo');assert.equal(e.slug,`${date}-aura-thursday-trial-2026`);assert.equal(e.startTime,'7:30 PM');assert.equal(e.endTime,'9:30 PM');}
+ assert.equal(all.filter(e=>e.venueId==='aura'&&e.seriesId).length,4);
+});
+test('WesCo Spooky Music Bingo reuses the dated event ID and Harry Potter Trivia remains stable',()=>{
+ const spooky=all.find(e=>e.id==='wesco-2026-10-27')!;assert.equal(spooky.slug,'spooky-music-bingo-wesco-2026-10-27');assert.equal(spooky.publicationStatus,'published');assert.equal(spooky.eventType,'Music Bingo');assert.equal(spooky.startTime,'7:00 PM');
+ const harry=all.find(e=>e.id==='wesco-009')!;assert.equal(harry.slug,'food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03');assert.equal(harry.title,'Harry Potter: Battle for Hogwarts');assert.equal(harry.eventType,'Trivia');assert.match(harry.description,/Hogwarts/);
+});
+test('Thursday WesCo Karaoke uses one recurring series and the confirmed 7 PM start time',()=>{
+ const karaoke=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');assert.deepEqual(karaoke.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12','2026-11-19','2026-11-26','2026-12-03','2026-12-10','2026-12-17']);
+ assert.ok(karaoke.every(e=>e.venueId==='wesco'&&e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&!e.endTime&&e.title==='Thursday Karaoke at WesCo Brew & Bowl'));
+ assert.equal(selectEvents(all,venues,{now,venue:'wesco',category:'Karaoke'}).length,9);
+});

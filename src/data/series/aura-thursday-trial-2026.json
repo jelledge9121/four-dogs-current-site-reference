@@ -19,7 +19,7 @@
     "status": "scheduled",
     "visibility": "public",
     "publicationStatus": "published",
-    "lastUpdated": "2026-10-18T03:29:55Z",
+    "lastUpdated": "2026-10-19T19:45:00-04:00",
     "admission": {
       "kind": "free",
       "verified": true,
@@ -34,29 +34,41 @@
     {
       "originalDate": "2026-10-22",
       "changes": {
-        "title": "2000s vs. 2010s Music Bingo at Aura",
-        "theme": "2000s vs. 2010s: Throwback Thursday",
-        "description": "Settle the throwback debate with your people. Four Dogs brings 2000s vs. 2010s Music Bingo to Aura Kitchen & Bar in The Vista. Listen for familiar hits and follow along with the host for a Thursday night of music and friendly competition."
+        "title": "College Hits: Throughout the Years Music Bingo",
+        "theme": "College Hits: Throughout the Years",
+        "shortDescription": "College Hits: Throughout the Years Music Bingo at Aura in The Vista.",
+        "description": "Remember the hits that defined your college years? Bring your friends to Aura Kitchen & Bar for College Hits: Throughout the Years Music Bingo. From campus throwbacks to songs that still fill the playlist, listen, mark your card, and see how many favorites you recognize.",
+        "lastUpdated": "2026-10-19T19:45:00-04:00"
+      }
+    },
+    {
+      "originalDate": "2026-10-29",
+      "changes": {
+        "title": "Spooky Vibes Music Bingo",
+        "theme": "Spooky Vibes",
+        "shortDescription": "Halloween-season songs and familiar spooky favorites at Aura.",
+        "description": "The soundtrack to spooky season is taking over Aura Kitchen & Bar. Spooky Vibes Music Bingo mixes Halloween favorites, unforgettable movie moments, and songs you know by heart. Grab your friends, listen for your picks, and make a Thursday night of it in The Vista.",
+        "lastUpdated": "2026-10-19T19:45:00-04:00"
       }
     },
     {
       "originalDate": "2026-11-05",
       "changes": {
-        "title": "Passport Pop: Global Hits & Party Anthems Music Bingo at Aura",
-        "theme": "Passport Pop: Global Hits & Party Anthems",
-        "shortDescription": "Passport Pop: Global Hits & Party Anthems Music Bingo with Four Dogs Entertainment in The Vista.",
-        "description": "Bring your people to Aura Kitchen & Bar for Passport Pop: Global Hits & Party Anthems Music Bingo with Four Dogs Entertainment. Listen for familiar songs and mark your card at one of the final two nights of the confirmed four-date trial.",
-        "lastUpdated": "2026-10-18T13:37:28.399718Z"
+        "title": "DJ Jimbo’s Master Class Music Bingo",
+        "theme": "DJ Jimbo’s Master Class",
+        "shortDescription": "DJ Jimbo’s Master Class Music Bingo at Aura Kitchen & Bar.",
+        "description": "Think you know your music? Put your playlist knowledge to the test with DJ Jimbo’s Master Class Music Bingo at Aura Kitchen & Bar. Expect a lively mix of recognizable songs, unexpected connections, and plenty of chances to shout, sing along, and mark your card.",
+        "lastUpdated": "2026-10-19T19:45:00-04:00"
       }
     },
     {
       "originalDate": "2026-11-12",
       "changes": {
-        "title": "All-Access Pop: Throwbacks & Today’s Hits Music Bingo at Aura",
-        "theme": "All-Access Pop: Throwbacks & Today’s Hits",
-        "shortDescription": "All-Access Pop: Throwbacks & Today’s Hits Music Bingo with Four Dogs Entertainment in The Vista.",
-        "description": "Bring your people to Aura Kitchen & Bar for All-Access Pop: Throwbacks & Today’s Hits Music Bingo with Four Dogs Entertainment. Listen for familiar songs and mark your card at one of the final two nights of the confirmed four-date trial.",
-        "lastUpdated": "2026-10-18T13:37:28.399718Z"
+        "title": "Screen Time Music Bingo",
+        "theme": "Screen Time",
+        "shortDescription": "Screen Time Music Bingo with movie and TV favorites at Aura.",
+        "description": "You know the scene. Now name the song. Screen Time Music Bingo brings movie soundtracks, TV favorites, and unforgettable on-screen music to Aura Kitchen & Bar. Bring your crew, listen closely, and see which screen moments you recognize first.",
+        "lastUpdated": "2026-10-19T19:45:00-04:00"
       }
     }
   ]
