@@ -62,6 +62,41 @@ test('Owner approved November 16 and 23 Mill themes and generic Top Dawg Novembe
  }
  assert.doesNotMatch(all.find(e=>e.id==='top-dawg-2026-11-24')!.description,/Christmas|Throwback/i);
 });
+test('Owner-approved November WesCo replacements are correctly categorized and keep established URLs',()=>{
+ const disney=all.find(e=>e.id==='wesco-010')!;
+ assert.equal(disney.title,'Disney Hits & Sing-Alongs Music Bingo');
+ assert.equal(disney.eventType,'Music Bingo');
+ assert.equal(disney.slug,'american-life-wesco-brew-bowl-2026-11-10');
+ assert.equal(disney.startTime,'7:00 PM');
+ assert.equal(eventSchema(disney,venues.find(v=>v.id==='wesco')!)?.name,disney.title);
+ const plate=all.find(e=>e.id==='wesco-011')!;
+ assert.equal(plate.title,"Pass the Plate: Elle's Favorite Things");
+ assert.equal(plate.eventType,'Trivia');
+ assert.equal(plate.slug,'four-dogs-survey-showdown-wesco-brew-bowl-2026-11-17');
+ assert.equal(plate.startTime,'7:00 PM');
+});
+test('Owner-approved November 24 WesCo Tuesday removal preserves public canceled link and separate November 25 event',()=>{
+ const removed=all.find(e=>e.id==='wesco-012')!;
+ assert.equal(removed.status,'cancelled');
+ assert.equal(removed.slug,'family-favorites-wesco-brew-bowl-2026-11-24');
+ assert.equal(removed.publicationStatus,'published');
+ const upcoming=selectEvents(all,venues,{now,from:'2026-11-01',to:'2026-11-30'});
+ assert.equal(upcoming.length,30);
+ assert.ok(!upcoming.some(e=>e.id==='wesco-012'));
+ assert.equal(selectEvents(all,venues,{now,view:'updates'}).filter(e=>e.id==='wesco-012').length,1);
+ assert.match(eventSchema(removed,venues.find(v=>v.id==='wesco')!)!.eventStatus,/EventCancelled$/);
+ assert.ok(upcoming.some(e=>e.id==='wesco-2026-11-25'));
+});
+test('November 12 Charter 803 owner-approved Survey Showdown remains published at 6:30 PM with original URL',()=>{
+ const e=all.find(e=>e.id==='event-026')!;
+ assert.equal(e.title,'Four Dogs Survey Showdown');
+ assert.equal(e.eventType,'Survey Showdown');
+ assert.equal(e.startTime,'6:30 PM');
+ assert.equal(e.venueId,'charter-803');
+ assert.equal(e.slug,'four-dogs-survey-showdown-2026-11-12');
+ assert.equal(e.publicationStatus,'published');
+ assert.match(e.description,/most popular answers/i);
+});
 test('Upcoming listings exclude July, August, September, and expired October dates',()=>assert.ok(selectEvents(all,venues,{now}).every(e=>e.date>='2026-10-17')));
 test('Chronology uses timestamps across noon, PM, and overnight events',()=>{const morning=mutate({id:'m',slug:'m',startTime:'11:00 AM'}),evening=mutate({id:'e',slug:'e',startTime:'6:00 PM',endTime:'8:00 PM'});assert.deepEqual(selectEvents([evening,morning],venues,{now}).map(e=>e.id),['m','e']);});
 test('An event remains live until its scheduled end, then expires exactly at the end',()=>{assert.equal(phase(sample,new Date('2026-10-21T00:59:59Z')),'live');assert.equal(phase(sample,new Date('2026-10-21T01:00:00Z')),'completed');});
