@@ -1,20 +1,20 @@
 {
   "id": "the-mill-2026-11-02",
   "slug": "are-you-smarter-than-a-barstool-the-mill-2026-11-02",
-  "title": "Comedy Night",
+  "title": "Comedy Night Trivia",
   "date": "2026-11-02",
   "startTime": "7:00 PM",
   "venueId": "the-mill",
-  "eventType": "Comedy",
-  "theme": "Comedy Night",
-  "shortDescription": "Comedy Night with Four Dogs Entertainment at The Mill at Fountain Inn on November 2 at 7 PM.",
-  "description": "Comedy Night is coming to The Mill at Fountain Inn! Grab your friends and join Four Dogs Entertainment for an evening built around laughs, good company, and a fun Monday night out.",
+  "eventType": "Trivia",
+  "theme": "Comedy Night Trivia",
+  "shortDescription": "Comedy Night Trivia at The Mill at Fountain Inn. A fun, comedy-themed team trivia night with Four Dogs Entertainment.",
+  "description": "Think you know your comedy? Bring your friends to The Mill at Fountain Inn for Comedy Night Trivia with Four Dogs Entertainment. Gather a team, answer questions inspired by favorite funny movies, TV comedies, and memorable pop-culture moments, and enjoy a night full of laughs and friendly competition. This is a hosted trivia game, not a stand-up comedy show.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-23T13:58:25.372Z",
+  "lastUpdated": "2026-10-23T14:05:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -25,5 +25,7 @@
   "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
   "ticketed": false,
   "endTime": "9:00 PM",
-  "secondaryCategories": []
+  "secondaryCategories": [
+    "Comedy"
+  ]
 }

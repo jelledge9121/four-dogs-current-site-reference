@@ -17,8 +17,10 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
  assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:9,'charter-803':7,bozes:5,aura:2});
  const comedy=november.find(e=>e.id==='the-mill-2026-11-02')!;
  assert.ok(comedy);
- assert.equal(comedy.title,'Comedy Night');
- assert.equal(comedy.eventType,'Comedy');
+ assert.equal(comedy.title,'Comedy Night Trivia');
+ assert.equal(comedy.eventType,'Trivia');
+ assert.ok(comedy.secondaryCategories?.includes('Comedy'));
+ assert.match(comedy.description,/not a stand-up comedy show/);
  assert.equal(comedy.startTime,'7:00 PM');
  assert.equal(comedy.endTime,'9:00 PM');
  assert.equal(comedy.slug,'are-you-smarter-than-a-barstool-the-mill-2026-11-02');
