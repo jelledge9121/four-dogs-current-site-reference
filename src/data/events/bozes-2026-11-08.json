@@ -1,0 +1,30 @@
+{
+  "id": "bozes-2026-11-08",
+  "slug": "nascar-cup-championship-watch-party-bozes-2026-11-08",
+  "title": "NASCAR Cup Series Championship Watch Party",
+  "date": "2026-11-08",
+  "startTime": "3:00 PM",
+  "venueId": "bozes",
+  "eventType": "Other Public Events",
+  "secondaryCategories": [
+    "Trivia"
+  ],
+  "theme": "NASCAR Championship Watch Party",
+  "shortDescription": "Watch the NASCAR Cup Series Championship with other fans at Boze's. Race broadcast begins at 3 PM on NBC.",
+  "description": "The NASCAR Cup Series championship comes down to one final race. Watch the season finale from Homestead-Miami Speedway with Four Dogs at Boze's Restaurant & Bar in West Columbia on Sunday, November 8. The NBC race broadcast begins at 3 PM Eastern. We'll mix in quick NASCAR trivia during stage breaks so you can test your knowledge while you watch. Come for the racing, the conversation, and a great afternoon together.",
+  "image": "/images/hero.jpg",
+  "featured": true,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-23T13:52:10.043Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission. Food and drinks sold separately."
+  },
+  "instructions": "The race broadcast is scheduled for 3:00 PM Eastern on NBC. Join us at Boze's for the watch party; food and drinks are purchased separately. Check back for updates if the broadcast schedule changes.",
+  "ticketed": false
+}

@@ -1,0 +1,30 @@
+{
+  "id": "wesco-2026-11-25",
+  "slug": "home-for-the-holidays-thanksgiving-eve-game-night-wesco-2026-11-25",
+  "title": "Home for the Holidays: Thanksgiving Eve Game Night",
+  "date": "2026-11-25",
+  "startTime": "7:00 PM",
+  "venueId": "wesco",
+  "eventType": "Other Public Events",
+  "secondaryCategories": [
+    "Survey Showdown"
+  ],
+  "theme": "Home for the Holidays",
+  "shortDescription": "Thanksgiving Eve game night at WesCo with Four Dogs. Currently planned for 7 PM; schedule may be adjusted.",
+  "description": "The night before Thanksgiving is made for getting everyone together. Join Four Dogs at WesCo Brew & Bowl for Home for the Holidays, a drop-in game night featuring quick rounds of Survey Showdown, Name That Tune, Finish the Lyric, and other crowd-friendly challenges. Friends, visiting family, and regular teams are all welcome. The current start time is 7 PM and may be adjusted; check the event page for updates before heading out.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-23T13:52:10.043Z",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission. Food and drinks sold separately."
+  },
+  "instructions": "Come ready to play. No advance registration is required. Start time is currently planned for 7:00 PM and may change; check this page for updates. Food and drinks are purchased separately.",
+  "ticketed": false
+}

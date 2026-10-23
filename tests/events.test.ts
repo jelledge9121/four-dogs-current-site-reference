@@ -11,12 +11,25 @@ const now=new Date('2026-10-18T02:11:33Z');
 const sample=all.find(e=>e.id==='wesco-2026-10-20')!;
 const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
-test('November publication follows the owner-issued October 16 schedule without tentative themes or Thanksgiving bookings',()=>{
+test('November public events include the Thanksgiving Eve game nights and Boze’s championship watch party',()=>{
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
- assert.equal(november.length,30);
- assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:4,aura:2});
+ assert.equal(november.length,32);
+ assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:9,'charter-803':7,bozes:5,aura:2});
  assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
  assert.equal(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title,'DJ Jimbo’s Master Class Music Bingo');
+ for(const id of ['wesco','bozes','charter-803']){
+  const event=november.find(e=>e.venueId===id&&e.date==='2026-11-25');
+  assert.ok(event,`Missing Thanksgiving Eve game night for ${id}`);
+  assert.equal(event.title,'Home for the Holidays: Thanksgiving Eve Game Night');
+  assert.equal(event.visibility,'public');
+  assert.equal(event.publicationStatus,'published');
+ }
+ const race=november.find(e=>e.id==='bozes-2026-11-08')!;
+ assert.ok(race);
+ assert.equal(race.startTime,'3:00 PM');
+ assert.equal(eventSchema(race,venues.find(v=>v.id==='bozes')!)?.startDate,'2026-11-08T15:00:00-05:00');
+ assert.match(november.find(e=>e.id==='wesco-2026-11-25')!.description,/may be adjusted/);
+
  assert.ok(!november.some(e=>e.venueId==='charter-803'&&e.date==='2026-11-26'));
  assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
  assert.equal(november.find(e=>e.venueId==='top-dawg'&&e.date==='2026-11-03')?.endTime,undefined);
