@@ -15,6 +15,14 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
  assert.equal(november.length,32);
  assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:9,'charter-803':7,bozes:5,aura:2});
+ const comedy=november.find(e=>e.id==='the-mill-2026-11-02')!;
+ assert.ok(comedy);
+ assert.equal(comedy.title,'Comedy Night');
+ assert.equal(comedy.eventType,'Comedy');
+ assert.equal(comedy.startTime,'7:00 PM');
+ assert.equal(comedy.endTime,'9:00 PM');
+ assert.equal(comedy.slug,'are-you-smarter-than-a-barstool-the-mill-2026-11-02');
+ assert.equal(eventSchema(comedy,venues.find(v=>v.id==='the-mill')!)?.startDate,'2026-11-02T19:00:00-05:00');
  assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
  assert.equal(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title,'DJ Jimboâ€™s Master Class Music Bingo');
  for(const id of ['wesco','bozes','charter-803']){
