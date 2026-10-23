@@ -1,20 +1,20 @@
 {
   "id": "wesco-010",
   "slug": "american-life-wesco-brew-bowl-2026-11-10",
-  "title": "American Life",
+  "title": "Disney Hits & Sing-Alongs Music Bingo",
   "date": "2026-11-10",
   "startTime": "7:00 PM",
   "venueId": "wesco",
-  "eventType": "Trivia",
-  "theme": "American Life",
-  "shortDescription": "American Life with Four Dogs Entertainment at WesCo Brew & Bowl.",
-  "description": "Bring your people to WesCo Brew & Bowl for American Life with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "eventType": "Music Bingo",
+  "theme": "Disney Hits & Sing-Alongs",
+  "shortDescription": "Disney Hits & Sing-Alongs Music Bingo at WesCo Brew & Bowl on November 10.",
+  "description": "Bring your people to WesCo Brew & Bowl for Disney Hits & Sing-Alongs Music Bingo with Four Dogs Entertainment. Listen for familiar songs from Disney movies and shows, mark them on your bingo card, and sing along with friends as you play.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-23T15:15:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,6 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "instructions": "Join us at WesCo for free Music Bingo at 7:00 PM. Food and drinks are purchased separately. Contact the venue for seating details.",
   "ticketed": false
 }

@@ -1,20 +1,20 @@
 {
   "id": "wesco-011",
   "slug": "four-dogs-survey-showdown-wesco-brew-bowl-2026-11-17",
-  "title": "Four Dogs Survey Showdown",
+  "title": "Pass the Plate: Elle's Favorite Things",
   "date": "2026-11-17",
   "startTime": "7:00 PM",
   "venueId": "wesco",
-  "eventType": "Survey Showdown",
-  "theme": "Four Dogs Survey Showdown",
-  "shortDescription": "Four Dogs Survey Showdown with Four Dogs Entertainment at WesCo Brew & Bowl.",
-  "description": "Bring your people to WesCo Brew & Bowl for Four Dogs Survey Showdown with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "eventType": "Trivia",
+  "theme": "Pass the Plate: Elle's Favorite Things",
+  "shortDescription": "Pass the Plate: Elle's Favorite Things trivia at WesCo Brew & Bowl on November 17.",
+  "description": "Get your team together at WesCo Brew & Bowl for Pass the Plate: Elle's Favorite Things, a hosted Four Dogs trivia night built around a mix of Elle's favorite topics and pop-culture picks. Pass the answers around your table and see what your team knows.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-23T15:15:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,6 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "instructions": "Join the free team trivia game at WesCo at 7:00 PM. Contact the venue for seating details. Food and drinks are purchased separately.",
   "ticketed": false
 }

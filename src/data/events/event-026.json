@@ -7,14 +7,14 @@
   "venueId": "charter-803",
   "eventType": "Survey Showdown",
   "theme": "Four Dogs Survey Showdown",
-  "shortDescription": "Four Dogs Survey Showdown with Four Dogs Entertainment at Charter 803 Bar & Grill.",
-  "description": "Bring your people to Charter 803 Bar & Grill for Four Dogs Survey Showdown with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "shortDescription": "Four Dogs Survey Showdown at Charter 803 Bar & Grill on November 12 at 6:30 PM.",
+  "description": "Survey says it's game night at Charter 803 Bar & Grill. Bring a team for Four Dogs Survey Showdown, an interactive trivia-style competition where your group tries to guess the most popular answers to entertaining survey questions. No special trivia expertise needed, just your best guesses and a few friends.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-23T15:15:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,6 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "instructions": "Free entry. Survey Showdown starts at 6:30 PM. Contact Charter 803 for seating details. Food and drinks are purchased separately.",
   "ticketed": false
 }
