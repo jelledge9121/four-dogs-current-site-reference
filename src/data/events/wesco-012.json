@@ -1,20 +1,20 @@
 {
   "id": "wesco-012",
   "slug": "family-favorites-wesco-brew-bowl-2026-11-24",
-  "title": "Family Favorites",
+  "title": "Family Favorites (Canceled)",
   "date": "2026-11-24",
   "startTime": "7:00 PM",
   "venueId": "wesco",
   "eventType": "Trivia",
   "theme": "Family Favorites",
-  "shortDescription": "Family Favorites with Four Dogs Entertainment at WesCo Brew & Bowl.",
-  "description": "Bring your people to WesCo Brew & Bowl for Family Favorites with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "shortDescription": "Canceled: No Four Dogs Tuesday event at WesCo on November 24.",
+  "description": "The previously listed Family Favorites Tuesday trivia event at WesCo Brew & Bowl on November 24 will not take place. This event has been removed from the upcoming schedule. The separate Home for the Holidays game night at WesCo remains listed for Wednesday, November 25, with a provisional 7:00 PM start.",
   "image": "/images/hero.jpg",
   "featured": false,
-  "status": "scheduled",
+  "status": "cancelled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-23T15:15:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,6 +22,6 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
+  "instructions": "This Tuesday event is canceled. Do not travel to WesCo for Four Dogs trivia on November 24. Check the November 25 Home for the Holidays listing for the separate Wednesday event.",
   "ticketed": false
 }
