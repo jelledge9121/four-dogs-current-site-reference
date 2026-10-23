@@ -4,21 +4,23 @@
   "confirmedThrough": "2026-12-17",
   "weekday": 4,
   "intervalWeeks": 1,
-  "excludedDates": [],
+  "excludedDates": [
+    "2026-11-26"
+  ],
   "template": {
     "title": "Thursday Karaoke at WesCo Brew & Bowl",
     "startTime": "7:00 PM",
     "venueId": "wesco",
     "eventType": "Karaoke",
     "theme": "Thursday Karaoke",
-    "shortDescription": "Thursday Karaoke at 7 PM. Bring your friends, pick a song, and take the mic at WesCo.",
-    "description": "Your Thursday plans just got better. Grab your friends, pick your song, and take the mic for Karaoke Night with Four Dogs at WesCo Brew & Bowl. First-timers and regular performers are welcome. Karaoke starts at 7:00 PM.",
+    "shortDescription": "Thursday karaoke at WesCo. The start time is being reconfirmed with the venue; check before heading out.",
+    "description": "Come sing with Four Dogs at WesCo Brew & Bowl. Pick your favorite song, grab the mic, and bring your friends. The Thursday start time is being reconfirmed with the venue following a newer scheduling request, so please check with WesCo before making plans. Thanksgiving Day, November 26, is not scheduled pending separate confirmation.",
     "image": "/images/hero.jpg",
     "featured": false,
     "status": "scheduled",
     "visibility": "public",
     "publicationStatus": "published",
-    "lastUpdated": "2026-10-19T19:45:00-04:00",
+    "lastUpdated": "2026-10-23T10:51:00-04:00",
     "admission": {
       "kind": "free",
       "verified": true,
@@ -26,7 +28,7 @@
       "currency": "USD",
       "note": "Free admission."
     },
-    "instructions": "Contact WesCo for seating or participation details. Karaoke starts at 7:00 PM.",
+    "instructions": "Contact WesCo for current karaoke start-time confirmation and participation details before traveling.",
     "ticketed": false
   }
 }
