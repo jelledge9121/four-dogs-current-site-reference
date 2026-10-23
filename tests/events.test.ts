@@ -13,8 +13,8 @@ const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
 test('November public events include the Thanksgiving Eve game nights and Boze’s championship watch party',()=>{
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
- assert.equal(november.length,32);
- assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:9,'charter-803':7,bozes:5,aura:2});
+ assert.equal(november.length,31);
+ assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:5,aura:2});
  const comedy=november.find(e=>e.id==='the-mill-2026-11-02')!;
  assert.ok(comedy);
  assert.equal(comedy.title,'Comedy Night Trivia');
@@ -99,8 +99,8 @@ test('WesCo Spooky Music Bingo reuses the dated event ID and Harry Potter Trivia
  const spooky=all.find(e=>e.id==='wesco-2026-10-27')!;assert.equal(spooky.slug,'spooky-music-bingo-wesco-2026-10-27');assert.equal(spooky.publicationStatus,'published');assert.equal(spooky.eventType,'Music Bingo');assert.equal(spooky.startTime,'7:00 PM');
  const harry=all.find(e=>e.id==='wesco-009')!;assert.equal(harry.slug,'food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03');assert.equal(harry.title,'Harry Potter: Battle for Hogwarts');assert.equal(harry.eventType,'Trivia');assert.match(harry.description,/Hogwarts/);
 });
-test('Thursday WesCo Karaoke uses one recurring series and the confirmed 7 PM start time',()=>{
- const karaoke=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');assert.deepEqual(karaoke.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12','2026-11-19','2026-11-26','2026-12-03','2026-12-10','2026-12-17']);
+test('Thursday WesCo Karaoke excludes unconfirmed Thanksgiving and discloses schedule review',()=>{
+ const karaoke=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');assert.deepEqual(karaoke.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12','2026-11-19','2026-12-03','2026-12-10','2026-12-17']);
  assert.ok(karaoke.every(e=>e.venueId==='wesco'&&e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&!e.endTime&&e.title==='Thursday Karaoke at WesCo Brew & Bowl'));
- assert.equal(selectEvents(all,venues,{now,venue:'wesco',category:'Karaoke'}).length,9);
+ assert.equal(selectEvents(all,venues,{now,venue:'wesco',category:'Karaoke'}).length,8);
 });
