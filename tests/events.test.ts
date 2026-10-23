@@ -44,6 +44,24 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
  assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
  assert.equal(november.find(e=>e.venueId==='top-dawg'&&e.date==='2026-11-03')?.endTime,undefined);
 });
+test('Owner approved November 16 and 23 Mill themes and generic Top Dawg November 24 Music Bingo preserve slugs',()=>{
+ const checks=[
+  ['the-mill-2026-11-16','Are You Smarter Than a Barstool?','Are You Smarter Than a Barstool?','trivia-at-the-mill-the-mill-2026-11-16','7:00 PM'],
+  ['the-mill-2026-11-23','Thanksgiving Week Survey Showdown','Survey Showdown','are-you-smarter-than-a-barstool-the-mill-2026-11-23','7:00 PM'],
+  ['top-dawg-2026-11-24','Music Bingo','Music Bingo','too-soon-for-christmas-music-bingo-top-dawg-2026-11-24','6:30 PM'],
+ ] as const;
+ for(const [id,title,type,slug,time] of checks){
+  const e=all.find(e=>e.id===id)!;
+  assert.ok(e,id);
+  assert.equal(e.title,title);
+  assert.equal(e.eventType,type);
+  assert.equal(e.slug,slug);
+  assert.equal(e.startTime,time);
+  assert.equal(e.publicationStatus,'published');
+  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.name,title);
+ }
+ assert.doesNotMatch(all.find(e=>e.id==='top-dawg-2026-11-24')!.description,/Christmas|Throwback/i);
+});
 test('Upcoming listings exclude July, August, September, and expired October dates',()=>assert.ok(selectEvents(all,venues,{now}).every(e=>e.date>='2026-10-17')));
 test('Chronology uses timestamps across noon, PM, and overnight events',()=>{const morning=mutate({id:'m',slug:'m',startTime:'11:00 AM'}),evening=mutate({id:'e',slug:'e',startTime:'6:00 PM',endTime:'8:00 PM'});assert.deepEqual(selectEvents([evening,morning],venues,{now}).map(e=>e.id),['m','e']);});
 test('An event remains live until its scheduled end, then expires exactly at the end',()=>{assert.equal(phase(sample,new Date('2026-10-21T00:59:59Z')),'live');assert.equal(phase(sample,new Date('2026-10-21T01:00:00Z')),'completed');});
