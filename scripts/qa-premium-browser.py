@@ -9,6 +9,7 @@ from playwright.async_api import async_playwright
 BASE = os.environ.get("FOUR_DOGS_QA_URL", "http://127.0.0.1:4321")
 SIZES = [
     ("iphone-se", 320, 740),
+    ("iphone-medium", 375, 812),
     ("iphone-regular", 390, 844),
     ("iphone-large", 430, 932),
     ("tablet", 768, 1024),
@@ -41,7 +42,13 @@ async def main():
                 page.on("pageerror", lambda err: errors.append(str(err)))
                 response = await page.goto(BASE + "/", wait_until="domcontentloaded")
                 assert response is not None and response.status == 200, (name, "homepage response")
-                assert await page.locator("h1").count() == 1, (name, "homepage title")
+                heading = page.locator(".home-intro-copy h1")
+                try:
+                    await heading.wait_for(state="attached", timeout=8000)
+                except Exception:
+                    raise AssertionError((name, "home heading missing", await page.title(),
+                                          (await page.locator("body").inner_text())[:1000]))
+                assert await heading.count() == 1, (name, "duplicate homepage heading")
                 assert await page.locator('.home-intro-copy a[href="/booking/"]').count() == 1
                 assert await page.locator('.home-intro-copy a[href="/events/"]').count() == 1
                 assert await page.locator('.service-directory > a').count() >= 6
