@@ -17,3 +17,21 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run qa
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install headless browser for responsive QA
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Test desktop, tablet, iPhone, reduced-motion and no-JS experiences
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
+          python scripts/qa-premium-browser.py
+      - name: Keep screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: four-dogs-responsive-smoke-screenshots
+          path: qa-screenshots/*.png
+          if-no-files-found: ignore
