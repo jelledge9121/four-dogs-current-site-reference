@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "qa": "node --import tsx scripts/qa.mjs && node --import tsx scripts/qa-ssr.mjs",
-    "test": "node --import tsx --test tests/events.test.ts",
+    "test": "node --import tsx --test tests/events.test.ts && node --test tests/premium-motion.test.mjs",
     "export-events": "node --import tsx scripts/export-events.ts"
   },
   "dependencies": {
