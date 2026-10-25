@@ -314,20 +314,20 @@ export const localSeoPages: LocalSeoPage[] = [
   },
   {
     slug: 'private-event-dj-midlands-sc',
-    title: 'Private Event Entertainment Across South Carolina | Four Dogs Entertainment',
-    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations anywhere in South Carolina.',
+    title: 'Private Event Entertainment in SC, NC & GA | Four Dogs',
+    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations throughout South Carolina and in North Carolina and Georgia.',
     eyebrow: 'Private events',
-    h1: 'Private Event Entertainment Across South Carolina',
+    h1: 'Private Event Entertainment Across SC, NC & GA',
     lead: 'DJ entertainment and interactive formats for parties, communities, organizations, and celebrations.',
     intro: [
-      'Four Dogs provides private-event entertainment throughout South Carolina, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',
+      'Four Dogs provides private-event entertainment throughout South Carolina and in North Carolina and Georgia, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',
       'The format can be selected around the audience and purpose of the gathering, whether the goal is a dance floor, a structured game, or a mix of entertainment throughout the event.',
     ],
     highlights: ['DJ entertainment', 'Trivia and Music Bingo', 'Karaoke and interactive games', 'Community and HOA events', 'Custom event planning around the group'],
     faqs: [
       { question: 'What types of private events can Four Dogs support?', answer: 'Four Dogs books private parties, community gatherings, organizational events, engagement celebrations, and other hosted events.' },
       { question: 'Can we choose between DJ entertainment and games?', answer: 'Yes. Four Dogs offers multiple formats, and the booking conversation can determine the best fit for the group.' },
-      { question: 'What areas does Four Dogs serve?', answer: 'Four Dogs serves the entire state of South Carolina.' },
+      { question: 'What areas does Four Dogs serve?', answer: 'Four Dogs serves all of South Carolina and also books events in North Carolina and Georgia.' },
     ],
     bookingValue: 'Private Event',
     relatedLinks: [
