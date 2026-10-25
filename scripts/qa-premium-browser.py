@@ -59,6 +59,15 @@ async def main():
                     "(img) => img.complete && img.naturalWidth > 0"
                 )
                 assert image_loaded, (name, "hero photo failed to load")
+                # Animations must never leave skipped, below-fold content invisible.
+                if width <= 430:
+                    event_opacity = float(await page.locator(".event-row").first.evaluate(
+                        "(el) => getComputedStyle(el).opacity"
+                    ))
+                    assert event_opacity > 0.95, (
+                        name, "offscreen event hidden before scrolling", event_opacity
+                    )
+
                 overflow = await page.evaluate(
                     "document.documentElement.scrollWidth - document.documentElement.clientWidth"
                 )
