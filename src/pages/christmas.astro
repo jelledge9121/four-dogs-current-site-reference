@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: 'Where is holiday entertainment available?',
-    answer: 'Four Dogs serves all of South Carolina. Holiday entertainment and Santa Jim availability depend on the date, travel, and event details.',
+    answer: 'Four Dogs entertainment is available across South Carolina and for events in North Carolina and Georgia. Santa Jim appearances depend on his own availability, the location, and travel.',
   },
 ];
 
@@ -31,13 +31,13 @@ const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Holiday Party Entertainment and Santa Jim',
-  description: 'Holiday entertainment from Four Dogs Entertainment can combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa Jim appearance for events across South Carolina.',
+  description: 'Holiday entertainment from Four Dogs Entertainment can combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa Jim appearance for events in South Carolina, North Carolina, and Georgia, subject to availability.',
   provider: {
     '@type': 'Organization',
     name: 'Four Dogs Entertainment',
     url: 'https://4dogsentertainment.com',
   },
-  areaServed: ['South Carolina'],
+  areaServed: ['South Carolina', 'North Carolina', 'Georgia'],
 };
 
 const faqSchema = {
@@ -51,8 +51,8 @@ const faqSchema = {
 };
 ---
 <Base
-  title="Holiday Party Entertainment & Santa Across South Carolina | Four Dogs"
-  description="Plan a holiday party anywhere in South Carolina with Four Dogs Entertainment and Santa Jim. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience."
+  title="Holiday Entertainment in SC, NC & GA | Four Dogs"
+  description="Plan a holiday party in South Carolina, North Carolina, or Georgia with Four Dogs Entertainment. Ask about Santa Jim availability separately. Combine DJ entertainment, Music Bingo, trivia, hosted games, and a traditional real-beard Santa experience."
   schema={[serviceSchema, faqSchema]}
 >
   <section class="section dark">
