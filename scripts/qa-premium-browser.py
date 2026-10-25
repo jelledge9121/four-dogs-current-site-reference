@@ -94,6 +94,8 @@ async def main():
                 ))
                 assert photo_opacity > 0.95, (name, "photo reveal stayed hidden", photo_opacity)
                 assert not errors, (name, "uncaught JS errors", errors)
+                await page.evaluate("window.scrollTo({ top: 0, behavior: 'instant' })")
+                await page.wait_for_timeout(250)
                 await page.screenshot(path=f"qa-screenshots/{name}.png", full_page=True)
                 print(f"PASS {name}: {width}x{height}, menu, content, image, event, scroll reveal, no overflow")
                 await context.close()
