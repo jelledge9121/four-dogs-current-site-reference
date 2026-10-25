@@ -1,20 +1,20 @@
 {
   "id": "charter-2026-10-28",
   "slug": "karaoke-costume-contest-charter-803-2026-10-28",
-  "title": "Karaoke & Costume Contest",
+  "title": "Trick or Track: Halloween Music Bingo & Costume Contest",
   "date": "2026-10-28",
   "startTime": "6:30 PM",
   "venueId": "charter-803",
-  "eventType": "Karaoke",
-  "theme": "Karaoke & Costume Contest",
-  "shortDescription": "Karaoke meets Halloween costumes for a special Charter 803 event.",
-  "description": "Give your costume a microphone. Four Dogs brings Karaoke & Costume Contest to Charter 803 for a night of familiar songs and Halloween looks. Check with the venue for participation and costume-contest details.",
+  "eventType": "Music Bingo",
+  "theme": "Trick or Track",
+  "shortDescription": "Three rounds of Halloween Music Bingo and one costume catwalk at Charter 803.",
+  "description": "Halloween hits, Music Bingo, and a costume catwalk all in one night. Join Four Dogs Entertainment for Trick or Track at Charter 803, featuring three rounds of Halloween Music Bingo plus a costume contest. Come dressed to participate in the catwalk or just enjoy the music and play along. Free admission.",
   "image": "/images/hero.jpg",
   "featured": true,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "lastUpdated": "2026-10-25T02:31:00Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,7 +22,7 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details.",
+  "instructions": "Join us at Charter 803 for Music Bingo starting at 6:30 PM. Come in costume if you want to take part in the contest. Contact the venue for seating details.",
   "endTime": "8:30 PM",
   "ticketed": false
 }
