@@ -127,16 +127,14 @@
 @media (hover: hover) and (pointer: fine) {
   .home-reviews .review-card:hover { border-color: var(--gold); }
 }
-/* The observer adds this class only to offscreen content.
-   Without JS or IntersectionObserver, every section remains visible. */
+/* Preserve visibility at all times: the observer starts animation on entry,
+   without ever hiding offscreen content or blocking screenshots. */
 @media (prefers-reduced-motion: no-preference) {
-  .fd-will-reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 620ms var(--fd-motion-ease),
-                transform 620ms var(--fd-motion-ease);
-  }
-  .fd-will-reveal.fd-is-visible { opacity: 1; transform: none; }
+  .fd-reveal-play { animation: fd-scroll-reveal 630ms var(--fd-motion-ease) both; }
+}
+@keyframes fd-scroll-reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
 }
 @media (max-width: 520px) {
   .home-intro-grid { gap: 1.5rem; }
@@ -145,7 +143,7 @@
   .home-photo-grid figure { border-radius: 3px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fd-will-reveal { opacity: 1 !important; transform: none !important; }
+  .fd-reveal-play { animation: none !important; opacity: 1 !important; transform: none !important; }
   .fd-booking-button::before { display: none; }
   .home-intro-copy h1,.home-intro-copy .lead,.home-intro-copy .home-location,
   .home-intro-copy .actions,.home-intro-photo { animation: none !important; }
