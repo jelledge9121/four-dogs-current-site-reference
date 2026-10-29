@@ -7,14 +7,14 @@
   "venueId": "bozes",
   "eventType": "Music Bingo",
   "theme": "Amplified: The Ultimate Rock Bingo Night",
-  "shortDescription": "Amplified: The Ultimate Rock Bingo Night with Four Dogs Entertainment at Boze's Restaurant & Bar.",
-  "description": "Bring your people to Boze's Restaurant & Bar for Amplified: The Ultimate Rock Bingo Night with Four Dogs Entertainment. Listen for songs, mark your card, and join the Music Bingo fun.",
+  "shortDescription": "1970s and 1980s rock, including Yacht Rock, for Amplified Music Bingo at Boze's.",
+  "description": "Bring your people to Boze's Restaurant & Bar for Amplified: The Ultimate Rock Bingo Night. This edition features 1970s and 1980s rock, including Yacht Rock. Listen for familiar favorites, mark your card, and play Music Bingo with Four Dogs Entertainment.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-29T17:30:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,5 +23,6 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
-  "ticketed": false
+  "ticketed": false,
+  "metaDescription": "Amplified rock Music Bingo at Boze's Restaurant & Bar on November 18, 2026 at 7:30 PM Eastern. Featuring 1970s and 1980s rock, including Yacht Rock. Free admission."
 }

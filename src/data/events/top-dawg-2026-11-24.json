@@ -1,20 +1,20 @@
 {
   "id": "top-dawg-2026-11-24",
-  "slug": "too-soon-for-christmas-music-bingo-top-dawg-2026-11-24",
-  "title": "Music Bingo",
+  "slug": "90s-vs-2000s-the-ultimate-throwback-music-bingo-top-dawg-2026-11-24",
+  "title": "90s vs. 2000s: The Ultimate Throwback Music Bingo",
   "date": "2026-11-24",
   "startTime": "6:30 PM",
   "venueId": "top-dawg",
   "eventType": "Music Bingo",
-  "theme": "Music Bingo",
-  "shortDescription": "Music Bingo at Top Dawg Tavern on November 24. Theme to be announced.",
-  "description": "Bring your people to Top Dawg Tavern for Music Bingo with Four Dogs Entertainment. Listen for the songs, mark your card, and play along with your friends. This is a general Music Bingo listing; no specialty theme has been confirmed.",
+  "theme": "90s vs. 2000s: The Ultimate Throwback",
+  "shortDescription": "90s vs. 2000s Music Bingo at Top Dawg Tavern, November 24 at 6:30 PM.",
+  "description": "Bring your people to Top Dawg Tavern for 90s vs. 2000s: The Ultimate Throwback Music Bingo with Four Dogs Entertainment. Listen for songs from the 1990s and 2000s, mark your card, and play along with your friends.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-23T15:06:01.204Z",
+  "lastUpdated": "2026-10-29T17:30:00-04:00",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,5 +23,7 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
-  "ticketed": false
+  "ticketed": false,
+  "seoTitle": "90s vs. 2000s Music Bingo | Top Dawg Tavern | November 24, 2026",
+  "metaDescription": "Play 90s vs. 2000s: The Ultimate Throwback Music Bingo at Top Dawg Tavern in Columbia, SC on Tuesday, November 24, 2026 at 6:30 PM Eastern. Free admission."
 }

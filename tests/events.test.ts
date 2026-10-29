@@ -23,7 +23,7 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
  assert.match(comedy.description,/not a stand-up comedy show/);
  assert.equal(comedy.startTime,'7:00 PM');
  assert.equal(comedy.endTime,'9:00 PM');
- assert.equal(comedy.slug,'are-you-smarter-than-a-barstool-the-mill-2026-11-02');
+ assert.equal(comedy.slug,'comedy-night-trivia-the-mill-2026-11-02');
  assert.equal(eventSchema(comedy,venues.find(v=>v.id==='the-mill')!)?.startDate,'2026-11-02T19:00:00-05:00');
  assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
  assert.equal(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title,'DJ Jimboâ€™s Master Class Music Bingo');
@@ -44,11 +44,11 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
  assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
  assert.equal(november.find(e=>e.venueId==='top-dawg'&&e.date==='2026-11-03')?.endTime,undefined);
 });
-test('Owner approved November 16 and 23 Mill themes and generic Top Dawg November 24 Music Bingo preserve slugs',()=>{
+test('Approved November Mill themes and October 26 Top Dawg throwback theme retain event identity',()=>{
  const checks=[
   ['the-mill-2026-11-16','Are You Smarter Than a Barstool?','Are You Smarter Than a Barstool?','trivia-at-the-mill-the-mill-2026-11-16','7:00 PM'],
   ['the-mill-2026-11-23','Thanksgiving Week Survey Showdown','Survey Showdown','are-you-smarter-than-a-barstool-the-mill-2026-11-23','7:00 PM'],
-  ['top-dawg-2026-11-24','Music Bingo','Music Bingo','too-soon-for-christmas-music-bingo-top-dawg-2026-11-24','6:30 PM'],
+  ['top-dawg-2026-11-24','90s vs. 2000s: The Ultimate Throwback Music Bingo','Music Bingo','90s-vs-2000s-the-ultimate-throwback-music-bingo-top-dawg-2026-11-24','6:30 PM'],
  ] as const;
  for(const [id,title,type,slug,time] of checks){
   const e=all.find(e=>e.id===id)!;
@@ -60,7 +60,7 @@ test('Owner approved November 16 and 23 Mill themes and generic Top Dawg Novembe
   assert.equal(e.publicationStatus,'published');
   assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.name,title);
  }
- assert.doesNotMatch(all.find(e=>e.id==='top-dawg-2026-11-24')!.description,/Christmas|Throwback/i);
+ assert.doesNotMatch(all.find(e=>e.id==='top-dawg-2026-11-24')!.description,/Christmas|theme to be announced|no specialty theme/i);
 });
 test('Owner-approved November WesCo replacements are correctly categorized and keep established URLs',()=>{
  const disney=all.find(e=>e.id==='wesco-010')!;
@@ -81,7 +81,7 @@ test('Owner-approved November 24 WesCo Tuesday removal preserves public canceled
  assert.equal(removed.slug,'family-favorites-wesco-brew-bowl-2026-11-24');
  assert.equal(removed.publicationStatus,'published');
  const upcoming=selectEvents(all,venues,{now,from:'2026-11-01',to:'2026-11-30'});
- assert.equal(upcoming.length,30);
+ assert.equal(upcoming.length,31); // Includes the October 31 DJ event ending November 1 across the DST transition.
  assert.ok(!upcoming.some(e=>e.id==='wesco-012'));
  assert.equal(selectEvents(all,venues,{now,view:'updates'}).filter(e=>e.id==='wesco-012').length,1);
  assert.match(eventSchema(removed,venues.find(v=>v.id==='wesco')!)!.eventStatus,/EventCancelled$/);
@@ -145,15 +145,45 @@ test('Owner-confirmed public admission is free except the $25 murder mystery',()
 
 test('Aura four trial nights use their confirmed themes and retain stable recurrence URLs',()=>{
  const expected=[['2026-10-22','College Hits: Throughout the Years Music Bingo'],['2026-10-29','Spooky Vibes Music Bingo'],['2026-11-05','DJ Jimboâ€™s Master Class Music Bingo'],['2026-11-12','Screen Time Music Bingo']];
- for(const [date,title] of expected){const e=all.find(e=>e.venueId==='aura'&&e.date===date)!;assert.ok(e);assert.equal(e.title,title);assert.equal(e.eventType,'Music Bingo');assert.equal(e.slug,`${date}-aura-thursday-trial-2026`);assert.equal(e.startTime,'7:30 PM');assert.equal(e.endTime,'9:30 PM');}
+ for(const [date,title] of expected){const e=all.find(e=>e.venueId==='aura'&&e.date===date)!;assert.ok(e);assert.equal(e.title,title);assert.equal(e.eventType,'Music Bingo');assert.equal(e.slug,`${date}-aura-thursday-trial-2026`);assert.equal(e.startTime,date==='2026-10-22'?'7:30 PM':'7:00 PM');assert.equal(e.endTime,'9:30 PM');assert.equal(eventSchema(e,venues.find(v=>v.id==='aura')!)?.startDate,`${date}T${date==='2026-10-22'?'19:30':'19:00'}:00${date<'2026-11-01'?'-04:00':'-05:00'}`);}
  assert.equal(all.filter(e=>e.venueId==='aura'&&e.seriesId).length,4);
 });
 test('WesCo Spooky Music Bingo reuses the dated event ID and Harry Potter Trivia remains stable',()=>{
  const spooky=all.find(e=>e.id==='wesco-2026-10-27')!;assert.equal(spooky.slug,'spooky-music-bingo-wesco-2026-10-27');assert.equal(spooky.publicationStatus,'published');assert.equal(spooky.eventType,'Music Bingo');assert.equal(spooky.startTime,'7:00 PM');
  const harry=all.find(e=>e.id==='wesco-009')!;assert.equal(harry.slug,'food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03');assert.equal(harry.title,'Harry Potter: Battle for Hogwarts');assert.equal(harry.eventType,'Trivia');assert.match(harry.description,/Hogwarts/);
 });
-test('Thursday WesCo Karaoke excludes unconfirmed Thanksgiving and discloses schedule review',()=>{
+test('Thursday WesCo Karaoke uses the approved 7â€“10 PM schedule and excludes unconfirmed Thanksgiving',()=>{
  const karaoke=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');assert.deepEqual(karaoke.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12','2026-11-19','2026-12-03','2026-12-10','2026-12-17']);
- assert.ok(karaoke.every(e=>e.venueId==='wesco'&&e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&!e.endTime&&e.title==='Thursday Karaoke at WesCo Brew & Bowl'));
+ assert.ok(karaoke.every(e=>e.venueId==='wesco'&&e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&e.endTime==='10:00 PM'&&!/reconfirm|check.*start.time/i.test(e.description+' '+e.instructions)&&e.title==='Thursday Karaoke at WesCo Brew & Bowl'));
  assert.equal(selectEvents(all,venues,{now,venue:'wesco',category:'Karaoke'}).length,8);
+});
+
+
+test('October 29 corrections preserve date/venue identities, accurate schema, and legacy redirects',()=>{
+ const rows=fs.readFileSync('public/_redirects','utf8').split('\n').filter(l=>l.startsWith('/')).map(l=>l.trim().split(/\s+/));
+ const oldPaths=[
+  ['charter-803-2026-11-05','the-reunion-show-reality-tv-trivia-charter-803-2026-11-05'],
+  ['charter-803-2026-11-05','are-you-smarter-than-a-barstool-charter-803-2026-11-05'],
+  ['bozes-2026-11-11','nascar-champions-legends-carolina-racing-bozes-2026-11-11'],
+  ['the-mill-2026-11-02','are-you-smarter-than-a-barstool-the-mill-2026-11-02'],
+  ['top-dawg-2026-11-24','too-soon-for-christmas-music-bingo-top-dawg-2026-11-24'],
+ ];
+ for(const [id,oldSlug] of oldPaths){
+  const e=all.find(e=>e.id===id)!;
+  for(const suffix of ['', '/'])assert.ok(rows.some(([from,to,code])=>from===`/events/${oldSlug}${suffix}`&&to===`/events/${e.slug}/`&&code==='301'));
+  assert.equal(all.filter(x=>x.date===e.date&&x.venueId===e.venueId&&x.status==='scheduled').length,1);
+  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.name,e.title);
+ }
+ const reunion=all.find(e=>e.id==='charter-803-2026-11-05')!;
+ assert.equal(reunion.title,'THE REUNION: The Ultimate Reality TV Trivia Night');
+ assert.doesNotMatch(JSON.stringify(reunion),/The Reunion Show|Barstool/i);
+ for(const show of ['Real Housewives','Vanderpump Rules','Southern Charm','Love Island','The Traitors','Survivor'])assert.ok(reunion.description.includes(show));
+ assert.equal(eventSchema(reunion,venues.find(v=>v.id==='charter-803')!)?.startDate,'2026-11-05T18:30:00-05:00');
+ const showdown=all.find(e=>e.id==='bozes-2026-11-11')!;
+ assert.equal(showdown.title,'Four Dogs Survey Showdown');assert.equal(showdown.eventType,'Survey Showdown');assert.doesNotMatch(JSON.stringify(showdown),/NASCAR/i);
+ const rock=all.find(e=>e.id==='bozes-2026-11-18')!;
+ assert.equal(rock.title,'Amplified: The Ultimate Rock Bingo Night');assert.match(rock.description,/1970s and 1980s rock, including Yacht Rock/);
+ const halloween=all.find(e=>e.id==='bozes-2026-10-31')!;
+ const schema=eventSchema(halloween,venues.find(v=>v.id==='bozes')!)!;
+ assert.equal(schema.startDate,'2026-10-31T19:00:00-04:00');assert.equal(schema.endDate,'2026-11-01T02:00:00-05:00');
 });

@@ -1,0 +1,29 @@
+{
+  "id": "bozes-2026-10-31",
+  "slug": "halloween-night-with-dj-jim-bozes-2026-10-31",
+  "title": "Halloween Night with DJ Jim",
+  "date": "2026-10-31",
+  "startTime": "7:00 PM",
+  "endDate": "2026-11-01",
+  "endTime": "2:00 AM",
+  "venueId": "bozes",
+  "eventType": "Other Public Events",
+  "theme": "Halloween Night with DJ Jim",
+  "shortDescription": "Halloween-night music with DJ Jim at Boze's Restaurant & Bar. Starts at 7:00 PM.",
+  "description": "Join Four Dogs Entertainment for Halloween Night with DJ Jim at Boze's Restaurant & Bar in West Columbia on Saturday, October 31. Music starts at 7:00 PM Eastern.",
+  "image": "/images/hero.jpg",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-10-29T17:30:00-04:00",
+  "admission": {
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD",
+    "note": "Free admission."
+  },
+  "instructions": "Contact Boze's for seating and participation details. Food and drinks are purchased separately.",
+  "ticketed": false
+}
