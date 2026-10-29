@@ -1,20 +1,20 @@
 {
   "id": "bozes-2026-11-11",
   "slug": "nascar-champions-legends-carolina-racing-bozes-2026-11-11",
-  "title": "NASCAR: Champions, Legends & Carolina Racing",
+  "title": "Four Dogs Survey Showdown",
   "date": "2026-11-11",
   "startTime": "7:30 PM",
   "venueId": "bozes",
-  "eventType": "Trivia",
-  "theme": "NASCAR: Champions, Legends & Carolina Racing",
-  "shortDescription": "NASCAR: Champions, Legends & Carolina Racing with Four Dogs Entertainment at Boze's Restaurant & Bar.",
-  "description": "Bring your people to Boze's Restaurant & Bar for NASCAR: Champions, Legends & Carolina Racing with Four Dogs Entertainment. Join your team for a hosted night of friendly competition.",
+  "eventType": "Survey Showdown",
+  "theme": "Four Dogs Survey Showdown",
+  "shortDescription": "Survey-style team fun at Boze's. Guess the most popular answers and see how your team stacks up.",
+  "description": "Four Dogs Survey Showdown is coming to Boze's Restaurant & Bar! Bring your team for a night of survey-style questions, surprising answers, and friendly competition. You don't have to be a trivia expert. Just bring your best guesses and see how your team stacks up.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-10-29T17:47:22.559Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,5 +23,7 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
-  "ticketed": false
+  "ticketed": false,
+  "seoTitle": "Four Dogs Survey Showdown | Boze's Restaurant & Bar | November 11, 2026",
+  "metaDescription": "Play Four Dogs Survey Showdown at Boze's Restaurant & Bar in West Columbia, SC, Wednesday, November 11, 2026 at 7:30 PM Eastern. Free admission."
 }
