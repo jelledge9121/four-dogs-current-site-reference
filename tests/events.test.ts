@@ -174,11 +174,22 @@ test('October 29 corrections preserve date/venue identities, accurate schema, an
   assert.equal(all.filter(x=>x.date===e.date&&x.venueId===e.venueId&&x.status==='scheduled').length,1);
   assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.name,e.title);
  }
- const reunion=all.find(e=>e.id==='charter-803-2026-11-05')!;
- assert.equal(reunion.title,'THE REUNION: The Ultimate Reality TV Trivia Night');
- assert.doesNotMatch(JSON.stringify(reunion),/The Reunion Show|Barstool/i);
- for(const show of ['Real Housewives','Vanderpump Rules','Southern Charm','Love Island','The Traitors','Survivor'])assert.ok(reunion.description.includes(show));
- assert.equal(eventSchema(reunion,venues.find(v=>v.id==='charter-803')!)?.startDate,'2026-11-05T18:30:00-05:00');
+ const scifi=all.find(e=>e.id==='charter-803-2026-11-05')!;
+ assert.equal(scifi.title,'SCI-FI LEGENDS: The Ultimate Sci-Fi Trivia Night');
+ assert.equal(scifi.theme,'SCI-FI LEGENDS');
+ assert.equal(scifi.slug,'the-reunion-the-ultimate-reality-tv-trivia-night-charter-803-2026-11-05'); // Preserve shared event URL.
+ assert.equal(scifi.startTime,'6:30 PM');
+ assert.equal(scifi.venueId,'charter-803');
+ for(const franchise of ['Star Trek','Star Wars','Back to the Future','Jurassic Park','Doctor Who','X-Men','The X-Files'])assert.ok(scifi.description.includes(franchise));
+ assert.match(scifi.description,/Sir Patrick Stewart/);
+ assert.match(scifi.description,/Captain Jean-Luc Picard and Professor X/);
+ assert.match(scifi.description,/Join Joey/);
+ assert.match(scifi.description,/compete for prizes/);
+ assert.match(scifi.instructions,/Message Charter 803 directly to reserve your table/);
+ assert.match(scifi.seoTitle || '',/SCI-FI LEGENDS/);
+ assert.match(scifi.metaDescription || '',/SCI-FI LEGENDS/);
+ assert.doesNotMatch([scifi.title,scifi.theme,scifi.shortDescription,scifi.description,scifi.instructions,scifi.seoTitle,scifi.metaDescription].join(' '),/THE REUNION|Reality TV|Stranger Things|Housewives|Vanderpump|Southern Charm|Love Island|The Traitors|Survivor/i);
+ assert.equal(eventSchema(scifi,venues.find(v=>v.id==='charter-803')!)?.startDate,'2026-11-05T18:30:00-05:00');
  const showdown=all.find(e=>e.id==='bozes-2026-11-11')!;
  assert.equal(showdown.title,'Four Dogs Survey Showdown');assert.equal(showdown.eventType,'Survey Showdown');assert.doesNotMatch(JSON.stringify(showdown),/NASCAR/i);
  const rock=all.find(e=>e.id==='bozes-2026-11-18')!;
