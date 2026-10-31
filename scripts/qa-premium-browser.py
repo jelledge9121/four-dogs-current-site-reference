@@ -98,6 +98,34 @@ async def main():
                 await page.wait_for_timeout(250)
                 await page.screenshot(path=f"qa-screenshots/{name}.png", full_page=True)
                 print(f"PASS {name}: {width}x{height}, menu, content, image, event, scroll reveal, no overflow")
+                # Check the revised public event across the same phone, tablet, and desktop widths.
+                event_path = "/events/the-reunion-the-ultimate-reality-tv-trivia-night-charter-803-2026-11-05/"
+                event_response = await page.goto(BASE + event_path, wait_until="domcontentloaded")
+                assert event_response is not None and event_response.status == 200, (name, "event URL")
+                assert (await page.locator(".event-detail-hero h1").inner_text()) == (
+                    "SCI-FI LEGENDS: The Ultimate Sci-Fi Trivia Night"
+                ), (name, "sci-fi event heading")
+                detail = await page.locator(".event-detail-body").inner_text()
+                header = await page.locator(".event-detail-hero").inner_text()
+                assert "Sir Patrick Stewart" in detail and "Join Joey" in detail, (name, "tribute or host missing")
+                assert "Message Charter 803 directly to reserve your table" in detail, (name, "reservation instruction")
+                assert "November 5, 2026" in header and "6:30 PM" in header, (name, "event date/time")
+                assert "Charter 803 Bar & Grill" in header and "Lexington, SC" in header, (name, "venue")
+                assert "THE REUNION" not in (header + detail), (name, "old promo copy remains")
+                meta_description = await page.locator('meta[name="description"]').get_attribute("content")
+                assert meta_description and "SCI-FI LEGENDS" in meta_description, (name, "SEO description")
+                event_overflow = await page.evaluate(
+                    "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+                )
+                assert event_overflow <= 1, (name, "event page horizontal overflow", event_overflow)
+                assert await page.locator('a[href="/events/"]').count() >= 1, (name, "events navigation")
+                await page.screenshot(path=f"qa-screenshots/{name}-sci-fi-legends.png", full_page=True)
+                listing_response = await page.goto(BASE + "/events/", wait_until="domcontentloaded")
+                assert listing_response is not None and listing_response.status == 200, (name, "event calendar")
+                assert await page.locator(f'a[href="{event_path}"]').count() >= 1, (
+                    name, "calendar link to original event URL"
+                )
+                print(f"PASS {name}: SCI-FI LEGENDS event, SEO, reservation details, layout and calendar link")
                 await context.close()
 
             reduced = await browser.new_context(
