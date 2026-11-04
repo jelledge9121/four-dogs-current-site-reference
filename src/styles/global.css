@@ -87,3 +87,9 @@ header nav{min-height:84px;gap:1rem}.brand{flex-shrink:0}.brand img{height:68px;
 /* Keep promotional and secondary navigation from delaying attendance tasks. */
 .event-surface .seasonal-banner{display:none}.breadcrumbs{width:100%;min-height:0;display:block}.booking-next{margin:1.5rem 0}.booking-next>summary{padding:.5rem 0;min-height:44px;font-weight:750;list-style:revert}.booking-next p{font-size:1rem}
 @media(max-width:520px){.calendar-results-heading{margin:1rem 0}.filter-disclosure{margin-bottom:1.25rem}.calendar-body .event-tabs a{padding:.5rem 0}.calendar-body .date-shortcuts{margin:1rem 0}.booking-intro .lead{margin-bottom:.75rem}}
+
+/* Supporting merchandise link: preserve the existing section rhythm and palette. */
+.home-gear.section{padding:clamp(2.5rem,4vw,3.75rem) 0}
+.home-gear .split{align-items:start;gap:clamp(1.5rem,5vw,4rem)}
+.home-gear .actions{margin-top:1.25rem}
+.home-gear .fine{margin:.75rem 0 0}
