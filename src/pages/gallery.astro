@@ -2,15 +2,15 @@
 import Base from '../layouts/Base.astro';
 import { gallery } from '../data/gallery';
 
-const categories = ['All', 'Trivia', 'Music Bingo', 'Weddings', 'Private Events', 'Crowds & Winners', 'Venue Events'];
+const categories = ['All', 'Trivia', 'Music Bingo', 'Karaoke', 'Weddings', 'Private Events', 'Crowds & Winners', 'Venue Events'];
 const featured = gallery.filter((item) => item.featured).slice(0, 4);
 ---
-<Base title="Real Four Dogs Events Across South Carolina | Gallery" description="See authentic Four Dogs Entertainment photos and video from trivia, Music Bingo, weddings, venue events, private events, crowds, and winners across South Carolina.">
+<Base title="Real Four Dogs Events Across South Carolina | Gallery" description="See authentic Four Dogs Entertainment photos and video from trivia, Music Bingo, karaoke, weddings, venue events, private events, crowds, and winners across South Carolina.">
   <section class="section dark gallery-hero">
     <div class="container">
       <p class="eyebrow">Real people. Real events.</p>
       <h1>This is what a Doggone Good Time looks like.</h1>
-      <p class="lead">No stock crowds and no staged event photos. These are real Four Dogs nights, winners, teams, weddings, venues, and celebrations from across South Carolina.</p>
+      <p class="lead">No stock crowds and no staged event photos. These are real Four Dogs nights, winners, teams, karaoke singers, weddings, venues, and celebrations from across South Carolina.</p>
     </div>
   </section>
 
@@ -52,12 +52,12 @@ const featured = gallery.filter((item) => item.featured).slice(0, 4);
           <p class="eyebrow">The Four Dogs gallery</p>
           <h2>Good nights are better with people in them.</h2>
         </div>
-        <p>Browse the room, the teams, the winners, the dance floors, and the moments that make each event feel different.</p>
+        <p>Browse the singers, teams, winners, dance floors, and moments that make each event feel different.</p>
       </div>
 
-      <div class="gallery-filters" aria-label="Filter gallery">
+      <div class="gallery-filters" id="gallery-filters" aria-label="Filter gallery">
         {categories.map((category) => (
-          <button class:list={['gallery-filter', category === 'All' && 'active']} type="button" data-gallery-filter={category}>
+          <button class:list={['gallery-filter', category === 'All' && 'active']} type="button" data-gallery-filter={category} aria-pressed={category === 'All' ? 'true' : 'false'}>
             {category}
           </button>
         ))}
@@ -117,14 +117,28 @@ const featured = gallery.filter((item) => item.featured).slice(0, 4);
     (() => {
       const buttons = document.querySelectorAll('[data-gallery-filter]');
       const items = document.querySelectorAll('[data-gallery-item]');
+      const validFilters = Array.from(buttons, (button) => button.getAttribute('data-gallery-filter'));
+      const applyFilter = (filter) => {
+        const selected = validFilters.includes(filter) ? filter : 'All';
+        buttons.forEach((button) => {
+          const active = button.getAttribute('data-gallery-filter') === selected;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+        items.forEach((item) => {
+          item.hidden = selected !== 'All' && item.getAttribute('data-category') !== selected;
+        });
+      };
+      const initialFilter = new URLSearchParams(window.location.search).get('category') || 'All';
+      applyFilter(initialFilter);
       buttons.forEach((button) => {
         button.addEventListener('click', () => {
           const filter = button.getAttribute('data-gallery-filter');
-          buttons.forEach((item) => item.classList.remove('active'));
-          button.classList.add('active');
-          items.forEach((item) => {
-            item.hidden = filter !== 'All' && item.getAttribute('data-category') !== filter;
-          });
+          applyFilter(filter);
+          const url = new URL(window.location.href);
+          if (filter === 'All') url.searchParams.delete('category');
+          else url.searchParams.set('category', filter);
+          window.history.replaceState(null, '', url);
         });
       });
     })();
