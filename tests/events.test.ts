@@ -11,10 +11,10 @@ const now=new Date('2026-10-18T02:11:33Z');
 const sample=all.find(e=>e.id==='wesco-2026-10-20')!;
 const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
-test('November public events include the Thanksgiving Eve game nights and Bozeâ€™s championship watch party',()=>{
+test('November public events include Thanksgiving Eve game nights and exclude the removed NASCAR watch party',()=>{
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
- assert.equal(november.length,31);
- assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:5,aura:2});
+ assert.equal(november.length,30);
+ assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:4,aura:2});
  const comedy=november.find(e=>e.id==='the-mill-2026-11-02')!;
  assert.ok(comedy);
  assert.equal(comedy.title,'Comedy Night Trivia');
@@ -34,10 +34,7 @@ test('November public events include the Thanksgiving Eve game nights and Bozeâ€
   assert.equal(event.visibility,'public');
   assert.equal(event.publicationStatus,'published');
  }
- const race=november.find(e=>e.id==='bozes-2026-11-08')!;
- assert.ok(race);
- assert.equal(race.startTime,'3:00 PM');
- assert.equal(eventSchema(race,venues.find(v=>v.id==='bozes')!)?.startDate,'2026-11-08T15:00:00-05:00');
+ assert.ok(!november.some(e=>e.id==='bozes-2026-11-08'));
  assert.match(november.find(e=>e.id==='wesco-2026-11-25')!.description,/may be adjusted/);
 
  assert.ok(!november.some(e=>e.venueId==='charter-803'&&e.date==='2026-11-26'));
@@ -81,7 +78,7 @@ test('Owner-approved November 24 WesCo Tuesday removal preserves public canceled
  assert.equal(removed.slug,'family-favorites-wesco-brew-bowl-2026-11-24');
  assert.equal(removed.publicationStatus,'published');
  const upcoming=selectEvents(all,venues,{now,from:'2026-11-01',to:'2026-11-30'});
- assert.equal(upcoming.length,31); // Includes the October 31 DJ event ending November 1 across the DST transition.
+ assert.equal(upcoming.length,30); // Includes the October 31 DJ event ending November 1 across the DST transition.
  assert.ok(!upcoming.some(e=>e.id==='wesco-012'));
  assert.equal(selectEvents(all,venues,{now,view:'updates'}).filter(e=>e.id==='wesco-012').length,1);
  assert.match(eventSchema(removed,venues.find(v=>v.id==='wesco')!)!.eventStatus,/EventCancelled$/);
