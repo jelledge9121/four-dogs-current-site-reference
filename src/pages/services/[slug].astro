@@ -102,6 +102,7 @@ const details: Record<string, ServiceDetail> = {
     ],
     related: [
       { label: 'Thursday Karaoke at WesCo', href: '/venues/wesco-brew-and-bowl-trivia-cayce-sc/' },
+      { label: 'See Karaoke photos from WesCo', href: '/gallery/?category=Karaoke#gallery-filters' },
       { label: 'Upcoming Karaoke events', href: '/events/category/karaoke/' },
       { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
       { label: 'Lexington entertainment', href: '/areas/lexington-sc/' },
@@ -274,7 +275,7 @@ const faqSchema = {
   <section class="section">
     <div class="container split">
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} loading="lazy" />
+      <img src={service.slug === 'karaoke' ? '/images/gallery/four-dogs-karaoke-wesco-host-on-mic.webp' : ['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'karaoke' ? 'Four Dogs karaoke host singing on the outdoor patio at WesCo Brew and Bowl in Cayce' : service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} loading="lazy" />
     </div>
   </section>
 
