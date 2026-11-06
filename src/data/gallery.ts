@@ -4,7 +4,7 @@ export type GalleryItem = {
   srcSet?: string;
   sizes?: string;
   alt: string;
-  category: 'Trivia' | 'Music Bingo' | 'Weddings' | 'Private Events' | 'Crowds & Winners' | 'Venue Events';
+  category: 'Trivia' | 'Music Bingo' | 'Karaoke' | 'Weddings' | 'Private Events' | 'Crowds & Winners' | 'Venue Events';
   title: string;
   width: number;
   height: number;
@@ -55,6 +55,96 @@ export const gallery: GalleryItem[] = [
     width: 1280,
     height: 720,
     featured: true,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-host-on-mic.webp',
+    alt: 'Four Dogs karaoke team member singing into a microphone on the outdoor patio at WesCo Brew and Bowl in Cayce South Carolina',
+    category: 'Karaoke',
+    title: 'A Four Dogs voice on the mic',
+    width: 1200,
+    height: 1596,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-grammy-guest.webp',
+    alt: 'Karaoke guest holding a Four Dogs This Is My Grammy poster at WesCo Brew and Bowl in Cayce',
+    category: 'Karaoke',
+    title: 'A Grammy moment',
+    width: 1200,
+    height: 1590,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-friends-winners.webp',
+    alt: 'Three karaoke guests sitting together with their Four Dogs music themed posters at WesCo Brew and Bowl',
+    category: 'Karaoke',
+    title: 'Good company after the songs',
+    width: 1200,
+    height: 1574,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-orange-shirt-singer.webp',
+    alt: 'Karaoke guest in an orange shirt performing beneath string lights at WesCo Brew and Bowl in Cayce',
+    category: 'Karaoke',
+    title: 'An outdoor karaoke night',
+    width: 1200,
+    height: 1554,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-spotlight-singer.webp',
+    alt: 'Karaoke guest performing on the patio at night with a microphone at WesCo Brew and Bowl',
+    category: 'Karaoke',
+    title: 'Your turn at the mic',
+    width: 720,
+    height: 1280,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-duet.webp',
+    alt: 'Two karaoke guests singing a duet with microphones beneath string lights at WesCo Brew and Bowl in Cayce',
+    category: 'Karaoke',
+    title: 'Better as a duet',
+    width: 720,
+    height: 1280,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-grammy-winners.webp',
+    alt: 'Three karaoke guests posing together with Four Dogs Grammy and Spotify Wrapped posters at WesCo Brew and Bowl',
+    category: 'Karaoke',
+    title: 'The whole group gets involved',
+    width: 960,
+    height: 1280,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-bearded-singer.webp',
+    alt: 'Karaoke guest wearing a cap singing into a microphone on the outdoor patio at WesCo Brew and Bowl',
+    category: 'Karaoke',
+    title: 'Another song, another singer',
+    width: 720,
+    height: 1280,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-karaoke-screen.webp',
+    alt: 'Guest singing in front of a large karaoke lyric screen and Four Dogs equipment at WesCo Brew and Bowl in Cayce',
+    category: 'Karaoke',
+    title: 'Karaoke on the big screen',
+    width: 960,
+    height: 1280,
+  },
+  {
+    type: 'image',
+    src: '/images/gallery/four-dogs-karaoke-wesco-branded-screen.webp',
+    alt: 'Four Dogs Entertainment logo on the large outdoor video screen at WesCo Brew and Bowl in Cayce',
+    category: 'Karaoke',
+    title: 'Four Dogs at WesCo',
+    width: 1152,
+    height: 1536,
   },
   {
     type: 'image',
