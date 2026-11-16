@@ -39,7 +39,14 @@ for(const path of paths){
   if(schema['@type']==='Event'){
    eventSchemas++;
    for(const key of ['name','description','startDate','eventStatus','eventAttendanceMode','location','organizer','image','url'])assert.ok(schema[key],`${path} missing schema ${key}`);
-   assert.match(schema.startDate,/T\d\d:\d\d:\d\d-0[45]:00$/);
+   const sourceEvent=all.find(e=>path===`/events/${e.slug}/`);
+   if(sourceEvent?.timeTba){
+     assert.match(schema.startDate,/^\d{4}-\d{2}-\d{2}$/,`${path} should have a date-only start when the time is unverified`);
+     assert.equal(schema.startDate,sourceEvent.date);
+     assert.equal(schema.endDate,undefined);
+   }else{
+     assert.match(schema.startDate,/T\d\d:\d\d:\d\d-0[45]:00$/);
+   }
    assert.ok(schema.location.address.streetAddress&&schema.location.address.addressLocality&&schema.location.address.postalCode);
    assert.equal(schema.organizer.name,'Four Dogs Entertainment LLC');
    if(schema.offers)assert.ok(schema.offers.price>=0&&schema.offers.priceCurrency&&schema.offers.url);
