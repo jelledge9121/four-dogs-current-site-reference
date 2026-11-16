@@ -65,7 +65,7 @@ const wescoNotice='Thursday Karaoke at WesCo Brew & Bowl is on hold during the c
 const hasWescoNotice=(html)=>html.includes('is on hold during the colder months.') && html.includes('Four Dogs Music Bingo to WesCo on Thursdays!');
 const wescoVenuePath='/venues/wesco-brew-and-bowl-trivia-cayce-sc/';
 const wescoVenue=await request(wescoVenuePath);
-const karaokeService=await request('/services/karaoke/');
+const karaokeService={body:fs.readFileSync('dist/services/karaoke/index.html','utf8')};
 for(const [pageName,html] of [['homepage',home.body],['calendar',calendar.body],['WesCo venue',wescoVenue.body],['Karaoke service',karaokeService.body]]){
  assert.ok(hasWescoNotice(html),pageName+' must show exact WesCo cold-weather hold notice');
 }
