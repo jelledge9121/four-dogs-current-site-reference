@@ -84,13 +84,15 @@ for(const [date,title,slug] of wescoDates){
  const page=await request('/events/'+slug+'/');
  assert.equal(page.status,200,slug+' published page');
  assert.ok(page.body.includes('<h1>'+title.replaceAll('&','&amp;')+'</h1>'),slug+' exact heading');
- assert.ok(page.body.includes('Start time to be announced'),slug+' pending time');
+ assert.ok(page.body.includes('7:00 PM'),slug+' confirmed start');
+ assert.ok(!page.body.includes('Start time to be announced'),slug+' should not show pending start');
+ assert.ok(page.body.includes('End time has not been confirmed.'),slug+' must not invent an end time');
  assert.ok(hasWescoNotice(page.body),slug+' hold notice');
  assert.ok(page.body.includes('We play song clips. If you hear a song on your card, mark it and play for bingo.'),slug+' game rules');
  const eventSchemas=[...page.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).filter(s=>s['@type']==='Event');
  assert.equal(eventSchemas.length,1,slug+' event structured data');
  assert.equal(eventSchemas[0].name,title);
- assert.equal(eventSchemas[0].startDate,date);
+ assert.equal(eventSchemas[0].startDate,date+'T19:00:00-05:00');
  assert.equal(eventSchemas[0].endDate,undefined);
 }
 assert.ok(!filteredIds.some(id=>all.find(e=>e.id===id)?.eventType==='Karaoke'),'no future WesCo Thursday Karaoke in calendar');

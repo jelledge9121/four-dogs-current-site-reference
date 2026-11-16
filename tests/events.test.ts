@@ -204,12 +204,14 @@ test('WesCo Thursday Music Bingo replaces upcoming Karaoke while preserving the 
    const e=matching[0];
    assert.equal(e.id,'wesco-thursday-karaoke-2026-'+date);
    assert.equal(e.slug,slug);assert.equal(e.title,title);assert.equal(e.eventType,'Music Bingo');
-   assert.equal(e.startTime,'');assert.equal(e.endTime,'');assert.equal(e.timeTba,true);
+   assert.equal(e.startTime,'7:00 PM');assert.equal(e.endTime,'');assert.equal(e.timeTba,false);
    assert.ok(e.description.includes('We play song clips. If you hear a song on your card, mark it and play for bingo.'));
    const schema=eventSchema(e,venues.find(v=>v.id==='wesco')!)!;
-   assert.equal(schema.name,title);assert.equal(schema.startDate,date);assert.equal(schema.endDate,undefined);
+   assert.equal(schema.name,title);assert.equal(schema.startDate,date+'T19:00:00-05:00');assert.equal(schema.endDate,undefined);
    assert.ok(!JSON.stringify(schema).includes('Karaoke'));
-   assert.ok(!JSON.stringify(e).includes('7:00')&&!JSON.stringify(e).includes('10:00'));
+   assert.ok(!JSON.stringify(e).includes('10:00'));
+   assert.ok(e.instructions.includes('starts at 7:00 PM Eastern'));
+   assert.ok(!e.instructions.includes('Start time to be announced'));
    for(const suffix of ['', '/']){
       const old='/events/'+date+'-wesco-thursday-karaoke-2026'+suffix;
       assert.ok(redirects.includes(old+' /events/'+slug+'/ 301'));
