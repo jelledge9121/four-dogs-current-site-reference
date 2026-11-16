@@ -60,6 +60,45 @@ for(const path of paths){
 }
 const home=await request('/');assert.ok(!home.body.includes('Marvel Trivia'),'homepage excludes expired July event');assert.ok(!home.body.includes('data-past-only'),'no duplicate hidden past status text');
 const calendar=await request('/events/');assert.ok(!calendar.body.includes('Marvel Trivia'),'calendar excludes expired July event');
+
+const wescoNotice='Thursday Karaoke at WesCo Brew & Bowl is on hold during the colder months. We’re bringing Four Dogs Music Bingo to WesCo on Thursdays!';
+const renderedWescoNotice=wescoNotice.replaceAll('&','&amp;');
+const wescoVenuePath='/venues/wesco-brew-and-bowl-trivia-cayce-sc/';
+const wescoVenue=await request(wescoVenuePath);
+const karaokeService=await request('/services/karaoke/');
+for(const [pageName,html] of [['homepage',home.body],['calendar',calendar.body],['WesCo venue',wescoVenue.body],['Karaoke service',karaokeService.body]]){
+ assert.ok(html.includes(renderedWescoNotice),pageName+' must show exact WesCo cold-weather hold notice');
+}
+const wescoDates=[
+ ['2026-11-19','90s vs. 2000s: The Ultimate Throwback Music Bingo','90s-vs-2000s-the-ultimate-throwback-music-bingo-wesco-2026-11-19'],
+ ['2026-12-03','Taylor Swift & Friends Music Bingo','taylor-swift-and-friends-music-bingo-wesco-2026-12-03'],
+ ['2026-12-10','1980s vs. 1990s Music Bingo','1980s-vs-1990s-music-bingo-wesco-2026-12-10'],
+ ['2026-12-17','Christmas Music Bingo','christmas-music-bingo-wesco-2026-12-17']
+];
+const wescoCalendar=await request('/events/?venue=wesco&from=2026-11-19&to=2026-12-17');
+const filteredIds=[...wescoCalendar.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);
+for(const [date,title,slug] of wescoDates){
+ const identifier='wesco-thursday-karaoke-2026-'+date;
+ assert.equal(filteredIds.filter(id=>id===identifier).length,1,date+' calendar has exactly one replacement');
+ assert.equal([...wescoVenue.body.matchAll(/data-event-id="([^"]+)"/g)].filter(m=>m[1]===identifier).length,1,date+' venue page has exactly one replacement');
+ const page=await request('/events/'+slug+'/');
+ assert.equal(page.status,200,slug+' published page');
+ assert.ok(page.body.includes('<h1>'+title.replaceAll('&','&amp;')+'</h1>'),slug+' exact heading');
+ assert.ok(page.body.includes('Start time to be announced'),slug+' pending time');
+ assert.ok(page.body.includes(renderedWescoNotice),slug+' hold notice');
+ assert.ok(page.body.includes('We play song clips. If you hear a song on your card, mark it and play for bingo.'),slug+' game rules');
+ const eventSchemas=[...page.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).filter(s=>s['@type']==='Event');
+ assert.equal(eventSchemas.length,1,slug+' event structured data');
+ assert.equal(eventSchemas[0].name,title);
+ assert.equal(eventSchemas[0].startDate,date);
+ assert.equal(eventSchemas[0].endDate,undefined);
+}
+assert.ok(!filteredIds.some(id=>all.find(e=>e.id===id)?.eventType==='Karaoke'),'no future WesCo Thursday Karaoke in calendar');
+assert.ok(!filteredIds.some(id=>all.find(e=>e.id===id)?.date==='2026-11-26'),'Nov 26 is excluded');
+const charterDec17=await request('/events/live-music-bingo-soda-city-serenade-charter-803-2026-12-17/');
+assert.equal(charterDec17.status,200,'Charter 803 live Music Bingo event remains published');
+assert.ok(charterDec17.body.includes('Soda City Serenade'));
+
 const futureEvent=publicEvents.find(e=>['upcoming','live'].includes(phase(e)));
 if(futureEvent){const future=await request(`/events/${futureEvent.slug}/`);assert.ok(!future.body.includes('This event has passed'),'future event has no passed label');assert.ok(!future.body.includes('This event has ended'),'future event has no completed label');}
 for(const [query,venue] of [['city=Cayce','wesco'],['venue=black-sheep','black-sheep']]){
