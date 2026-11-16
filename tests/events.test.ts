@@ -137,7 +137,36 @@ test('Admission and status corrections flag external updates while staffing rema
  assert.equal(listingPackage(mutate({assignedHost:'PRIVATE'}),venue).listingRevision,revision);
 });
 
-test('Owner-confirmed public admission is free except the $25 murder mystery',()=>{for(const e of all){if(e.eventType==='Murder Mystery'){assert.equal(e.admission.kind,'paid');assert.equal(e.admission.price,25);}else{assert.equal(e.admission.kind,'free');assert.equal(e.admission.verified,true);const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);if(schema){assert.equal(schema.isAccessibleForFree,true);assert.equal(schema.offers?.price,0);}}}});
+test('Public admission stays verified for ordinary nights and does not invent a price for December live Music Bingo',()=>{
+  for(const e of all){
+    if(e.eventType==='Murder Mystery'){assert.equal(e.admission.kind,'paid');assert.equal(e.admission.price,25);}
+    else if(e.id==='charter-803-2026-12-17'){
+      assert.equal(e.ticketed,true);
+      assert.equal(e.admission.kind,'unknown');
+      assert.equal(e.admission.verified,undefined);
+      assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.offers,undefined);
+    }else{
+      assert.equal(e.admission.kind,'free');assert.equal(e.admission.verified,true);
+      const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);
+      if(schema){assert.equal(schema.isAccessibleForFree,true);assert.equal(schema.offers?.price,0);}
+    }
+  }
+});
+test('December 17 Soda City Serenade event has its own page, ticket destination, and original Ticket Tailor embed',()=>{
+ const e=all.find(e=>e.id==='charter-803-2026-12-17')!;
+ assert.ok(e);
+ assert.equal(e.date,'2026-12-17');
+ assert.equal(e.venueId,'charter-803');
+ assert.equal(e.eventType,'Music Bingo');
+ assert.equal(e.startTime,'6:30 PM');
+ assert.equal(e.registrationUrl,'https://buytickets.at/fourdogsentertainmentllc/2535496');
+ assert.equal(e.publicationStatus,'published');
+ assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T18:30:00-05:00');
+ const snippet=fs.readFileSync('src/components/TicketTailorWidget.astro','utf8');
+ assert.ok(snippet.includes('https://cdn.tickettailor.com/js/widgets/min/widget.js'));
+ assert.match(snippet,/data-inline-minimal="true"/);
+ assert.match(fs.readFileSync('src/pages/events/[slug].astro','utf8'),/TicketTailorWidget/);
+});
 
 
 test('Aura four trial nights use their confirmed themes and retain stable recurrence URLs',()=>{

@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import EventCard from '../../components/EventCard.astro';
 import { events } from '../../data/events';
 import { venues } from '../../data/venues';
-import { selectEvents, CATEGORIES, addDays, localToday, categorySlug } from '../../lib/event-system';
+import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, phase } from '../../lib/event-system';
 const q=Astro.url.searchParams;
 const today=localToday();
 const view=['archive','updates'].includes(q.get('view')||'') ? q.get('view')! : 'upcoming';
@@ -13,6 +13,7 @@ const from=validDate(q.get('from')) || (view==='upcoming' ? today : '');
 const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,30) : '');
 const filters={view,from,to,city:q.get('city')||'',venue:q.get('venue')||'',category:q.get('category')||'',price:q.get('price')||''};
 const matches=selectEvents(events,venues,filters);
+const featuredLiveBingo = events.find(e=>e.id==='charter-803-2026-12-17' && ['upcoming','live'].includes(phase(e)));
 const cities=[...new Set(venues.map(v=>v.city))].sort();
 const hasFilters = !!(filters.city || filters.venue || filters.category || filters.price || q.has('from') || q.has('to'));
 const rangeLink = (days:number) => { const params = new URLSearchParams(); for(const key of ['city','venue','category','price']) if(q.get(key))params.set(key,q.get(key)!);params.set('from',today);params.set('to',addDays(today,days));return `/events/?${params}`; };
@@ -22,7 +23,18 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 
 ---
 <Base title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
-<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">Free admission to public events, except ticketed murder mysteries. All times Eastern.</p></div></section>
+<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">Most regular public game nights are free; special ticketed events have separate admission details. All times Eastern.</p></div></section>
+{featuredLiveBingo && <section class="section alt" aria-labelledby="featured-live-bingo-title">
+  <div class="container split">
+    <div><p class="eyebrow">Featured ticketed event · December 17</p>
+      <h2 id="featured-live-bingo-title">Live Music Bingo with Soda City Serenade</h2>
+      <p>Live music, three rounds of Music Bingo, and a $100 cash prize in the final blackout round at Charter 803 Bar & Grill in Lexington.</p>
+      <p><strong>Thursday, December 17 · {featuredLiveBingo.startTime} Eastern</strong></p>
+    </div>
+    <div class="actions"><a class="button" href={`/events/${featuredLiveBingo.slug}/#tickets`}>Event details & tickets</a>
+    {featuredLiveBingo.registrationUrl && <a href={featuredLiveBingo.registrationUrl} target="_blank" rel="noopener noreferrer">Buy tickets directly →</a>}</div>
+  </div>
+</section>}
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
 {view==='upcoming' && <div class="date-shortcuts" aria-label="Quick date ranges"><a href={rangeLink(0)}>Today</a><a href={rangeLink(6)}>Next 7 days</a><a href={rangeLink(30)}>Next 30 days</a><a href="/events/?from=2026-11-01&amp;to=2026-11-30">November 2026</a></div>}
