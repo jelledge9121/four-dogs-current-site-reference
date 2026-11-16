@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { services, type Service } from '../../data/services';
 import { reviews } from '../../data/reviews';
+import { wescoThursdayNotice } from '../../data/announcements';
 
 type Props = { service: Service };
 
@@ -91,7 +92,7 @@ const details: Record<string, ServiceDetail> = {
     intro: [
       'Four Dogs Karaoke is hosted entertainment for confident singers, first-timers, friend groups, and crowds that want a night built around participation.',
       'The host manages the flow of singers and keeps the event moving so the experience feels organized without becoming stiff or overproduced.',
-      'Join Four Dogs for Thursday Karaoke at WesCo Brew & Bowl in Cayce, starting at 7:00 PM. See the public Karaoke schedule for upcoming dates.',
+      wescoThursdayNotice,
     ],
     audiences: ['Bars and restaurants', 'Private parties', 'Community events', 'Organizations', 'Celebrations', 'One-time venue events'],
     includes: ['Hosted singer rotation', 'Professional event pacing', 'Audio setup when required', 'Private and venue booking options', 'A low-pressure environment for participants'],
@@ -101,7 +102,7 @@ const details: Record<string, ServiceDetail> = {
       { question: 'Can a venue book karaoke as a one-time event?', answer: 'Yes. Four Dogs can discuss one-time or recurring hosted entertainment depending on the venue and schedule.' },
     ],
     related: [
-      { label: 'Thursday Karaoke at WesCo', href: '/venues/wesco-brew-and-bowl-trivia-cayce-sc/' },
+      { label: 'WesCo Thursday Music Bingo', href: '/venues/wesco-brew-and-bowl-trivia-cayce-sc/' },
       { label: 'See Karaoke photos from WesCo', href: '/gallery/?category=Karaoke#gallery-filters' },
       { label: 'Upcoming Karaoke events', href: '/events/category/karaoke/' },
       { label: 'Private & corporate events', href: '/services/private-corporate-events/' },

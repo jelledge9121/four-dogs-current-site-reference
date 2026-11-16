@@ -7,7 +7,7 @@ export const SITE_URL = 'https://4dogsentertainment.com';
 export const CATEGORIES = ['Trivia', 'Music Bingo', 'Karaoke', 'Survey Showdown', 'Are You Smarter Than a Barstool?', 'Comedy', 'Murder Mystery', 'Fundraisers', 'Community Events', 'Other Public Events'] as const;
 export type EventStatus = 'scheduled' | 'cancelled' | 'postponed' | 'rescheduled';
 export type Event = {
-  id: string; slug: string; title: string; theme: string; date: string; startTime?: string;
+  id: string; slug: string; title: string; theme: string; date: string; startTime?: string; timeTba?: boolean;
   endTime?: string; endDate?: string; previousStartDate?: string; dstDisambiguation?: 'earlier' | 'later';
   venueId: string; eventType: string; secondaryCategories?: string[]; shortDescription: string;
   description: string; image: string; imageAlt?: string; featured: boolean; status: EventStatus;
@@ -61,7 +61,7 @@ export function expandCatalog(catalog: Catalog, venues: Venue[]) {
       const date = day.toString();
       if (!series.excludedDates?.includes(date)) {
         const changes = series.overrides?.find(o => o.originalDate === date)?.changes || {};
-        result.push({ ...series.template, date, ...changes, id: `${series.id}-${date}`, slug: `${date}-${series.id}`, seriesId: series.id, originalDate: date } as Event);
+        result.push({ ...series.template, date, ...changes, id: `${series.id}-${date}`, slug: changes.slug || `${date}-${series.id}`, seriesId: series.id, originalDate: date } as Event);
       }
       day = day.add({ weeks: series.intervalWeeks });
     }
@@ -85,7 +85,8 @@ export function validateEvents(events: Event[], venues: Venue[]) {
     const v = venues.find(v => v.id === e.venueId);
     if (!v) fail('Unknown venue');
     if (isPublic(e) && (!v?.address || !v.city || !v.state || !/^\d{5}$/.test(v.zip) || !v.addressVerified)) fail('Full verified venue address required for publication');
-    if (isPublic(e) && !e.startTime) fail('Confirmed start time required for publication');
+    if (isPublic(e) && !e.startTime && !e.timeTba) fail('Confirmed start time required for publication unless marked TBA');
+    if (e.timeTba && (e.startTime || e.endTime)) fail('Time TBA events must not carry unverified start or end hours');
     if (!e.visibility || !e.publicationStatus || !['public','private'].includes(e.visibility) || !['draft','review','published'].includes(e.publicationStatus)) fail('Explicit visibility and publication state required');
     if (!['scheduled','cancelled','postponed','rescheduled'].includes(e.status)) fail('Invalid event status');
     if (!CATEGORIES.includes(e.eventType as typeof CATEGORIES[number])) fail('Unknown category');
@@ -113,7 +114,7 @@ export function selectEvents(events: Event[], venues: Venue[], filters: Filters 
   }).sort((a,b) => (startMs(a)-startMs(b)) * (filters.view === 'archive' ? -1 : 1)).slice(0, filters.limit || Infinity);
 }
 export function eventSchema(event: Event, venue: Venue) {
-  if (!isPublic(event) || !venue.addressVerified || !event.startTime) return null;
+  if (!isPublic(event) || !venue.addressVerified || (!event.startTime && !event.timeTba)) return null;
   const url = `${SITE_URL}/events/${event.slug}/`;
   const status = { scheduled:'EventScheduled', cancelled:'EventCancelled', postponed:'EventPostponed', rescheduled:'EventRescheduled' }[event.status];
   const admission = event.admission;

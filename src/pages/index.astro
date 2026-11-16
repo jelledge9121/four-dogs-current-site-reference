@@ -7,6 +7,7 @@ import { upcomingEvents } from '../data/events';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
+import { wescoThursdayNotice } from '../data/announcements';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
 const upcoming = upcomingEvents().slice(0,6);
 const homepageGallery = gallery.filter(item=>item.type==='image').slice(0,6);
@@ -27,6 +28,7 @@ const org = {'@context':'https://schema.org','@type':'Organization',name:site.na
     </figure>
   </div>
 </section>
+<section class="section alt" aria-labelledby="wesco-thursday-update"><div class="container"><h2 id="wesco-thursday-update">Thursday at WesCo</h2><p>{wescoThursdayNotice}</p><a href="/events/?venue=wesco&amp;from=2026-11-19&amp;to=2026-12-17">See the Music Bingo lineup →</a></div></section>
 <section class="section home-upcoming" aria-labelledby="upcoming-title">
   <div class="container">
     <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2><p>See what’s coming up, then bring your people.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>

@@ -114,7 +114,14 @@ test('Missing dates, unknown venues, false pricing, duplicates, and invalid end 
 test('Murder mystery has the verified venue, $25 offer, exact local time, and no placeholder end',()=>{const e=all.find(e=>e.id==='charter-2026-10-30')!;const s=eventSchema(e,venues.find(v=>v.id===e.venueId)!)!;assert.equal(s.location.name,'Black Sheep Bourbon Society');assert.equal(s.startDate,'2026-10-30T19:30:00-04:00');assert.equal(s.offers?.price,25);assert.equal(s.organizer.name,'Four Dogs Entertainment LLC');assert.equal(s.endDate,undefined);});
 test('Unknown admission generates no invented Offer, and listing exports contain no host field',()=>{const s=eventSchema(mutate({admission:{kind:'unknown'}}),venues.find(v=>v.id===sample.venueId)!)!;assert.equal(s.offers,undefined);const p=listingPackage(mutate({assignedHost:'INTERNAL ONLY'}),venues[0]);assert.ok(!JSON.stringify(p).includes('INTERNAL ONLY'));});
 test('Stored content contains public copy only, with no private clients or staffing assignments',()=>{assert.ok(catalog.events.every(e=>e.visibility==='public'&&!e.assignedHost));assert.ok(catalog.series.every(s=>s.template.visibility==='public'&&!s.template.assignedHost));});
-test('Unverified venue addresses and unconfirmed start times block public publication',()=>{assert.ok(validateEvents([sample],venues.map(v=>({...v,addressVerified:false}))).length);assert.ok(validateEvents([mutate({startTime:undefined,endTime:undefined})],venues).length);});
+test('Unverified venue addresses and unconfirmed start times need explicit TBA marker',()=>{
+ assert.ok(validateEvents([sample],venues.map(v=>({...v,addressVerified:false}))).length);
+ assert.ok(validateEvents([mutate({startTime:undefined,endTime:undefined})],venues).length);
+ const tba=mutate({startTime:'',endTime:'',timeTba:true});
+ assert.deepEqual(validateEvents([tba],venues),[]);
+ assert.equal(eventSchema(tba,venues.find(v=>v.id===sample.venueId)!)?.startDate,tba.date);
+ assert.ok(validateEvents([mutate({startTime:'7:00 PM',endTime:'10:00 PM',timeTba:true})],venues).length);
+});
 test('Duplicate or out-of-agreement recurrence overrides are rejected',()=>{const s=structuredClone(catalog.series[0]) as Series;s.overrides=[{originalDate:'2026-10-22',changes:{}},{originalDate:'2026-10-22',changes:{}}];assert.throws(()=>expandCatalog({events:[],series:[s]},venues));s.overrides=[{originalDate:'2026-11-19',changes:{}}];assert.throws(()=>expandCatalog({events:[],series:[s]},venues));});
 test('External listing packages explicitly carry cancellation and rescheduling status',()=>{assert.equal(listingPackage(mutate({status:'cancelled'}),venues[0]).eventStatus,'cancelled');const p=listingPackage(mutate({status:'rescheduled',previousStartDate:'2026-10-18T19:00:00-04:00'}),venues[0]);assert.equal(p.eventStatus,'rescheduled');assert.ok(p.previousStartDate);});
 test('Recording a successful external update stays current after the editor stamps its save',()=>{
@@ -178,10 +185,41 @@ test('WesCo Spooky Music Bingo reuses the dated event ID and Harry Potter Trivia
  const spooky=all.find(e=>e.id==='wesco-2026-10-27')!;assert.equal(spooky.slug,'spooky-music-bingo-wesco-2026-10-27');assert.equal(spooky.publicationStatus,'published');assert.equal(spooky.eventType,'Music Bingo');assert.equal(spooky.startTime,'7:00 PM');
  const harry=all.find(e=>e.id==='wesco-009')!;assert.equal(harry.slug,'food-drinks-famous-flavors-wesco-brew-bowl-2026-11-03');assert.equal(harry.title,'Harry Potter: Battle for Hogwarts');assert.equal(harry.eventType,'Trivia');assert.match(harry.description,/Hogwarts/);
 });
-test('Thursday WesCo Karaoke uses the approved 7–10 PM schedule and excludes unconfirmed Thanksgiving',()=>{
- const karaoke=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');assert.deepEqual(karaoke.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12','2026-11-19','2026-12-03','2026-12-10','2026-12-17']);
- assert.ok(karaoke.every(e=>e.venueId==='wesco'&&e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&e.endTime==='10:00 PM'&&!/reconfirm|check.*start.time/i.test(e.description+' '+e.instructions)&&e.title==='Thursday Karaoke at WesCo Brew & Bowl'));
- assert.equal(selectEvents(all,venues,{now,venue:'wesco',category:'Karaoke'}).length,8);
+test('WesCo Thursday Music Bingo replaces upcoming Karaoke while preserving the past',()=>{
+ const series=all.filter(e=>e.seriesId==='wesco-thursday-karaoke-2026');
+ const past=series.filter(e=>e.date<'2026-11-19');
+ assert.deepEqual(past.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12']);
+ assert.ok(past.every(e=>e.eventType==='Karaoke'&&e.startTime==='7:00 PM'&&e.endTime==='10:00 PM'));
+ const approved=[
+  ['2026-11-19','90s vs. 2000s: The Ultimate Throwback Music Bingo','90s-vs-2000s-the-ultimate-throwback-music-bingo-wesco-2026-11-19'],
+  ['2026-12-03','Taylor Swift & Friends Music Bingo','taylor-swift-and-friends-music-bingo-wesco-2026-12-03'],
+  ['2026-12-10','1980s vs. 1990s Music Bingo','1980s-vs-1990s-music-bingo-wesco-2026-12-10'],
+  ['2026-12-17','Christmas Music Bingo','christmas-music-bingo-wesco-2026-12-17']
+ ];
+ assert.equal(series.filter(e=>e.date>='2026-11-19').length,4);
+ const redirects=fs.readFileSync('public/_redirects','utf8');
+ for(const [date,title,slug] of approved){
+   const matching=all.filter(e=>e.venueId==='wesco'&&e.date===date);
+   assert.equal(matching.length,1,'No duplicate event on '+date);
+   const e=matching[0];
+   assert.equal(e.id,'wesco-thursday-karaoke-2026-'+date);
+   assert.equal(e.slug,slug);assert.equal(e.title,title);assert.equal(e.eventType,'Music Bingo');
+   assert.equal(e.startTime,'');assert.equal(e.endTime,'');assert.equal(e.timeTba,true);
+   assert.ok(e.description.includes('We play song clips. If you hear a song on your card, mark it and play for bingo.'));
+   const schema=eventSchema(e,venues.find(v=>v.id==='wesco')!)!;
+   assert.equal(schema.name,title);assert.equal(schema.startDate,date);assert.equal(schema.endDate,undefined);
+   assert.ok(!JSON.stringify(schema).includes('Karaoke'));
+   assert.ok(!JSON.stringify(e).includes('7:00')&&!JSON.stringify(e).includes('10:00'));
+   for(const suffix of ['', '/']){
+      const old='/events/'+date+'-wesco-thursday-karaoke-2026'+suffix;
+      assert.ok(redirects.includes(old+' /events/'+slug+'/ 301'));
+   }
+ }
+ assert.ok(!all.some(e=>e.venueId==='wesco'&&e.date==='2026-11-26'&&e.status==='scheduled'));
+ assert.equal(all.filter(e=>e.venueId==='wesco'&&e.date>='2026-11-19'&&e.eventType==='Karaoke').length,0);
+ const charter=all.find(e=>e.id==='charter-803-2026-12-17')!;
+ assert.equal(charter.venueId,'charter-803');
+ assert.equal(charter.title,'Live Music Bingo with Soda City Serenade');
 });
 
 

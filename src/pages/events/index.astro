@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import EventCard from '../../components/EventCard.astro';
 import { events } from '../../data/events';
 import { venues } from '../../data/venues';
+import { wescoThursdayNotice } from '../../data/announcements';
 import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, phase } from '../../lib/event-system';
 const q=Astro.url.searchParams;
 const today=localToday();
@@ -35,6 +36,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
     {featuredLiveBingo.registrationUrl && <a href={featuredLiveBingo.registrationUrl} target="_blank" rel="noopener noreferrer">Buy tickets directly →</a>}</div>
   </div>
 </section>}
+<section class="section alt" aria-label="WesCo Thursday update"><div class="container"><h2>Thursday at WesCo</h2><p>{wescoThursdayNotice}</p><a href="/events/?venue=wesco&amp;from=2026-11-19&amp;to=2026-12-17">See WesCo Music Bingo dates →</a></div></section>
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
 {view==='upcoming' && <div class="date-shortcuts" aria-label="Quick date ranges"><a href={rangeLink(0)}>Today</a><a href={rangeLink(6)}>Next 7 days</a><a href={rangeLink(30)}>Next 30 days</a><a href="/events/?from=2026-11-01&amp;to=2026-11-30">November 2026</a></div>}
