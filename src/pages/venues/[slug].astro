@@ -28,6 +28,11 @@ const millPhotos = venue.id === 'the-mill' ? [
   { src: '/images/venues/four-dogs-the-mill-trivia-team-belt-2026.webp', alt: 'Two smiling trivia participants at The Mill at Fountain Inn lifting the Four Dogs championship belt together', caption: 'The winning team celebrates', width: 900, height: 1200 },
   { src: '/images/venues/four-dogs-the-mill-shirt-raffle-winner-2026.webp', alt: 'Guest at The Mill at Fountain Inn holding an orange Four Dogs Entertainment T-shirt', caption: 'A Four Dogs T-shirt to take home', width: 900, height: 1200 },
 ] : [];
+const charterPhotos = venue.id === 'charter-803' ? [
+  { src: '/images/venues/four-dogs-charter-803-music-bingo-grammy-winner-2026.webp', alt: 'Four Dogs Music Bingo participant smiling and holding a Grammy-themed poster and championship trophy at Charter 803', caption: 'A Grammy-worthy Music Bingo win', width: 1100, height: 1467 },
+  { src: '/images/venues/four-dogs-charter-803-music-bingo-prize-winner-2026.webp', alt: 'Smiling Music Bingo participant showing a Four Dogs prize and championship trophy on a covered patio', caption: 'A little something for the winner', width: 1100, height: 1467 },
+  { src: '/images/venues/four-dogs-charter-803-four-dogs-on-big-screen-2026.webp', alt: 'Four Dogs Entertainment logo displayed on a large outdoor digital screen', caption: 'Four Dogs on the big screen', width: 1100, height: 1467 },
+] : [];
 const title=`Four Dogs Events at ${venue.name}, ${venue.city} SC`;
 const description=`Find confirmed Four Dogs dates at ${venue.name} in ${venue.city}, South Carolina. Event times, themes, admission information, and directions.`;
 const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,url:new URL(Astro.url.pathname,'https://4dogsentertainment.com').href,address:{'@type':'PostalAddress',streetAddress:venue.address,addressLocality:venue.city,addressRegion:venue.state,postalCode:venue.zip,addressCountry:'US'}};
@@ -106,6 +111,29 @@ const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,ur
     </div>
   </section>
 )}
+
+{charterPhotos.length > 0 && (
+  <section class="section charter-gallery" aria-labelledby="charter-gallery-heading">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <h2 id="charter-gallery-heading">Four Dogs Music Bingo at Charter 803</h2>
+          <p>Real players, prizes, and moments worth sharing from our Music Bingo nights.</p>
+        </div>
+      </div>
+      <div class="charter-photo-grid">
+        {charterPhotos.map(photo => (
+          <figure>
+            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
+              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+            </a>
+            <figcaption>{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 <style>
   .wesco-gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; align-items:start; }
   .wesco-gallery-grid figure { margin:0; min-width:0; }
@@ -131,6 +159,14 @@ const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,ur
   .mill-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
   @media (max-width:850px) { .mill-photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
   @media (max-width:600px) { .mill-photo-grid { grid-template-columns:1fr; gap:1.25rem; } }
+  .charter-photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; align-items:start; }
+  .charter-photo-grid figure { margin:0; min-width:0; }
+  .charter-photo-grid a { display:block; line-height:0; }
+  .charter-photo-grid img { display:block; width:100%; height:auto; border-radius:3px; }
+  .charter-photo-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; line-height:1.5; }
+  .charter-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
+  @media (max-width:850px) { .charter-photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:600px) { .charter-photo-grid { grid-template-columns:1fr; gap:1.25rem; } }
 </style>
 
 </Base>
