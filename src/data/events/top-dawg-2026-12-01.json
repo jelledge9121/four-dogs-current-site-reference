@@ -1,0 +1,25 @@
+{
+  "image": "/images/hero.jpg",
+  "imageAlt": "Four Dogs Entertainment at a local event",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "top-dawg-2026-12-01",
+  "slug": "the-office-trivia-top-dawg-2026-12-01",
+  "title": "The Office Trivia",
+  "theme": "The Office Trivia",
+  "date": "2026-12-01",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "shortDescription": "A night of The Office Trivia at Top Dawg Tavern in the Village at Sandhill.",
+  "description": "Know your Schrute facts from your Dundie Awards? Bring your crew to Top Dawg Tavern for The Office Trivia. We’ll revisit the characters, quotes, and unforgettable moments from everyone’s favorite Dunder Mifflin branch.",
+  "seoTitle": "The Office Trivia | Top Dawg Tavern | December 1, 2026 | Four Dogs",
+  "metaDescription": "Play The Office Trivia with Four Dogs at Top Dawg Tavern in Columbia on Tuesday, December 1, 2026 at 6:30 PM Eastern."
+}

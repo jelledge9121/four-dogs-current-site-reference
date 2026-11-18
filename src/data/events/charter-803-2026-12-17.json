@@ -4,11 +4,12 @@
   "title": "Live Music Bingo with Soda City Serenade",
   "theme": "Live Music Bingo with Soda City Serenade",
   "date": "2026-12-17",
-  "startTime": "6:30 PM",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
   "venueId": "charter-803",
   "eventType": "Music Bingo",
-  "shortDescription": "Live music meets Music Bingo at Charter 803, featuring Soda City Serenade and a $100 cash prize in the third blackout round.",
-  "description": "Four Dogs Entertainment is teaming up with Soda City Serenade for a special night of Live Music Bingo at Charter 803 Bar & Grill. Instead of listening to a playlist, you’ll hear songs performed live while following along on your bingo card. No musical talent required.\n\nThree rounds are planned: Christmas music, greatest hits, and a 25-song Four Dogs Sound Check. The winner of the third blackout round takes home a $100 cash prize.",
+  "shortDescription": "Soda City Serenade performs live while you play Four Dogs Music Bingo at Charter 803.",
+  "description": "Experience a lively twist on Music Bingo at Charter 803. Soda City Serenade performs live while you follow along on your bingo card, listen for familiar tunes, and mark your matches. There are multiple chances to win prizes, with food and drinks available for purchase from Charter 803. Bring your friends for a night of live music and friendly competition.",
   "image": "/images/gallery/music-bingo-charter-friends.webp",
   "imageAlt": "Friends posing together at a Four Dogs Music Bingo night at Charter 803",
   "ticketed": true,
@@ -18,10 +19,10 @@
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-11-16T18:31:00Z",
+  "lastUpdated": "2026-11-18T18:00:00Z",
   "admission": {
     "kind": "unknown",
-    "note": "Tickets required. Check Ticket Tailor for current pricing and availability."
+    "note": "Advance tickets are $15. Admission at the door is $20 when available. Check the ticket page for availability."
   },
-  "instructions": "Purchase tickets using the event-specific Ticket Tailor link or explore the embedded Ticket Tailor listings below. Look for Live Music Bingo with Soda City Serenade on December 17."
+  "instructions": "Use the event-specific ticket link for current availability. Advance tickets are $15; door admission is $20 when available. Contact Charter 803 with seating questions."
 }

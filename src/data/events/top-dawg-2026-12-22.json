@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/music-bingo-song-guesser.webp",
+  "imageAlt": "Guests listening for songs during Four Dogs Music Bingo",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "top-dawg-2026-12-22",
+  "slug": "disney-music-bingo-top-dawg-2026-12-22",
+  "title": "Disney Music Bingo",
+  "theme": "Disney Music Bingo",
+  "date": "2026-12-22",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Music Bingo",
+  "shortDescription": "Disney songs, familiar favorites, and Music Bingo at Top Dawg Tavern.",
+  "description": "Listen for Disney favorites, mark the songs you recognize, and play along with your table. Bring your people to Top Dawg Tavern for a Music Bingo night filled with songs from the stories and soundtracks you know.",
+  "seoTitle": "Disney Music Bingo | Top Dawg Tavern | December 22, 2026 | Four Dogs",
+  "metaDescription": "Play Disney Music Bingo with Four Dogs at Top Dawg Tavern in Columbia on Tuesday, December 22, 2026 at 6:30 PM Eastern."
+}

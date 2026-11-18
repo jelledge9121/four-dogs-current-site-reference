@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/four-dogs-survey-showdown-bozes-group.jpg",
+  "imageAlt": "Teams playing Four Dogs Survey Showdown",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "top-dawg-2026-12-08",
+  "slug": "survey-showdown-top-dawg-2026-12-08",
+  "title": "Four Dogs Survey Showdown",
+  "theme": "Survey Showdown",
+  "date": "2026-12-08",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Survey Showdown",
+  "shortDescription": "Think like the crowd in a fast-moving Survey Showdown at Top Dawg Tavern.",
+  "description": "Trivia is about knowing the answer. Survey Showdown is about guessing what everyone else said. Bring your team to Top Dawg Tavern, compare your instincts with the crowd, and see who can read the room best.",
+  "seoTitle": "Survey Showdown | Top Dawg Tavern | December 8, 2026 | Four Dogs",
+  "metaDescription": "Play Four Dogs Survey Showdown at Top Dawg Tavern in Columbia on Tuesday, December 8, 2026 at 6:30 PM Eastern."
+}

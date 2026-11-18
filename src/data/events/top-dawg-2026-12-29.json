@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-guest-at-table.webp",
+  "imageAlt": "Guests working together during Four Dogs Trivia",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "top-dawg-2026-12-29",
+  "slug": "best-of-2026-trivia-top-dawg-2026-12-29",
+  "title": "Best of 2026 Trivia",
+  "theme": "Best of 2026 Trivia",
+  "date": "2026-12-29",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "shortDescription": "Look back at the people, moments, and stories that shaped 2026 at Top Dawg Tavern.",
+  "description": "How closely did you follow the year? Bring your team to Top Dawg Tavern for Best of 2026 Trivia, a look back at the headlines, entertainment, sports, and memorable moments of 2026. Compare notes and see what your table remembers.",
+  "seoTitle": "Best of 2026 Trivia | Top Dawg Tavern | December 29, 2026 | Four Dogs",
+  "metaDescription": "Play Best of 2026 Trivia with Four Dogs at Top Dawg Tavern in Columbia on Tuesday, December 29, 2026 at 6:30 PM Eastern."
+}

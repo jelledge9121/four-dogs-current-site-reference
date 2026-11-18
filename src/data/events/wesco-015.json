@@ -1,20 +1,20 @@
 {
   "id": "wesco-015",
   "slug": "best-of-the-year-wesco-brew-bowl-2026-12-15",
-  "title": "Best of the Year",
+  "title": "Christmas Chaos Music Bingo",
   "date": "2026-12-15",
   "startTime": "7:00 PM",
   "venueId": "wesco",
-  "eventType": "Trivia",
-  "theme": "Best of the Year",
-  "shortDescription": "A launch-season finale featuring favorite categories plus Christmas movies and music.",
-  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Best of the Year, a launch-season finale featuring favorite categories plus Christmas movies and music.",
+  "eventType": "Music Bingo",
+  "theme": "Christmas Chaos Music Bingo",
+  "shortDescription": "A Christmas Chaos Music Bingo night at WesCo Brew & Bowl.",
+  "description": "Christmas Chaos Music Bingo is bringing holiday songs and a little friendly competition to WesCo. Listen for songs on your card, mark your matches, and see how your table does. Bring your crew for a festive Tuesday night.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,6 +23,6 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details.",
-  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ.",
+  "endTime": "",
   "ticketed": false
 }

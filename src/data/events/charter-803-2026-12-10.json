@@ -1,0 +1,26 @@
+{
+  "image": "/images/hero.jpg",
+  "imageAlt": "A Four Dogs Entertainment game night",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "charter-803-2026-12-10",
+  "slug": "doggone-pricey-charter-803-2026-12-10",
+  "title": "Doggone Pricey",
+  "theme": "Doggone Pricey",
+  "date": "2026-12-10",
+  "startTime": "6:30 PM",
+  "endTime": "8:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Other Public Events",
+  "shortDescription": "Doggone Pricey brings a special Four Dogs game night to Charter 803.",
+  "description": "Join Four Dogs at Charter 803 for Doggone Pricey, a special game night with a playful twist. Bring your friends, take part in the hosted game, and enjoy a Thursday night out together.",
+  "seoTitle": "Doggone Pricey | Charter 803 | December 10, 2026 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Doggone Pricey at Charter 803 Bar & Grill in Lexington on Thursday, December 10, 2026 at 6:30 PM Eastern."
+}

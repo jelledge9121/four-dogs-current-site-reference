@@ -1,20 +1,20 @@
 {
   "id": "wesco-014",
   "slug": "music-through-the-decades-wesco-brew-bowl-2026-12-08",
-  "title": "Music Through the Decades",
+  "title": "Disney Trivia",
   "date": "2026-12-08",
   "startTime": "7:00 PM",
   "venueId": "wesco",
   "eventType": "Trivia",
-  "theme": "Music Through the Decades",
-  "shortDescription": "A cross-generational music night with different knowledge lanes for every teammate.",
-  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Music Through the Decades, a cross-generational music night with different knowledge lanes for every teammate.",
+  "theme": "Disney Trivia",
+  "shortDescription": "A Disney Trivia night at WesCo Brew & Bowl.",
+  "description": "Put your Disney knowledge to the test at WesCo Brew & Bowl. Gather your team for questions about memorable characters, stories, and screen favorites, then see which details you remember best.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,6 +23,6 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details.",
-  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ.",
+  "endTime": "9:00 PM",
   "ticketed": false
 }

@@ -152,6 +152,10 @@ test('Public admission stays verified for ordinary nights and does not invent a 
       assert.equal(e.admission.kind,'unknown');
       assert.equal(e.admission.verified,undefined);
       assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.offers,undefined);
+    }else if(e.ticketed || e.admission.kind==='unknown'){
+      assert.equal(e.admission.kind,'unknown');
+      const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);
+      if(schema) assert.equal(schema.offers,undefined);
     }else{
       assert.equal(e.admission.kind,'free');assert.equal(e.admission.verified,true);
       const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);
@@ -159,16 +163,20 @@ test('Public admission stays verified for ordinary nights and does not invent a 
     }
   }
 });
-test('December 17 Soda City Serenade event has its own page, ticket destination, and original Ticket Tailor embed',()=>{
+test('December 17 Soda City Serenade event has its own page, verified ticket details, and original Ticket Tailor embed',()=>{
  const e=all.find(e=>e.id==='charter-803-2026-12-17')!;
  assert.ok(e);
  assert.equal(e.date,'2026-12-17');
  assert.equal(e.venueId,'charter-803');
  assert.equal(e.eventType,'Music Bingo');
- assert.equal(e.startTime,'6:30 PM');
+ assert.equal(e.startTime,'7:00 PM');
+ assert.equal(e.endTime,'9:00 PM');
  assert.equal(e.registrationUrl,'https://buytickets.at/fourdogsentertainmentllc/2535496');
  assert.equal(e.publicationStatus,'published');
- assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T18:30:00-05:00');
+ assert.equal(e.admission.kind,'unknown');
+ assert.match(e.admission.note||'',/\$15.*\$20/);
+ assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T19:00:00-05:00');
+ assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:00:00-05:00');
  const snippet=fs.readFileSync('src/components/TicketTailorWidget.astro','utf8');
  assert.ok(snippet.includes('https://cdn.tickettailor.com/js/widgets/min/widget.js'));
  assert.match(snippet,/data-inline-minimal="true"/);
@@ -222,6 +230,32 @@ test('WesCo Thursday Music Bingo replaces upcoming Karaoke while preserving the 
  const charter=all.find(e=>e.id==='charter-803-2026-12-17')!;
  assert.equal(charter.venueId,'charter-803');
  assert.equal(charter.title,'Live Music Bingo with Soda City Serenade');
+});
+
+test('December calendar contains the approved public lineup without duplicates or private bookings',()=>{
+ const december=all.filter(e=>e.date.startsWith('2026-12')&&e.visibility==='public'&&e.publicationStatus==='published');
+ assert.equal(december.length,29);
+ for(const venue of ['top-dawg','wesco','bozes','charter-803','the-mill']){
+  const dates=december.filter(e=>e.venueId===venue).map(e=>e.date+'|'+e.startTime);
+  assert.equal(new Set(dates).size,dates.length,`Duplicate public slot for ${venue}`);
+ }
+ for(const [venue,date,title] of [
+  ['top-dawg','2026-12-29','Best of 2026 Trivia'],
+  ['wesco','2026-12-01','90s vs. 2000s Music Bingo'],
+  ['wesco','2026-12-29','New Year’s Party Hits Music Bingo'],
+  ['bozes','2026-12-02','Welcome Winter Music Bingo'],
+  ['charter-803','2026-12-02','Justin Bieber & Friends Music Bingo'],
+  ['charter-803','2026-12-23','Music Bingo at Charter 803'],
+  ['charter-803','2026-12-30','Countdown to Midnight Music Bingo'],
+  ['charter-803','2026-12-10','Doggone Pricey'],
+  ['the-mill','2026-12-21','Are You Smarter Than a Barstool? Christmas Edition'],
+ ]) assert.equal(december.find(e=>e.venueId===venue&&e.date===date)?.title,title);
+ assert.ok(!december.some(e=>['2026-12-05','2026-12-06','2026-12-12','2026-12-18'].includes(e.date)));
+ assert.ok(!december.some(e=>e.date==='2026-12-19'));
+ assert.ok(!december.some(e=>['2026-12-24','2026-12-31'].includes(e.date)));
+ const charter=december.find(e=>e.venueId==='charter-803'&&e.date==='2026-12-23')!;
+ assert.equal(charter.theme,'Music Bingo');
+ assert.doesNotMatch(charter.title,/TBD|Disney|Christmas/i);
 });
 
 
