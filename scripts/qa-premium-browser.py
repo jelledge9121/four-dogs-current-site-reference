@@ -51,6 +51,10 @@ async def main():
                 assert await heading.count() == 1, (name, "duplicate homepage heading")
                 assert await page.locator('.home-intro-copy a[href="/booking/"]').count() == 1
                 assert await page.locator('.home-intro-copy a[href="/events/"]').count() == 1
+                assert await page.locator(".home-gear #home-gear-title").inner_text() == "Four Dogs Gear. Local Good."
+                assert await page.locator('.home-gear a.button[href="https://t4k6gq-tc.myshopify.com/"]').count() == 1
+                assert await page.locator('.home-gear a[href="https://t4k6gq-tc.myshopify.com/pages/four-dogs-gives-back"]').count() == 1
+                assert await page.locator('footer a[href="https://t4k6gq-tc.myshopify.com/"]').count() == 1
                 assert await page.locator('.service-directory > a').count() >= 6
                 assert await page.locator('.event-row').count() >= 1
                 await page.locator(".home-intro-photo img").wait_for()
@@ -78,6 +82,9 @@ async def main():
                     await menu.click()
                     assert await menu.get_attribute("aria-expanded") == "true"
                     assert await page.locator('#navlinks a[href="/events/"]').is_visible()
+                    more = page.locator("header details").last
+                    await more.locator("summary").click()
+                    assert await more.locator('a[href="https://t4k6gq-tc.myshopify.com/"]').is_visible(), (name, "mobile Shop Gear missing")
                     await page.keyboard.press("Escape")
                     assert await menu.get_attribute("aria-expanded") == "false"
                 else:
@@ -87,6 +94,11 @@ async def main():
                     assert await services.get_attribute("open") is not None
                     await page.keyboard.press("Escape")
                     assert await services.get_attribute("open") is None
+                    more = page.locator("header details").last
+                    await more.locator("summary").click()
+                    assert await more.locator('a[href="https://t4k6gq-tc.myshopify.com/"]').is_visible(), (name, "desktop Shop Gear missing")
+                    await page.keyboard.press("Escape")
+                    assert await more.get_attribute("open") is None
                 await page.locator(".home-photo-grid figure").first.scroll_into_view_if_needed()
                 await page.wait_for_timeout(850)
                 photo_opacity = float(await page.locator(".home-photo-grid figure").first.evaluate(
