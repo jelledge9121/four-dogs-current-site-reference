@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/four-dogs-survey-showdown-bozes-group.jpg",
+  "imageAlt": "A team playing Four Dogs Survey Showdown",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "the-mill-2026-12-14",
+  "slug": "survey-showdown-the-mill-2026-12-14",
+  "title": "Four Dogs Survey Showdown",
+  "theme": "Survey Showdown",
+  "date": "2026-12-14",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Survey Showdown",
+  "shortDescription": "Guess what the crowd thinks in Survey Showdown at The Mill.",
+  "description": "Survey Showdown is all about reading the room. Bring your team to The Mill at Fountain Inn, hear the prompt, and see if you can predict the answers people give most often. Compare guesses, laugh at the surprises, and play along.",
+  "seoTitle": "Survey Showdown | The Mill at Fountain Inn | December 14, 2026 | Four Dogs",
+  "metaDescription": "Play Four Dogs Survey Showdown at The Mill at Fountain Inn on Monday, December 14, 2026 at 7:00 PM Eastern."
+}

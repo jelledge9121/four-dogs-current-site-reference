@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/music-bingo-group-family.webp",
+  "imageAlt": "Friends enjoying a Four Dogs Music Bingo night",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "bozes-2026-12-02",
+  "slug": "welcome-winter-music-bingo-bozes-2026-12-02",
+  "title": "Welcome Winter Music Bingo",
+  "theme": "Welcome Winter",
+  "date": "2026-12-02",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Music Bingo",
+  "shortDescription": "Welcome Winter with three Music Bingo rounds: Cold, Snow & Ice; Warm & Cozy; and Staying Home.",
+  "description": "Bundle up for a winter-themed Music Bingo night at Boze’s. Listen for songs inspired by Cold, Snow & Ice, settle into Warm & Cozy favorites, and finish with Staying Home. Bring your friends, pick up a bingo card, and play along.",
+  "seoTitle": "Welcome Winter Music Bingo | Boze’s | December 2, 2026 | Four Dogs",
+  "metaDescription": "Welcome Winter with Music Bingo at Boze’s Restaurant & Bar in West Columbia on Wednesday, December 2, 2026 at 7:30 PM Eastern."
+}

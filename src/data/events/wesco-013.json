@@ -1,20 +1,20 @@
 {
   "id": "wesco-013",
   "slug": "holiday-pop-culture-wesco-brew-bowl-2026-12-01",
-  "title": "Holiday Pop Culture",
+  "title": "90s vs. 2000s Music Bingo",
   "date": "2026-12-01",
   "startTime": "7:00 PM",
   "venueId": "wesco",
-  "eventType": "Trivia",
-  "theme": "Holiday Pop Culture",
-  "shortDescription": "Movies, specials, advertising, music, traditions, and recognizable holiday moments.",
-  "description": "Join Four Dogs Entertainment at WesCo Brew & Bowl for Holiday Pop Culture. Movies, specials, advertising, music, traditions, and recognizable holiday moments.",
+  "eventType": "Music Bingo",
+  "theme": "90s vs. 2000s Music Bingo",
+  "shortDescription": "A 90s and 2000s Music Bingo night at WesCo Brew & Bowl.",
+  "description": "The 90s and 2000s go head-to-head at WesCo. Listen for familiar songs from both decades, mark your card when you hear a match, and see which side your table knows best. Bring your friends and play along.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "review",
-  "lastUpdated": "2026-10-18T03:29:55Z",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -23,6 +23,6 @@
     "note": "Free admission."
   },
   "instructions": "Contact the venue for seating or participation details.",
-  "reviewReason": "Future theme and continued booking need confirmation. Existing website and tentative planning records differ.",
+  "endTime": "",
   "ticketed": false
 }

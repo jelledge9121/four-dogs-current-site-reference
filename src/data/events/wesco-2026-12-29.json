@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/music-bingo-song-guesser.webp",
+  "imageAlt": "Guests listening for music during Four Dogs Music Bingo",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "wesco-2026-12-29",
+  "slug": "new-years-party-hits-music-bingo-wesco-2026-12-29",
+  "title": "New Year’s Party Hits Music Bingo",
+  "theme": "New Year’s Party Hits Music Bingo",
+  "date": "2026-12-29",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "wesco",
+  "eventType": "Music Bingo",
+  "shortDescription": "Ring in the new year with party hits and Music Bingo at WesCo.",
+  "description": "Get a head start on the New Year’s celebration with Music Bingo at WesCo. Listen for party favorites, mark the songs that appear on your card, and bring your friends for a lively night of music and friendly competition.",
+  "seoTitle": "New Year’s Party Hits Music Bingo | WesCo | December 29, 2026 | Four Dogs",
+  "metaDescription": "Play New Year’s Party Hits Music Bingo at WesCo Brew & Bowl in Cayce on Tuesday, December 29, 2026 at 7:00 PM Eastern."
+}

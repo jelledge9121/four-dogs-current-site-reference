@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-friends-glasses.webp",
+  "imageAlt": "Friends sharing a laugh during a Four Dogs Trivia night",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "bozes-2026-12-23",
+  "slug": "christmas-vacation-trivia-bozes-2026-12-23",
+  "title": "Christmas Vacation Trivia",
+  "theme": "Christmas Vacation Trivia",
+  "date": "2026-12-23",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "shortDescription": "Test your Christmas Vacation knowledge with Four Dogs at Boze’s.",
+  "description": "A very Griswold kind of holiday night is coming to Boze’s. Bring your team for Christmas Vacation Trivia and see how well you remember the characters, quotes, and comic mishaps from the holiday favorite.",
+  "seoTitle": "Christmas Vacation Trivia | Boze’s | December 23, 2026 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Christmas Vacation Trivia at Boze’s Restaurant & Bar in West Columbia on Wednesday, December 23, 2026 at 7:30 PM Eastern."
+}

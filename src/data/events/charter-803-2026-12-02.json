@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/music-bingo-charter-friends.webp",
+  "imageAlt": "Friends at a Four Dogs Music Bingo night at Charter 803",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "charter-803-2026-12-02",
+  "slug": "justin-bieber-and-friends-music-bingo-charter-803-2026-12-02",
+  "title": "Justin Bieber & Friends Music Bingo",
+  "theme": "Justin Bieber & Friends",
+  "date": "2026-12-02",
+  "startTime": "6:30 PM",
+  "endTime": "8:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "shortDescription": "Justin Bieber favorites and songs from his musical neighbors meet on one Music Bingo card.",
+  "description": "Bieber fans, bring your people to Charter 803 for Justin Bieber & Friends Music Bingo. Listen for his hits alongside songs from artists who share the same pop world, mark the matches on your card, and sing along when a favorite comes on.",
+  "seoTitle": "Justin Bieber & Friends Music Bingo | Charter 803 | December 2, 2026 | Four Dogs",
+  "metaDescription": "Play Justin Bieber & Friends Music Bingo at Charter 803 Bar & Grill in Lexington on Wednesday, December 2, 2026 at 6:30 PM Eastern."
+}

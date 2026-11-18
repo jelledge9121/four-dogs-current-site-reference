@@ -1,0 +1,30 @@
+{
+  "image": "/images/hero.jpg",
+  "imageAlt": "Four Dogs Entertainment at a local event",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown",
+    "note": "Advance tickets are $5. Admission at the door is $7 when available. Advance admission is confirmed only after payment."
+  },
+  "instructions": "For advance admission, use the ticket link and complete payment. Door admission is subject to availability. Contact Charter 803 with seating questions.",
+  "id": "charter-803-2026-12-03",
+  "slug": "doggone-matchmas-holiday-singles-social-charter-803-2026-12-03",
+  "title": "Doggone Matchmas: A Four Dogs Holiday Singles Social",
+  "theme": "Doggone Matchmas",
+  "date": "2026-12-03",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "charter-803",
+  "eventType": "Other Public Events",
+  "shortDescription": "A relaxed holiday singles social with conversation starters, a Four Dogs game, and new connections.",
+  "description": "Single this holiday season? Join Four Dogs at Charter 803 for a relaxed evening of meeting people, sharing a few laughs, and making connections. The night begins with casual speed dating and conversation cards, followed by an interactive Four Dogs game. Friends may also take the mic for a Doggone Good Catch Spotlight. No pressure or promises, just a fun reason to get out and meet someone new.",
+  "ticketed": true,
+  "registrationUrl": "https://form.jotform.com/263181332727052",
+  "registrationLabel": "Get advance tickets",
+  "seoTitle": "Doggone Matchmas | Charter 803 | December 3, 2026 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Doggone Matchmas, a holiday singles social at Charter 803 in Lexington on Thursday, December 3, 2026 from 7 to 9 PM. Advance tickets are $5; door admission is $7 if available."
+}

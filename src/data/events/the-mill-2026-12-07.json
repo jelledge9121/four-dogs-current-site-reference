@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-friends-glasses.webp",
+  "imageAlt": "Friends playing Four Dogs Trivia at a table",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "the-mill-2026-12-07",
+  "slug": "christmas-movie-trivia-the-mill-2026-12-07",
+  "title": "Christmas Movie Trivia",
+  "theme": "Christmas Movie Trivia",
+  "date": "2026-12-07",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Trivia",
+  "shortDescription": "Put your holiday movie knowledge to the test at The Mill at Fountain Inn.",
+  "description": "Bring your movie-loving crew to The Mill for Christmas Movie Trivia. From holiday favorites you watch every year to the characters and scenes you can quote by heart, see what your team remembers and enjoy a spirited Monday night.",
+  "seoTitle": "Christmas Movie Trivia | The Mill at Fountain Inn | December 7, 2026 | Four Dogs",
+  "metaDescription": "Play Christmas Movie Trivia with Four Dogs at The Mill at Fountain Inn on Monday, December 7, 2026 at 7:00 PM Eastern."
+}

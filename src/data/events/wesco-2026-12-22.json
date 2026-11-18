@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-friends-long-table.webp",
+  "imageAlt": "A Four Dogs Trivia team playing together",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "wesco-2026-12-22",
+  "slug": "blockbuster-movies-trivia-wesco-2026-12-22",
+  "title": "Blockbuster Movies Trivia",
+  "theme": "Blockbuster Movies Trivia",
+  "date": "2026-12-22",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "wesco",
+  "eventType": "Trivia",
+  "shortDescription": "Big-screen favorites take center stage at Blockbuster Movies Trivia.",
+  "description": "Bring your movie-loving friends to WesCo for Blockbuster Movies Trivia. From memorable characters and quotable scenes to stories that filled the big screen, see what your team can recall and enjoy a friendly night of movie questions.",
+  "seoTitle": "Blockbuster Movies Trivia | WesCo | December 22, 2026 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Blockbuster Movies Trivia at WesCo Brew & Bowl in Cayce on Tuesday, December 22, 2026 at 7:00 PM Eastern."
+}

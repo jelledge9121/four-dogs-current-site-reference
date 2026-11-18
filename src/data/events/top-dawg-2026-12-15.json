@@ -1,0 +1,25 @@
+{
+  "image": "/images/hero.jpg",
+  "imageAlt": "Four Dogs Entertainment at a local event",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "top-dawg-2026-12-15",
+  "slug": "christmas-movie-trivia-top-dawg-2026-12-15",
+  "title": "Christmas Movie Trivia",
+  "theme": "Christmas Movie Trivia",
+  "date": "2026-12-15",
+  "startTime": "6:30 PM",
+  "venueId": "top-dawg",
+  "eventType": "Trivia",
+  "shortDescription": "Put your holiday movie memory to work at Top Dawg Tavern.",
+  "description": "From well-loved classics to the lines you quote every December, Christmas Movie Trivia brings holiday favorites to the table. Gather your team at Top Dawg Tavern and see which movies you know by heart.",
+  "seoTitle": "Christmas Movie Trivia | Top Dawg Tavern | December 15, 2026 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Christmas Movie Trivia at Top Dawg Tavern in Columbia on Tuesday, December 15, 2026 at 6:30 PM Eastern."
+}

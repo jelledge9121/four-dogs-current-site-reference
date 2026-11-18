@@ -72,13 +72,14 @@
         "title": "1980s vs. 1990s Music Bingo",
         "theme": "1980s vs. 1990s Music Bingo",
         "eventType": "Music Bingo",
-        "shortDescription": "Two unforgettable decades, one bingo card. Will the 80s or 90s win your table?",
-        "description": "Are you team 80s or team 90s? From big choruses to unforgettable throwback hits, this is a Music Bingo showdown across two decades. We play song clips. If you hear a song on your card, mark it and play for bingo.",
+        "shortDescription": "Two unforgettable decades go head-to-head in Music Bingo at WesCo.",
+        "description": "Are you team 80s or team 90s? From big choruses to unforgettable throwback hits, this Music Bingo showdown brings both decades to WesCo. We play song clips. If you hear a song on your card, mark it and play for bingo. See which decade rules your table.",
         "startTime": "7:00 PM",
         "endTime": "",
         "timeTba": false,
-        "lastUpdated": "2026-11-16T19:07:00Z",
-        "instructions": "We play song clips. If you hear a song on your card, mark it and play for bingo. Pick up a card at WesCo, then listen and mark your matches. Music Bingo starts at 7:00 PM Eastern. End time has not been confirmed. Food and drinks are purchased separately."
+        "lastUpdated": "2026-11-18T18:00:00Z",
+        "publicationStatus": "published",
+        "instructions": "Pick up a Music Bingo card at WesCo, listen for the songs, and mark your matches. The game starts at 7:00 PM Eastern. End time has not been confirmed."
       }
     },
     {
@@ -88,13 +89,14 @@
         "title": "Christmas Music Bingo",
         "theme": "Christmas Music Bingo",
         "eventType": "Music Bingo",
-        "shortDescription": "Get festive with Christmas Music Bingo and a table full of holiday favorites.",
-        "description": "Holiday classics, singalong favorites, and Christmas songs you know by heart are taking over WesCo. We play song clips. If you hear a song on your card, mark it and play for bingo.",
+        "shortDescription": "Celebrate the season with Christmas Music Bingo at WesCo.",
+        "description": "Holiday favorites and Christmas songs you know by heart are taking over WesCo. We play song clips. If you hear a song on your card, mark it and play for bingo. Bring your friends for a festive Music Bingo night.",
         "startTime": "7:00 PM",
         "endTime": "",
         "timeTba": false,
-        "lastUpdated": "2026-11-16T19:07:00Z",
-        "instructions": "We play song clips. If you hear a song on your card, mark it and play for bingo. Pick up a card at WesCo, then listen and mark your matches. Music Bingo starts at 7:00 PM Eastern. End time has not been confirmed. Food and drinks are purchased separately."
+        "lastUpdated": "2026-11-18T18:00:00Z",
+        "publicationStatus": "published",
+        "instructions": "Pick up a Music Bingo card at WesCo, listen for the songs, and mark your matches. The game starts at 7:00 PM Eastern. End time has not been confirmed."
       }
     }
   ]

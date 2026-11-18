@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/music-bingo-group-family.webp",
+  "imageAlt": "Friends enjoying Four Dogs Music Bingo together",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "charter-803-2026-12-09",
+  "slug": "welcome-winter-music-bingo-charter-803-2026-12-09",
+  "title": "Welcome Winter Music Bingo",
+  "theme": "Welcome Winter",
+  "date": "2026-12-09",
+  "startTime": "6:30 PM",
+  "endTime": "8:30 PM",
+  "venueId": "charter-803",
+  "eventType": "Music Bingo",
+  "shortDescription": "Cold, Snow & Ice; Warm & Cozy; and Staying Home set the scene for three winter Music Bingo rounds.",
+  "description": "Settle in for Welcome Winter Music Bingo at Charter 803. The three rounds move from Cold, Snow & Ice to Warm & Cozy and Staying Home. Listen for songs on your card, mark your matches, and bring your friends for a cozy night out.",
+  "seoTitle": "Welcome Winter Music Bingo | Charter 803 | December 9, 2026 | Four Dogs",
+  "metaDescription": "Play Welcome Winter Music Bingo at Charter 803 Bar & Grill in Lexington on Wednesday, December 9, 2026 at 6:30 PM Eastern."
+}

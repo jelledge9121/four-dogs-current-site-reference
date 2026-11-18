@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-friends-long-table.webp",
+  "imageAlt": "A team sharing answers during Four Dogs Trivia",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "bozes-2026-12-09",
+  "slug": "80s-vs-90s-trivia-bozes-2026-12-09",
+  "title": "80s vs. 90s Trivia",
+  "theme": "80s vs. 90s Trivia",
+  "date": "2026-12-09",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Trivia",
+  "shortDescription": "Two iconic decades go head-to-head in a lively Trivia night at Boze’s.",
+  "description": "Which decade do you remember best? Bring your team to Boze’s for 80s vs. 90s Trivia, with questions built around the pop culture and moments that made both decades memorable. Pick your side, compare notes, and play along.",
+  "seoTitle": "80s vs. 90s Trivia | Boze’s Restaurant & Bar | December 9, 2026 | Four Dogs",
+  "metaDescription": "Play 80s vs. 90s Trivia at Boze’s Restaurant & Bar in West Columbia on Wednesday, December 9, 2026 at 7:30 PM Eastern."
+}

@@ -1,0 +1,25 @@
+{
+  "image": "/images/gallery/music-bingo-group-family.webp",
+  "imageAlt": "Friends playing along at a Four Dogs Music Bingo event",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-18T18:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "bozes-2026-12-30",
+  "slug": "countdown-to-midnight-music-bingo-bozes-2026-12-30",
+  "title": "Countdown to Midnight Music Bingo",
+  "theme": "Countdown to Midnight",
+  "date": "2026-12-30",
+  "startTime": "7:30 PM",
+  "venueId": "bozes",
+  "eventType": "Music Bingo",
+  "shortDescription": "Dancefloor Fillers & Party Anthems, Best of 2026, and Late Nights & New Beginnings close out the year.",
+  "description": "Close out the year with three Countdown to Midnight Music Bingo rounds at Boze’s: Dancefloor Fillers & Party Anthems, Best of 2026, and Late Nights & New Beginnings. Bring your friends, listen for your songs, and play along.",
+  "seoTitle": "Countdown to Midnight Music Bingo | Boze’s | December 30, 2026 | Four Dogs",
+  "metaDescription": "Play Countdown to Midnight Music Bingo at Boze’s Restaurant & Bar in West Columbia on Wednesday, December 30, 2026 at 7:30 PM Eastern."
+}
