@@ -9,6 +9,12 @@ const venue=venues.find(v=>v.slug===Astro.params.slug);
 if(!venue) return new Response('Venue not found',{status:404});
 const upcoming=eventsForVenue(venue.id);
 const formats=[...new Set(upcoming.map(e=>e.eventType))];
+const wescoPhotos = venue.id === 'wesco' ? [
+  { src: '/images/venues/four-dogs-wesco-group-with-prizes-2026.webp', alt: 'Six Four Dogs guests smiling together with a yellow Four Dogs shirt, a trophy and prize posters at WesCo Brew & Bowl in Cayce', caption: 'The crew came to play', width: 1280, height: 960 },
+  { src: '/images/venues/four-dogs-wesco-three-guests-2026.webp', alt: 'Three Four Dogs guests smiling together at WesCo with a branded prize sign behind them', caption: 'Good company at WesCo', width: 1280, height: 960 },
+  { src: '/images/venues/four-dogs-wesco-ready-to-guess-2026.webp', alt: 'WesCo guest holding a Four Dogs Ready to Guess with Confidence sign', caption: 'Ready to guess with confidence', width: 1280, height: 960 },
+  { src: '/images/venues/four-dogs-wesco-shirt-and-prize-2026.webp', alt: 'WesCo guest holding a bright yellow Four Dogs Entertainment shirt and a humorous prize poster', caption: 'Four Dogs gear in the spotlight', width: 960, height: 1280 },
+] : [];
 const title=`Four Dogs Events at ${venue.name}, ${venue.city} SC`;
 const description=`Find confirmed Four Dogs dates at ${venue.name} in ${venue.city}, South Carolina. Event times, themes, admission information, and directions.`;
 const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,url:new URL(Astro.url.pathname,'https://4dogsentertainment.com').href,address:{'@type':'PostalAddress',streetAddress:venue.address,addressLocality:venue.city,addressRegion:venue.state,postalCode:venue.zip,addressCountry:'US'}};
@@ -18,4 +24,37 @@ const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,ur
 <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs venue</p><h1>{venue.name}</h1><p class="lead">{venue.address}<br/>{venue.city}, {venue.state} {venue.zip}</p><p>{venue.description}</p></div></section>
 <section class="section"><div class="container"><h2>Coming up here</h2><p>{formats.length?`Current confirmed formats: ${formats.join(', ')}.`:'New public dates will appear when confirmed.'} Check the individual event for its exact time and participation details.</p><EventList venue={venue.id} limit={12} days={60}/><div class="actions"><a class="button" href={venue.mapUrl} target="_blank" rel="noopener noreferrer">Directions</a>{venue.website && <a href={venue.website} target="_blank" rel="noopener noreferrer">Venue website →</a>}<a href={`/events/?venue=${venue.id}`}>Full venue calendar</a></div></div></section>
 <section class="section alt"><div class="container prose"><h2>Before you come</h2><h3>When does Four Dogs start?</h3><p>Each confirmed date has its own start time. Schedule exceptions and special events appear in the calendar above.</p><h3>Is admission free?</h3><p>Four Dogs public events have free admission, except ticketed murder mystery events. Check your event page for reservation or ticket details.</p><h3>Do I need a reservation?</h3><p>Check your event page for registration and seating instructions before attending.</p><h3>What if the schedule changes?</h3><p>Check the event page before heading out for any cancellations or updated dates.</p><a href={`/areas/${venue.areaSlug}/`}>More entertainment in the {venue.city} area →</a></div></section>
+
+{wescoPhotos.length > 0 && (
+  <section class="section wesco-gallery" aria-labelledby="wesco-gallery-title">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <h2 id="wesco-gallery-title">Four Dogs nights at WesCo</h2>
+          <p>Real people and good moments from our Cayce game nights.</p>
+        </div>
+      </div>
+      <div class="wesco-gallery-grid">
+        {wescoPhotos.map(photo => (
+          <figure>
+            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
+              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+            </a>
+            <figcaption>{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+<style>
+  .wesco-gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; align-items:start; }
+  .wesco-gallery-grid figure { margin:0; min-width:0; }
+  .wesco-gallery-grid a { display:block; line-height:0; }
+  .wesco-gallery-grid img { display:block; width:100%; height:auto; border-radius:3px; }
+  .wesco-gallery-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; }
+  .wesco-gallery-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
+  @media (max-width:700px) { .wesco-gallery-grid { grid-template-columns:1fr; gap:1.25rem; } }
+</style>
+
 </Base>
