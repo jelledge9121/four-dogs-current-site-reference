@@ -22,7 +22,7 @@ async function request(path){
 const staticRoutes=new Set();
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).forEach(e=>e.isDirectory()?walk(dir+'/'+e.name):staticRoutes.add('/'+(dir+'/'+e.name).slice(5)));
 walk('dist');
-const paths=['/','/events/','/admin/','/admin/distribution/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
+const paths=['/','/events/','/for-venues/','/admin/','/admin/distribution/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
 const titles=new Map();
 let eventSchemas=0;
 for(const path of paths){
@@ -57,6 +57,15 @@ for(const path of paths){
   if(staticRoutes.has(url)||staticRoutes.has(`${url.replace(/\/$/,'')}/index.html`))continue;
   const linked=await request(url);assert.ok(linked.status<400,`${path} broken internal link ${url}`);
  }
+}
+const venuePartnerships=await request('/for-venues/');
+assert.ok(venuePartnerships.body.includes('Weekly trivia and Music Bingo that give guests a reason to come back.'),'commercial venue message is present');
+assert.ok(venuePartnerships.body.includes('Owner, Charter 803 Bar &amp; Grill'),'venue partner testimonial has an actual owner attribution');
+assert.ok(!venuePartnerships.body.includes('Wedding Couple · Google 5-Star Review'),'wedding review is not misrepresented as a venue-owner testimonial');
+assert.ok(venuePartnerships.body.includes('/booking/?service=Venue%20Entertainment'),'trial night booking route is present');
+const venuesWithUpcomingPublicEvents=new Set(selectEvents(publicEvents,venues,{now:new Date()}).map(event=>event.venueId));
+for(const venue of venues.filter(venue=>venue.active && venuesWithUpcomingPublicEvents.has(venue.id))){
+ assert.ok(venuePartnerships.body.includes('/venues/'+venue.slug+'/'),'venue partnership page links current public event partner '+venue.name);
 }
 const home=await request('/');assert.ok(!home.body.includes('Marvel Trivia'),'homepage excludes expired July event');assert.ok(!home.body.includes('data-past-only'),'no duplicate hidden past status text');
 const calendar=await request('/events/');assert.ok(!calendar.body.includes('Marvel Trivia'),'calendar excludes expired July event');
