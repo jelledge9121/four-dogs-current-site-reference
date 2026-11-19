@@ -1,0 +1,168 @@
+---
+export const prerender = false;
+import Base from '../layouts/Base.astro';
+import { localToday } from '../lib/event-system';
+
+const eventDate = '2026-11-18';
+const isPast = localToday() > eventDate;
+const communitySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Four Dogs Community Awareness Nights',
+  serviceType: 'Community awareness and fundraising game nights',
+  description: 'Free-to-play hosted Trivia, Music Bingo and interactive games that help local nonprofit organizations share their missions with the community.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Four Dogs Entertainment',
+    url: 'https://4dogsentertainment.com',
+  },
+  areaServed: { '@type': 'State', name: 'South Carolina' },
+};
+---
+<Base
+  title="Community Awareness Nights | Four Dogs Entertainment"
+  description="Four Dogs Community Awareness Nights bring neighbors together for free trivia, Music Bingo and games while giving local nonprofits a chance to share their mission. Learn how to partner."
+  schema={communitySchema}
+>
+  <section class="section dark community-hero">
+    <div class="container community-hero-grid">
+      <div>
+        <p class="eyebrow">Four Dogs Entertainment · Community Awareness Nights</p>
+        <h1>A good night out can do some good.</h1>
+        <p class="lead">We believe in bringing people together. Sometimes that means more than a game. It means giving a local organization the microphone, a room full of neighbors, and a chance to tell its story.</p>
+        <div class="actions">
+          <a class="button" href="/booking/?service=Community%20Awareness%20Night">Tell us about your cause</a>
+          <a class="button secondary" href="#how-it-works">How these nights work</a>
+        </div>
+        <p class="community-hero-foot">Free to play. Local causes. Real conversations.</p>
+      </div>
+      <figure class="community-hero-photo">
+        <img
+          src="/images/optimized/home-crowd-960.webp"
+          alt="Friends playing a Four Dogs game together at a local South Carolina venue"
+          width="960"
+          height="723"
+          loading="eager"
+        />
+        <figcaption>Good neighbors are what make a good night.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section community-feature" aria-labelledby="community-feature-title">
+    <div class="container community-feature-grid">
+      <div>
+        <p class="eyebrow">{isPast ? 'Community night spotlight · November 18, 2026' : 'Tonight in Lexington · Wednesday, November 18'}</p>
+        <h2 id="community-feature-title">Boots, Beer &amp; Bingo</h2>
+        <p class="lead">A country Music Bingo night featuring <strong>Angels for the Underdogs</strong>, a Lexington nonprofit helping vulnerable dogs, including survivors of cruelty and shelter dogs in need.</p>
+        <p><strong>Charter 803 Bar &amp; Grill</strong><br/>269 Charter Oak Road, Lexington, SC 29072<br/>Wednesday, November 18, 2026 · 6:30 PM Eastern</p>
+        <p>Music Bingo and prizes are free to play. Angels for the Underdogs will share its mission, with an optional cash-only 50/50 raffle. Angels handles the raffle money and drawing directly; Four Dogs does not collect raffle funds.</p>
+        <div class="actions">
+          <a class="button" href="/events/boots-beer-and-bingo-charter-803-2026-11-18/">{isPast ? 'See the event details' : 'See tonight’s event'}</a>
+          <a class="community-text-link" href="https://savethedogs.net/" target="_blank" rel="noopener noreferrer">Learn about Angels for the Underdogs →</a>
+        </div>
+      </div>
+      <aside class="community-feature-note" aria-label="Why this cause matters">
+        <span class="community-feature-kicker">The mission behind the music</span>
+        <h3>Every dog deserves somebody in its corner.</h3>
+        <p>Angels for the Underdogs advocates for dogs facing some of the toughest circumstances and works to help them find care and safe homes.</p>
+        <p class="community-small">Want to support the cause? Visit the organization’s own website, or speak with its representatives at the event.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section alt" id="how-it-works" aria-labelledby="community-how-title">
+    <div class="container">
+      <p class="eyebrow">The idea is simple</p>
+      <h2 id="community-how-title">Good games give good causes a bigger audience.</h2>
+      <p class="community-intro">A Community Awareness Night isn't a formal gala or a high-pressure pitch. It's a regular night out with a purpose.</p>
+      <div class="community-steps">
+        <article>
+          <span class="community-step-number">01</span>
+          <h3>Come play.</h3>
+          <p>Guests join a free Four Dogs game, such as Music Bingo, trivia, or Survey Showdown. We bring the host, game materials, and prizes.</p>
+        </article>
+        <article>
+          <span class="community-step-number">02</span>
+          <h3>Meet a local cause.</h3>
+          <p>Our featured organization gets a few minutes to explain what it does and how people can help. No long presentation and no pressure.</p>
+        </article>
+        <article>
+          <span class="community-step-number">03</span>
+          <h3>Support if you can.</h3>
+          <p>Giving is optional. Any donations go directly through the organization’s own approved channels. Four Dogs does not collect donations.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="community-partner-title">
+    <div class="container community-partner-grid">
+      <div>
+        <p class="eyebrow">For local organizations</p>
+        <h2 id="community-partner-title">You bring the cause. We'll bring the Doggone Good Time.</h2>
+        <p>Animal rescues, school groups, booster clubs, youth sports, service organizations, and other nonprofits all have stories worth hearing.</p>
+        <p>For selected Community Awareness Nights, Four Dogs donates its hosting, game materials, and prizes. There's no charge to the featured nonprofit, and guests play for free. We work with participating venues to find an evening that makes sense for everyone.</p>
+        <p>These evenings are about awareness and connection first. Donations, raffles, and other fundraising details are organized with the nonprofit and venue separately. No restaurant sales contribution is assumed.</p>
+      </div>
+      <div class="community-partner-box">
+        <h3>Have an organization in mind?</h3>
+        <p>Tell us who you're helping, what they do, and where you'd like to bring people together. We’ll talk through the idea and see whether there's a venue and date that fit.</p>
+        <a class="button" href="/booking/?service=Community%20Awareness%20Night">Suggest a community night</a>
+        <p class="community-small">Sending an inquiry starts a conversation. It doesn't guarantee a date or confirm a booking.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark community-bottom">
+    <div class="container">
+      <p class="eyebrow">Locally owned. Community minded.</p>
+      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
+      <p>Know a local organization that deserves a little more attention? Send them this page or introduce us.</p>
+      <div class="actions">
+        <a class="button" href="/booking/?service=Community%20Awareness%20Night">Start the conversation</a>
+        <a class="button secondary" href="/events/">See upcoming game nights</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .community-hero { padding-block: clamp(3.5rem, 7vw, 6.5rem); }
+  .community-hero-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); align-items:center; gap:clamp(2rem,5vw,5rem); }
+  .community-hero h1 { max-width:780px; font-size:clamp(3rem,6.4vw,5.5rem); }
+  .community-hero .lead { max-width:630px; line-height:1.6; }
+  .community-hero-foot { color:#d6e0e8; font-weight:700; letter-spacing:.02em; margin-top:2rem; }
+  .community-hero-photo { margin:0; }
+  .community-hero-photo img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:5px; }
+  .community-hero-photo figcaption { color:#d5dce7; font-size:.85rem; padding-top:.75rem; }
+  .community-feature { border-bottom:1px solid #e3e8ee; }
+  .community-feature-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(250px,.75fr); align-items:center; gap:clamp(2rem,6vw,6rem); }
+  .community-feature h2 { margin-bottom:.45em; }
+  .community-feature .lead { max-width:760px; }
+  .community-text-link { align-self:center; font-weight:800; }
+  .community-feature-note { background:#f2f0e8; border-left:6px solid #29c4dc; padding:clamp(1.5rem,4vw,2.6rem); }
+  .community-feature-note h3 { font-size:clamp(1.7rem,3vw,2.5rem); margin-top:.6rem; }
+  .community-feature-kicker { text-transform:uppercase; font-size:.72rem; letter-spacing:.14em; font-weight:900; }
+  .community-small { font-size:.89rem; line-height:1.55; }
+  .community-intro { max-width:650px; font-size:1.15rem; margin-bottom:2rem; }
+  .community-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1.5rem,3vw,3rem); }
+  .community-steps article { border-top:2px solid #0c0f26; padding-top:1.2rem; }
+  .community-step-number { display:block; font-weight:900; font-size:.86rem; color:#48536a; letter-spacing:.1em; margin-bottom:1.5rem; }
+  .community-partner-grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr); gap:clamp(2rem,6vw,6rem); align-items:center; }
+  .community-partner-grid>div:first-child { max-width:740px; }
+  .community-partner-box { padding:clamp(1.5rem,4vw,3rem); background:#0c0f26; color:#fff; border-top:6px solid #29c4dc; }
+  .community-partner-box h3 { font-size:clamp(1.7rem,3vw,2.3rem); }
+  .community-partner-box .button { margin-top:.6rem; }
+  .community-partner-box .community-small { color:#d5dce7; }
+  .community-bottom { text-align:center; }
+  .community-bottom h2 { max-width:850px; margin-inline:auto; }
+  .community-bottom .actions { justify-content:center; }
+  @media(max-width:800px) {
+    .community-hero-grid,.community-feature-grid,.community-partner-grid { grid-template-columns:1fr; }
+    .community-hero-photo img { aspect-ratio:16/10; }
+    .community-steps { grid-template-columns:1fr; gap:2rem; }
+    .community-step-number { margin-bottom:.8rem; }
+    .community-hero h1 { font-size:clamp(2.8rem,11vw,4.8rem); }
+  }
+</style>
