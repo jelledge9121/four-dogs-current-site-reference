@@ -342,14 +342,14 @@ export const localSeoPages: LocalSeoPage[] = [
   },
   {
     slug: 'corporate-event-entertainment-columbia-sc',
-    title: 'Corporate Event Entertainment in Columbia SC | Four Dogs',
-    description: 'Four Dogs Entertainment provides hosted corporate event entertainment in Columbia, South Carolina including Music Bingo, trivia, DJ entertainment, and interactive game formats.',
+    title: 'Corporate Entertainment in Columbia SC | Games, DJs & Trivia',
+    description: 'Planning a company party or team event in Columbia, SC? Book Four Dogs for hosted trivia, Music Bingo, interactive game shows and DJ entertainment.',
     eyebrow: 'Columbia corporate events',
     h1: 'Corporate Event Entertainment in Columbia, SC',
-    lead: 'Interactive entertainment that gives coworkers and guests something to participate in together.',
+    lead: 'Trade another ordinary company gathering for games, music, and a reason for everyone to get involved.',
     intro: [
       'Four Dogs provides entertainment for Columbia businesses and organizations through hosted Trivia, Music Bingo, DJ events, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, and other compatible formats.',
-      'Programming can be selected around the size of the group, venue, event purpose, desired level of participation, and how structured or casual the event should feel.',
+      'We help match the entertainment to your people, venue, timeline, and whether you want a low-pressure mixer, team competition, or a DJ-led celebration. Tell us your date and group size to start a booking conversation.',
     ],
     highlights: ['Team-based interactive entertainment', 'Trivia and Music Bingo', 'DJ entertainment', 'Survey Showdown and Barstool formats', 'Professional hosting and event coordination'],
     faqs: [
@@ -357,9 +357,10 @@ export const localSeoPages: LocalSeoPage[] = [
       { question: 'What works well for groups that do not want a dance floor?', answer: 'Trivia, Music Bingo, Survey Showdown, and Are You Smarter Than a Barstool? are participation-focused alternatives to a traditional DJ-only event.' },
       { question: 'Can the entertainment be adapted to our group?', answer: 'Yes. The format and event plan can be selected around the audience, venue, timing, and event goals.' },
     ],
-    bookingValue: 'Private Event',
+    bookingValue: 'Corporate Event',
     relatedLinks: [
       { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
+      { label: 'Music Bingo for corporate groups', href: '/services/music-bingo/' },
       { label: 'Columbia entertainment', href: '/areas/columbia-sc/' },
       { label: 'Four Dogs Survey Showdown', href: '/services/four-dogs-survey-showdown/' },
       { label: 'Book Four Dogs', href: '/booking/' },
