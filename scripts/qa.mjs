@@ -34,5 +34,6 @@ const confirmation=fs.readFileSync(path.join(root,'thank-you','index.html'),'utf
 if(!confirmation.includes('name="robots" content="noindex,follow"'))errors.push('booking confirmation must not be indexed');
 const sitemap=fs.readFileSync(path.join(root,'sitemap-0.xml'),'utf8');
 if(sitemap.includes('/thank-you/')||sitemap.includes('/admin/'))errors.push('sitemap includes a confirmation or admin URL');
+if(!sitemap.includes('https://4dogsentertainment.com/for-venues/'))errors.push('venue partnership page is missing from the XML sitemap');
 if(errors.length){console.error([...new Set(errors)].join('\n'));process.exit(1);}
 console.log(`Static QA passed: ${htmlFiles.length} pages; metadata, links/assets, discovery files, and original Netlify booking form verified. Dynamic routes are checked separately by SSR QA.`);
