@@ -7,14 +7,14 @@
   "venueId": "charter-803",
   "eventType": "Music Bingo",
   "theme": "Boots, Beer and Bingo",
-  "shortDescription": "Boots, Beer and Bingo with Four Dogs Entertainment at Charter 803 Bar & Grill.",
-  "description": "Bring your people to Charter 803 Bar & Grill for Boots, Beer and Bingo with Four Dogs Entertainment. Listen for songs, mark your card, and join the Music Bingo fun.",
+  "shortDescription": "Free country Music Bingo and prizes featuring Angels for the Underdogs at Charter 803, with an optional cash-only 50/50 raffle run by Angels.",
+  "description": "Come out for Boots, Beer and Bingo, a Four Dogs Community Awareness Night featuring Angels for the Underdogs. Enjoy free-to-play country Music Bingo and prizes while meeting a Lexington nonprofit that advocates for vulnerable dogs. Representatives will share their mission and invite guests to support their work. An optional cash-only 50/50 raffle is handled entirely by Angels for the Underdogs; Four Dogs does not collect raffle money.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-18T13:37:28.399718Z",
+  "lastUpdated": "2026-11-19T00:12:20.507Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -22,6 +22,7 @@
     "currency": "USD",
     "note": "Free admission."
   },
-  "instructions": "Contact the venue for seating or participation details. Food and drinks are purchased separately.",
-  "ticketed": false
+  "instructions": "Free to play. Food and drinks are purchased separately. The optional cash-only 50/50 raffle is run directly by Angels for the Underdogs. Contact Charter 803 for seating details.",
+  "ticketed": false,
+  "metaDescription": "Boots, Beer and Bingo at Charter 803, Lexington, November 18 at 6:30 PM. Free Music Bingo, Angels for the Underdogs spotlight and optional cash-only raffle."
 }
