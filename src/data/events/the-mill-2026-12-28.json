@@ -1,0 +1,26 @@
+{
+  "image": "/images/gallery/four-dogs-trivia-guest-at-table.webp",
+  "imageAlt": "Guests working together during a Four Dogs Trivia night",
+  "featured": false,
+  "status": "scheduled",
+  "visibility": "public",
+  "publicationStatus": "published",
+  "lastUpdated": "2026-11-19T14:00:00Z",
+  "admission": {
+    "kind": "unknown"
+  },
+  "instructions": "Contact the venue for seating, admission, and participation details.",
+  "id": "the-mill-2026-12-28",
+  "slug": "best-of-2026-trivia-the-mill-2026-12-28",
+  "title": "Best of 2026 Trivia",
+  "theme": "Best of 2026 Trivia",
+  "date": "2026-12-28",
+  "startTime": "7:00 PM",
+  "endTime": "9:00 PM",
+  "venueId": "the-mill",
+  "eventType": "Trivia",
+  "shortDescription": "Look back at the unforgettable moments of 2026 with Four Dogs Trivia at The Mill in Fountain Inn.",
+  "description": "What do you remember from 2026? Bring your crew to The Mill at Fountain Inn for Best of 2026 Trivia. Revisit memorable moments from the year, compare answers with your teammates, and see how much you can recall.",
+  "seoTitle": "Best of 2026 Trivia | The Mill Fountain Inn SC | December 28 | Four Dogs",
+  "metaDescription": "Join Four Dogs for Best of 2026 Trivia at The Mill in Fountain Inn, SC on Monday, December 28, 2026, at 7:00 PM."
+}
