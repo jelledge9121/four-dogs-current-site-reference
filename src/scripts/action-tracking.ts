@@ -10,8 +10,8 @@ document.addEventListener('click',event=>{
   if(!anchor)return;
   const url=new URL(anchor.href,location.href);
   if(url.origin===location.origin && url.pathname.startsWith('/events/') && !['/events/','/events/feed.json'].includes(url.pathname) && !url.pathname.includes('/category/'))record('event_details',url.pathname);
-  else if(url.origin===location.origin && url.pathname==='/booking/')record('booking_inquiry',url.pathname);
+  else if(url.origin===location.origin && url.pathname==='/booking/')record('booking_form_open',url.pathname);
   else if(anchor.closest('.event-detail-hero') && url.origin!==location.origin)record('attendance_action',url.hostname);
 });
-document.querySelector<HTMLFormElement>('form[name="booking"]')?.addEventListener('submit',()=>record('booking_submit','/thank-you/'));
+document.querySelector<HTMLFormElement>('form[name="booking"]')?.addEventListener('submit',()=>record('booking_submission_attempt','/booking/'));
 export {};
