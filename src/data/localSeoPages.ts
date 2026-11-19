@@ -48,14 +48,14 @@ export const localSeoPages: LocalSeoPage[] = [
   },
   {
     slug: 'trivia-night-columbia-sc',
-    title: 'Trivia Night Hosting in Columbia SC | Four Dogs Entertainment',
-    description: 'Four Dogs Entertainment hosts trivia nights in Columbia, South Carolina for restaurants, bars, private events, companies, communities, and special events.',
+    title: 'Trivia Host for Columbia SC Restaurants & Events | Four Dogs',
+    description: 'Book a trivia host for Columbia, SC restaurants, bars and private events. Four Dogs runs general and themed trivia with professional hosting, scoring and venue promotion.',
     eyebrow: 'Columbia trivia',
-    h1: 'Trivia Night Hosting in Columbia, SC',
-    lead: 'Interactive trivia for Columbia venues and events, hosted with the pacing and personality that keep a room involved.',
+    h1: 'Trivia Hosting for Columbia, SC Restaurants & Events',
+    lead: 'A trivia host who brings the questions, runs the game, and keeps your guests involved. Available for regular venue nights and one-time events.',
     intro: [
-      'Four Dogs Entertainment provides hosted trivia and game-night entertainment throughout Columbia for restaurants, bars, businesses, private events, and community gatherings, with statewide availability across South Carolina.',
-      'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check the event calendar for confirmed dates and times. Check the Events page for the latest public schedule and themes.',
+      'Four Dogs runs general knowledge, themed trivia, and specialty team games for restaurants, bars, businesses, and private gatherings around Columbia and Lexington. We handle the host, questions, scoring, pacing, and entertainment setup.',
+      'See Four Dogs in action at Top Dawg Tavern at Village at Sandhill in Columbia or at Charter 803 Bar & Grill in Lexington. Dates and formats change, so check the official event calendar before you go.',
     ],
     highlights: [
       'General knowledge and themed trivia',
@@ -65,13 +65,15 @@ export const localSeoPages: LocalSeoPage[] = [
       'Rotating Four Dogs specialty game formats',
     ],
     faqs: [
-      { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Top Dawg Tavern at Village at Sandhill hosts Four Dogs trivia and rotating game experiences. Check the event calendar for confirmed dates and times. Check the Events page for current details.' },
-      { question: 'Can a Columbia restaurant book Four Dogs trivia?', answer: 'Yes. Four Dogs works with venue partners on recurring hosted entertainment and can also produce one-time events.' },
+      { question: 'Where can I play Four Dogs trivia in Columbia?', answer: 'Check the official event calendar for confirmed trivia and themed games at Top Dawg Tavern at Village at Sandhill and other current Four Dogs events in the Midlands.' },
+      { question: 'Can a Columbia restaurant book Four Dogs trivia?', answer: 'Yes. We can discuss a recurring weekly night or a trial event. Four Dogs provides hosting, games, scoring, and promotional support; the venue focuses on its guests and service.' },
       { question: 'Can trivia be customized for a private group?', answer: 'Yes. The format can be selected or adapted to fit the audience, event type, and setting.' },
     ],
     bookingValue: 'Trivia',
     relatedLinks: [
       { label: 'Explore Trivia', href: '/services/trivia/' },
+      { label: 'Try a trivia night at your venue', href: '/for-venues/' },
+      { label: 'Find local trivia nights', href: '/trivia-nights-columbia-lexington-sc/' },
       { label: 'Columbia entertainment', href: '/areas/columbia-sc/' },
       { label: 'Top Dawg Tavern events', href: '/venues/top-dawg-tavern-sandhills-trivia-columbia-sc/' },
       { label: 'Find an event', href: '/events/' },
