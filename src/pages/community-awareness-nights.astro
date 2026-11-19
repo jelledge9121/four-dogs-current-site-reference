@@ -1,10 +1,6 @@
 ---
-export const prerender = false;
 import Base from '../layouts/Base.astro';
-import { localToday } from '../lib/event-system';
 
-const eventDate = '2026-11-18';
-const isPast = localToday() > eventDate;
 const communitySchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -52,13 +48,13 @@ const communitySchema = {
   <section class="section community-feature" aria-labelledby="community-feature-title">
     <div class="container community-feature-grid">
       <div>
-        <p class="eyebrow">{isPast ? 'Community night spotlight · November 18, 2026' : 'Tonight in Lexington · Wednesday, November 18'}</p>
+        <p class="eyebrow">Community night spotlight · Wednesday, November 18, 2026</p>
         <h2 id="community-feature-title">Boots, Beer &amp; Bingo</h2>
         <p class="lead">A country Music Bingo night featuring <strong>Angels for the Underdogs</strong>, a Lexington nonprofit helping vulnerable dogs, including survivors of cruelty and shelter dogs in need.</p>
         <p><strong>Charter 803 Bar &amp; Grill</strong><br/>269 Charter Oak Road, Lexington, SC 29072<br/>Wednesday, November 18, 2026 · 6:30 PM Eastern</p>
         <p>Music Bingo and prizes are free to play. Angels for the Underdogs will share its mission, with an optional cash-only 50/50 raffle. Angels handles the raffle money and drawing directly; Four Dogs does not collect raffle funds.</p>
         <div class="actions">
-          <a class="button" href="/events/boots-beer-and-bingo-charter-803-2026-11-18/">{isPast ? 'See the event details' : 'See tonight’s event'}</a>
+          <a class="button" href="/events/boots-beer-and-bingo-charter-803-2026-11-18/">See the event details</a>
           <a class="community-text-link" href="https://savethedogs.net/" target="_blank" rel="noopener noreferrer">Learn about Angels for the Underdogs →</a>
         </div>
       </div>
