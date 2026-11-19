@@ -44,23 +44,24 @@ const details: Record<string, ServiceDetail> = {
   },
   'music-bingo': {
     title: 'Music Bingo in South Carolina, North Carolina & Georgia | Four Dogs',
-    description: 'Four Dogs Entertainment provides hosted Music Bingo for bars, restaurants, private events, companies, communities, and celebrations across South Carolina, North Carolina, and Georgia.',
+    description: 'Find Four Dogs Music Bingo near Columbia, Lexington, Cayce and West Columbia, SC. Book hosted Music Bingo for restaurants, parties, teams and corporate events across SC, NC and GA.',
     intro: [
       'Music Bingo turns recognizable songs into a social game that is easy for first-time players to understand and fun for groups to play together.',
-      'Four Dogs rotates music themes and keeps the room moving with a professional host, structured rounds, and an approachable format that works for public venue nights and private events.',
+      'A Four Dogs host plays the music, leads the rounds, and keeps the game moving while guests match songs to their cards. We plan themes around the room, from throwback playlists to crowd favorites, and bring the game materials for public or private events.',
     ],
     audiences: ['Bars and restaurants', 'Private parties', 'Companies and organizations', 'Community events', 'Mixed-age adult groups', 'Recurring venue nights'],
     includes: ['Hosted Music Bingo rounds', 'Curated music themes', 'Game materials and pacing', 'Recurring or one-time event options', 'Promotional support for venue partners'],
     faqs: [
-      { question: 'Where can I play Four Dogs Music Bingo?', answer: 'Charter 803 Bar & Grill in Lexington currently hosts recurring Four Dogs Music Bingo on Wednesdays at 6:30 PM. Check the Events page for current public dates and themes.' },
+      { question: 'Where can I play Four Dogs Music Bingo?', answer: 'Recent public Music Bingo events have included Charter 803 in Lexington, Boze’s in West Columbia, WesCo in Cayce, and Top Dawg Tavern in Columbia. Dates and formats change, so check the confirmed event calendar for the next Music Bingo night.' },
       { question: 'Do players need strong music knowledge?', answer: 'No. The format is designed to be approachable. Players listen for songs and match them to their game cards.' },
       { question: 'Can Music Bingo be booked privately?', answer: 'Yes. Four Dogs offers Music Bingo for private, company, community, and other hosted events in South Carolina, North Carolina, and Georgia.' },
     ],
     related: [
       { label: 'Music Bingo in Lexington', href: '/music-bingo-lexington-sc/' },
       { label: 'Music Bingo in Columbia', href: '/music-bingo-columbia-sc/' },
-      { label: 'Upcoming events', href: '/events/' },
-      { label: 'For venue owners', href: '/for-venues/' },
+      { label: 'Confirmed Music Bingo dates', href: '/events/category/music-bingo/' },
+      { label: 'For restaurant and bar owners', href: '/for-venues/' },
+      { label: 'Book a Music Bingo event', href: '/booking/?service=Music%20Bingo' },
     ],
     reviewId: 'angela-music-bingo-guest',
   },
@@ -276,9 +277,23 @@ const faqSchema = {
   <section class="section">
     <div class="container split">
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={service.slug === 'karaoke' ? '/images/gallery/four-dogs-karaoke-wesco-host-on-mic.webp' : ['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'karaoke' ? 'Four Dogs karaoke host singing on the outdoor patio at WesCo Brew and Bowl in Cayce' : service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} loading="lazy" />
+      <img src={service.slug === 'music-bingo' ? '/images/gallery/music-bingo-charter-friends.webp' : service.slug === 'karaoke' ? '/images/gallery/four-dogs-karaoke-wesco-host-on-mic.webp' : ['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'music-bingo' ? 'Four friends together at a Four Dogs Music Bingo night with the song display visible at the venue' : service.slug === 'karaoke' ? 'Four Dogs karaoke host singing on the outdoor patio at WesCo Brew and Bowl in Cayce' : service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} width={service.slug === 'music-bingo' ? 960 : undefined} height={service.slug === 'music-bingo' ? 720 : undefined} loading="lazy" decoding="async" />
     </div>
   </section>
+
+  {service.slug === 'music-bingo' && (
+    <section class="section alt">
+      <div class="container">
+        <h2>Find a game night or bring Music Bingo to your place.</h2>
+        <p>Looking for a night out? Our live Music Bingo calendar lists confirmed venues, themes, and start times. Planning a restaurant night, team outing, or private party? Tell us about your group and we’ll discuss the right format.</p>
+        <div class="actions">
+          <a class="button" href="/events/category/music-bingo/">See confirmed Music Bingo dates</a>
+          <a class="button secondary" href="/booking/?service=Music%20Bingo">Request Music Bingo for your group</a>
+          <a href="/for-venues/">Own or manage a venue? Explore a trial night →</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="section alt">
     <div class="container">
