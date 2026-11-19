@@ -1,26 +1,26 @@
 {
-  "image": "/images/gallery/music-bingo-group-family.webp",
-  "imageAlt": "A group enjoying a Four Dogs Music Bingo event",
+  "image": "/images/gallery/four-dogs-trivia-guest-at-table.webp",
+  "imageAlt": "Guests working together during a Four Dogs Trivia night",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-11-18T18:00:00Z",
+  "lastUpdated": "2026-11-19T13:57:26.809Z",
   "admission": {
     "kind": "unknown"
   },
   "instructions": "Contact the venue for seating, admission, and participation details.",
   "id": "charter-803-2026-12-23",
-  "slug": "music-bingo-charter-803-2026-12-23",
-  "title": "Music Bingo at Charter 803",
-  "theme": "Music Bingo",
+  "slug": "seinfeld-trivia-a-festivus-for-the-rest-of-us-charter-803-2026-12-23",
+  "title": "Seinfeld Trivia: A Festivus for the Rest of Us!",
+  "theme": "Seinfeld Trivia: A Festivus for the Rest of Us!",
   "date": "2026-12-23",
   "startTime": "6:30 PM",
   "endTime": "8:30 PM",
   "venueId": "charter-803",
-  "eventType": "Music Bingo",
-  "shortDescription": "A Wednesday Music Bingo night at Charter 803 Bar & Grill in Lexington.",
-  "description": "Join Four Dogs at Charter 803 for Music Bingo. Listen to song clips, mark the songs that appear on your card, and play along with your table. Bring your people for a relaxed night of music and friendly competition.",
-  "seoTitle": "Music Bingo at Charter 803 | December 23, 2026 | Four Dogs",
-  "metaDescription": "Play Music Bingo with Four Dogs at Charter 803 Bar & Grill in Lexington on Wednesday, December 23, 2026 at 6:30 PM Eastern."
+  "eventType": "Trivia",
+  "shortDescription": "Celebrate Festivus on December 23 with Seinfeld Trivia at Charter 803. Bring your team for a night of Costanza family chaos and classic moments from the show.",
+  "description": "It's a Festivus for the rest of us! Join Four Dogs Entertainment at Charter 803 for Seinfeld Trivia on December 23, the actual date of Festivus. Bring your team and test your knowledge of Jerry, George, Elaine, Kramer, the Costanzas, the Airing of Grievances, the Feats of Strength, and plenty of unforgettable moments from the show.",
+  "seoTitle": "Seinfeld Festivus Trivia | Charter 803 Lexington SC | Dec 23, 2026 | Four Dogs",
+  "metaDescription": "Celebrate Festivus with Seinfeld Trivia at Charter 803 Bar & Grill in Lexington, SC on Wednesday, December 23, 2026 at 6:30 PM. Hosted by Four Dogs."
 }
