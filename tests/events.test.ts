@@ -245,7 +245,7 @@ test('December calendar contains the approved public lineup without duplicates o
   ['wesco','2026-12-29','New Year’s Party Hits Music Bingo'],
   ['bozes','2026-12-02','Welcome Winter Music Bingo'],
   ['charter-803','2026-12-02','Justin Bieber & Friends Music Bingo'],
-  ['charter-803','2026-12-23','Music Bingo at Charter 803'],
+  ['charter-803','2026-12-23','Seinfeld Trivia: A Festivus for the Rest of Us!'],
   ['charter-803','2026-12-30','Countdown to Midnight Music Bingo'],
   ['charter-803','2026-12-10','Doggone Pricey'],
   ['the-mill','2026-12-21','Are You Smarter Than a Barstool? Christmas Edition'],
@@ -254,7 +254,12 @@ test('December calendar contains the approved public lineup without duplicates o
  assert.ok(!december.some(e=>e.date==='2026-12-19'));
  assert.ok(!december.some(e=>['2026-12-24','2026-12-31'].includes(e.date)));
  const charter=december.find(e=>e.venueId==='charter-803'&&e.date==='2026-12-23')!;
- assert.equal(charter.theme,'Music Bingo');
+ assert.equal(charter.theme,'Seinfeld Trivia: A Festivus for the Rest of Us!');
+ assert.equal(charter.eventType,'Trivia');
+ const redirectText=fs.readFileSync('public/_redirects','utf8');
+ for(const suffix of ['', '/']){
+  assert.ok(redirectText.includes(`/events/music-bingo-charter-803-2026-12-23${suffix} /events/${charter.slug}/ 301`));
+ }
  assert.doesNotMatch(charter.title,/TBD|Disney|Christmas/i);
 });
 
