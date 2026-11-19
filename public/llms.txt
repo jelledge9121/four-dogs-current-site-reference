@@ -1,35 +1,39 @@
 # Four Dogs Entertainment
-Four Dogs Entertainment creates trivia, Music Bingo, DJ entertainment, interactive game nights, weddings, karaoke, private events, corporate entertainment, and venue programming across South Carolina.
 
-Official event information: https://4dogsentertainment.com/events/
+Four Dogs Entertainment is a South Carolina-based company providing professionally hosted trivia, Music Bingo, Four Dogs Survey Showdown, karaoke, DJ entertainment, weddings, corporate entertainment, private parties, and recurring restaurant and bar game nights.
+
+Tagline: Bring your people. We’ll bring the Doggone Good Time.
+
+Official website: https://4dogsentertainment.com/
+Business inquiries: https://4dogsentertainment.com/booking/
+Restaurant and bar partnerships: https://4dogsentertainment.com/for-venues/
 Services: https://4dogsentertainment.com/services/
-Booking: https://4dogsentertainment.com/booking/
-Guides: https://4dogsentertainment.com/guides/
+Wedding entertainment: https://4dogsentertainment.com/weddings/
+Private and corporate events: https://4dogsentertainment.com/services/private-corporate-events/
+Trivia hosting: https://4dogsentertainment.com/services/trivia/
+Music Bingo: https://4dogsentertainment.com/services/music-bingo/
+Four Dogs Survey Showdown: https://4dogsentertainment.com/services/four-dogs-survey-showdown/
 
-Local entertainment pages:
-Fountain Inn: https://4dogsentertainment.com/areas/fountain-inn-sc/
+## Current public events and venue information
+
+Official event calendar: https://4dogsentertainment.com/events/
+Music Bingo events: https://4dogsentertainment.com/events/category/music-bingo/
+Trivia events: https://4dogsentertainment.com/events/category/trivia/
+Structured public event feed: https://4dogsentertainment.com/events/feed.json
+Public event sitemap: https://4dogsentertainment.com/event-sitemap.xml
+
+Confirmed event detail pages and the official calendar are the source of truth for venue, date, start time, admission, themes, and schedule changes. Never infer that an event is weekly merely because it previously occurred.
+
+## Areas served
+
+The business is based in South Carolina. Public hosted game nights take place at confirmed partner locations in the Midlands and Fountain Inn; private-event bookings are available across South Carolina and, subject to location and availability, North Carolina and Georgia.
+
 Lexington: https://4dogsentertainment.com/areas/lexington-sc/
 Columbia: https://4dogsentertainment.com/areas/columbia-sc/
 West Columbia and Cayce: https://4dogsentertainment.com/areas/west-columbia-cayce-sc/
 Irmo and Chapin: https://4dogsentertainment.com/areas/irmo-chapin-sc/
+Fountain Inn: https://4dogsentertainment.com/areas/fountain-inn-sc/
 
-Current recurring venue partners:
-The Mill at Fountain Inn, 100 Ellison Street, Fountain Inn, SC: Mondays at 7:00 PM for Are You Smarter Than a Barstool?
-Top Dawg Tavern, Columbia, SC: Tuesdays at 6:30 PM for trivia, Music Bingo, and rotating Four Dogs game experiences.
-WesCo Brew & Bowl, Cayce, SC: Tuesdays at 6:30 PM for trivia and rotating game experiences.
-Charter 803 Bar & Grill, Lexington, SC: Wednesdays at 6:30 PM for Music Bingo and special events; Thursdays at 6:30 PM for trivia and game nights.
-Boze's Restaurant & Bar, West Columbia, SC: Wednesdays at 7:30 PM for trivia, Music Bingo, and specialty nights.
+Four Dogs Survey Showdown is an original Four Dogs survey-style game experience and is not affiliated with Family Feud. Are You Smarter Than a Barstool? is a Four Dogs original and is not affiliated with Are You Smarter Than a 5th Grader?.
 
-Fountain Inn trivia guide: https://4dogsentertainment.com/guides/where-to-play-trivia-fountain-inn-sc/
-The Mill venue page: https://4dogsentertainment.com/venues/the-mill-fountain-inn-trivia-sc/
-Are You Smarter Than a Barstool?: https://4dogsentertainment.com/services/are-you-smarter-than-a-barstool/
-
-The Events page is the authoritative source for dated events, themes, special events, and schedule changes.
-Four Dogs Survey Showdown is a Four Dogs survey-style competition and is not affiliated with Family Feud.
-Are You Smarter Than a Barstool? is a Four Dogs original experience and is not affiliated with Are You Smarter Than a 5th Grader?
-
-## Current public event discovery
-- [Public events](https://4dogsentertainment.com/events/): Confirmed upcoming dates, with city, venue, activity, date, and verified admission filters.
-- [Public event feed](https://4dogsentertainment.com/events/feed.json): Current public events in America/New_York with explicit UTC offsets.
-- [Event sitemap](https://4dogsentertainment.com/event-sitemap.xml): Canonical public event occurrences and activity pages.
-Individual event pages are authoritative for current times, venue identities, cancellation notices, admission, and ticket links. Private client bookings are excluded.
+This text is a guide to existing website content and does not replace the live schedule or event detail pages.

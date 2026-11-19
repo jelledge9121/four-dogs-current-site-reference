@@ -98,6 +98,43 @@ async def main():
                 await page.wait_for_timeout(250)
                 await page.screenshot(path=f"qa-screenshots/{name}.png", full_page=True)
                 print(f"PASS {name}: {width}x{height}, menu, content, image, event, scroll reveal, no overflow")
+                # Verify the commercial pages at phone, tablet, and desktop sizes.
+                venue_response = await page.goto(BASE + "/for-venues/", wait_until="domcontentloaded")
+                assert venue_response is not None and venue_response.status == 200, (name, "venue partnerships response")
+                assert await page.locator("main h1").count() == 1, (name, "venue H1")
+                assert "Weekly trivia and Music Bingo" in await page.locator("main h1").inner_text()
+                assert await page.locator('main a[href="/booking/?service=Venue%20Entertainment"]').count() >= 1
+                assert "Owner, Charter 803 Bar & Grill" in await page.locator("main").inner_text(), (name, "venue owner attribution")
+                assert "Wedding Couple" not in await page.locator("main").inner_text(), (name, "incorrect wedding attribution")
+                venue_image = page.locator('main img[src*="home-crowd-960"]').first
+                await venue_image.scroll_into_view_if_needed()
+                assert await venue_image.evaluate("(img) => img.complete && img.naturalWidth > 0"), (name, "authentic venue photo")
+                venue_overflow = await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+                assert venue_overflow <= 1, (name, "venue horizontal overflow", venue_overflow)
+                if name in ("iphone-medium", "desktop"):
+                    await page.screenshot(path=f"qa-screenshots/{name}-venues.png", full_page=True)
+
+                bingo_response = await page.goto(BASE + "/services/music-bingo/", wait_until="domcontentloaded")
+                assert bingo_response is not None and bingo_response.status == 200, (name, "Music Bingo response")
+                assert await page.locator("main h1").inner_text() == "Music Bingo", (name, "Music Bingo heading")
+                assert await page.locator('main a[href="/events/category/music-bingo/"]').count() >= 1
+                assert await page.locator('main a[href="/booking/?service=Music%20Bingo"]').count() >= 1
+                bingo_image = page.locator('main img[src*="music-bingo-charter-friends"]').first
+                await bingo_image.scroll_into_view_if_needed()
+                assert await bingo_image.evaluate("(img) => img.complete && img.naturalWidth > 0"), (name, "authentic Music Bingo photo")
+                bingo_overflow = await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+                assert bingo_overflow <= 1, (name, "Music Bingo horizontal overflow", bingo_overflow)
+                if name in ("iphone-medium", "desktop"):
+                    await page.screenshot(path=f"qa-screenshots/{name}-music-bingo.png", full_page=True)
+
+                # Verify that booking preselection reaches the real registered form without submitting.
+                booking_response = await page.goto(BASE + "/booking/?service=Venue%20Entertainment", wait_until="domcontentloaded")
+                assert booking_response is not None and booking_response.status == 200, (name, "booking response")
+                assert await page.locator('form[name="booking"] select[name="service"]').input_value() == "Venue Entertainment", (name, "venue booking preselection")
+                await page.goto(BASE + "/booking/?service=Corporate%20Event", wait_until="domcontentloaded")
+                assert await page.locator('form[name="booking"] select[name="service"]').input_value() == "Corporate Event", (name, "corporate booking preselection")
+                print(f"PASS {name}: venue owner proof, venue/Music Bingo images and CTAs, responsive overflow, booking preselection")
+
                 # Check the revised public event across the same phone, tablet, and desktop widths.
                 event_path = "/events/the-reunion-the-ultimate-reality-tv-trivia-night-charter-803-2026-11-05/"
                 event_response = await page.goto(BASE + event_path, wait_until="domcontentloaded")

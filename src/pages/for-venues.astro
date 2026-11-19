@@ -1,38 +1,52 @@
 ---
+export const prerender = false;
 import Base from '../layouts/Base.astro';
 import ReviewCard from '../components/ReviewCard.astro';
-import { featuredReviews } from '../data/reviews';
+import { venueOwnerReview } from '../data/reviews';
 import { venues } from '../data/venues';
-const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedule.length > 0);
+import { upcomingEvents } from '../data/events';
+
+const upcomingVenueIds = new Set(upcomingEvents().map((event) => event.venueId));
+const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
+const formats = [
+  { name: 'Trivia nights', details: 'General knowledge and themed rounds with a host who keeps teams involved.', href: '/services/trivia/' },
+  { name: 'Music Bingo', details: 'Recognizable songs, rotating themes, and a game people can pick up quickly.', href: '/services/music-bingo/' },
+  { name: 'Survey Showdown', details: 'An interactive team competition built around popular survey answers.', href: '/services/four-dogs-survey-showdown/' },
+  { name: 'Are You Smarter Than a Barstool?', details: 'A playful school-subject challenge and a change of pace from traditional trivia.', href: '/services/are-you-smarter-than-a-barstool/' },
+];
 ---
-<Base title="Bar & Restaurant Entertainment in SC, NC & GA | Four Dogs" description="Four Dogs Entertainment provides recurring trivia, Music Bingo, and interactive game nights for bars, restaurants, breweries, and entertainment venues in South Carolina, North Carolina, and Georgia.">
+<Base title="Trivia & Music Bingo for Restaurants in Columbia, SC | Four Dogs" description="Looking for a trivia host or Music Bingo partner? Four Dogs helps restaurants and bars in Columbia, Lexington and the Midlands run recurring game nights with hosting, games and promotional support. Ask about a trial night.">
   <section class="section dark">
     <div class="container">
-      <p class="eyebrow">For bars & restaurants</p>
-      <h1>People come back to places where they feel connected.</h1>
-      <p class="lead">Four Dogs helps venues across South Carolina, North Carolina, and Georgia create recurring nights worth putting on the calendar.</p>
-      <a class="button" href="/booking/?service=Venue%20Entertainment">Ask about a test night</a>
+      <p class="eyebrow">For restaurant & bar owners</p>
+      <h1>Weekly trivia and Music Bingo that give guests a reason to come back.</h1>
+      <p class="lead">A dependable host, well-run games, and help getting the word out. Four Dogs partners with restaurants and bars in Columbia, Lexington, and across the South Carolina Midlands.</p>
+      <div class="actions">
+        <a class="button" href="/booking/?service=Venue%20Entertainment">Ask about a trial night</a>
+        <a class="button secondary" href="/events/">See our games in action</a>
+      </div>
+      <p class="fine">No need to have every detail figured out. Tell us about your venue and the night you have in mind.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container split">
       <div>
-        <p class="eyebrow">Why it works</p>
-        <h2>Give guests a reason to return.</h2>
-        <p>A recurring hosted experience gives people something to anticipate, talk about, and bring friends back to without asking your team to become entertainers.</p>
+        <p class="eyebrow">More than a person with a microphone</p>
+        <h2>We handle the entertainment so you can run your restaurant.</h2>
+        <p>We plan the format, bring a professional host, run the rounds, manage scoring, and keep guests engaged. We also provide promotional graphics and support sharing the event. Your team can stay focused on food, drinks, and hospitality.</p>
+        <p>The best recurring night fits the room. We can talk through your audience, what your venue already offers, and whether trivia, Music Bingo, or a rotating game format makes sense.</p>
       </div>
-      <img src="/images/hero.jpg" alt="A crowd at a Four Dogs recurring venue night" />
+      <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" loading="lazy" decoding="async" />
     </div>
   </section>
 
   <section class="section alt">
     <div class="container">
-      <p class="eyebrow">The Four Dogs model</p>
-      <h2>A working entertainment partner, not just another date on the calendar.</h2>
-      <p>We collaborate with venues to create the right recurring experience for the room, then handle the entertainment side with consistency and personality.</p>
+      <p class="eyebrow">Choose the right night</p>
+      <h2>Original games. Familiar favorites. A format for your crowd.</h2>
       <div class="grid">
-        {['Trivia', 'Music Bingo', 'Four Dogs Survey Showdown', 'Are You Smarter Than a Barstool?', 'Other hosted formats'].map((format) => <div class="card"><h3>{format}</h3></div>)}
+        {formats.map((format) => <a class="card" href={format.href}><h3>{format.name}</h3><p>{format.details}</p><p>Explore the format →</p></a>)}
       </div>
     </div>
   </section>
@@ -40,22 +54,22 @@ const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedu
   <section class="section">
     <div class="container grid">
       <div>
-        <h2>Four Dogs handles</h2>
+        <h2>What Four Dogs brings</h2>
         <ul>
-          <li>The host and game</li>
-          <li>Pacing and game materials</li>
-          <li>Audio when required</li>
-          <li>Promotional creative</li>
-          <li>Event and social promotion support</li>
+          <li>A professional, prepared host</li>
+          <li>Game questions, materials, pacing, and scoring</li>
+          <li>Guest interaction and an organized experience</li>
+          <li>Audio support when needed</li>
+          <li>Promotional graphics and event-sharing support</li>
         </ul>
       </div>
       <div>
-        <h2>Your venue handles</h2>
+        <h2>What your team handles</h2>
         <ul>
-          <li>Food and beverages</li>
-          <li>Your staff</li>
-          <li>Your customers</li>
-          <li>The hospitality that makes the room yours</li>
+          <li>Food, drinks, and service</li>
+          <li>The space and staff for your guests</li>
+          <li>Sharing the night with your regulars</li>
+          <li>The hospitality that makes your place yours</li>
         </ul>
       </div>
     </div>
@@ -63,39 +77,46 @@ const activeVenues = venues.filter((venue) => venue.active && venue.weeklySchedu
 
   <section class="section alt">
     <div class="container">
-      <p class="eyebrow">See the model locally</p>
-      <h2>Current Four Dogs venue partnerships.</h2>
-      <div class="grid">
+      <p class="eyebrow">Real local events</p>
+      <h2>See Four Dogs working with local venues.</h2>
+      <p>These venues have confirmed upcoming public Four Dogs events. Individual dates and game formats can change, so always check our live calendar.</p>
+      {activeVenues.length > 0 && <div class="grid">
         {activeVenues.map((venue) => (
           <a class="card" href={`/venues/${venue.slug}/`}>
             <h3>{venue.name}</h3>
-            <p>{venue.description}</p>
-            <p>{venue.city}, {venue.state} →</p>
+            <p>{venue.city}, {venue.state}</p>
+            <p>See confirmed dates →</p>
           </a>
         ))}
-      </div>
+      </div>}
       <div class="actions">
-        <a href="/areas/fountain-inn-sc/">Fountain Inn entertainment →</a>
-        <a href="/areas/lexington-sc/">Lexington entertainment →</a>
+        <a href="/events/">See all confirmed upcoming events →</a>
         <a href="/areas/columbia-sc/">Columbia entertainment →</a>
-        <a href="/areas/west-columbia-cayce-sc/">West Columbia & Cayce entertainment →</a>
+        <a href="/areas/lexington-sc/">Lexington entertainment →</a>
+        <a href="/areas/west-columbia-cayce-sc/">West Columbia & Cayce →</a>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <p class="eyebrow">A venue owner’s perspective</p>
-      <h2>A partnership built around memorable experiences.</h2>
-      {featuredReviews[0] && <ReviewCard review={featuredReviews[0]} excerpt="forVenues" showFull={true} />}
-    </div>
-  </section>
+  {venueOwnerReview?.approved && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">From a venue owner</p>
+        <h2>What a real Four Dogs partnership looks like.</h2>
+        <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />
+      </div>
+    </section>
+  )}
 
   <section class="section dark">
     <div class="container">
-      <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
-      <p>Let’s talk about the right recurring format for your room.</p>
-      <a class="button" href="/booking/?service=Venue%20Entertainment">Ask about a test night</a>
+      <h2>Want to try a game night at your place?</h2>
+      <p>Tell us your restaurant's name, location, and a night you'd like to explore. We'll talk through the format and whether a trial date is a fit.</p>
+      <div class="actions">
+        <a class="button" href="/booking/?service=Venue%20Entertainment">Request a trial-night conversation</a>
+        <a class="button secondary" href="mailto:bookings@4dogsentertainment.com?subject=Venue%20Entertainment%20Inquiry">Email Four Dogs</a>
+      </div>
+      <p class="fine">Bring your people. We’ll bring the Doggone Good Time.</p>
     </div>
   </section>
 </Base>

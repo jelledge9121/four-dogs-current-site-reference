@@ -11,7 +11,7 @@ const htmlFiles=files.filter(f=>f.endsWith('.html'));
 const routes=new Set(htmlFiles.map(f=>`/${path.relative(root,f).replace(/index\.html$/,'').replace(/\\/g,'/')}`));
 const publicFiles=new Set(files.map(f=>`/${path.relative(root,f).replace(/\\/g,'/')}`));
 // These routes are rendered by the adapter. The SSR suite requests each one.
-for(const url of ['/','/events/','/admin/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...localSeoPages.map(p=>`/${p.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...JSON.parse(fs.readFileSync('src/data/venues.json')).venues.map(v=>`/venues/${v.slug}/`)])routes.add(url);
+for(const url of ['/','/events/','/for-venues/','/admin/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...localSeoPages.map(p=>`/${p.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...JSON.parse(fs.readFileSync('src/data/venues.json')).venues.map(v=>`/venues/${v.slug}/`)])routes.add(url);
 const data=fs.readdirSync('src/data/events').map(f=>JSON.parse(fs.readFileSync(`src/data/events/${f}`)));
 for(const e of data.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft'))routes.add(`/events/${e.slug}/`);
 const errors=[],titles=new Map();
@@ -34,5 +34,6 @@ const confirmation=fs.readFileSync(path.join(root,'thank-you','index.html'),'utf
 if(!confirmation.includes('name="robots" content="noindex,follow"'))errors.push('booking confirmation must not be indexed');
 const sitemap=fs.readFileSync(path.join(root,'sitemap-0.xml'),'utf8');
 if(sitemap.includes('/thank-you/')||sitemap.includes('/admin/'))errors.push('sitemap includes a confirmation or admin URL');
+if(!sitemap.includes('https://4dogsentertainment.com/for-venues/'))errors.push('venue partnership page is missing from the XML sitemap');
 if(errors.length){console.error([...new Set(errors)].join('\n'));process.exit(1);}
 console.log(`Static QA passed: ${htmlFiles.length} pages; metadata, links/assets, discovery files, and original Netlify booking form verified. Dynamic routes are checked separately by SSR QA.`);
