@@ -120,7 +120,7 @@ async def main():
                 assert event_overflow <= 1, (name, "event page horizontal overflow", event_overflow)
                 assert await page.locator('a[href="/events/"]').count() >= 1, (name, "events navigation")
                 await page.screenshot(path=f"qa-screenshots/{name}-sci-fi-legends.png", full_page=True)
-                listing_response = await page.goto(BASE + "/events/", wait_until="domcontentloaded")
+                listing_response = await page.goto(BASE + "/events/?view=archive", wait_until="domcontentloaded")
                 assert listing_response is not None and listing_response.status == 200, (name, "event calendar")
                 assert await page.locator(f'a[href="{event_path}"]').count() >= 1, (
                     name, "calendar link to original event URL"
