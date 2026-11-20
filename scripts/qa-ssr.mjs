@@ -88,8 +88,11 @@ const wescoCalendar=await request('/events/?venue=wesco&from=2026-11-19&to=2026-
 const filteredIds=[...wescoCalendar.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);
 for(const [date,title,slug] of wescoDates){
  const identifier='wesco-thursday-karaoke-2026-'+date;
- assert.equal(filteredIds.filter(id=>id===identifier).length,1,date+' calendar has exactly one replacement');
- assert.equal([...wescoVenue.body.matchAll(/data-event-id="([^"]+)"/g)].filter(m=>m[1]===identifier).length,1,date+' venue page has exactly one replacement');
+ const eventRecord=all.find(e=>e.id===identifier);
+ assert.ok(eventRecord,date+' replacement event exists in catalog');
+ const isUpcoming=['upcoming','live'].includes(phase(eventRecord));
+ assert.equal(filteredIds.filter(id=>id===identifier).length,isUpcoming?1:0,date+' calendar shows one listing only while upcoming');
+ assert.equal([...wescoVenue.body.matchAll(/data-event-id="([^"]+)"/g)].filter(m=>m[1]===identifier).length,isUpcoming?1:0,date+' venue page shows one listing only while upcoming');
  const page=await request('/events/'+slug+'/');
  assert.equal(page.status,200,slug+' published page');
  assert.ok(page.body.includes('<h1>'+title.replaceAll('&','&amp;')+'</h1>'),slug+' exact heading');
