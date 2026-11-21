@@ -14,7 +14,6 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
 <Base title="Entertainment Services | Four Dogs Entertainment" description="Explore Four Dogs trivia, Music Bingo, karaoke, wedding DJs, photo booth rentals starting at $450, private and corporate entertainment, and original game experiences.">
   <section class="section dark services-intro">
     <div class="container">
-      <p class="eyebrow">What we do</p>
       <h1>Good nights, weddings, and everything in between.</h1>
       <p class="lead">Come play at a local venue or book Four Dogs for your own crowd. Here’s what each experience looks like.</p>
       <div class="actions"><a class="button" href="/events/">Find a public event</a><a class="button secondary" href="/booking/">Book entertainment</a></div>
@@ -23,7 +22,6 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
 
   <section class="section" aria-labelledby="weekly-services-heading">
     <div class="container">
-      <p class="eyebrow">Game nights and group favorites</p>
       <h2 id="weekly-services-heading">Get everyone involved.</h2>
       <p class="services-section-note">Our hosts make it easy to jump in, whether you’re a regular or playing for the first time.</p>
       <div class="services-feature-list">
@@ -44,7 +42,6 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
 
   <section class="section alt" aria-labelledby="celebration-services-heading">
     <div class="container">
-      <p class="eyebrow">Celebrations and company events</p>
       <h2 id="celebration-services-heading">Your event. Your people.</h2>
       <p class="services-section-note">A wedding reception and a company party are different nights. We plan the music, hosting, and entertainment around the occasion.</p>
       <div class="services-feature-list">
@@ -62,8 +59,7 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
       </div>
       {photoBooth && <div class="services-photo-booth">
         <div>
-          <p class="eyebrow">An extra for your event</p>
-          <h3>{photoBooth.name}</h3>
+              <h3>{photoBooth.name}</h3>
           <p>{photoBooth.summary}</p>
           <p>{photoBooth.description}</p>
         </div>
@@ -74,7 +70,6 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
 
   <section class="section" aria-labelledby="original-services-heading">
     <div class="container">
-      <p class="eyebrow">Only at Four Dogs</p>
       <h2 id="original-services-heading">Our original games.</h2>
       <div class="services-original-list">
         {originals.map((service) => (

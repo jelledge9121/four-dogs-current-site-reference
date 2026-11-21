@@ -6,7 +6,6 @@ import Base from '../layouts/Base.astro';
   <section class="brides-hero">
     <div class="brides-shell brides-hero-grid">
       <div class="brides-hero-copy">
-        <div class="brides-kicker">A free wedding planning extra from Four Dogs</div>
         <h1>A wedding hashtag that sounds like you.</h1>
         <p class="brides-lead">Enter your names, choose a style, and find a hashtag you actually want your friends to use.</p>
         <a class="brides-hero-cta" href="#brides-studio">Make a hashtag</a>
@@ -96,6 +95,18 @@ import Base from '../layouts/Base.astro';
 .brides-convert-grid > div:first-child { max-width:740px; }
 .brides-convert h2 { max-width:23ch; }
 .brides-convert p { max-width:55ch; }
+/* Real control labels must remain legible on cream, white, and selected turquoise cards. */
+.brides .brides-muted,
+.brides .brides-form-title small,
+.brides .brides-fields label small,
+.brides .brides-vibes > p,
+.brides .brides-vibe-grid label small,
+.brides .brides-form-foot { color:#40515e; }
+.brides .brides-fields label small { font-size:.82rem; line-height:1.4; }
+.brides .brides-form-title small { font-size:.88rem; line-height:1.5; }
+.brides .brides-vibes > p { font-size:.91rem; }
+.brides .brides-vibe-grid label small { font-size:.82rem; line-height:1.35; letter-spacing:0; }
+.brides .brides-form-foot { font-size:.85rem; line-height:1.5; letter-spacing:0; }
 @media (max-width:600px) {
   .brides-shell { padding-left:16px; padding-right:16px; }
   .brides h1 { font-size:clamp(2.35rem,9vw,3.5rem); }
