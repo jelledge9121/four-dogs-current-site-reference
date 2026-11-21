@@ -45,8 +45,18 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
         </a>
         <figcaption><strong>The moments that start it all.</strong> An outdoor ceremony with family and friends gathered close.</figcaption>
       </figure>
+      <div class="wedding-photo-pair" aria-label="More real wedding moments">
+        <figure>
+          <img src="/images/weddings/wedding-reception-guests-dancing.webp" alt="Guests dancing together on the reception dance floor" loading="lazy" decoding="async" width="960" height="540" />
+          <figcaption>When the reception gets going.</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/weddings/wedding-outdoor-tent-dancefloor.webp" alt="Outdoor wedding reception and dance floor beneath a tent" loading="lazy" decoding="async" width="540" height="960" />
+          <figcaption>A different setting, the same good company.</figcaption>
+        </figure>
+      </div>
       <div class="wedding-video-heading">
-        <h3>Turn up the music.</h3>
+        <h3>Watch the real celebrations.</h3>
         <p>Press play for real wedding reception highlights. Videos only load when you choose to watch.</p>
       </div>
       <div class="wedding-video-grid">
@@ -117,11 +127,15 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
   .wedding-gallery-heading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr); gap: 2rem; align-items: end; margin-bottom: 2rem; }
   .wedding-gallery-heading .eyebrow { margin-bottom: .65rem; }
   .wedding-gallery-heading p:last-child { margin: 0 0 .75rem; font-size: 1.1rem; max-width: 35rem; }
-  .wedding-gallery-feature { overflow: hidden; background: #0c0f26; color: #fff; border-radius: 12px; margin: 0; box-shadow: var(--shadow); }
+  .wedding-gallery-feature { overflow: hidden; background: #0c0f26; color: #fff; border-radius: 3px; margin: 0; }
   .wedding-gallery-feature a { display: block; line-height: 0; }
   .wedding-gallery-feature img { display: block; width: 100%; height: auto; max-height: 680px; object-fit: cover; object-position: center 55%; }
   .wedding-gallery-feature figcaption { padding: 1rem 1.3rem 1.2rem; font-size: 1rem; color: #eef3f8; }
   .wedding-gallery-feature figcaption strong { color: #fff; }
+  .wedding-photo-pair { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .wedding-photo-pair figure { margin: 0; }
+  .wedding-photo-pair img { display: block; width: 100%; height: 280px; object-fit: cover; }
+  .wedding-photo-pair figcaption { color: #48536a; padding: .55rem 0; font-size: .9rem; }
   .wedding-video-heading { margin: 3.25rem 0 1.4rem; }
   .wedding-video-heading h3 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-bottom: .4rem; }
   .wedding-video-heading p { margin: 0; color: #465568; }
@@ -130,7 +144,7 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
   .wedding-gallery-cta { margin-top: 2.8rem; padding-top: 1.6rem; border-top: 1px solid #d9e0e9; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
   .wedding-gallery-cta p { font-size: 1.15rem; font-weight: 800; margin: 0; }
   @media (max-width: 800px) { .wedding-gallery-heading { grid-template-columns: 1fr; gap: .3rem; } }
-  @media (max-width: 550px) { .wedding-video-grid { gap: 1rem; } .wedding-gallery-feature img { max-height: none; } .wedding-gallery-cta { align-items: flex-start; } }
+  @media (max-width: 550px) { .wedding-video-grid { gap: 1rem; } .wedding-gallery-feature img { max-height: none; } .wedding-gallery-cta { align-items: flex-start; } .wedding-photo-pair { grid-template-columns: 1fr; } .wedding-photo-pair img { height: auto; max-height: 360px; } }
   @media (prefers-reduced-motion: reduce) { .wedding-moments * { scroll-behavior: auto; } }
   .more-clips { margin-top: 2rem; }
   .more-clips summary { padding: 1rem 0; text-decoration: underline; }

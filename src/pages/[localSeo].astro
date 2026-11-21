@@ -16,6 +16,27 @@ const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId)
 const seoTitle = page.slug === 'music-bingo-columbia-lexington-sc'
   ? 'Music Bingo in Columbia & Lexington SC | Local Guide | Four Dogs'
   : page.title;
+const seoImage = page.slug.includes('wedding') ? {
+  src: '/images/weddings/wedding-reception-guests-dancing.webp',
+  alt: 'Guests enjoying the dance floor at a Four Dogs wedding reception',
+  caption: 'A real Four Dogs wedding reception',
+} : page.slug.includes('music-bingo') ? {
+  src: '/images/gallery/music-bingo-charter-friends.webp',
+  alt: 'Friends playing Four Dogs Music Bingo at Charter 803',
+  caption: 'Four Dogs Music Bingo at Charter 803',
+} : page.slug.includes('trivia') ? {
+  src: '/images/venues/four-dogs-top-dawg-trivia-crowd-2026.webp',
+  alt: 'Trivia teams playing a Four Dogs event at Top Dawg Tavern',
+  caption: 'A trivia night at Top Dawg Tavern',
+} : page.slug.includes('corporate') || page.slug.includes('private') ? {
+  src: '/images/gallery/four-dogs-private-event-dance-floor-02-poster.webp',
+  alt: 'Guests on the dance floor at a Four Dogs private event',
+  caption: 'Guests at a Four Dogs private event',
+} : {
+  src: '/images/gallery/four-dogs-survey-showdown-bozes-group.jpg',
+  alt: 'Four Dogs Survey Showdown guests at Boze’s in West Columbia',
+  caption: 'Four Dogs at Boze’s in West Columbia',
+};
 const holidayEligible = [
   'private-event-dj-midlands-sc',
   'corporate-event-entertainment-columbia-sc',
@@ -67,19 +88,34 @@ const serviceSchema = {
       <div class="prose">
         {page.intro.map((paragraph) => <p>{paragraph}</p>)}
       </div>
-      <img src="/images/hero.jpg" alt={`${page.h1} with Four Dogs Entertainment`} loading="lazy" />
+      <figure class="local-seo-photo">
+        <img src={seoImage.src} alt={seoImage.alt} loading="lazy" decoding="async" />
+        <figcaption>{seoImage.caption}</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="section"><div class="container"><h2>Confirmed public events near you</h2><EventList city={eventCity} category={eventCategory}/><a href="/events/">Browse the full calendar →</a></div></section>
+  <section class="section">
+    <div class="container">
+      {eventCategory ? <>
+        <h2>Find a confirmed {eventCategory} night.</h2>
+        <EventList city={eventCity} category={eventCategory}/>
+        <a href="/events/">Browse the full calendar →</a>
+      </> : <>
+        <h2>See Four Dogs at real events.</h2>
+        <p>Browse the photos and videos before you ask us about your own date.</p>
+        <div class="actions"><a href="/gallery/">See our gallery →</a><a href="/events/">View current public events →</a></div>
+      </>}
+    </div>
+  </section>
 
   <section class="section alt">
     <div class="container">
       <p class="eyebrow">What Four Dogs provides</p>
-      <h2>Built for participation, not background noise.</h2>
-      <div class="grid">
-        {page.highlights.map((highlight) => <article class="card"><h3>{highlight}</h3></article>)}
-      </div>
+      <h2>What to expect.</h2>
+      <ul class="local-seo-highlights">
+        {page.highlights.map((highlight) => <li>{highlight}</li>)}
+      </ul>
     </div>
   </section>
 
@@ -128,15 +164,10 @@ const serviceSchema = {
   <section class="section">
     <div class="container">
       <p class="eyebrow">Keep exploring</p>
-      <h2>Related Four Dogs pages.</h2>
-      <div class="grid">
-        {page.relatedLinks.map((link) => (
-          <a class="card" href={link.href}>
-            <h3>{link.label}</h3>
-            <p>Explore →</p>
-          </a>
-        ))}
-      </div>
+      <h2>More about the options.</h2>
+      <nav class="local-seo-related" aria-label="Related local entertainment pages">
+        {page.relatedLinks.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+      </nav>
     </div>
   </section>
 
@@ -147,4 +178,15 @@ const serviceSchema = {
       <a class="button" href={`/booking/?service=${encodeURIComponent(page.bookingValue)}`}>Plan your event</a>
     </div>
   </section>
+  <style>
+    .local-seo-photo { margin: 0; }
+    .local-seo-photo img { width:100%; display:block; aspect-ratio:4/3; object-fit:cover; }
+    .local-seo-photo figcaption { margin-top:.6rem; font-size:.9rem; color:var(--muted); }
+    .local-seo-highlights { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 2rem; padding:0; list-style:none; border-top:1px solid var(--rule); }
+    .local-seo-highlights li { padding:1rem .2rem; border-bottom:1px solid var(--rule); font-weight:650; }
+    .local-seo-related { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 2rem; border-top:1px solid var(--rule); }
+    .local-seo-related a { display:flex; justify-content:space-between; gap:1rem; padding:1rem .1rem; border-bottom:1px solid var(--rule); font-weight:700; text-decoration:none; }
+    .local-seo-related a:hover { text-decoration:underline; }
+    @media(max-width:650px){ .local-seo-highlights,.local-seo-related { grid-template-columns:1fr; } }
+  </style>
 </Base>
