@@ -1,0 +1,126 @@
+---
+export const prerender=false;
+import Base from '../layouts/Base.astro';
+import { events } from '../data/events';
+import { venueById } from '../data/venues';
+import { eventDateLabel,eligibleEvent,defaultDeadline,defaultReward } from '../lib/registration-core';
+import { configured } from '../lib/registration-auth';
+const ready=configured();
+const eligible=events.filter(event=>{
+ const venue=venueById(event.venueId);
+ return eligibleEvent(event,venue) && new Date() < defaultDeadline(event,venue);
+}).sort((a,b)=>a.date.localeCompare(b.date)||(a.startTime||'').localeCompare(b.startTime||''));
+const requested=Astro.url.searchParams.get('event');
+const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligible[0]?.id||'';
+---
+<Base title="Register for Free Four Dogs Events | Four Dogs Entertainment" description="Register your group for an eligible free trivia, Music Bingo, or game night with Four Dogs Entertainment." noindex={!ready}>
+  <section class="section dark"><div class="container registration-head"><p class="eyebrow">Four Dogs events</p><h1>Register your group. Come have fun.</h1><p class="lead">Choose a game night, tell us how many are coming, and bring your confirmation code to the Four Dogs host.</p></div></section>
+  <section class="section"><div class="container registration-layout">
+    <div class="registration-panel">
+      {ready && eligible.length ? (
+        <form id="free-registration" novalidate>
+          <h2>Free event registration</h2>
+          <p class="fine">One registration covers your whole group. Registration does not reserve a restaurant table or guarantee seating.</p>
+          <label for="reg-event">Your event <span aria-hidden="true">*</span></label>
+          <select name="eventId" id="reg-event" required>
+            {eligible.map(event=>{
+              const venue=venueById(event.venueId);
+              return <option value={event.id} selected={event.id===selected}
+                data-title={event.title} data-venue={venue.name}
+                data-date={eventDateLabel(event)} data-time={event.startTime+' Eastern'}
+                data-reward={defaultReward(event,venue)==='appetizer'?'One complimentary appetizer for the group after host check-in, when registered by 4 PM Wednesday Eastern.':'One extra raffle ticket for the group after host check-in.'}
+                data-close={defaultReward(event,venue)==='appetizer'?'Register before 4 PM Wednesday Eastern.':'Register before the event begins.'}>
+                  {eventDateLabel(event)} · {event.startTime} · {venue.name} · {event.title}
+              </option>;
+            })}
+          </select>
+          <div class="registration-event-summary" role="status" aria-live="polite">
+            <strong id="reg-event-title"></strong>
+            <span id="reg-event-venue"></span>
+            <span id="reg-event-datetime"></span>
+            <p id="reg-event-reward"></p>
+            <small id="reg-event-deadline"></small>
+          </div>
+          <label for="reg-name">Your name <span aria-hidden="true">*</span></label>
+          <input id="reg-name" name="name" autocomplete="name" maxlength="100" required placeholder="First and last name"/>
+          <label for="reg-email">Email address <span aria-hidden="true">*</span></label>
+          <input id="reg-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"/>
+          <label for="reg-size">Number of people in your group <span aria-hidden="true">*</span></label>
+          <input id="reg-size" name="groupSize" type="number" inputmode="numeric" min="1" max="50" value="2" required/>
+          <label for="reg-team">Team name <small>(optional)</small></label>
+          <input id="reg-team" name="teamName" maxlength="80" placeholder="If your group has one"/>
+          <div class="registration-honeypot" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div>
+          <button type="submit" class="button" id="reg-submit">Register Free</button>
+          <p id="reg-status" role="status" aria-live="polite"></p>
+          <p class="fine">We use your email to send your event confirmation, not to add you to a marketing list. Your Four Dogs host must verify your code before issuing any reward.</p>
+        </form>
+      ) : (
+        <div class="unavailable-registration">
+          <h2>{ready?'No open registrations at the moment':'Online registration is not available yet.'}</h2>
+          <p>Upcoming public game nights are always listed on the event calendar. Please check back for registration availability.</p>
+          <a class="button" href="/events/">Browse upcoming events</a>
+        </div>
+      )}
+    </div>
+    <aside class="registration-help" aria-label="How registration works">
+      <h2>How it works</h2>
+      <ol><li>Register once for your group.</li><li>Get a unique confirmation code by email.</li><li>Show the code to your Four Dogs host at the event.</li><li>The host checks you in and issues any applicable physical reward.</li></ol>
+      <p><strong>For Charter 803 Wednesday Trivia and Music Bingo:</strong> Qualifying registrations completed before 4 PM Wednesday Eastern receive one complimentary appetizer coupon per group after host verification.</p>
+      <p><strong>For other eligible events:</strong> One extra raffle ticket per registered group after host verification. A raffle ticket does not guarantee a prize.</p>
+    </aside>
+  </div></section>
+  <style>
+    .registration-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(240px,.8fr);gap:clamp(1.5rem,4vw,4rem);align-items:start}
+    .registration-panel{max-width:650px;width:100%}
+    .registration-panel form{display:grid;gap:.75rem}
+    .registration-panel h2{margin:0 0 .2rem}
+    .registration-panel label{font-weight:700;margin-top:.3rem;display:block}
+    .registration-panel input,.registration-panel select{display:block;width:100%;max-width:100%;padding:.85rem .9rem;border:1px solid #66758a;border-radius:4px;background:white;color:#142238;font:inherit}
+    .registration-panel input:focus-visible,.registration-panel select:focus-visible{outline:3px solid #29c4dc;outline-offset:2px}
+    .registration-event-summary{display:grid;gap:4px;background:#f0f5f5;padding:17px 20px;border-left:4px solid #0e7085;margin:.5rem 0}
+    .registration-event-summary p{margin:7px 0 0;font-size:.95rem}
+    .registration-event-summary small{color:#344154}
+    .registration-panel button{justify-self:start;margin-top:.6rem;min-height:48px}
+    .registration-help{border-top:3px solid #163150;padding-top:1rem}
+    .registration-help li{padding:.25rem 0}
+    .registration-help p{line-height:1.6}
+    .registration-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+    #reg-status{font-weight:650}
+    @media(max-width:800px){.registration-layout{grid-template-columns:1fr}.registration-help{max-width:650px}}
+  </style>
+  <script>
+    const form=document.querySelector<HTMLFormElement>('#free-registration');
+    if(form){
+      const select=form.querySelector<HTMLSelectElement>('#reg-event')!;
+      const update=()=>{
+        const data=select.selectedOptions[0]?.dataset;
+        (document.getElementById('reg-event-title')!).textContent=data?.title||'';
+        (document.getElementById('reg-event-venue')!).textContent=data?.venue||'';
+        (document.getElementById('reg-event-datetime')!).textContent=(data?.date||'')+' · '+(data?.time||'');
+        (document.getElementById('reg-event-reward')!).textContent=data?.reward||'';
+        (document.getElementById('reg-event-deadline')!).textContent=data?.close||'';
+      };
+      select.addEventListener('change',update);update();
+      form.addEventListener('submit',async event=>{
+        event.preventDefault();
+        const status=document.getElementById('reg-status')!;
+        const button=form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+        if(!form.reportValidity()) return;
+        button.disabled=true;status.textContent='Submitting registration…';
+        const data=new FormData(form);
+        try{
+          const response=await fetch('/api/registration/',{
+            method:'POST',headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({eventId:data.get('eventId'),name:data.get('name'),email:data.get('email'),groupSize:Number(data.get('groupSize')),teamName:data.get('teamName'),website:data.get('website')})
+          });
+          const result=await response.json();
+          if(!response.ok||!result.code) throw new Error(result.error||'We could not complete your registration.');
+          location.assign('/register/confirmation/?code='+encodeURIComponent(result.code));
+        }catch(error){
+          status.textContent=error instanceof Error?error.message:'Registration unavailable. Please try again.';
+          button.disabled=false;
+        }
+      });
+    }
+  </script>
+</Base>
