@@ -8,6 +8,7 @@ import {
   safeHTML,safeCSV,easternTime,APPETIZER_TEXT,RAFFLE_TEXT
 } from '../src/lib/registration-core';
 import { buildConfirmationEmail } from '../src/lib/registration-email';
+import { canRegisterFor } from '../src/lib/registration-availability';
 import type { RegistrationRow } from '../src/lib/registration-db';
 import { sessionCookie,readSession,postFromSameOrigin,setSessionCookie,clearSessionCookie } from '../src/lib/registration-auth';
 
@@ -61,6 +62,16 @@ test('Other events have a configurable registration and reward deadline',()=>{
  assert.equal(rewardFor(e,v,{...p,reward_enabled:false},before),'none');
  assert.equal(rewardFor(e,v,{...p,reward_kind:'none'},before),'none');
  assert.equal(registrationCutoff(e,v,{...p,registration_closes_at:'2026-12-09T20:00:00Z'}).toISOString(),'2026-12-09T20:00:00.000Z');
+});
+test('Per-event promotion overrides control registration visibility and cutoff',()=>{
+ const now=new Date('2026-12-09T20:30:00Z');
+ assert.equal(canRegisterFor(event,venue,{},now),true);
+ assert.equal(canRegisterFor(event,venue,{[event.id]:{enabled:false}},now),false);
+ assert.equal(canRegisterFor(event,venue,{[event.id]:{registration_closes_at:new Date('2026-12-09T20:00:00Z')}},now),false);
+ assert.equal(canRegisterFor(event,venue,{[event.id]:{registration_closes_at:new Date('2026-12-09T22:00:00Z'),reward_enabled:false}},now),true);
+ assert.equal(canRegisterFor(event,venue,null,now),false);
+ assert.equal(canRegisterFor({...event,ticketed:true},venue,{},now),false);
+ assert.equal(canRegisterFor(event,venue,{},new Date('2026-12-09T21:00:00Z')),false);
 });
 test('Past, canceled, private, and ticketed events are excluded',()=>{
  const now=new Date('2026-12-01T12:00:00Z');
