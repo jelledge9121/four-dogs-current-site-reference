@@ -1,8 +1,8 @@
 {
   "id": "wesco-2026-11-25",
   "slug": "home-for-the-holidays-thanksgiving-eve-game-night-wesco-2026-11-25",
-  "title": "Home for the Holidays: Thanksgiving Eve Game Night",
-  "date": "2026-11-25",
+  "title": "Home for the Holidays: Thanksgiving Week Game Night",
+  "date": "2026-11-24",
   "startTime": "7:00 PM",
   "venueId": "wesco",
   "eventType": "Other Public Events",
@@ -10,14 +10,14 @@
     "Survey Showdown"
   ],
   "theme": "Home for the Holidays",
-  "shortDescription": "Thanksgiving Eve game night at WesCo with Four Dogs. Currently planned for 7 PM; schedule may be adjusted.",
-  "description": "The night before Thanksgiving is made for getting everyone together. Join Four Dogs at WesCo Brew & Bowl for Home for the Holidays, a drop-in game night featuring quick rounds of Survey Showdown, Name That Tune, Finish the Lyric, and other crowd-friendly challenges. Friends, visiting family, and regular teams are all welcome. The current start time is 7 PM and may be adjusted; check the event page for updates before heading out.",
+  "shortDescription": "Tuesday, November 24 game night at WesCo with Four Dogs. Planned for 7 PM; start time may be adjusted.",
+  "description": "Get everyone together for a Thanksgiving week game night on Tuesday, November 24. Join Four Dogs at WesCo Brew & Bowl for Home for the Holidays, a drop-in event featuring quick rounds of Survey Showdown, Name That Tune, Finish the Lyric, and other crowd-friendly challenges. Friends, visiting family, and regular teams are welcome. The current start time is 7 PM and may be adjusted; check this event page for updates before heading out.",
   "image": "/images/hero.jpg",
   "featured": false,
-  "status": "scheduled",
+  "status": "rescheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-10-23T13:52:10.043Z",
+  "lastUpdated": "2026-11-21T02:58:43.169Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -26,5 +26,6 @@
     "note": "Free admission. Food and drinks sold separately."
   },
   "instructions": "Come ready to play. No advance registration is required. Start time is currently planned for 7:00 PM and may change; check this page for updates. Food and drinks are purchased separately.",
-  "ticketed": false
+  "ticketed": false,
+  "previousStartDate": "2026-11-25T19:00:00-05:00"
 }
