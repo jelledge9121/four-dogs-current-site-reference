@@ -3,13 +3,13 @@ export const prerender=false;
 import Base from '../layouts/Base.astro';
 import { events } from '../data/events';
 import { venueById } from '../data/venues';
-import { eventDateLabel,eligibleEvent,defaultDeadline,defaultReward } from '../lib/registration-core';
-import { configured } from '../lib/registration-auth';
-const ready=configured();
-const eligible=events.filter(event=>{
- const venue=venueById(event.venueId);
- return eligibleEvent(event,venue) && new Date() < defaultDeadline(event,venue);
-}).sort((a,b)=>a.date.localeCompare(b.date)||(a.startTime||'').localeCompare(b.startTime||''));
+import { eventDateLabel,easternTime,rewardFor,registrationCutoff,resolvePolicy } from '../lib/registration-core';
+import { loadRegistrationPolicies, canRegisterFor } from '../lib/registration-availability';
+const registrationPolicies=await loadRegistrationPolicies();
+const ready=registrationPolicies!==null;
+const eligible=events.filter(event=>
+ canRegisterFor(event,venueById(event.venueId),registrationPolicies)
+).sort((a,b)=>a.date.localeCompare(b.date)||(a.startTime||'').localeCompare(b.startTime||''));
 const requested=Astro.url.searchParams.get('event');
 const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligible[0]?.id||'';
 ---
@@ -25,11 +25,14 @@ const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligi
           <select name="eventId" id="reg-event" required>
             {eligible.map(event=>{
               const venue=venueById(event.venueId);
+              const policy=resolvePolicy(event,venue,registrationPolicies?.[event.id]);
+              const offer=rewardFor(event,venue,policy,new Date());
+              const closes=registrationCutoff(event,venue,policy);
               return <option value={event.id} selected={event.id===selected}
                 data-title={event.title} data-venue={venue.name}
                 data-date={eventDateLabel(event)} data-time={event.startTime+' Eastern'}
-                data-reward={defaultReward(event,venue)==='appetizer'?'One complimentary appetizer for the group after host check-in, when registered by 4 PM Wednesday Eastern.':'One extra raffle ticket for the group after host check-in.'}
-                data-close={defaultReward(event,venue)==='appetizer'?'Register before 4 PM Wednesday Eastern.':'Register before the event begins.'}>
+                data-reward={offer==='appetizer'?'One complimentary appetizer for the group after host check-in, when registered by 4 PM Wednesday Eastern.':offer==='raffle'?'One extra raffle ticket for the group after host check-in.':'This event currently has no extra reward for registering.'}
+                data-close={'Registration closes: '+easternTime(closes)}>
                   {eventDateLabel(event)} · {event.startTime} · {venue.name} · {event.title}
               </option>;
             })}

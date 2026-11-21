@@ -4,12 +4,15 @@ import Base from '../layouts/Base.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import EventCard from '../components/EventCard.astro';
 import { upcomingEvents } from '../data/events';
+import { venueById } from '../data/venues';
+import { loadRegistrationPolicies, canRegisterFor } from '../lib/registration-availability';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
 import { wescoThursdayNotice, showWescoNotice, wescoBingoUrl } from '../data/announcements';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
 const upcoming = upcomingEvents().slice(0,6);
+const registrationPolicies = await loadRegistrationPolicies();
 // Curated across six real event types, rather than six items from the gallery's source order.
 const homePhotoPaths = [
   '/images/gallery/four-dogs-trivia-friends-long-table.webp',
@@ -41,7 +44,7 @@ const org = {'@context':'https://schema.org','@type':'Organization',name:site.na
 <section class="section home-upcoming" aria-labelledby="upcoming-title">
   <div class="container">
     <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2><p>See what’s coming up, then bring your people.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>
-    {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
+    {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event} canRegister={canRegisterFor(event,venueById(event.venueId),registrationPolicies)}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
     {showWescoNotice() && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See WesCo Music Bingo dates</a></p></aside>}
   </div>
 </section>
