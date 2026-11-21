@@ -115,7 +115,7 @@ assert.equal(wescoThanksgiving.status,200,'WesCo shared holiday event URL must r
 assert.ok(wescoThanksgiving.body.includes('Home for the Holidays: Thanksgiving Week Game Night'),'corrected holiday title');
 assert.ok(wescoThanksgiving.body.includes('Tuesday, November 24, 2026'),'corrected weekday and date');
 assert.ok(wescoThanksgiving.body.includes('Previously scheduled for November 25, 2026'),'show prior Wednesday date');
-const thanksgivingSchema=[...wescoThanksgiving.body.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s['@type']==='Event');
+const thanksgivingSchema=[...wescoThanksgiving.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s['@type']==='Event');
 assert.ok(thanksgivingSchema,'WesCo holiday event schema exists');
 assert.equal(thanksgivingSchema.startDate,'2026-11-24T19:00:00-05:00');
 assert.equal(thanksgivingSchema.previousStartDate,'2026-11-25T19:00:00-05:00');
