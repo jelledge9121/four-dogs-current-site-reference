@@ -3,7 +3,19 @@ import Base from '../layouts/Base.astro';
 import { gallery } from '../data/gallery';
 
 const categories = ['All', 'Trivia', 'Music Bingo', 'Karaoke', 'Weddings', 'Private Events', 'Crowds & Winners', 'Venue Events'];
-const portfolio = [...gallery.filter(item => item.featured), ...gallery.filter(item => !item.featured)];
+// Keep every original asset, but rotate categories so the first scroll isn't
+// dominated by several consecutive images from one karaoke night.
+const featured = gallery.filter((item) => item.featured);
+const remaining = gallery.filter((item) => !item.featured);
+const categoryQueues = categories.slice(1).map((category) => remaining.filter((item) => item.category === category));
+const portfolio = [...featured];
+const longestQueue = Math.max(...categoryQueues.map((queue) => queue.length));
+for (let index = 0; index < longestQueue; index += 1) {
+  for (const queue of categoryQueues) {
+    const photo = queue[index];
+    if (photo) portfolio.push(photo);
+  }
+}
 ---
 <Base title="Real Four Dogs Events Across South Carolina | Gallery" description="See authentic Four Dogs Entertainment photos and video from trivia, Music Bingo, karaoke, weddings, venue events, private events, crowds, and winners across South Carolina.">
   <section class="section dark gallery-hero">
@@ -19,7 +31,7 @@ const portfolio = [...gallery.filter(item => item.featured), ...gallery.filter(i
       <div class="gallery-heading">
         <div>
           <p class="eyebrow">The Four Dogs gallery</p>
-          <h2>Good nights are better with people in them.</h2>
+          <h2>Find your kind of good night.</h2>
         </div>
         <p>Browse the singers, teams, winners, dance floors, and moments that make each event feel different.</p>
       </div>
@@ -113,4 +125,11 @@ const portfolio = [...gallery.filter(item => item.featured), ...gallery.filter(i
       });
     })();
   </script>
+  <style>
+    .gallery-tile { box-shadow: none; border-radius: 2px; border-color: var(--rule); }
+    .gallery-tile figcaption { padding: .75rem .9rem .95rem; }
+    .gallery-tile figcaption strong { line-height: 1.4; }
+    .gallery-media { overflow: hidden; }
+    .gallery-filter { min-height: 44px; border-radius: 3px; }
+  </style>
 </Base>
