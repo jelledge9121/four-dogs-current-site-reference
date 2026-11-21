@@ -126,9 +126,9 @@
       "zip": "29201",
       "website": "https://www.aurakitchenbar.com/",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=916+Gervais+Street+Columbia+SC+29201",
-      "description": "A Four Dogs limited-run Thursday game-night trial took place in Columbia’s Vista. Check the event calendar for any newly confirmed public dates at Aura Kitchen & Bar.",
+      "description": "Four Dogs hosted a four-date Music Bingo trial at Aura Kitchen & Bar in Columbia’s Vista from October 22 through November 12, 2026. There are no current Four Dogs events scheduled here.",
       "image": "/images/hero.jpg",
-      "active": true,
+      "active": false,
       "areaSlug": "columbia-sc",
       "weeklySchedule": [],
       "addressVerified": true

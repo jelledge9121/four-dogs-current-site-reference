@@ -20,6 +20,7 @@ PAGES = {
     "brides": "/for-the-brides/",
     "local-wedding": "/wedding-dj-lexington-sc/",
     "photo-booth": "/services/photo-booth/",
+    "retired-aura": "/venues/aura-kitchen-bar-music-bingo-columbia-sc/",
 }
 SIZES = {
     "iphone": (390, 844),
@@ -100,11 +101,17 @@ async def capture(browser, origin, kind, name, route, device, width, height):
                 await page.locator('#brides-form button[type="submit"]').click()
                 assert await page.locator("#brides-results").is_visible(), "hashtag results missing"
                 assert await page.locator("#brides-results-grid").locator("button, article, div").count() > 0, "hashtag generator empty"
+            if name == "retired-aura":
+                text = await page.locator("main").inner_text()
+                assert "The Music Bingo trial has ended." in text
+                assert "not currently hosting events at this location" in text
+                assert "Coming up here" not in text
+                assert await page.locator('a[href="/events/?view=archive&venue=aura"]').count() == 1
             if name == "gallery":
                 await page.locator('[data-gallery-filter="Weddings"]').click()
                 assert await page.locator('[data-gallery-item]:not([hidden])').count() == 3, "wedding gallery filter"
                 await page.locator('[data-gallery-filter="All"]').click()
-                assert await page.locator('[data-gallery-item]:not([hidden])').count() == 53, "gallery assets missing"
+                assert await page.locator('[data-gallery-item]:not([hidden])').count() == 52, "gallery items changed beyond the single Aura removal"
         result["ok"] = True
     except Exception as exc:
         result["ok"] = False
