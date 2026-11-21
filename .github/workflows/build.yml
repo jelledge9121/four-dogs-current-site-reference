@@ -6,6 +6,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: fde_ci
+          POSTGRES_PASSWORD: fde_ci_test_only
+          POSTGRES_DB: fde_ci_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fde_ci -d fde_ci_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,6 +31,13 @@ jobs:
         if: ${{ hashFiles('package-lock.json') == '' }}
         run: npm install --package-lock-only
       - run: npm ci
+      - name: Test registration data persistence and simultaneous check-ins in isolated PostgreSQL
+        env:
+          FDE_REGISTRATION_DATABASE_URL: postgresql://fde_ci:fde_ci_test_only@127.0.0.1:5432/fde_ci_test
+          FDE_SESSION_SECRET: github-actions-only-registration-test-key-2026
+        run: |
+          npm run setup-registration-db
+          node --import tsx --test tests/registration-db.test.ts
       - name: Compare Impeccable detection with the production source
         if: github.event_name == 'pull_request'
         continue-on-error: true
