@@ -38,7 +38,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       // The owner can retry from the private dashboard.
       console.error('Confirmation delivery failed for registration',registration.id,String(err));
     }
-    await sendStatus(registration.id,emailSent);
+    try { await sendStatus(registration.id,emailSent); }
+    catch (err) {
+      // Never hide a successfully committed confirmation code because a secondary status write fails.
+      console.error('Confirmation status update failed for registration',registration.id,String(err));
+    }
     return json({ok:true,code:registration.code,emailSent},emailSent?201:202);
   }catch(e){
     const message=(e as Error).message||'Registration is unavailable.';

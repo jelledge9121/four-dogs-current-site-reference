@@ -11,7 +11,11 @@ import Base from '../../layouts/Base.astro';
 <label for="owner-event">Event</label><select id="owner-event"><option value="">Select an event</option></select>
 <p id="owner-selected" class="fine"></p>
 <div class="owner-stats" aria-live="polite"><div><strong id="owner-groups">0</strong><span>Groups registered</span></div><div><strong id="owner-people">0</strong><span>Expected people</span></div><div><strong id="owner-in-groups">0</strong><span>Checked-in groups</span></div><div><strong id="owner-in-people">0</strong><span>Checked-in people</span></div><div><strong id="owner-rewards">0</strong><span>Rewards issued</span></div></div>
-<a id="owner-export" class="button secondary" href="/api/staff/?mode=csv">Download CSV report</a>
+<div class="owner-inline">
+  <a id="owner-export" class="button secondary" href="/api/staff/?mode=csv">Download this event CSV</a>
+  <a id="owner-venue-export" class="button secondary" href="/api/staff/?mode=csv">Download selected venue CSV</a>
+  <a class="button secondary" href="/api/staff/?mode=csv">Download all registrations CSV</a>
+</div>
 </div>
 <div class="owner-panel">
 <h2>Registered groups</h2><label for="owner-search">Search by name, code, or email</label><input id="owner-search" placeholder="Search registrations" autocomplete="off"/>
@@ -107,11 +111,12 @@ function populateEvents(){
 }
 function updateEventOptions(){
  const previous=eventEl.value;
+ (find('owner-venue-export') as HTMLAnchorElement).href='/api/staff/?mode=csv'+(venueEl.value?'&venueId='+encodeURIComponent(venueEl.value):'');
  eventEl.replaceChildren(new Option('Choose an event',''));
  for(const event of events.filter(e=>!venueEl.value||e.venueId===venueEl.value)){
   eventEl.add(new Option(event.dateLabel+' · '+event.venue+' · '+event.title,event.id));
  }
- eventEl.value=events.some(e=>e.id===previous)?previous:(eventEl.options.length>1?eventEl.options[1].value:'');
+ eventEl.value=[...eventEl.options].some(o=>o.value===previous)?previous:(eventEl.options.length>1?eventEl.options[1].value:'');
  refreshEvent();
 }
 async function refreshEvent(){
