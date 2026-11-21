@@ -6,30 +6,25 @@ import Base from '../layouts/Base.astro';
   <section class="brides-hero">
     <div class="brides-shell brides-hero-grid">
       <div class="brides-hero-copy">
-        <div class="brides-kicker">FOUR DOGS ENTERTAINMENT PRESENTS &nbsp; ✳ &nbsp; FOR THE BRIDES</div>
-        <h1>The perfect match.<br><em>The perfect</em> <span>hashtag.</span></h1>
-        <p class="brides-lead">Your love story deserves more than #JustMarried. Tell us your names, pick your personality, and discover something worth sharing.</p>
-        <div class="brides-tags"><span>♡ ROMANTIC</span><span>✳ CLEVER</span><span>✦ COMPLETELY YOURS</span></div>
-        <a class="brides-hero-cta" href="#brides-studio">FIND YOUR HASHTAG <span aria-hidden="true">↗</span></a>
+        <h1>A wedding hashtag that sounds like you.</h1>
+        <p class="brides-lead">Enter your names, choose a style, and find a hashtag you actually want your friends to use.</p>
+        <a class="brides-hero-cta" href="#brides-studio">Make a hashtag</a>
       </div>
-      <div class="brides-hero-art" aria-hidden="true"><span class="brides-art-orbit"></span><div class="brides-art-text">it's a<br><i>love</i><br>story<span>.</span></div><small>#HappilyEverAfter</small><div class="brides-art-seal">MADE WITH<br>LOVE & PUNS</div></div>
     </div>
   </section>
-  <div class="brides-ribbon" aria-hidden="true">LOVE IS IN THE AIR &nbsp; ✳ &nbsp; SO ARE THE GOOD PUNS &nbsp; ✳ &nbsp; SOMETHING BORROWED, SOMETHING #BRILLIANT &nbsp; ✳</div>
   <section class="brides-studio brides-shell" id="brides-studio">
     <div class="brides-section-label">01 / MAKE IT YOURS</div>
-    <h2>Tell us about <em>your two.</em></h2>
+    <h2>Start with your names.</h2>
     <p class="brides-muted">No account, no email, no strings attached. Just you, your people, and a little wordplay.</p>
     <div class="brides-studio-layout">
       <form id="brides-form" class="brides-form" novalidate>
-        <div class="brides-form-title"><div class="brides-symbol">♡</div><div><strong>Start your love story</strong><small>The names behind the hashtag.</small></div></div>
+        <div class="brides-form-title"><div><strong>Who’s getting married?</strong><small>Use the names your guests know you by.</small></div></div>
         <div class="brides-fields">
           <label>FIRST NAME <span>*</span><input id="brides-first" name="first" maxlength="28" autocomplete="given-name" placeholder="e.g. Taylor" required></label>
           <label>SECOND NAME <span>*</span><input id="brides-second" name="second" maxlength="28" placeholder="e.g. Jordan" required></label>
           <label>FUTURE / SHARED LAST NAME <small>OPTIONAL</small><input id="brides-last" name="last" maxlength="32" placeholder="e.g. Moore"></label>
           <label>WEDDING YEAR <small>OPTIONAL</small><select id="brides-year" name="year"><option value="">No year</option></select></label>
         </div>
-        <div class="brides-form-rule"><span>✳</span></div>
         <fieldset class="brides-vibes"><legend>WHAT'S YOUR WEDDING VIBE?</legend><p>Choose the style that feels most like you.</p>
           <div class="brides-vibe-grid">
             <label><input type="radio" name="vibe" value="mix" checked><span>✦</span><strong>Surprise Me</strong><small>A little of everything</small></label>
@@ -42,9 +37,8 @@ import Base from '../layouts/Base.astro';
         </fieldset>
         <p id="brides-error" class="brides-error" role="alert" hidden></p>
         <button class="brides-primary" type="submit">MAKE OUR HASHTAGS <span>↗</span></button>
-        <p class="brides-form-foot">100% FREE &nbsp; ✳ &nbsp; NO SIGNUP &nbsp; ✳ &nbsp; UNLIMITED IDEAS</p>
+        <p class="brides-form-foot">Free to use. No signup or email required.</p>
       </form>
-      <aside class="brides-note"><div class="brides-note-inner"><div class="brides-section-label">A LITTLE NOTE FROM US &nbsp; ✧</div><blockquote>“The best weddings feel like <em>you.</em> Your hashtag should, too.”</blockquote><hr><p>Whether you're a hopeless romantic, pun enthusiast, or first one on the dance floor, there's a vibe for that.</p><i>Love, Four Dogs ♡</i></div><div class="brides-note-footer">GOOD VIBES. GREAT HASHTAGS. ✳</div></aside>
     </div>
   </section>
   <section class="brides-results brides-shell" id="brides-results" hidden aria-live="polite">
@@ -67,15 +61,58 @@ import Base from '../layouts/Base.astro';
     </div>
     <div class="brides-roast"><div><span class="brides-section-label">A LITTLE EXTRA FUN</span><h3>Roast our hashtag.</h3><p>We'll give your chosen hashtag a playful, wedding-friendly verdict.</p><select id="brides-roast-tag" aria-label="Hashtag to rate"></select><button class="brides-outline" type="button" id="brides-roast-button">RATE OUR HASHTAG ✳</button></div><div id="brides-roast-output" class="brides-roast-output" aria-live="polite">Your hashtag enters the group chat. What happens next?</div></div>
   </section>
-  <section class="brides-convert"><div class="brides-shell brides-convert-grid"><div><div class="brides-section-label">THE NEXT CHAPTER</div><h2>Hashtag? <em>Check.</em><br>Unforgettable reception? <em>We got you.</em></h2><p>You bring the love story. We'll bring the music, hosting, and a dance floor nobody wants to leave. Weddings across South Carolina, North Carolina, and Georgia.</p><a class="brides-primary brides-book" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">LET'S PLAN YOUR WEDDING ↗</a></div><div class="brides-convert-orbit" aria-hidden="true">GOOD LOVE.<br>GREAT PARTY.<br>FOUR DOGS.</div></div></section>
+  <section class="brides-convert"><div class="brides-shell brides-convert-grid"><div><div class="brides-section-label">THE NEXT CHAPTER</div><h2>Need a DJ for the wedding, too?</h2><p>Four Dogs handles wedding music, announcements, and reception hosting. Tell us about your date and venue.</p><a class="brides-primary brides-book" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Ask about wedding DJ services</a></div></div></section>
   <p id="brides-toast" class="brides-toast" role="status" aria-live="polite"></p>
 </div>
 </Base>
 <style is:global>
-.brides{--bn:#071b2b;--bn2:#10283b;--bc:#f9f5eb;--bt:#27c4d5;--bg:#dbc69c;color:#112c3d;background:#fffcf5;font-family:Inter,system-ui,sans-serif}
+.brides{--bn:#071b2b;--bn2:#10283b;--bc:#f9f5eb;--bt:#27c4d5;--bg:#dbc69c;color:#112c3d;background:#fffcf5;font-family:"Avenir Next","Segoe UI",sans-serif}
 .brides *{box-sizing:border-box}.brides button,.brides select,.brides input{font:inherit}.brides-shell{max-width:1180px;padding:0 26px;margin:auto}.brides-hero{background:radial-gradient(circle at 80% 22%,#21485c 0,#0a2132 44%,#071825 100%);color:#fff}.brides-hero-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:45px;align-items:center;min-height:560px;padding-top:78px;padding-bottom:86px}.brides-kicker,.brides-section-label{font-size:11px;font-weight:850;letter-spacing:.17em;color:#078d9c}.brides-kicker{color:#89dfdf;margin-bottom:22px}.brides h1,.brides h2,.brides h3,.brides blockquote{font-family:Georgia,serif;letter-spacing:-.045em}.brides h1{font-size:clamp(3rem,5.6vw,5.5rem);line-height:1.08;margin:0 0 24px;color:#fff}.brides h1 em,.brides h2 em,.brides h3 em,.brides blockquote em{font-weight:400;color:var(--bt)}.brides h1 span{white-space:nowrap;text-decoration:underline;text-decoration-color:var(--bg);text-underline-offset:12px;text-decoration-thickness:3px}.brides-lead{color:#c7d7db;font-size:1.16rem;max-width:600px;line-height:1.75}.brides-tags{display:flex;flex-wrap:wrap;gap:11px;margin:26px 0 34px}.brides-tags span{border:1px solid #ffffff36;border-radius:22px;padding:9px 13px;font-size:11px;letter-spacing:.06em;color:#dbeced}.brides-hero-cta{color:var(--bn)!important;background:#dbccac;padding:16px 21px;border-radius:5px;display:inline-flex;gap:38px;text-decoration:none!important;font-weight:850;font-size:.79rem;letter-spacing:.11em}.brides-hero-art{min-height:380px;border:1px solid #ffffff22;border-radius:44% 44% 12% 12%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,#29586d88 0,#0b2435 65%)}.brides-art-orbit{position:absolute;width:310px;height:310px;border:1px solid #d7be8c55;border-radius:50%;transform:rotate(-20deg)}.brides-art-text{z-index:1;font:italic 64px/1 Georgia,serif;text-align:center;color:#fff7e7;transform:rotate(-8deg)}.brides-art-text i{font-size:107px;color:#e8d9b8}.brides-art-text span{color:var(--bt)}.brides-hero-art small{z-index:1;color:#90e1e8;letter-spacing:.12em;margin-top:25px}.brides-art-seal{position:absolute;right:15px;top:20px;border:2px dotted var(--bg);border-radius:50%;padding:25px 13px;text-align:center;line-height:1.6;transform:rotate(16deg);font-weight:700;font-size:10px;letter-spacing:.11em}.brides-ribbon{overflow:hidden;text-align:center;background:#d7c3a1;color:#0e2b3a;padding:15px 10px;font-size:11px;font-weight:900;letter-spacing:.12em}.brides-studio{padding-top:85px;padding-bottom:85px}.brides h2{font-size:clamp(2.5rem,4.1vw,4.2rem);margin:12px 0 10px;line-height:1.1}.brides-muted{color:#637780;line-height:1.7}.brides-studio-layout{display:grid;grid-template-columns:1.65fr 1fr;gap:25px;align-items:start;margin-top:32px}.brides-form{padding:35px;border:1px solid #e5dfd1;background:white;box-shadow:0 15px 50px #112c3d0c;border-radius:16px}.brides-form-title{display:flex;align-items:center;gap:15px;margin-bottom:30px}.brides-symbol{background:#e7f9fa;color:#168f9e;border-radius:50%;width:52px;height:52px;display:grid;place-items:center;font-size:30px}.brides-form-title strong{display:block;font:700 1.4rem Georgia,serif}.brides-form-title small{color:#71818a}.brides-fields{display:grid;grid-template-columns:1fr 1fr;gap:24px 18px}.brides-fields label,.brides-card-studio label{display:block;font-size:11px;font-weight:850;letter-spacing:.07em;color:#213c4c}.brides-fields label span{color:#d66866}.brides-fields label small{font-size:9px;color:#819197}.brides input:not([type=radio]),.brides select{display:block;width:100%;border:1px solid #d8dfdf;border-radius:8px;background:#fff;padding:13px 12px;margin-top:8px;color:#142c3c;min-height:46px}.brides input:focus-visible,.brides select:focus-visible,.brides button:focus-visible,.brides a:focus-visible{outline:3px solid #24bdcf;outline-offset:3px}.brides-form-rule{height:32px;display:flex;align-items:center;justify-content:center;margin:24px 0}.brides-form-rule:before,.brides-form-rule:after{content:"";height:1px;background:#e3e5e2;flex:1}.brides-form-rule span{margin:0 18px;color:#b79e6f}.brides-vibes{border:0;padding:0;min-width:0}.brides-vibes legend{font-weight:900;font-size:12px;letter-spacing:.07em}.brides-vibes>p{font-size:14px;color:#72818a;margin:10px 0 18px}.brides-vibe-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.brides-vibe-grid label{position:relative;cursor:pointer;background:#f8faf9;border:1px solid #dfe6e5;border-radius:11px;min-height:116px;padding:13px 9px;display:flex;align-items:center;text-align:center;justify-content:center;flex-direction:column;gap:5px;transition:.2s}.brides-vibe-grid label:has(input:checked){background:#e9f9f9;border-color:#23bdc7;box-shadow:0 0 0 2px #20b9c333}.brides-vibe-grid input{position:absolute;opacity:0}.brides-vibe-grid label:has(input:focus-visible){outline:3px solid #20bdc9}.brides-vibe-grid label>span{font-size:25px;color:#1197a4}.brides-vibe-grid strong{font-size:12px}.brides-vibe-grid small{font-size:10px;color:#6a7f83}.brides-primary{cursor:pointer;background:#25b9ca!important;border:0!important;color:#082635!important;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 22px;border-radius:6px;font-size:12px!important;letter-spacing:.1em;font-weight:900!important;text-decoration:none!important}.brides-form>.brides-primary{width:100%;margin-top:28px}.brides-primary:hover{background:#75e2e9!important}.brides-form-foot{text-align:center;font-size:10px;letter-spacing:.08em;color:#7c9295;margin:15px 0 0}.brides-note{background:#09283a;color:#e9ece8;border-radius:13px;overflow:hidden;box-shadow:0 15px 45px #09283a20}.brides-note-inner{padding:33px}.brides-note .brides-section-label{color:#69d6d9}.brides-note blockquote{font-size:2.15rem;line-height:1.25;margin:30px 0;color:#fff8ed}.brides-note hr{border:0;border-top:1px solid #ffffff40;margin:26px 0}.brides-note p{color:#adc5c9;line-height:1.7}.brides-note i{display:block;margin-top:23px;font:italic 22px Georgia,serif;color:#e7d3ac}.brides-note-footer{background:#16394b;padding:20px;text-align:center;font-size:10px;letter-spacing:.14em}.brides-error{color:#ad2929;font-weight:650}.brides-results{padding:0 26px 96px}.brides-results[hidden]{display:none!important}.brides-results-head{display:flex;justify-content:space-between;align-items:end;gap:25px}.brides-text-btn{border:0;background:transparent;cursor:pointer;color:#057c91;font-weight:800;font-size:12px}.brides-results-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:26px 0}.brides-results-toolbar>span{border-radius:20px;background:#e8f3f2;padding:9px 15px;font-size:11px;font-weight:800}.brides-results-toolbar>div{display:flex;flex-wrap:wrap;gap:8px}.brides-outline{cursor:pointer;border:1px solid #adc4c9!important;background:transparent!important;color:#0a4f66!important;border-radius:6px;padding:11px 13px;font-weight:850!important;font-size:11px!important;letter-spacing:.05em}.brides-outline:hover{background:#ecf8f9!important}.brides-outline:disabled{opacity:.35;cursor:not-allowed}.brides-results-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.brides-result{border:1px solid #dce6e4;border-radius:12px;padding:19px;background:#fff;min-width:0}.brides-result-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.brides-result-top>span{font-size:10px;font-weight:750;color:#0b8994;letter-spacing:.08em}.brides-heart{font-size:26px!important;color:#198f9c!important;border:0!important;background:none!important;cursor:pointer;padding:0 4px}.brides-result-tag{border:0;background:none;color:#112f40;display:block;text-align:left;font-size:clamp(14px,1.5vw,18px);font-weight:850;overflow-wrap:anywhere;cursor:pointer;margin:22px 0 9px;padding:0}.brides-result>small{color:#708389}.brides-favorites{margin-top:62px;border-top:1px solid #dee6e1;padding-top:43px}.brides h3{font-size:clamp(1.9rem,3vw,3rem);margin:10px 0 23px}.brides-fav-list{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}.brides-fav-chip{display:inline-flex;align-items:center;gap:7px;background:#eaf6f4;color:#075567;padding:9px 10px;border-radius:7px;font-size:12px;font-weight:750}.brides-fav-chip button{cursor:pointer;border:0;background:transparent;color:#08677a;font-weight:bold}.brides-favorites>.brides-outline{margin-right:8px}.brides-card-studio{margin-top:60px;padding:38px;background:#eff6f5;border-radius:14px;display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center}.brides-card-studio p{color:#647b83;line-height:1.7}.brides-card-studio label{margin:19px 0}.brides-card-studio small{display:block;margin:12px 0;color:#657e83}.brides-card-preview{min-height:390px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:34px;text-align:center;position:relative;overflow:hidden;border:1px solid #c5b691}.brides-card-preview.midnight{background:radial-gradient(circle,#234659,#091c2d);color:#efdfbb}.brides-card-preview.ivory{background:#f9f4e9;color:#153648}.brides-card-preview.cyan{background:linear-gradient(140deg,#16c4d5,#0b2a45);color:white}.brides-card-preview>div{font-size:10px;letter-spacing:.19em;font-weight:800}.brides-card-preview>strong{font:italic clamp(24px,3vw,43px) Georgia,serif;margin:20px 0}.brides-card-preview>span{font-size:clamp(13px,1.7vw,21px);font-weight:800;overflow-wrap:anywhere;max-width:100%}.brides-card-preview>small{font-size:9px;letter-spacing:.08em;margin-top:24px}.brides-card-preview>footer{font-size:8px;letter-spacing:.14em;position:absolute;bottom:25px}.brides-roast{margin-top:50px;padding:30px;border:1px dashed #c2d8d6;border-radius:14px;display:grid;grid-template-columns:1fr 1fr;gap:32px}.brides-roast p{color:#75878d}.brides-roast select{max-width:330px}.brides-roast button{margin-top:10px}.brides-roast-output{display:grid;place-items:center;text-align:center;border-radius:12px;background:#ebf6f6;color:#095568;padding:23px;font:italic 22px/1.6 Georgia,serif}.brides-convert{background:#092334;color:white;padding:80px 0}.brides-convert-grid{display:grid;grid-template-columns:2fr 1fr;align-items:center;gap:35px}.brides-convert .brides-section-label{color:#7ce1df}.brides-convert h2{color:#fff}.brides-convert p{max-width:640px;line-height:1.8;color:#b7c9d0}.brides-book{display:inline-flex;margin-top:20px}.brides-convert-orbit{border:1px solid #dbcca777;border-radius:50%;width:285px;height:285px;display:grid;place-content:center;text-align:center;font:bold 22px/1.6 Georgia,serif;letter-spacing:.02em;color:#e6d7b5}.brides-toast{position:fixed;z-index:99;bottom:24px;left:50%;transform:translateX(-50%);background:#123b4d;color:white;border-radius:9px;padding:13px 20px;opacity:0;pointer-events:none;transition:opacity .2s;font-weight:750}.brides-toast.show{opacity:1}
 @media(max-width:900px){.brides-hero-grid,.brides-studio-layout,.brides-card-studio,.brides-roast,.brides-convert-grid{grid-template-columns:1fr}.brides-hero-grid{padding-top:52px}.brides-hero-art{max-width:560px;min-height:310px;width:100%}.brides-note{display:none}.brides-results-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.brides-convert-orbit{display:none}}@media(max-width:550px){.brides-shell{padding-left:17px;padding-right:17px}.brides-hero-grid{padding-bottom:56px}.brides h1{font-size:clamp(2.5rem,11vw,3.8rem)}.brides-hero-art{min-height:260px}.brides-art-text{font-size:45px}.brides-art-text i{font-size:78px}.brides-art-seal{padding:12px 8px;font-size:8px}.brides-studio{padding-top:57px}.brides-form{padding:23px 16px}.brides-fields{grid-template-columns:1fr}.brides-vibe-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.brides-results-grid{grid-template-columns:1fr}.brides-results-head,.brides-results-toolbar{align-items:start;flex-direction:column}.brides-card-studio{padding:21px}.brides-roast{padding:20px}.brides-results{padding-bottom:60px}}
 @media(prefers-reduced-motion:reduce){.brides *{scroll-behavior:auto!important;transition:none!important}}
+
+/* Align the wedding tool with the rest of Four Dogs. Controls and generation logic stay untouched. */
+.brides { --bn:#0c0f26; --bn2:#152033; --bt:#29c4dc; --bc:#f2f0e8; color:#152033; background:#f2f0e8; font-family:"Avenir Next","Segoe UI",sans-serif; }
+.brides-hero,.brides-convert { background:#0c0f26; }
+.brides-hero-grid { grid-template-columns:minmax(0,1fr); min-height:0; padding-top:clamp(3.5rem,7vw,6rem); padding-bottom:clamp(3.5rem,7vw,6rem); }
+.brides-hero-copy { max-width:760px; }
+.brides h1 { font-size:clamp(2.6rem,5.3vw,4.8rem); line-height:1.1; max-width:18ch; letter-spacing:-.025em; }
+.brides-kicker { font-size:.85rem; letter-spacing:.035em; color:#91dce7; text-transform:none; }
+.brides-lead { max-width:55ch; color:#e1e9ee; font-size:1.18rem; line-height:1.6; }
+.brides-hero-cta { background:#29c4dc; color:#0c0f26!important; font-size:1rem; font-weight:750; letter-spacing:0; min-height:48px; padding:.8rem 1.2rem; border-radius:3px; margin-top:1.2rem; }
+.brides h2,.brides h3 { letter-spacing:-.025em; }
+.brides-section-label { font-size:.8rem; letter-spacing:.055em; color:#366071; }
+.brides-studio { padding-top:clamp(3rem,6vw,5rem); padding-bottom:clamp(3rem,6vw,5rem); }
+.brides-studio-layout { grid-template-columns:minmax(0,1fr); max-width:850px; }
+.brides-form,.brides-card-studio,.brides-roast,.brides-results-grid > * { box-shadow:none; border-radius:4px; }
+.brides-form { padding:clamp(1.2rem,3.6vw,2.4rem); border-color:#c9ced5; }
+.brides-form-title { margin-bottom:1.5rem; }
+.brides-fields label,.brides-card-studio label { font-size:.9rem; letter-spacing:0; }
+.brides-fields label small { font-size:.75rem; }
+.brides-vibe-grid label { border-radius:4px; }
+.brides-primary,.brides-outline { border-radius:3px; letter-spacing:0; }
+.brides-convert-grid { grid-template-columns:minmax(0,1fr); }
+.brides-convert-grid > div:first-child { max-width:740px; }
+.brides-convert h2 { max-width:23ch; }
+.brides-convert p { max-width:55ch; }
+/* Real control labels must remain legible on cream, white, and selected turquoise cards. */
+.brides .brides-muted,
+.brides .brides-form-title small,
+.brides .brides-fields label small,
+.brides .brides-vibes > p,
+.brides .brides-vibe-grid label small,
+.brides .brides-form-foot { color:#40515e; }
+.brides .brides-fields label small { font-size:.82rem; line-height:1.4; }
+.brides .brides-form-title small { font-size:.88rem; line-height:1.5; }
+.brides .brides-vibes > p { font-size:.91rem; }
+.brides .brides-vibe-grid label small { font-size:.82rem; line-height:1.35; letter-spacing:0; }
+.brides .brides-form-foot { font-size:.85rem; line-height:1.5; letter-spacing:0; }
+@media (max-width:600px) {
+  .brides-shell { padding-left:16px; padding-right:16px; }
+  .brides h1 { font-size:clamp(2.35rem,9vw,3.5rem); }
+  .brides-hero-grid { padding-top:3.2rem; padding-bottom:3.2rem; }
+  .brides-hero-cta { width:auto; }
+}
 </style>
 <script is:inline>
 (function(){

@@ -88,6 +88,6 @@ header nav{min-height:84px;gap:1rem}.brand{flex-shrink:0}.brand img{height:68px;
 .event-surface .seasonal-banner{display:none}.breadcrumbs{width:100%;min-height:0;display:block}.booking-next{margin:1.5rem 0}.booking-next>summary{padding:.5rem 0;min-height:44px;font-weight:750;list-style:revert}.booking-next p{font-size:1rem}
 @media(max-width:520px){.calendar-results-heading{margin:1rem 0}.filter-disclosure{margin-bottom:1.25rem}.calendar-body .event-tabs a{padding:.5rem 0}.calendar-body .date-shortcuts{margin:1rem 0}.booking-intro .lead{margin-bottom:.75rem}}
 
-.calendar-note { margin: 1.75rem 0; padding: 1rem 1.25rem; border-inline-start: 3px solid var(--navy); background: var(--cream); }
+.calendar-note { margin: 1.75rem 0; padding: 1rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: transparent; }
 .calendar-note p { margin: .25rem 0 0; }
 .original-games h2 { margin-top: 2rem; font-size: clamp(1.4rem, 3vw, 2rem); }

@@ -1,8 +1,119 @@
 ---
-import Base from '../../layouts/Base.astro'; import {services, servicePhotos} from '../../data/services';
+import Base from '../../layouts/Base.astro';
+import { services, servicePhotos } from '../../data/services';
+
+const weeklySlugs = ['trivia', 'music-bingo', 'karaoke'];
+const celebrationSlugs = ['weddings', 'private-corporate-events'];
+const originalSlugs = ['four-dogs-survey-showdown', 'are-you-smarter-than-a-barstool', 'almost-married-trivia-experience'];
+const weekly = weeklySlugs.flatMap((slug) => services.filter((service) => service.slug === slug));
+const celebrations = celebrationSlugs.flatMap((slug) => services.filter((service) => service.slug === slug));
+const originals = originalSlugs.flatMap((slug) => services.filter((service) => service.slug === slug));
+const photoBooth = services.find((service) => service.slug === 'photo-booth');
+const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/services/${slug}/`;
 ---
 <Base title="Entertainment Services | Four Dogs Entertainment" description="Explore Four Dogs trivia, Music Bingo, karaoke, wedding DJs, photo booth rentals starting at $450, private and corporate entertainment, and original game experiences.">
-<section class="section dark"><div class="container"><p class="eyebrow">Services</p><h1>Different ways to give people a reason to come together.</h1><p class="lead">Choose the Four Dogs experience that fits your people, your room, and your occasion.</p></div></section>
-{services.map((s,i)=><section class={`section ${i%2?'alt':''}`}><div class="container split"><div><h2>{s.name}</h2><p class="lead">{s.summary}</p><p>{s.description}</p><div class="actions"><a class="button" href={s.slug === 'weddings' ? '/weddings/' : `/services/${s.slug}/`}>Learn more</a><a href={`/booking/?service=${encodeURIComponent(s.bookingValue)}`}>Book this experience →</a></div></div><img src={servicePhotos[s.slug].src} alt={servicePhotos[s.slug].alt} loading="lazy"></div></section>)}
-<section class="section dark"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><div class="actions"><a class="button" href="/booking/">Book Four Dogs</a><a class="button secondary" href="/events/">Find an event</a></div></div></section>
+  <section class="section dark services-intro">
+    <div class="container">
+      <h1>Good nights, weddings, and everything in between.</h1>
+      <p class="lead">Come play at a local venue or book Four Dogs for your own crowd. Here’s what each experience looks like.</p>
+      <div class="actions"><a class="button" href="/events/">Find a public event</a><a class="button secondary" href="/booking/">Book entertainment</a></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="weekly-services-heading">
+    <div class="container">
+      <h2 id="weekly-services-heading">Get everyone involved.</h2>
+      <p class="services-section-note">Our hosts make it easy to jump in, whether you’re a regular or playing for the first time.</p>
+      <div class="services-feature-list">
+        {weekly.map((service, index) => (
+          <article class:list={['services-feature', index % 2 === 1 && 'services-feature-reverse']}>
+            <div class="services-feature-copy">
+              <h3>{service.name}</h3>
+              <p class="lead">{service.summary}</p>
+              <p>{service.description}</p>
+              <div class="actions"><a class="button" href={serviceLink(service.slug)}>Explore {service.name}</a><a href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Ask about booking →</a></div>
+            </div>
+            <figure><img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width="1200" height="900" loading="lazy" decoding="async" /></figure>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="celebration-services-heading">
+    <div class="container">
+      <h2 id="celebration-services-heading">Your event. Your people.</h2>
+      <p class="services-section-note">A wedding reception and a company party are different nights. We plan the music, hosting, and entertainment around the occasion.</p>
+      <div class="services-feature-list">
+        {celebrations.map((service, index) => (
+          <article class:list={['services-feature', index % 2 === 0 && 'services-feature-reverse']}>
+            <div class="services-feature-copy">
+              <h3>{service.name}</h3>
+              <p class="lead">{service.summary}</p>
+              <p>{service.description}</p>
+              <div class="actions"><a class="button" href={serviceLink(service.slug)}>See {service.name}</a><a href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Ask about your date →</a></div>
+            </div>
+            <figure><img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width="1200" height="900" loading="lazy" decoding="async" /></figure>
+          </article>
+        ))}
+      </div>
+      {photoBooth && <div class="services-photo-booth">
+        <div>
+              <h3>{photoBooth.name}</h3>
+          <p>{photoBooth.summary}</p>
+          <p>{photoBooth.description}</p>
+        </div>
+        <a class="button" href={serviceLink(photoBooth.slug)}>Explore Photo Booth</a>
+      </div>}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="original-services-heading">
+    <div class="container">
+      <h2 id="original-services-heading">Our original games.</h2>
+      <div class="services-original-list">
+        {originals.map((service) => (
+          <a href={serviceLink(service.slug)}>
+            <span><strong>{service.name}</strong><small>{service.summary}</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container">
+      <h2>Tell us what you’re planning.</h2>
+      <p>We'll help you choose the format that fits your group, venue, and date.</p>
+      <div class="actions"><a class="button" href="/booking/">Book Four Dogs</a><a class="button secondary" href="/events/">Find an event</a></div>
+    </div>
+  </section>
 </Base>
+<style>
+  .services-intro h1 { max-width: 22ch; }
+  .services-section-note { color: var(--muted); max-width: 58ch; margin: 0 0 2.2rem; }
+  .services-feature { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: center; gap: clamp(1.5rem,5vw,4rem); padding: clamp(1.6rem,4vw,3rem) 0; border-top: 1px solid var(--rule); }
+  .services-feature-reverse .services-feature-copy { order: 2; }
+  .services-feature-reverse figure { order: 1; }
+  .services-feature-copy h3 { font-size: clamp(1.9rem,3vw,2.6rem); }
+  .services-feature-copy .lead { margin-bottom: .75rem; }
+  .services-feature-copy .actions { align-items: center; }
+  .services-feature figure { margin: 0; min-width: 0; }
+  .services-feature img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; }
+  .services-photo-booth { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; border-top: 1px solid var(--rule); padding-top: 2rem; }
+  .services-photo-booth > div { max-width: 65ch; }
+  .services-photo-booth h3 { font-size: clamp(1.7rem,2.8vw,2.3rem); }
+  .services-photo-booth .button { flex-shrink: 0; }
+  .services-original-list { border-top: 1px solid var(--rule); }
+  .services-original-list a { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 76px; padding: 1.15rem .1rem; text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .services-original-list a:hover strong { text-decoration: underline; }
+  .services-original-list strong { display: block; font: 700 clamp(1.3rem,2vw,1.65rem)/1.3 Georgia,serif; }
+  .services-original-list small { display: block; color: var(--muted); font-size: 1rem; line-height: 1.5; margin-top: .4rem; }
+  @media (max-width: 800px) {
+    .services-feature { grid-template-columns: 1fr; gap: 1rem; }
+    .services-feature-reverse .services-feature-copy,.services-feature-reverse figure { order: initial; }
+    .services-photo-booth { display: block; }
+    .services-photo-booth .button { margin-top: 1rem; }
+  }
+</style>

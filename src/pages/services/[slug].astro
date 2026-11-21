@@ -237,6 +237,7 @@ export function getStaticPaths() {
 
 const { service } = Astro.props as Props;
 const detail = details[service.slug];
+const hasRelevantPhoto = !['photo-booth', 'almost-married-trivia-experience'].includes(service.slug);
 const review = detail.reviewId ? reviews.find((item) => item.id === detail.reviewId) : undefined;
 const activities: Record<string, string> = {
   trivia: 'Trivia', 'music-bingo': 'Music Bingo', karaoke: 'Karaoke',
@@ -282,9 +283,9 @@ const faqSchema = {
   {activity && <section class="service-calendar-link"><div class="container"><h2>Come play at a local event.</h2><p>Find confirmed dates, themes, and venues in the current calendar.</p><a class="button" href={datesUrl}>Find upcoming {activity}</a></div></section>}
 
   <section class="section">
-    <div class="container split">
+    <div class:list={['container', hasRelevantPhoto ? 'split' : 'service-prose-only']}>
       <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}{service.slug === 'karaoke' && <p><a href="/venues/wesco-brew-and-bowl-trivia-cayce-sc/">Check the current WesCo lineup</a></p>}</div>
-      <img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width={service.slug === 'music-bingo' ? 960 : undefined} height={service.slug === 'music-bingo' ? 720 : undefined} loading="lazy" decoding="async" />
+      {hasRelevantPhoto && <img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width={service.slug === 'music-bingo' ? 960 : undefined} height={service.slug === 'music-bingo' ? 720 : undefined} loading="lazy" decoding="async" />}
     </div>
   </section>
 
@@ -364,4 +365,5 @@ const faqSchema = {
       <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
     </div>
   </section>
+  <style>.service-prose-only { max-width: 850px; }</style>
 </Base>
