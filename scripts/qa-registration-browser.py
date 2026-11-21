@@ -15,14 +15,16 @@ async def inspect(browser, width):
     page = await ctx.new_page()
     for route,heading in [
         ("/register/","Register your group. Come have fun."),
-        ("/staff/","Event check-in"),
-        ("/staff/check-in/","Host check-in"),
-        ("/staff/owner/","Registrations & rewards")]:
+        ("/staff/","Event check-in")]:
         response=await page.goto(BASE+route,wait_until="domcontentloaded",timeout=45000)
         assert response and response.status==200,(route,response.status if response else None)
         assert heading in await page.locator("h1").inner_text(),route
         overflow=await page.evaluate("document.documentElement.scrollWidth-document.documentElement.clientWidth")
         assert overflow<=1,(route,"horizontal overflow",width,overflow)
+    for route in ("/staff/check-in/","/staff/owner/"):
+        response=await page.goto(BASE+route,wait_until="domcontentloaded")
+        assert response and response.status==200,route
+        assert page.url.rstrip("/").endswith("/staff"),"private dashboard must redirect to staff login when unauthenticated"
     response=await page.goto(BASE+"/register/",wait_until="domcontentloaded")
     assert response is not None
     assert await page.get_by_text("Online registration is not available yet.").count()==1, "registration must fail closed without an approved database and mail provider"

@@ -1,6 +1,9 @@
 ---
 export const prerender=false;
 import Base from '../../layouts/Base.astro';
+import { configured, readSession } from '../../lib/registration-auth';
+const staff=readSession(Astro.request);
+if(!configured() || !staff || staff.role!=='owner') return Astro.redirect('/staff/',302);
 ---
 <Base title="Four Dogs Registration Management" description="Private owner dashboard for Four Dogs event registrations." noindex>
 <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs owner</p><h1>Registrations & rewards</h1><p class="lead">See groups before the event, manage check-ins, and control the reward for each game night.</p></div></section>

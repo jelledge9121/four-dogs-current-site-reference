@@ -1,6 +1,14 @@
 ---
 export const prerender=false;
 import Base from '../../layouts/Base.astro';
+import { configured, readSession } from '../../lib/registration-auth';
+import { activeHost } from '../../lib/registration-db';
+const staff=readSession(Astro.request);
+if(!configured() || !staff) return Astro.redirect('/staff/',302);
+if(staff.role==='host'){
+  try { if(!await activeHost(staff.staffId)) return Astro.redirect('/staff/',302); }
+  catch { return Astro.redirect('/staff/',302); }
+}
 ---
 <Base title="Four Dogs Host Check-in" description="Private mobile event check-in for Four Dogs hosts." noindex>
 <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs staff</p><h1>Host check-in</h1><p class="lead">Find the group, verify the code, check them in, hand over the physical reward.</p></div></section>
