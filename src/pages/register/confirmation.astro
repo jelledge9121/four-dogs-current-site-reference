@@ -1,0 +1,58 @@
+---
+export const prerender=false;
+import Base from '../../layouts/Base.astro';
+import { configured, privateHeaders } from '../../lib/registration-auth';
+import { registrationByCode } from '../../lib/registration-db';
+import { eventDateLabel,easternTime,rewardMessage } from '../../lib/registration-core';
+import { allEvents } from '../../data/events';
+import { venueById } from '../../data/venues';
+
+const code=Astro.url.searchParams.get('code')?.trim().toUpperCase()||'';
+if(!configured()) return new Response('Registration confirmation is not available yet.',{status:503,headers:privateHeaders()});
+if(!/^FDE-[A-HJ-NP-Z2-9]{12}$/.test(code)) return new Response('Confirmation not found.',{status:404,headers:privateHeaders()});
+const record=await registrationByCode(code);
+if(!record) return new Response('Confirmation not found.',{status:404,headers:privateHeaders()});
+const event=allEvents.find(e=>e.id===record.event_id);
+if(!event) return new Response('This event is not available.',{status:404,headers:privateHeaders()});
+const venue=venueById(event.venueId);
+const eventEnded=event.status==='cancelled'||event.status==='postponed';
+const message=eventEnded?'This event has been canceled or postponed. Please check the calendar. No reward can be issued.':rewardMessage(record.reward_kind);
+Astro.response.headers.set('Cache-Control','private, no-store');
+Astro.response.headers.set('X-Robots-Tag','noindex,nofollow');
+Astro.response.headers.set('Referrer-Policy','no-referrer');
+---
+<Base title="Your Event Registration Confirmation | Four Dogs" description="Your private Four Dogs event registration confirmation." noindex>
+<section class="section dark"><div class="container"><p class="eyebrow">Event confirmation</p><h1>You’re registered!</h1><p class="lead">Bring this code to your Four Dogs host so they can check in your group.</p></div></section>
+<section class="section"><div class="container"><div class="confirmation-content">
+  <div class="code-panel"><p>Your unique confirmation code</p><strong>{record.code}</strong><small>Save this page or check your confirmation email.</small></div>
+  <dl class="confirmation-details">
+    <div><dt>Registered name</dt><dd>{record.name}</dd></div>
+    <div><dt>Group size</dt><dd>{record.group_size} {record.group_size===1?'person':'people'}</dd></div>
+    {record.team_name && <div><dt>Team</dt><dd>{record.team_name}</dd></div>}
+    <div><dt>Event</dt><dd>{event.title}</dd></div>
+    <div><dt>Venue</dt><dd>{venue.name}, {venue.city}, {venue.state}</dd></div>
+    <div><dt>Event date</dt><dd>{eventDateLabel(event)}</dd></div>
+    <div><dt>Start time</dt><dd>{event.startTime} Eastern</dd></div>
+    <div><dt>Registration completed</dt><dd>{easternTime(record.created_at)}</dd></div>
+    <div><dt>Check-in</dt><dd>{record.checked_in_at?'Already checked in':'Not yet checked in'}</dd></div>
+  </dl>
+  <section class="reward-instructions"><h2>Your reward instructions</h2><p>{message}</p>
+    <p class="fine">The email or screenshot alone does not award the reward. A Four Dogs host must verify your code and mark your group checked in. Registration does not reserve a restaurant table. Raffle tickets do not guarantee prizes.</p>
+  </section>
+  {record.email_status!=='sent' && <p class="email-notice" role="status">Your registration is saved, but the confirmation email has not yet been delivered. Save your code and ask your Four Dogs host for help if needed.</p>}
+  <p><a href="/events/">See more Four Dogs events</a></p>
+</div></div></section>
+<style>
+  .confirmation-content{max-width:670px}
+  .code-panel{background:#ecf7f9;border-left:5px solid #007d92;padding:26px 24px;text-align:center;display:grid;gap:8px}
+  .code-panel p{font-weight:700;margin:0}.code-panel strong{font-size:clamp(1.35rem,4vw,2.1rem);letter-spacing:.07em;overflow-wrap:anywhere}
+  .code-panel small{color:#465267}
+  .confirmation-details{margin:25px 0;display:grid}
+  .confirmation-details div{display:grid;grid-template-columns:minmax(120px,35%) 1fr;border-bottom:1px solid #ddd;padding:12px 0;gap:10px}
+  .confirmation-details dt{font-size:.92rem;color:#43526b}
+  .confirmation-details dd{margin:0;font-weight:650}
+  .reward-instructions{padding:20px 0}.reward-instructions p{white-space:pre-line;line-height:1.65}
+  .email-notice{padding:12px 17px;border-left:3px solid #9a6b20;background:#fcf7e9}
+  @media(max-width:480px){.confirmation-details div{grid-template-columns:1fr;gap:2px}}
+</style>
+</Base>

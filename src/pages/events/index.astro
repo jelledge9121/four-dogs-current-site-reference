@@ -6,6 +6,7 @@ import { events } from '../../data/events';
 import { venues } from '../../data/venues';
 import { wescoThursdayNotice, showWescoNotice, wescoBingoUrl } from '../../data/announcements';
 import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, needsTicket } from '../../lib/event-system';
+import { loadRegistrationPolicies, canRegisterFor } from '../../lib/registration-availability';
 const q=Astro.url.searchParams;
 const today=localToday();
 const view=['archive','updates'].includes(q.get('view')||'') ? q.get('view')! : 'upcoming';
@@ -14,6 +15,7 @@ const from=validDate(q.get('from')) || (view==='upcoming' ? today : '');
 const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,29) : '');
 const filters={view,from,to,city:q.get('city')||'',venue:q.get('venue')||'',category:q.get('category')||'',price:q.get('price')||''};
 const matches=selectEvents(events,venues,filters);
+const registrationPolicies=await loadRegistrationPolicies();
 // Keep old venue links usable, but omit retired venues from normal calendar choices.
 const visibleVenues=venues.filter(v=>v.active || (view==='archive' && v.id===filters.venue));
 const cities=[...new Set(venues.map(v=>v.city))].sort();
@@ -55,7 +57,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 </form></details>
 <div class="calendar-results-heading"><h2 id="event-results">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
 <p>{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
-{from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
+{from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event} canRegister={canRegisterFor(event,venues.find(v=>v.id===event.venueId)!,registrationPolicies)}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
 {view === 'upcoming' && <div class="actions"><a href={rangeLink(addDays(today, 30), addDays(today, 89))}>Explore the following 60 days →</a></div>}
 {featured && <aside class="calendar-note"><strong>Featured ticketed event</strong><p><a href={`/events/${featured.slug}/`}>{featured.title}</a> · {shortDate(featured.date)} · {featured.startTime} Eastern</p></aside>}
 {view === 'upcoming' && filters.venue === 'wesco' && showWescoNotice(today) && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See Music Bingo dates</a></p></aside>}
