@@ -11,7 +11,7 @@ export default defineConfig({
   output: 'static',
   adapter: netlify(),
   integrations: [sitemap({
-    customPages: [origin+'/', origin+'/events/', origin+'/for-venues/', origin+'/register/', ...venues.map(v=>`${origin}/venues/${v.slug}/`), ...cities.map(c=>`${origin}/areas/${c}/`), ...localSeoPages.map(p=>`${origin}/${p.slug}/`)],
+    customPages: [origin+'/', origin+'/events/', origin+'/for-venues/',  ...venues.map(v=>`${origin}/venues/${v.slug}/`), ...cities.map(c=>`${origin}/areas/${c}/`), ...localSeoPages.map(p=>`${origin}/${p.slug}/`)],
     customSitemaps: [origin+'/event-sitemap.xml'],
     filter: url => !url.includes('/admin/') && !url.includes('/staff/') && !url.includes('/api/') && !url.includes('/register/confirmation/') && !url.endsWith('/thank-you/'),
   })],
