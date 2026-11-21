@@ -67,7 +67,7 @@ import Base from '../../layouts/Base.astro';
 </style>
 <script>
 type OwnerEvent={id:string;title:string;venueId:string;venue:string;date:string;dateLabel:string;startTime:string;reward:string;enabled:boolean;rewardEnabled:boolean;registrationCloses:string|null;rewardCloses:string|null;registeredGroups:number;expectedPeople:number;checkedInGroups:number;checkedInPeople:number;issuedRewards:number};
-type OwnerReg={id:string;name:string;email:string;groupSize:number;teamName:string|null;code:string;reward:string;registeredAt:string;checkedInAt:string|null;rewardIssued:boolean;emailStatus:string};
+type OwnerReg={id:string;name:string;email:string;groupSize:number;teamName:string|null;code:string;reward:string;registeredAt:string;checkedInAt:string|null;actualGroupSize:number|null;rewardIssued:boolean;emailStatus:string};
 type Host={id:string;name:string;active:boolean};
 let events:OwnerEvent[]=[];
 let regs:OwnerReg[]=[];
@@ -146,7 +146,7 @@ function renderRegistrations(){
   const card=document.createElement('article');card.className='owner-group';
   card.append(line('h3',r.name+' · '+r.groupSize+(r.groupSize===1?' person':' people')));
   card.append(line('p',(r.teamName?r.teamName+' · ':'')+r.email+' · '+r.code));
-  card.append(line('p',r.checkedInAt?'Checked in · '+(r.rewardIssued?'Reward issued':'No reward'):'Not checked in'));
+  card.append(line('p',r.checkedInAt?'Checked in ('+(r.actualGroupSize||r.groupSize)+' present) · '+(r.rewardIssued?'Reward issued':'No reward'):'Not checked in'));
   card.append(line('p','Registered '+new Date(r.registeredAt).toLocaleString()+' · Email '+r.emailStatus));
   const actions=document.createElement('div');actions.className='owner-actions';
   const resend=document.createElement('button');resend.textContent='Resend confirmation';

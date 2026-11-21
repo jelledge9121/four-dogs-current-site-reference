@@ -49,7 +49,7 @@ function sanitizedRow(r:RegistrationRow,owner:boolean){
  return {id:r.id,name:r.name,groupSize:r.group_size,teamName:r.team_name,
   ...(owner?{email:r.email,emailStatus:r.email_status}:{}),
   code:r.code,reward:r.reward_kind,registeredAt:r.created_at,
-  checkedInAt:r.checked_in_at||null,rewardIssued:!!r.reward_issued};
+  checkedInAt:r.checked_in_at||null,actualGroupSize:r.actual_group_size||null,rewardIssued:!!r.reward_issued};
 }
 export const GET:APIRoute=async({request})=>{
  if(!configured())return json({error:'Staff access has not been configured.'},503);
@@ -63,7 +63,7 @@ export const GET:APIRoute=async({request})=>{
    const assigned=staff.role==='owner'?null:new Set((await assignedEvents(staff.staffId)).map(a=>a.event_id));
    const policies=await query('SELECT * FROM fde_registration.event_policies');
    const policyById=new Map(policies.map((p:any)=>[p.event_id,p]));
-   const counts=await query('SELECT r.event_id,COUNT(*)::integer AS groups,COALESCE(SUM(r.group_size),0)::integer AS expected,COUNT(c.registration_id)::integer AS checked_groups,COALESCE(SUM(CASE WHEN c.registration_id IS NOT NULL THEN r.group_size ELSE 0 END),0)::integer AS checked_people,COUNT(c.registration_id) FILTER (WHERE c.reward_issued)::integer AS rewards FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id GROUP BY r.event_id');
+   const counts=await query('SELECT r.event_id,COUNT(*)::integer AS groups,COALESCE(SUM(r.group_size),0)::integer AS expected,COUNT(c.registration_id)::integer AS checked_groups,COALESCE(SUM(c.actual_group_size),0)::integer AS checked_people,COUNT(c.registration_id) FILTER (WHERE c.reward_issued)::integer AS rewards FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id GROUP BY r.event_id');
    const countById=new Map(counts.map((p:any)=>[p.event_id,p]));
    const matches=events.filter(e=>validFreeEvent(e.id) && (!assigned||assigned.has(e.id)))
     .sort((a,b)=>b.date.localeCompare(a.date)||a.id.localeCompare(b.id)).slice(0,260);
@@ -91,13 +91,13 @@ export const GET:APIRoute=async({request})=>{
    if(staff.role!=='owner')return json({error:'Owner access is required.'},403);
    const venueId=url.searchParams.get('venueId')||'';
    const all=eventId ? await registrationsForEvent(eventId)
-     : await query<RegistrationRow>('SELECT r.*,c.checked_in_at,c.checked_in_by,c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id ORDER BY r.created_at DESC LIMIT 20000');
-   const header=['Event ID','Event','Venue','Event date','Code','Name','Email','Group size','Team','Registered (UTC)','Reward','Checked in (UTC)','Reward issued'];
+     : await query<RegistrationRow>('SELECT r.*,c.checked_in_at,c.checked_in_by,c.actual_group_size,c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id ORDER BY r.created_at DESC LIMIT 20000');
+   const header=['Event ID','Event','Venue','Event date','Code','Name','Email','Expected group size','Team','Registered (UTC)','Reward','Checked in (UTC)','Actual people at check-in','Reward issued'];
    const lines=[header.map(safeCSV).join(',')];
    for(const r of all){
     const e=eventFor(r.event_id);if(!e)continue;
     if(venueId&&e.venueId!==venueId)continue;
-    lines.push([r.event_id,e.title,venueById(e.venueId).name,e.date,r.code,r.name,r.email,r.group_size,r.team_name||'',r.created_at,r.reward_kind,r.checked_in_at||'',r.reward_issued?'Yes':'No'].map(safeCSV).join(','));
+    lines.push([r.event_id,e.title,venueById(e.venueId).name,e.date,r.code,r.name,r.email,r.group_size,r.team_name||'',r.created_at,r.reward_kind,r.checked_in_at||'',r.actual_group_size??'',r.reward_issued?'Yes':'No'].map(safeCSV).join(','));
    }
    return new Response(lines.join('\r\n')+'\r\n',{headers:{...privateHeaders(),'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="four-dogs-registrations.csv"'}});
   }
@@ -154,7 +154,7 @@ export const POST:APIRoute=async({request,clientAddress})=>{
    if(e.date!==nowEasternDate())return json({error:'Check-in is available on the event date only.'},409);
    const code=typeof data.code==='string'?data.code.trim().toUpperCase():'';
    if(!/^FDE-[A-HJ-NP-Z2-9]{12}$/.test(code))return json({error:'Enter the complete confirmation code.'},400);
-   try{return json({ok:true,checkin:await claimCheckin(code,eventId,staff.staffId)})}
+   try{return json({ok:true,checkin:await claimCheckin(code,eventId,staff.staffId,Number(data.actualGroupSize))})}
    catch(err){return json({error:(err as Error).message},409)}
   }
   if(staff.role!=='owner')return json({error:'Owner access is required.'},403);

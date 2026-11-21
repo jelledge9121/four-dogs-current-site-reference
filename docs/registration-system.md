@@ -64,7 +64,7 @@ Store the hash in \`FDE_OWNER_PASSWORD_HASH\` and keep the password in a passwor
 
 - Host login: \`/staff/\`. Assigned events and party counts: \`/staff/check-in/\`. Only the owner can assign a host to events.
 - Search by code or name. **Find group** verifies against a protected server route. **Check in and issue reward** inserts a unique registration check-in row in one PostgreSQL transaction. Concurrent requests to check in the same code yield one winner and one rejection.
-- Host sees registered name, group size, code and reward, not customer email.
+- Host sees registered name, expected group size, code and reward, not customer email. The check-in screen defaults to the registered size but lets the host enter how many people are actually present; owner reports use the checked-in actual count.
 - Owner dashboard: \`/staff/owner/\`. View event totals, party counts, check-in and reward status. Export private CSV. Configure individual event policies. Create staff credentials and assign events. Resend confirmations. Correct an accidental check-in with a required reason and append-only audit row.
 - A correction deletes the active check-in in the same transaction that records the correction. A later valid event-day check-in may be issued again. This is a supervised exception, not guest-controlled.
 

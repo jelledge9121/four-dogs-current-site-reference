@@ -49,6 +49,7 @@ CREATE INDEX IF NOT EXISTS fde_regs_by_name ON fde_registration.registrations(ev
 CREATE TABLE IF NOT EXISTS fde_registration.checkins (
  registration_id TEXT PRIMARY KEY REFERENCES fde_registration.registrations(id) ON DELETE RESTRICT,
  checked_in_by TEXT NOT NULL,
+ actual_group_size INTEGER NOT NULL CHECK (actual_group_size BETWEEN 1 AND 50),
  checked_in_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
  reward_issued BOOLEAN NOT NULL DEFAULT FALSE
 );

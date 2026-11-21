@@ -20,6 +20,7 @@ import Base from '../../layouts/Base.astro';
 <h3 id="host-match-name"></h3>
 <p id="host-match-details"></p>
 <p id="host-match-status"></p>
+<label for="host-attending">People here now</label><input id="host-attending" type="number" min="1" max="50" inputmode="numeric" required />
 <button id="host-checkin" class="button" type="button">Check in and issue reward</button>
 </div>
 <p id="host-message" role="status" aria-live="polite"></p>
@@ -47,7 +48,7 @@ import Base from '../../layouts/Base.astro';
 @media(max-width:560px){.host-stats{grid-template-columns:repeat(2,1fr)}.host-search{flex-direction:column}.host-search button{width:100%}}
 </style>
 <script>
-type Reg = {id:string;name:string;groupSize:number;teamName:string|null;code:string;reward:'appetizer'|'raffle'|'none';checkedInAt:string|null;rewardIssued:boolean};
+type Reg = {id:string;name:string;groupSize:number;teamName:string|null;code:string;reward:'appetizer'|'raffle'|'none';checkedInAt:string|null;actualGroupSize:number|null;rewardIssued:boolean};
 type EventOption={id:string;title:string;venue:string;date:string;dateLabel:string;startTime:string};
 let events:EventOption[]=[];
 let registrations:Reg[]=[];
@@ -59,6 +60,7 @@ const message=byId('host-message');
 const matches=byId('host-results');
 const detail=byId('host-match');
 const checkButton=byId('host-checkin') as HTMLButtonElement;
+const actualInput=byId('host-attending') as HTMLInputElement;
 async function loadJSON(url:string,options?:RequestInit){
  const r=await fetch(url,options);const d=await r.json();
  if(r.status===401){location.assign('/staff/');throw Error('Sign-in required')}
@@ -103,7 +105,9 @@ function showMatch(reg:Reg){
  byId('host-match-details').textContent=reg.groupSize+(reg.groupSize===1?' person':' people')
    +(reg.teamName?' · Team: '+reg.teamName:'')+' · '+reg.code;
  const reward=reg.reward==='appetizer'?'ONE physical appetizer coupon':reg.reward==='raffle'?'ONE physical extra raffle ticket':'No reward';
- byId('host-match-status').textContent=reg.checkedInAt?'ALREADY CHECKED IN. Do not issue another reward.':'Not checked in. Reward: '+reward;
+ byId('host-match-status').textContent=reg.checkedInAt?'ALREADY CHECKED IN ('+(reg.actualGroupSize||reg.groupSize)+' people). Do not issue another reward.':'Not checked in. Reward: '+reward;
+ actualInput.value=String(reg.actualGroupSize||reg.groupSize);
+ actualInput.disabled=!!reg.checkedInAt;
  checkButton.disabled=!!reg.checkedInAt;
  checkButton.textContent=reg.checkedInAt?'Already checked in':'Check in and issue '+(reg.reward==='appetizer'?'appetizer coupon':reg.reward==='raffle'?'raffle ticket':'no reward');
  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -133,9 +137,11 @@ byId('host-find').addEventListener('click',findGroup);
 finder.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();findGroup()}});
 checkButton.addEventListener('click',async()=>{
  if(!current||!select.value)return;
+ const attending=Number(actualInput.value);
+ if(!Number.isInteger(attending)||attending<1||attending>50){message.textContent='Enter how many people are actually here (1 to 50).';return}
  checkButton.disabled=true;message.textContent='Verifying and saving check-in…';
  try{
-  const r=await post({action:'checkin',eventId:select.value,code:current.code});
+  const r=await post({action:'checkin',eventId:select.value,code:current.code,actualGroupSize:attending});
   message.textContent='Verified and checked in. '+(r.checkin.reward==='appetizer'?'Give ONE physical appetizer coupon.':r.checkin.reward==='raffle'?'Give ONE extra physical raffle ticket.':'No physical reward applies.');
   const verifiedName=current.name;
   await loadRegistrations();

@@ -31,7 +31,7 @@ export type RegistrationRow = {
  id: string; event_id: string; code: string; name: string; email: string; email_key: string;
  group_size: number; team_name: string | null; reward_kind: 'appetizer'|'raffle'|'none';
  created_at: Date; email_status: 'pending'|'sent'|'failed'; email_attempts: number; email_sent_at: Date | null;
- checked_in_at?: Date | null; checked_in_by?: string | null; reward_issued?: boolean | null;
+ checked_in_at?: Date | null; checked_in_by?: string | null; actual_group_size?: number | null; reward_issued?: boolean | null;
 };
 export async function findPolicy(eventId: string): Promise<Partial<Policy> | null> {
   const r = await query<Policy>('SELECT * FROM fde_registration.event_policies WHERE event_id=$1',[eventId]);
@@ -39,9 +39,12 @@ export async function findPolicy(eventId: string): Promise<Partial<Policy> | nul
 }
 export async function saveRegistration(input: RegistrationInput, event: Event, venue: Venue, ip: string, now = new Date()): Promise<RegistrationRow> {
   const secret = process.env.FDE_SESSION_SECRET!;
-  return await inTransaction(async run => {
+  // Keep abuse counters even when an attempted duplicate registration is rejected.
+  await inTransaction(async run => {
     await recordRateHit(run, ipIdentifier(ip,secret,'register'), 12, 15);
     await recordRateHit(run, ipIdentifier(input.email,secret,'email'), 8, 60);
+  });
+  return await inTransaction(async run => {
     const fresh = await run<{time:Date}>('SELECT NOW() AS time');
     // Use the database clock for reward/deadline enforcement, not the browser clock.
     const at = fresh[0]?.time || now;
@@ -61,23 +64,25 @@ export async function saveRegistration(input: RegistrationInput, event: Event, v
   });
 }
 export async function registrationByCode(code:string): Promise<RegistrationRow | null> {
-  const rows = await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.code=$1',[code.trim().toUpperCase()]);
+  const rows = await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.actual_group_size, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.code=$1',[code.trim().toUpperCase()]);
   return rows[0] || null;
 }
 export async function registrationsForEvent(eventId:string): Promise<RegistrationRow[]> {
-  return await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.event_id=$1 ORDER BY r.created_at DESC',[eventId]);
+  return await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.actual_group_size, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.event_id=$1 ORDER BY r.created_at DESC',[eventId]);
 }
 export function registrationTotals(rows:RegistrationRow[]) {
   const checked=rows.filter(r=>r.checked_in_at);
   return { registeredGroups: rows.length, expectedPeople: rows.reduce((n,r)=>n+r.group_size,0),
-    checkedInGroups:checked.length, checkedInPeople:checked.reduce((n,r)=>n+r.group_size,0),
+    checkedInGroups:checked.length, checkedInPeople:checked.reduce((n,r)=>n+(r.actual_group_size ?? r.group_size),0),
     issuedRewards:checked.filter(r=>r.reward_issued).length };
 }
-export async function claimCheckin(code:string,eventId:string,actorId:string) {
+export async function claimCheckin(code:string,eventId:string,actorId:string, actualGroupSize?:number) {
   return await inTransaction(async run => {
-    const reg = (await run<RegistrationRow>('SELECT id,event_id,reward_kind FROM fde_registration.registrations WHERE code=$1 AND event_id=$2',[code.trim().toUpperCase(),eventId]))[0];
+    const reg = (await run<RegistrationRow>('SELECT id,event_id,reward_kind,group_size FROM fde_registration.registrations WHERE code=$1 AND event_id=$2',[code.trim().toUpperCase(),eventId]))[0];
     if (!reg) throw new Error('No registration matches this code for this event.');
-    const results = await run('INSERT INTO fde_registration.checkins (registration_id,checked_in_by,reward_issued) VALUES ($1,$2,$3) ON CONFLICT (registration_id) DO NOTHING RETURNING registration_id',[reg.id,actorId,reg.reward_kind !== 'none']);
+    const attending = actualGroupSize ?? reg.group_size;
+    if (!Number.isInteger(attending) || attending < 1 || attending > 50) throw new Error('Enter the number of people actually attending (1 to 50).');
+    const results = await run('INSERT INTO fde_registration.checkins (registration_id,checked_in_by,actual_group_size,reward_issued) VALUES ($1,$2,$3,$4) ON CONFLICT (registration_id) DO NOTHING RETURNING registration_id',[reg.id,actorId,attending,reg.reward_kind !== 'none']);
     if (!results.length) throw new Error('This registration has already been checked in. Do not issue a second reward.');
     await run('INSERT INTO fde_registration.audit (id,registration_id,event_id,actor_id,action) VALUES ($1,$2,$3,$4,$5)',
       [randomUUID(),reg.id,eventId,actorId,'checked_in']);

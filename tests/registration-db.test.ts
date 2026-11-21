@@ -24,8 +24,8 @@ t('A real Postgres connection persists registrations, rejects duplicates, and at
  const before=await registrationByCode(registered.code);
  assert.equal(before?.name,'Test Guest');
  const pair=await Promise.allSettled([
-  claimCheckin(registered.code,event.id,'host-one'),
-  claimCheckin(registered.code,event.id,'host-two')
+  claimCheckin(registered.code,event.id,'host-one',3),
+  claimCheckin(registered.code,event.id,'host-two',3)
  ]);
  assert.equal(pair.filter(x=>x.status==='fulfilled').length,1);
  assert.equal(pair.filter(x=>x.status==='rejected').length,1);
@@ -33,7 +33,7 @@ t('A real Postgres connection persists registrations, rejects duplicates, and at
  assert.ok(after?.checked_in_at);
  assert.equal(after?.reward_issued,true);
  assert.deepEqual(registrationTotals(await registrationsForEvent(event.id)),{
-  registeredGroups:1,expectedPeople:4,checkedInGroups:1,checkedInPeople:4,issuedRewards:1
+  registeredGroups:1,expectedPeople:4,checkedInGroups:1,checkedInPeople:3,issuedRewards:1
  });
  // Persistence across processes is the requirement, not a JS in-memory map.
  const script='import {registrationByCode,getDB} from "./src/lib/registration-db.ts"; const r=await registrationByCode(process.env.TEST_CODE); if(!r)process.exit(3); console.log(r.code); await getDB().end({timeout:5});';
@@ -43,8 +43,9 @@ t('A real Postgres connection persists registrations, rejects duplicates, and at
  assert.equal(fresh,registered.code);
  await correctCheckin(registered.id,event.id,'owner','Correction for accidental tap');
  assert.equal((await registrationByCode(registered.code))?.checked_in_at,null);
- const second=await claimCheckin(registered.code,event.id,'host-one');
+ const second=await claimCheckin(registered.code,event.id,'host-one',2);
  assert.equal(second.rewardIssued,true);
+ assert.equal((await registrationByCode(registered.code))?.actual_group_size,2);
  const log=await query<{action:string}>('SELECT action FROM fde_registration.audit WHERE event_id=$1 ORDER BY at',[event.id]);
  assert.deepEqual(log.map(x=>x.action),['registered','checked_in','checkin_corrected','checked_in']);
  const count=await query<{n:number}>('SELECT COUNT(*)::integer AS n FROM fde_registration.checkins WHERE registration_id=$1',[registered.id]);
