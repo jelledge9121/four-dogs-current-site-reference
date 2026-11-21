@@ -11,14 +11,16 @@
     "check": "astro check",
     "qa": "node --import tsx scripts/qa.mjs && node --import tsx scripts/qa-ssr.mjs",
     "test": "node --import tsx --test tests/events.test.ts && node --test tests/premium-motion.test.mjs",
-    "export-events": "node --import tsx scripts/export-events.ts"
+    "export-events": "node --import tsx scripts/export-events.ts",
+    "setup-registration-db": "node scripts/setup-registration-db.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "6.6.5",
     "@astrojs/sitemap": "^3.6.0",
     "@js-temporal/polyfill": "0.5.1",
     "astro": "5.18.2",
-    "sharp": "0.34.5"
+    "sharp": "0.34.5",
+    "postgres": "3.4.7"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
