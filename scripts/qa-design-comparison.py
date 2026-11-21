@@ -4,12 +4,12 @@ The production site is read-only. No booking form is submitted.
 """
 import asyncio
 import json
-import re
+import os
 from pathlib import Path
 from playwright.async_api import async_playwright
 
 BEFORE = "https://4dogsentertainment.com"
-AFTER = "http://127.0.0.1:4321"
+AFTER = os.environ.get("FOUR_DOGS_DESIGN_AFTER_URL", "http://127.0.0.1:4321")
 PAGES = {
     "home": "/",
     "services": "/services/",
@@ -63,9 +63,23 @@ async def capture(browser, origin, kind, name, route, device, width, height):
           }
           scrollTo(0, 0);
         }""")
-        await page.wait_for_timeout(450)
+        # Ensure screenshots show actual image content rather than lazy-load placeholders.
+        await page.evaluate("""async () => {
+          const images = [...document.querySelectorAll('main img')];
+          await Promise.all(images.map(async (img) => {
+            img.loading = 'eager';
+            await Promise.race([
+              img.decode().catch(() => {}),
+              new Promise(resolve => setTimeout(resolve, 15000))
+            ]);
+          }));
+        }""")
+        await page.wait_for_timeout(200)
         result["broken_images"] = await page.locator("main img").evaluate_all(
             "(images) => images.filter(i => i.complete && i.naturalWidth === 0).map(i => i.getAttribute('src'))"
+        )
+        result["incomplete_images"] = await page.locator("main img").evaluate_all(
+            "(images) => images.filter(i => !i.complete).map(i => i.getAttribute('src'))"
         )
         path = IMAGES / f"design-{kind}-{name}-{device}.png"
         await page.screenshot(path=str(path), full_page=True, animations="disabled", timeout=30000)
@@ -75,6 +89,7 @@ async def capture(browser, origin, kind, name, route, device, width, height):
             assert result["overflow_px"] <= 1, (name, "horizontal overflow", result["overflow_px"])
             assert result["canonical"], (name, "canonical missing")
             assert not result["broken_images"], (name, "broken images", result["broken_images"])
+            assert not result["incomplete_images"], (name, "incomplete images", result["incomplete_images"])
             if name == "weddings":
                 assert await page.locator('video source[src^="/videos/weddings/"]').count() == 9, "wedding videos missing"
             if name == "photo-booth":

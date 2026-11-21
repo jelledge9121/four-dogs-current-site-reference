@@ -44,15 +44,45 @@ jobs:
         run: |
           npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
           python scripts/qa-premium-browser.py
-          python scripts/qa-design-comparison.py
-      - name: Lighthouse mobile performance, accessibility and SEO
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            PR_NUMBER="$(python -c 'import json,os; print(json.load(open(os.environ["GITHUB_EVENT_PATH"]))["number"])')"
+            export FOUR_DOGS_DESIGN_AFTER_URL="https://deploy-preview-${PR_NUMBER}--4dogsentertainment.netlify.app"
+            python scripts/qa-design-comparison.py
+          fi
+      - name: Compare rendered Impeccable findings on production and deploy preview
         if: github.event_name == 'pull_request'
         continue-on-error: true
         run: |
           mkdir -p qa-design
+          PR_NUMBER="$(python -c 'import json,os; print(json.load(open(os.environ["GITHUB_EVENT_PATH"]))["number"])')"
           export CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux64/chrome' -print -quit)"
-          npx --yes lighthouse@12 http://127.0.0.1:4321/ --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=qa-design/lighthouse-home-mobile.json --quiet
-          echo "Lighthouse report saved to qa-design/lighthouse-home-mobile.json"
+          set +e
+          for page in home services weddings for-the-brides; do
+            if [ "$page" = "home" ]; then route="/"; else route="/$page/"; fi
+            npx --yes impeccable@4.8.0 detect --json "https://4dogsentertainment.com$route" > "qa-design/impeccable-rendered-before-$page.json" 2> "qa-design/impeccable-rendered-before-$page.log"
+            echo "$?" > "qa-design/impeccable-rendered-before-$page-status.txt"
+            npx --yes impeccable@4.8.0 detect --json "https://deploy-preview-${PR_NUMBER}--4dogsentertainment.netlify.app$route" > "qa-design/impeccable-rendered-after-$page.json" 2> "qa-design/impeccable-rendered-after-$page.log"
+            echo "$?" > "qa-design/impeccable-rendered-after-$page-status.txt"
+          done
+          set -e
+          echo "Impeccable rendered-page exit statuses. Findings are preserved in artifacts:"
+          for report in qa-design/impeccable-rendered-*-status.txt; do echo "$report: $(cat "$report")"; done
+      - name: Compare production and preview mobile Lighthouse scores
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          mkdir -p qa-design
+          PR_NUMBER="$(python -c 'import json,os; print(json.load(open(os.environ["GITHUB_EVENT_PATH"]))["number"])')"
+          export CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux64/chrome' -print -quit)"
+          npx --yes lighthouse@12 https://4dogsentertainment.com/ --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=qa-design/lighthouse-before-home-mobile.json --quiet
+          npx --yes lighthouse@12 "https://deploy-preview-${PR_NUMBER}--4dogsentertainment.netlify.app/" --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=qa-design/lighthouse-after-home-mobile.json --quiet
+          python - <<'PY'
+          import json
+          for version in ('before', 'after'):
+              with open(f'qa-design/lighthouse-{version}-home-mobile.json') as file:
+                  audit = json.load(file)
+              print(version, {key: int(info['score']*100) for key, info in audit['categories'].items()})
+          PY
       - name: Keep screenshots for review
         if: always()
         uses: actions/upload-artifact@v4
