@@ -76,9 +76,11 @@ jobs:
             done
             python scripts/qa-premium-browser.py
             python scripts/qa-design-comparison.py
+            python scripts/qa-registration-browser.py
           else
             npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
             python scripts/qa-premium-browser.py
+            python scripts/qa-registration-browser.py
           fi
       - name: Compare rendered Impeccable findings on production and deploy preview
         if: github.event_name == 'pull_request'
