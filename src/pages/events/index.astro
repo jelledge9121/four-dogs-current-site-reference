@@ -4,20 +4,33 @@ import Base from '../../layouts/Base.astro';
 import EventCard from '../../components/EventCard.astro';
 import { events } from '../../data/events';
 import { venues } from '../../data/venues';
-import { wescoThursdayNotice } from '../../data/announcements';
-import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, phase } from '../../lib/event-system';
+import { wescoThursdayNotice, showWescoNotice, wescoBingoUrl } from '../../data/announcements';
+import { selectEvents, CATEGORIES, addDays, localToday, categorySlug, needsTicket } from '../../lib/event-system';
 const q=Astro.url.searchParams;
 const today=localToday();
 const view=['archive','updates'].includes(q.get('view')||'') ? q.get('view')! : 'upcoming';
 const validDate=(value:string|null) => value && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(`${value}T12:00:00Z`).toISOString().slice(0,10)===value ? value : '';
 const from=validDate(q.get('from')) || (view==='upcoming' ? today : '');
-const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,30) : '');
+const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,29) : '');
 const filters={view,from,to,city:q.get('city')||'',venue:q.get('venue')||'',category:q.get('category')||'',price:q.get('price')||''};
 const matches=selectEvents(events,venues,filters);
-const featuredLiveBingo = events.find(e=>e.id==='charter-803-2026-12-17' && ['upcoming','live'].includes(phase(e)));
 const cities=[...new Set(venues.map(v=>v.city))].sort();
 const hasFilters = !!(filters.city || filters.venue || filters.category || filters.price || q.has('from') || q.has('to'));
-const rangeLink = (days:number) => { const params = new URLSearchParams(); for(const key of ['city','venue','category','price']) if(q.get(key))params.set(key,q.get(key)!);params.set('from',today);params.set('to',addDays(today,days));return `/events/?${params}`; };
+const monthStart = today.slice(0, 8) + '01';
+const nextMonthStart = addDays(monthStart, 32).slice(0, 8) + '01';
+const monthEnd = addDays(nextMonthStart, -1);
+const monthLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'America/New_York' }).format(new Date(today + 'T12:00:00Z'));
+const rangeLink = (start: string, end: string) => {
+  const params = new URLSearchParams();
+  for (const key of ['city', 'venue', 'category', 'price']) {
+    const value = q.get(key);
+    if (value) params.set(key, value);
+  }
+  params.set('from', start);
+  params.set('to', end);
+  return '/events/?' + params;
+};
+const featured = view === 'upcoming' && !hasFilters ? matches.find(event => event.featured && needsTicket(event) && event.registrationUrl) : undefined;
 const shortDate = (date:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'}).format(new Date(`${date}T12:00:00Z`));
 const rangeLabel = from && to ? `${shortDate(from)} to ${shortDate(to)}` : '';
 const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name, filters.category, filters.price==='free'?'Free admission':filters.price==='paid'?'Ticketed events':''].filter(Boolean);
@@ -25,21 +38,9 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 ---
 <Base title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
 <section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">Most regular public game nights are free; special ticketed events have separate admission details. All times Eastern.</p></div></section>
-{featuredLiveBingo && <section class="section alt" aria-labelledby="featured-live-bingo-title">
-  <div class="container split">
-    <div><p class="eyebrow">Featured ticketed event · December 17</p>
-      <h2 id="featured-live-bingo-title">Live Music Bingo with Soda City Serenade</h2>
-      <p>Soda City Serenade performs live while you play Four Dogs Music Bingo at Charter 803 Bar & Grill in Lexington. Expect familiar tunes, multiple chances to win prizes, and a lively night out.</p>
-      <p><strong>Thursday, December 17 · {featuredLiveBingo.startTime} Eastern</strong></p>
-    </div>
-    <div class="actions"><a class="button" href={`/events/${featuredLiveBingo.slug}/#tickets`}>Event details & tickets</a>
-    {featuredLiveBingo.registrationUrl && <a href={featuredLiveBingo.registrationUrl} target="_blank" rel="noopener noreferrer">Buy tickets directly →</a>}</div>
-  </div>
-</section>}
-<section class="section alt" aria-label="WesCo Thursday update"><div class="container"><h2>Thursday at WesCo</h2><p>{wescoThursdayNotice}</p><a href="/events/?venue=wesco&amp;from=2026-11-19&amp;to=2026-12-17">See WesCo Music Bingo dates →</a></div></section>
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
-{view==='upcoming' && <div class="date-shortcuts" aria-label="Quick date ranges"><a href={rangeLink(0)}>Today</a><a href={rangeLink(6)}>Next 7 days</a><a href={rangeLink(30)}>Next 30 days</a><a href="/events/?from=2026-11-01&amp;to=2026-11-30">November 2026</a></div>}
+{view==='upcoming' && <div class="date-shortcuts" aria-label="Quick date ranges"><a href={rangeLink(today, today)}>Today</a><a href={rangeLink(today, addDays(today, 6))}>Next 7 days</a><a href={rangeLink(today, addDays(today, 29))}>Next 30 days</a><a href={rangeLink(monthStart, monthEnd)}>{monthLabel}</a></div>}
 <details class="filter-disclosure" open={hasFilters}><summary>Filter by city, venue, activity or date{selectedLabels.length>0 && <span class="filter-selection">{selectedLabels.join(' · ')}</span>}</summary>
 <form class="event-filters" method="get" action="/events/" aria-label="Filter public events">
 <input type="hidden" name="view" value={view}/>
@@ -53,7 +54,9 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 <div class="calendar-results-heading"><h2 id="event-results">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
 <p>{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
 {from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
-<div class="actions"><a href={`/events/?from=${addDays(today,31)}&to=${addDays(today,90)}`}>Explore the following 60 days →</a></div>
+{view === 'upcoming' && <div class="actions"><a href={rangeLink(addDays(today, 30), addDays(today, 89))}>Explore the following 60 days →</a></div>}
+{featured && <aside class="calendar-note"><strong>Featured ticketed event</strong><p><a href={`/events/${featured.slug}/`}>{featured.title}</a> · {shortDate(featured.date)} · {featured.startTime} Eastern</p></aside>}
+{view === 'upcoming' && filters.venue === 'wesco' && showWescoNotice(today) && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See Music Bingo dates</a></p></aside>}
 <details><summary>Browse by activity</summary><div class="actions">{CATEGORIES.map(c=><a href={`/events/category/${categorySlug(c)}/`}>{c}</a>)}</div></details>
 </div></section>
 <section class="section dark"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><a class="button" href="/booking/">Plan your own event</a></div></section>

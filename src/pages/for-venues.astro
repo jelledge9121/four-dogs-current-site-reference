@@ -15,15 +15,15 @@ const formats = [
   { name: 'Are You Smarter Than a Barstool?', details: 'A playful school-subject challenge and a change of pace from traditional trivia.', href: '/services/are-you-smarter-than-a-barstool/' },
 ];
 ---
-<Base title="Trivia & Music Bingo for Restaurants in Columbia, SC | Four Dogs" description="Looking for a trivia host or Music Bingo partner? Four Dogs helps restaurants and bars in Columbia, Lexington and the Midlands run recurring game nights with hosting, games and promotional support. Ask about a trial night.">
+<Base title="Weekly Entertainment for Restaurants & Bars in SC | Four Dogs" description="Plan weekly entertainment for your restaurant or bar with Four Dogs. Explore trivia, Music Bingo, original game shows, professional hosts and local promotional support.">
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">For restaurant & bar owners</p>
-      <h1>Weekly trivia and Music Bingo that give guests a reason to come back.</h1>
-      <p class="lead">A dependable host, well-run games, and help getting the word out. Four Dogs partners with restaurants and bars in Columbia, Lexington, and across the South Carolina Midlands.</p>
+      <h1>Weekly entertainment for your bar or restaurant.</h1>
+      <p class="lead">We plan the games, host the night and help get the word out. Choose trivia, Music Bingo or a Four Dogs original that fits your crowd.</p>
       <div class="actions">
-        <a class="button" href="/booking/?service=Venue%20Entertainment">Ask about a trial night</a>
-        <a class="button secondary" href="/events/">See our games in action</a>
+        <a class="button" href="/booking/?service=Venue%20Entertainment">Talk about a weekly partnership</a>
+        <a class="button secondary" href="/events/">See our venue nights</a>
       </div>
       <p class="fine">No need to have every detail figured out. Tell us about your venue and the night you have in mind.</p>
     </div>
@@ -32,7 +32,7 @@ const formats = [
   <section class="section">
     <div class="container split">
       <div>
-        <p class="eyebrow">More than a person with a microphone</p>
+        <p class="eyebrow">Hosting and promotion</p>
         <h2>We handle the entertainment so you can run your restaurant.</h2>
         <p>We plan the format, bring a professional host, run the rounds, manage scoring, and keep guests engaged. We also provide promotional graphics and support sharing the event. Your team can stay focused on food, drinks, and hospitality.</p>
         <p>The best recurring night fits the room. We can talk through your audience, what your venue already offers, and whether trivia, Music Bingo, or a rotating game format makes sense.</p>
@@ -40,6 +40,16 @@ const formats = [
       <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" loading="lazy" decoding="async" />
     </div>
   </section>
+
+  {venueOwnerReview?.approved && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">From a venue owner</p>
+        <h2>What a real Four Dogs partnership looks like.</h2>
+        <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />
+      </div>
+    </section>
+  )}
 
   <section class="section alt">
     <div class="container">
@@ -98,22 +108,12 @@ const formats = [
     </div>
   </section>
 
-  {venueOwnerReview?.approved && (
-    <section class="section">
-      <div class="container">
-        <p class="eyebrow">From a venue owner</p>
-        <h2>What a real Four Dogs partnership looks like.</h2>
-        <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />
-      </div>
-    </section>
-  )}
-
   <section class="section dark">
     <div class="container">
-      <h2>Want to try a game night at your place?</h2>
+      <h2>Which night fits your venue?</h2>
       <p>Tell us your restaurant's name, location, and a night you'd like to explore. We'll talk through the format and whether a trial date is a fit.</p>
       <div class="actions">
-        <a class="button" href="/booking/?service=Venue%20Entertainment">Request a trial-night conversation</a>
+        <a class="button" href="/booking/?service=Venue%20Entertainment">Talk about a weekly partnership</a>
         <a class="button secondary" href="mailto:bookings@4dogsentertainment.com?subject=Venue%20Entertainment%20Inquiry">Email Four Dogs</a>
       </div>
       <p class="fine">Bring your people. We’ll bring the Doggone Good Time.</p>

@@ -8,11 +8,7 @@ import { site } from '../data/site';
 
   <p id="booking-form-hint" class="fine">Required fields are marked “required.”</p>
   <div class="form-grid">
-    <label>Name (required) <input name="name" autocomplete="name" required></label>
-    <label>Phone (required) <input name="phone" type="tel" autocomplete="tel" required></label>
-    <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
-    <label>Preferred date <input id="preferred-date" name="preferred-date" type="date"></label>
-    <label>Service (required)
+    <label class="wide">Service (required)
       <select id="service" name="service" required>
         <option value="">Choose one</option>
         {services.map(s=><option value={s.bookingValue} data-service-slug={s.slug}>{s.bookingValue}</option>)}
@@ -22,25 +18,28 @@ import { site } from '../data/site';
         <option>Christmas / Holiday Entertainment</option>
       </select>
     </label>
+    <label>Name (required) <input name="name" autocomplete="name" required></label>
+    <label>Phone (required) <input name="phone" type="tel" autocomplete="tel" required></label>
+    <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
+    <label>Preferred date <input id="preferred-date" name="preferred-date" type="date"></label>
+    <label class="wide">Venue / location <input name="venue-location"></label>
+    <label data-recurring>Recurring event?
+      <select name="recurring"><option value="">Choose if known</option><option>No</option><option>Yes</option><option>Not sure</option></select>
+    </label>
+    <label data-guests>Guest count <input name="guest-count" type="number" min="1"></label>
     <label>City <input name="city" autocomplete="address-level2"></label>
     <label>State <input name="state" value="SC" autocomplete="address-level1"></label>
-    <label>Guest count <input name="guest-count" type="number" min="1"></label>
-    <label>Recurring event?
-      <select name="recurring"><option>No</option><option>Yes</option><option>Not sure</option></select>
+    <label class="wide checkbox-row" id="holiday-interest" hidden>
+      <input type="checkbox" aria-controls="holiday-options"> This is a holiday party
     </label>
-    <label>Preferred contact method
-      <select name="contact-method"><option>Email</option><option>Phone call</option><option>Text message</option></select>
-    </label>
-    <label class="wide">Venue / location <input name="venue-location"></label>
-
-    <fieldset id="holiday-options" class="holiday-options" hidden>
+    <fieldset id="holiday-options" class="holiday-options">
       <legend>Holiday Add-On</legend>
       <p>Planning a holiday-season event? Santa Jim can be paired with Four Dogs entertainment so one event can work for families, coworkers, neighbors, and mixed-age groups.</p>
       <label class="checkbox-row">
         <input type="checkbox" name="santa-jim-interest" value="Interested in Santa Jim">
         <span>I’m interested in adding a traditional real-beard Santa appearance with Santa Jim.</span>
       </label>
-      <label>Will children be attending?
+      <label data-children>Will children be attending?
         <select name="children-attending">
           <option value="">Choose one if helpful</option>
           <option>Yes</option>
@@ -51,20 +50,28 @@ import { site } from '../data/site';
       <p class="fine"><a href="/christmas/">See how Four Dogs + Santa Jim can work together for a holiday event →</a></p>
     </fieldset>
 
-    <label class="wide">How did you hear about Four Dogs?
-      <select name="referral-source">
-        <option value="">Choose one if you’d like</option>
-        <option>Google</option>
-        <option>ChatGPT / AI Search</option>
-        <option>Facebook</option>
-        <option>Instagram</option>
-        <option>A Four Dogs Event</option>
-        <option>Referral</option>
-        <option>Venue / Restaurant</option>
-        <option>Other</option>
-      </select>
-    </label>
-    <label class="wide">Event details <textarea name="event-details" rows="6"></textarea></label>
+    <label class="wide">Event details <textarea name="event-details" rows="3"></textarea></label>
+    <details class="wide booking-optional">
+      <summary>Contact preference and referral (optional)</summary>
+      <div class="form-grid">
+        <label>Preferred contact method
+          <select name="contact-method"><option>Email</option><option>Phone call</option><option>Text message</option></select>
+        </label>
+        <label class="wide">How did you hear about Four Dogs?
+          <select name="referral-source">
+            <option value="">Choose one if you’d like</option>
+            <option>Google</option>
+            <option>ChatGPT / AI Search</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>A Four Dogs Event</option>
+            <option>Referral</option>
+            <option>Venue / Restaurant</option>
+            <option>Other</option>
+          </select>
+        </label>
+      </div>
+    </details>
   </div>
 
   <button class="button" type="submit">Send booking request</button>
@@ -73,25 +80,42 @@ import { site } from '../data/site';
 </form>
 
 <script>
-  const p = new URLSearchParams(location.search).get('service');
-  const service = document.querySelector<HTMLSelectElement>('#service');
-  const date = document.querySelector<HTMLInputElement>('#preferred-date');
-  const holidayOptions = document.querySelector<HTMLElement>('#holiday-options');
+  const form = document.querySelector<HTMLFormElement>('form[name="booking"]')!;
+  const service = form.querySelector<HTMLSelectElement>('#service')!;
+  const holiday = form.querySelector<HTMLFieldSetElement>('#holiday-options')!;
+  const holidayInterest = form.querySelector<HTMLInputElement>('#holiday-interest input')!;
+  const santa = holiday.querySelector<HTMLInputElement>('[name="santa-jim-interest"]')!;
+  const recurring = form.querySelector<HTMLSelectElement>('[name="recurring"]')!;
+  const guests = form.querySelector<HTMLInputElement>('[name="guest-count"]')!;
+  const children = form.querySelector<HTMLSelectElement>('[name="children-attending"]')!;
+  const requested = new URLSearchParams(location.search).get('service');
+  const choice = [...service.options].find(option => option.value === requested || option.dataset.serviceSlug === requested);
+  if (choice && !service.value) service.value = choice.value;
 
-  if (p && service && [...service.options].some((o) => o.value === p || o.dataset.serviceSlug === p)) {
-    const option = [...service.options].find((o) => o.value === p || o.dataset.serviceSlug === p);
-    if (option) service.value = option.value;
+  function showField(control: HTMLInputElement | HTMLSelectElement, visible: boolean) {
+    control.closest('label')!.hidden = !visible;
+    control.disabled = !visible;
   }
 
-  const syncHolidayOptions = () => {
-    if (!service || !holidayOptions) return;
-    const holidayService = /christmas|holiday|corporate|private|dj/i.test(service.value);
-    const month = date?.value ? Number(date.value.split('-')[1]) : 0;
-    const holidayDate = month >= 9 && month <= 12;
-    holidayOptions.hidden = !(holidayService || holidayDate);
-  };
+  function sync() {
+    const venue = service.value === 'Venue Entertainment';
+    const canOptIn = ['Private Event', 'Corporate Event'].includes(service.value);
+    showField(holidayInterest, canOptIn);
+    const isHoliday = service.value === 'Christmas / Holiday Entertainment' || (canOptIn && holidayInterest.checked);
+    showField(recurring, venue || ['Trivia', 'Music Bingo', 'Karaoke', 'Four Dogs Survey Showdown', 'Are You Smarter Than a Barstool?'].includes(service.value));
+    showField(guests, !!service.value && !venue);
+    holiday.hidden = !isHoliday;
+    holiday.disabled = !isHoliday;
+    showField(children, isHoliday && santa.checked);
+  }
 
-  service?.addEventListener('change', syncHolidayOptions);
-  date?.addEventListener('change', syncHolidayOptions);
-  syncHolidayOptions();
+  form.addEventListener('change', sync);
+  window.addEventListener('pageshow', sync);
+  sync();
 </script>
+
+<style>
+  .booking-optional summary { padding-block: .8rem; text-decoration: underline; }
+  .booking-optional[open] summary { margin-bottom: .65rem; }
+  [hidden] { display: none !important; }
+</style>

@@ -59,10 +59,10 @@ for(const path of paths){
  }
 }
 const venuePartnerships=await request('/for-venues/');
-assert.ok(venuePartnerships.body.includes('Weekly trivia and Music Bingo that give guests a reason to come back.'),'commercial venue message is present');
+assert.ok(venuePartnerships.body.includes('Weekly entertainment for your bar or restaurant.'),'commercial venue message is present');
 assert.ok(venuePartnerships.body.includes('Owner, Charter 803 Bar &amp; Grill'),'venue partner testimonial has an actual owner attribution');
 assert.ok(!venuePartnerships.body.includes('Wedding Couple · Google 5-Star Review'),'wedding review is not misrepresented as a venue-owner testimonial');
-assert.ok(venuePartnerships.body.includes('/booking/?service=Venue%20Entertainment'),'trial night booking route is present');
+assert.ok(venuePartnerships.body.includes('/booking/?service=Venue%20Entertainment'),'weekly partnership booking route is present');
 const venuesWithUpcomingPublicEvents=new Set(selectEvents(publicEvents,venues,{now:new Date()}).map(event=>event.venueId));
 for(const venue of venues.filter(venue=>venue.active && venuesWithUpcomingPublicEvents.has(venue.id))){
  assert.ok(venuePartnerships.body.includes('/venues/'+venue.slug+'/'),'venue partnership page links current public event partner '+venue.name);
@@ -74,10 +74,10 @@ const wescoNotice='Thursday Karaoke at WesCo Brew & Bowl is on hold during the c
 const hasWescoNotice=(html)=>html.includes(wescoNotice.replace('&','&amp;'));
 const wescoVenuePath='/venues/wesco-brew-and-bowl-trivia-cayce-sc/';
 const wescoVenue=await request(wescoVenuePath);
-const karaokeService={body:fs.readFileSync('dist/services/karaoke/index.html','utf8')};
-for(const [pageName,html] of [['homepage',home.body],['calendar',calendar.body],['WesCo venue',wescoVenue.body],['Karaoke service',karaokeService.body]]){
- assert.ok(hasWescoNotice(html),pageName+' must show exact WesCo cold-weather hold notice');
-}
+const activeNotice = localToday() >= '2026-11-19' && localToday() <= '2026-12-17';
+assert.equal(hasWescoNotice(home.body),activeNotice);
+assert.equal(hasWescoNotice(wescoVenue.body),activeNotice);
+assert.equal(hasWescoNotice(calendar.body),false,'unfiltered calendar starts with event discovery');
 const wescoDates=[
  ['2026-11-19','90s vs. 2000s: The Ultimate Throwback Music Bingo','90s-vs-2000s-the-ultimate-throwback-music-bingo-wesco-2026-11-19'],
  ['2026-12-03','Taylor Swift & Friends Music Bingo','taylor-swift-and-friends-music-bingo-wesco-2026-12-03'],
@@ -99,7 +99,7 @@ for(const [date,title,slug] of wescoDates){
  assert.ok(page.body.includes('7:00 PM'),slug+' confirmed start');
  assert.ok(!page.body.includes('Start time to be announced'),slug+' should not show pending start');
  assert.ok(page.body.includes('End time has not been confirmed.'),slug+' must not invent an end time');
- assert.ok(hasWescoNotice(page.body),slug+' hold notice');
+ assert.equal(hasWescoNotice(page.body),activeNotice && isUpcoming,slug+' hold notice');
  assert.ok(page.body.includes('We play song clips. If you hear a song on your card, mark it and play for bingo.'),slug+' game rules');
  const eventSchemas=[...page.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).filter(s=>s['@type']==='Event');
  assert.equal(eventSchemas.length,1,slug+' event structured data');
@@ -116,7 +116,7 @@ assert.ok(charterDec17.body.includes('Soda City Serenade'));
 const futureEvent=publicEvents.find(e=>['upcoming','live'].includes(phase(e)));
 if(futureEvent){const future=await request(`/events/${futureEvent.slug}/`);assert.ok(!future.body.includes('This event has passed'),'future event has no passed label');assert.ok(!future.body.includes('This event has ended'),'future event has no completed label');}
 for(const [query,venue] of [['city=Cayce','wesco'],['venue=black-sheep','black-sheep']]){
- const p=await request('/events/?'+query);const ids=[...p.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);assert.ok(ids.every(id=>all.find(e=>e.id===id)?.venueId===venue));const expected=selectEvents(all,venues,{from:localToday(),to:addDays(localToday(),30),...(query.startsWith('city=')?{city:'Cayce'}:{venue})});assert.deepEqual(ids,expected.map(e=>e.id));
+ const p=await request('/events/?'+query);const ids=[...p.body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);assert.ok(ids.every(id=>all.find(e=>e.id===id)?.venueId===venue));const expected=selectEvents(all,venues,{from:localToday(),to:addDays(localToday(),29),...(query.startsWith('city=')?{city:'Cayce'}:{venue})});assert.deepEqual(ids,expected.map(e=>e.id));
 }
 const archive=await request('/events/?view=archive');assert.ok(archive.body.includes('Marvel Trivia'));
 const noMatches=await request('/events/?city=Irmo');assert.ok(noMatches.body.includes('No matching events'));
