@@ -1,9 +1,9 @@
 ---
+import { servicePhotos } from '../../data/services';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { services, type Service } from '../../data/services';
 import { reviews } from '../../data/reviews';
-import { wescoThursdayNotice } from '../../data/announcements';
 
 type Props = { service: Service };
 
@@ -93,7 +93,7 @@ const details: Record<string, ServiceDetail> = {
     intro: [
       'Four Dogs Karaoke is hosted entertainment for confident singers, first-timers, friend groups, and crowds that want a night built around participation.',
       'The host manages the flow of singers and keeps the event moving so the experience feels organized without becoming stiff or overproduced.',
-      wescoThursdayNotice,
+
     ],
     audiences: ['Bars and restaurants', 'Private parties', 'Community events', 'Organizations', 'Celebrations', 'One-time venue events'],
     includes: ['Hosted singer rotation', 'Professional event pacing', 'Audio setup when required', 'Private and venue booking options', 'A low-pressure environment for participants'],
@@ -139,7 +139,7 @@ const details: Record<string, ServiceDetail> = {
     title: 'Private & Corporate Event Entertainment in SC, NC & GA | Four Dogs',
     description: 'Four Dogs Entertainment provides DJ entertainment, trivia, Music Bingo, Karaoke, Survey Showdown, and interactive event formats for private and corporate events across South Carolina, North Carolina, and Georgia.',
     intro: [
-      'People remember what they participated in. Four Dogs creates private and corporate event entertainment that gets guests talking, laughing, competing, singing, and celebrating together.',
+      'Four Dogs creates private and corporate event entertainment that gets guests talking, laughing, competing, singing, and celebrating together.',
       'Events can be built around DJ entertainment, Trivia, Music Bingo, Karaoke, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, or another compatible format based on the audience and purpose of the gathering.',
     ],
     audiences: ['Companies and organizations', 'Private parties', 'HOAs and communities', 'Churches and nonprofits', 'Formal events', 'Celebrations and special events'],
@@ -238,6 +238,13 @@ export function getStaticPaths() {
 const { service } = Astro.props as Props;
 const detail = details[service.slug];
 const review = detail.reviewId ? reviews.find((item) => item.id === detail.reviewId) : undefined;
+const activities: Record<string, string> = {
+  trivia: 'Trivia', 'music-bingo': 'Music Bingo', karaoke: 'Karaoke',
+  'four-dogs-survey-showdown': 'Survey Showdown',
+  'are-you-smarter-than-a-barstool': 'Are You Smarter Than a Barstool?',
+};
+const activity = activities[service.slug];
+const datesUrl = activity ? '/events/?category=' + encodeURIComponent(activity) : '/events/';
 const holidayEligible = service.slug === 'private-corporate-events';
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -267,17 +274,17 @@ const faqSchema = {
       <p class="lead">{service.summary}</p>
       <div class="actions">
         <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
-        <a class="button secondary" href={'/events/'+(['trivia','music-bingo','karaoke'].includes(service.slug)?`?category=${encodeURIComponent(service.name)}`:'')}>Find an event</a>
+        <a class="button secondary" href={datesUrl}>Find an event</a>
       </div>
     </div>
   </section>
 
-  {['trivia','music-bingo','karaoke'].includes(service.slug) && <section class="service-calendar-link"><div class="container"><h2>Come play at a local event.</h2><p>Find confirmed dates, themes, and venues in the current calendar.</p><a class="button" href={`/events/?category=${encodeURIComponent(service.name)}`}>Find upcoming {service.name}</a></div></section>}
+  {activity && <section class="service-calendar-link"><div class="container"><h2>Come play at a local event.</h2><p>Find confirmed dates, themes, and venues in the current calendar.</p><a class="button" href={datesUrl}>Find upcoming {activity}</a></div></section>}
 
   <section class="section">
     <div class="container split">
-      <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}</div>
-      <img src={service.slug === 'music-bingo' ? '/images/gallery/music-bingo-charter-friends.webp' : service.slug === 'karaoke' ? '/images/gallery/four-dogs-karaoke-wesco-host-on-mic.webp' : ['weddings', 'almost-married-trivia-experience', 'photo-booth'].includes(service.slug) ? '/images/wedding.jpg' : '/images/hero.jpg'} alt={service.slug === 'music-bingo' ? 'Four friends together at a Four Dogs Music Bingo night with the song display visible at the venue' : service.slug === 'karaoke' ? 'Four Dogs karaoke host singing on the outdoor patio at WesCo Brew and Bowl in Cayce' : service.slug === 'photo-booth' ? 'Guests celebrating at a wedding' : ['weddings','almost-married-trivia-experience'].includes(service.slug)?'Guests at a Four Dogs wedding':'Guests at a Four Dogs Entertainment venue event'} width={service.slug === 'music-bingo' ? 960 : undefined} height={service.slug === 'music-bingo' ? 720 : undefined} loading="lazy" decoding="async" />
+      <div class="prose">{detail.intro.map((paragraph) => <p>{paragraph}</p>)}{service.slug === 'karaoke' && <p><a href="/venues/wesco-brew-and-bowl-trivia-cayce-sc/">Check the current WesCo lineup</a></p>}</div>
+      <img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width={service.slug === 'music-bingo' ? 960 : undefined} height={service.slug === 'music-bingo' ? 720 : undefined} loading="lazy" decoding="async" />
     </div>
   </section>
 
@@ -289,7 +296,7 @@ const faqSchema = {
         <div class="actions">
           <a class="button" href="/events/category/music-bingo/">See confirmed Music Bingo dates</a>
           <a class="button secondary" href="/booking/?service=Music%20Bingo">Request Music Bingo for your group</a>
-          <a href="/for-venues/">Own or manage a venue? Explore a trial night →</a>
+          <a href="/for-venues/">Own or manage a venue? Explore a weekly partnership →</a>
         </div>
       </div>
     </section>

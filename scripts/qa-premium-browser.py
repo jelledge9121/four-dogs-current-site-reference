@@ -102,7 +102,7 @@ async def main():
                 venue_response = await page.goto(BASE + "/for-venues/", wait_until="domcontentloaded")
                 assert venue_response is not None and venue_response.status == 200, (name, "venue partnerships response")
                 assert await page.locator("main h1").count() == 1, (name, "venue H1")
-                assert "Weekly trivia and Music Bingo" in await page.locator("main h1").inner_text()
+                assert "Weekly entertainment for your bar or restaurant" in await page.locator("main h1").inner_text()
                 assert await page.locator('main a[href="/booking/?service=Venue%20Entertainment"]').count() >= 1
                 assert "Owner, Charter 803 Bar & Grill" in await page.locator("main").inner_text(), (name, "venue owner attribution")
                 assert "Wedding Couple" not in await page.locator("main").inner_text(), (name, "incorrect wedding attribution")

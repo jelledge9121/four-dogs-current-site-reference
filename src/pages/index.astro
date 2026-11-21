@@ -7,7 +7,7 @@ import { upcomingEvents } from '../data/events';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 import { site } from '../data/site';
-import { wescoThursdayNotice } from '../data/announcements';
+import { wescoThursdayNotice, showWescoNotice, wescoBingoUrl } from '../data/announcements';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
 const upcoming = upcomingEvents().slice(0,6);
 const homepageGallery = gallery.filter(item=>item.type==='image').slice(0,6);
@@ -21,6 +21,7 @@ const org = {'@context':'https://schema.org','@type':'Organization',name:site.na
       <p class="lead">Trivia, Music Bingo, karaoke, and nights worth getting your friends together for. Wedding DJs and private entertainment, too.</p>
       <p class="home-location">South Carolina-based, with public game nights in the Midlands and Fountain Inn. Book us for events in South Carolina, North Carolina, and Georgia.</p>
       <div class="actions"><a class="button fd-booking-button" href="/booking/">Book Four Dogs</a><a class="button secondary" href="/events/">Find an event</a></div>
+      <p><a href="/for-venues/">Weekly entertainment for your venue</a></p>
     </div>
     <figure class="home-intro-photo">
       <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="2048" height="1542" alt="Friends at Four Dogs Survey Showdown at Boze’s, holding their team sign and prize" fetchpriority="high"/>
@@ -28,18 +29,18 @@ const org = {'@context':'https://schema.org','@type':'Organization',name:site.na
     </figure>
   </div>
 </section>
-<section class="section alt" aria-labelledby="wesco-thursday-update"><div class="container"><h2 id="wesco-thursday-update">Thursday at WesCo</h2><p>{wescoThursdayNotice}</p><a href="/events/?venue=wesco&amp;from=2026-11-19&amp;to=2026-12-17">See the Music Bingo lineup →</a></div></section>
 <section class="section home-upcoming" aria-labelledby="upcoming-title">
   <div class="container">
     <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2><p>See what’s coming up, then bring your people.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>
     {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
+    {showWescoNotice() && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See WesCo Music Bingo dates</a></p></aside>}
   </div>
 </section>
 <section class="section alt home-services">
   <div class="container">
     <div class="section-heading" data-fd-reveal><div><h2>Give your people a good time.</h2><p class="lead">A weekly reason to go out. A celebration that feels like you. We’ll help you find the right fit.</p></div><a class="text-action" href="/services/">Explore all experiences →</a></div>
     <div class="service-directory">{services.filter(s=>!s.featured).map(s=><a data-fd-reveal href={s.slug==='weddings'?'/weddings/':`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}<a data-fd-reveal href="/dj-services-columbia-sc/"><h3>DJ entertainment</h3><p>Music and hosting for parties, communities, and celebrations.</p><span aria-hidden="true">→</span></a></div>
-    <details class="original-games"><summary>Looking for something a little different?</summary><div class="service-directory">{services.filter(s=>s.featured).map(s=><a data-fd-reveal href={`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}</div></details>
+    <section class="original-games"><h2>Four Dogs original games</h2><div class="service-directory">{services.filter(s=>s.featured).map(s=><a data-fd-reveal href={`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}</div></section>
     <div class="home-venue-note" data-fd-reveal><h3>Run a bar or restaurant?</h3><p>Give guests a reason to come back every week. <a href="/for-venues/">Explore recurring venue entertainment →</a></p></div>
   </div>
 </section>

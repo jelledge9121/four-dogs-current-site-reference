@@ -106,7 +106,16 @@ test('Overnight events survive midnight and the fall-back transition',()=>{const
 test('Canceled and postponed records leave upcoming lists but preserve status and original date',()=>{for(const status of ['cancelled','postponed'] as const){const e=mutate({status});assert.equal(selectEvents([e],venues,{now}).length,0);assert.equal(selectEvents([e],venues,{now,view:'updates'}).length,1);const s=eventSchema(e,venues.find(v=>v.id===e.venueId)!)!;assert.equal(s.startDate,'2026-10-20T19:00:00-04:00');assert.match(s.eventStatus,status==='cancelled'?/EventCancelled$/:/EventPostponed$/);}});
 test('Rescheduling preserves canonical URL and includes previousStartDate',()=>{const e=mutate({status:'rescheduled',date:'2026-10-23',previousStartDate:'2026-10-20T19:00:00-04:00'});const s=eventSchema(e,venues.find(v=>v.id===e.venueId)!)!;assert.match(s.url,new RegExp(sample.slug));assert.equal(s.previousStartDate,e.previousStartDate);assert.equal(s.startDate,'2026-10-23T19:00:00-04:00');});
 test('Venue and city filters only return actual matching locations',()=>{assert.ok(selectEvents(all,venues,{now,city:'Cayce'}).every(e=>e.venueId==='wesco'));assert.ok(selectEvents(all,venues,{now,venue:'black-sheep'}).every(e=>e.venueId==='black-sheep'));assert.equal(selectEvents(all,venues,{now,city:'Irmo'}).length,0);});
-test('Free and ticketed filters require verified pricing',()=>{assert.ok(selectEvents(all,venues,{now,price:'free'}).every(e=>e.admission.verified&&e.admission.kind==='free'));assert.ok(selectEvents(all,venues,{now,price:'paid'}).every(e=>e.admission.verified&&e.admission.kind==='paid'));});
+test('ticket discovery includes explicit ticket records without inventing a structured price', () => {
+  const window = { now: new Date('2026-11-20T17:00:00Z'), from: '2026-11-20', to: '2026-12-19' };
+  const paid = selectEvents(all, venues, { ...window, price: 'paid' });
+  assert.deepEqual(paid.map(event => event.id), ['charter-803-2026-12-03', 'charter-803-2026-12-17']);
+  for (const event of paid) {
+    assert.equal(eventSchema(event, venues.find(venue => venue.id === event.venueId)!)?.offers, undefined);
+  }
+  const free = selectEvents(all, venues, { ...window, price: 'free' });
+  assert.ok(free.length > 0 && free.every(event => event.admission.verified && event.admission.kind === 'free'));
+});
 test('Drafts, private records, and unresolved conflicts stay out of public surfaces',()=>{for(const e of [mutate({visibility:'private'}),mutate({publicationStatus:'draft'}),mutate({publicationStatus:'review'})]){assert.equal(selectEvents([e],venues,{now}).length,0);assert.equal(eventSchema(e,venues[0]),null);assert.throws(()=>listingPackage(e,venues[0]));}});
 test('Recurring generation stops at the confirmed agreement and produces four Aura dates',()=>{const generated=all.filter(e=>e.seriesId==='aura-thursday-trial-2026');assert.deepEqual(generated.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12']);assert.throws(()=>expandCatalog({events:[],series:[{...catalog.series[0],confirmedThrough:''}]},venues));});
 test('Recurring exceptions handle skip, cancellation, venue change, and rescheduling without changing identity',()=>{const s=structuredClone(catalog.series[0]) as Series;s.excludedDates=['2026-10-29'];s.overrides=[{originalDate:'2026-10-22',changes:{status:'cancelled'}},{originalDate:'2026-11-05',changes:{venueId:'charter-803',date:'2026-11-06',status:'rescheduled',previousStartDate:'2026-11-05T19:30:00-05:00'}}];const out=expandCatalog({events:[],series:[s]},venues);assert.equal(out.length,3);assert.equal(out[0].status,'cancelled');assert.equal(out[1].date,'2026-11-06');assert.equal(out[1].venueId,'charter-803');assert.ok(out[1].slug.startsWith('2026-11-05'));});
@@ -163,24 +172,23 @@ test('Public admission stays verified for ordinary nights and does not invent a 
     }
   }
 });
-test('December 17 Soda City Serenade event has its own page, verified ticket details, and original Ticket Tailor embed',()=>{
+test('December 17 Soda City Serenade event has its own page, verified ticket details, and an event-specific purchase path',()=>{
  const e=all.find(e=>e.id==='charter-803-2026-12-17')!;
  assert.ok(e);
  assert.equal(e.date,'2026-12-17');
  assert.equal(e.venueId,'charter-803');
  assert.equal(e.eventType,'Music Bingo');
  assert.equal(e.startTime,'7:00 PM');
- assert.equal(e.endTime,'9:00 PM');
+ assert.equal(e.endTime,'9:30 PM');
  assert.equal(e.registrationUrl,'https://buytickets.at/fourdogsentertainmentllc/2535496');
  assert.equal(e.publicationStatus,'published');
  assert.equal(e.admission.kind,'unknown');
  assert.match(e.admission.note||'',/\$15.*\$20/);
  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T19:00:00-05:00');
- assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:00:00-05:00');
- const snippet=fs.readFileSync('src/components/TicketTailorWidget.astro','utf8');
- assert.ok(snippet.includes('https://cdn.tickettailor.com/js/widgets/min/widget.js'));
- assert.match(snippet,/data-inline-minimal="true"/);
- assert.match(fs.readFileSync('src/pages/events/[slug].astro','utf8'),/TicketTailorWidget/);
+ assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:30:00-05:00');
+ const detail = fs.readFileSync('src/pages/events/[slug].astro','utf8');
+ assert.ok(detail.includes('href={event.registrationUrl}'));
+ assert.doesNotMatch(detail,/TicketTailorWidget|all-tickets/);
 });
 
 

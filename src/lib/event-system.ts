@@ -103,6 +103,9 @@ export function validateEvents(events: Event[], venues: Venue[]) {
   }
   return errors;
 }
+export const needsTicket = (event: Event) =>
+  event.ticketed === true || (event.admission.verified === true && event.admission.kind === 'paid');
+
 export type Filters = { now?: Date; city?: string; venue?: string; category?: string; from?: string; to?: string; price?: string; view?: string; limit?: number };
 export function selectEvents(events: Event[], venues: Venue[], filters: Filters = {}) {
   const now = filters.now || new Date();
@@ -110,7 +113,7 @@ export function selectEvents(events: Event[], venues: Venue[], filters: Filters 
     if (!isPublic(e)) return false;
     const state = phase(e, now), v = venues.find(v => v.id === e.venueId);
     if (filters.view === 'archive' ? !['completed','past-date'].includes(state) : filters.view === 'updates' ? !['cancelled','postponed'].includes(state) : !['upcoming','live'].includes(state)) return false;
-    return (!filters.city || v?.city === filters.city) && (!filters.venue || e.venueId === filters.venue) && (!filters.category || e.eventType === filters.category || e.secondaryCategories?.includes(filters.category)) && (!filters.from || (e.endDate || e.date) >= filters.from) && (!filters.to || e.date <= filters.to) && (!filters.price || (e.admission.verified && e.admission.kind === filters.price));
+    return (!filters.city || v?.city === filters.city) && (!filters.venue || e.venueId === filters.venue) && (!filters.category || e.eventType === filters.category || e.secondaryCategories?.includes(filters.category)) && (!filters.from || (e.endDate || e.date) >= filters.from) && (!filters.to || e.date <= filters.to) && (!filters.price || (filters.price === 'paid' ? needsTicket(e) : e.admission.verified && e.admission.kind === filters.price));
   }).sort((a,b) => (startMs(a)-startMs(b)) * (filters.view === 'archive' ? -1 : 1)).slice(0, filters.limit || Infinity);
 }
 export function eventSchema(event: Event, venue: Venue) {
