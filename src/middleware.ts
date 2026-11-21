@@ -7,7 +7,11 @@ export const onRequest = defineMiddleware(async (context,next) => {
     response.headers.set('X-Frame-Options','SAMEORIGIN');
     response.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
     response.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
-    if(context.url.pathname.startsWith('/admin')) {
+    if(context.url.pathname.startsWith('/staff') || context.url.pathname.startsWith('/api/') || context.url.pathname.startsWith('/register/confirmation')) {
+      response.headers.set('X-Robots-Tag','noindex,nofollow');
+      response.headers.set('Referrer-Policy','no-referrer');
+      response.headers.set('Content-Security-Policy',"default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'self'");
+    } else if(context.url.pathname.startsWith('/admin')) {
       // Decap's AJV configuration validator compiles functions at runtime.
       // This exception is limited to the editor; public pages keep their original policy.
       response.headers.set('X-Robots-Tag','noindex,nofollow');

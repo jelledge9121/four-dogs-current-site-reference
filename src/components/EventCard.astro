@@ -2,15 +2,18 @@
 import type { Event } from '../data/events';
 import { venueById } from '../data/venues';
 import { needsTicket, formatDate, startIso, statusLabel, categorySlug, phase } from '../lib/event-system';
+import { eligibleEvent, defaultDeadline } from '../lib/registration-core';
+import { configured } from '../lib/registration-auth';
 const { event } = Astro.props as { event: Event };
 const venue = venueById(event.venueId);
 const date = new Date(`${event.date}T12:00:00Z`);
 const month = new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'America/New_York'}).format(date);
 const weekday = new Intl.DateTimeFormat('en-US',{weekday:'short',timeZone:'America/New_York'}).format(date);
 const status = phase(event);
+const canRegister = configured() && eligibleEvent(event,venue) && new Date() < defaultDeadline(event,venue);
 ---
 <article class="event event-row" data-fd-reveal data-event-id={event.id} data-event-status={status}>
   <time class="event-date" datetime={startIso(event)} aria-label={formatDate(event.date)}><span>{month}</span><strong>{Number(event.date.slice(-2))}</strong><span>{weekday} · {event.date.slice(0,4)}</span></time>
-  <div class="event-summary"><p class="event-time">{event.startTime || 'Start time to be announced'}{event.endTime ? ` to ${event.endTime}` : ''}{event.startTime && <span>· Eastern Time</span>}</p><h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3><p class="event-place"><a href={`/venues/${venue.slug}/`}>{venue.name}</a><span>{venue.city}, {venue.state}</span></p><p class="event-description">{event.shortDescription}</p><div class="event-meta"><a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a><span>{event.seriesId?'Recurring series':['Comedy','Murder Mystery','Special Event'].includes(event.eventType)?'Special event':''}</span><span>{event.admission.verified && event.admission.kind==='free'?'Free admission':event.admission.verified && event.admission.kind==='paid'?`$${event.admission.price} per person`:needsTicket(event)?'Ticketed event':''}</span>{status!=='upcoming' && <span>{statusLabel(event)}</span>}</div></div>
+  <div class="event-summary"><p class="event-time">{event.startTime || 'Start time to be announced'}{event.endTime ? ` to ${event.endTime}` : ''}{event.startTime && <span>· Eastern Time</span>}</p><h3><a href={`/events/${event.slug}/`}>{event.title}</a></h3><p class="event-place"><a href={`/venues/${venue.slug}/`}>{venue.name}</a><span>{venue.city}, {venue.state}</span></p><p class="event-description">{event.shortDescription}</p><div class="event-meta"><a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a><span>{event.seriesId?'Recurring series':['Comedy','Murder Mystery','Special Event'].includes(event.eventType)?'Special event':''}</span><span>{event.admission.verified && event.admission.kind==='free'?'Free admission':event.admission.verified && event.admission.kind==='paid'?`$${event.admission.price} per person`:needsTicket(event)?'Ticketed event':''}</span>{status!=='upcoming' && <span>{statusLabel(event)}</span>}</div>{canRegister && <a class="event-register-link" href={'/register/?event='+encodeURIComponent(event.id)}>Register Free</a>}</div>
   <a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a>
 </article>
