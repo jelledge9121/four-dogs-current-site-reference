@@ -42,12 +42,22 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Test desktop, tablet, iPhone, reduced-motion and no-JS experiences
         run: |
-          npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
-          python scripts/qa-premium-browser.py
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
             PR_NUMBER="$(python -c 'import json,os; print(json.load(open(os.environ["GITHUB_EVENT_PATH"]))["number"])')"
-            export FOUR_DOGS_DESIGN_AFTER_URL="https://deploy-preview-${PR_NUMBER}--4dogsentertainment.netlify.app"
+            export FOUR_DOGS_QA_URL="https://deploy-preview-${PR_NUMBER}--4dogsentertainment.netlify.app"
+            export FOUR_DOGS_DESIGN_AFTER_URL="$FOUR_DOGS_QA_URL"
+            # Wait for the deploy-preview alias to serve the matching editorial page.
+            for check in $(seq 1 40); do
+              if curl --max-time 8 -fsSL "$FOUR_DOGS_QA_URL/services/" | grep -q "Good nights, weddings"; then
+                break
+              fi
+              sleep 3
+            done
+            python scripts/qa-premium-browser.py
             python scripts/qa-design-comparison.py
+          else
+            npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
+            python scripts/qa-premium-browser.py
           fi
       - name: Compare rendered Impeccable findings on production and deploy preview
         if: github.event_name == 'pull_request'
