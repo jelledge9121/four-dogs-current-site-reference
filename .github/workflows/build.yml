@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -15,6 +17,20 @@ jobs:
         if: ${{ hashFiles('package-lock.json') == '' }}
         run: npm install --package-lock-only
       - run: npm ci
+      - name: Compare Impeccable detection with the production source
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          mkdir -p qa-design
+          git worktree add --detach /tmp/four-dogs-before "$(git merge-base HEAD origin/main)"
+          set +e
+          (cd /tmp/four-dogs-before && npx --yes impeccable@4.8.0 detect src/ --json) > qa-design/impeccable-before.json 2> qa-design/impeccable-before.log
+          echo "$?" > qa-design/impeccable-before-status.txt
+          npx --yes impeccable@4.8.0 detect src/ --json > qa-design/impeccable-after.json 2> qa-design/impeccable-after.log
+          echo "$?" > qa-design/impeccable-after-status.txt
+          set -e
+          echo "Impeccable source detection exit statuses (0 clean, 2 findings, 1 runtime error):"
+          cat qa-design/impeccable-before-status.txt qa-design/impeccable-after-status.txt
       - run: npm run build
       - run: npm run qa
       - uses: actions/setup-python@v5
@@ -28,10 +44,21 @@ jobs:
         run: |
           npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/four-dogs-astro.log 2>&1 &
           python scripts/qa-premium-browser.py
+          python scripts/qa-design-comparison.py
+      - name: Lighthouse mobile performance, accessibility and SEO
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          mkdir -p qa-design
+          export CHROME_PATH="$(find "$HOME/.cache/ms-playwright" -type f -path '*/chrome-linux64/chrome' -print -quit)"
+          npx --yes lighthouse@12 http://127.0.0.1:4321/ --chrome-flags="--headless --no-sandbox" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=qa-design/lighthouse-home-mobile.json --quiet
+          echo "Lighthouse report saved to qa-design/lighthouse-home-mobile.json"
       - name: Keep screenshots for review
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: four-dogs-responsive-smoke-screenshots
-          path: qa-screenshots/*.png
+          path: |
+            qa-screenshots/*.png
+            qa-design/*
           if-no-files-found: ignore
