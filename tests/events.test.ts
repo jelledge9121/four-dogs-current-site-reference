@@ -179,13 +179,13 @@ test('December 17 Soda City Serenade event has its own page, verified ticket det
  assert.equal(e.venueId,'charter-803');
  assert.equal(e.eventType,'Music Bingo');
  assert.equal(e.startTime,'7:00 PM');
- assert.equal(e.endTime,'9:00 PM');
+ assert.equal(e.endTime,'9:30 PM');
  assert.equal(e.registrationUrl,'https://buytickets.at/fourdogsentertainmentllc/2535496');
  assert.equal(e.publicationStatus,'published');
  assert.equal(e.admission.kind,'unknown');
  assert.match(e.admission.note||'',/\$15.*\$20/);
  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T19:00:00-05:00');
- assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:00:00-05:00');
+ assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:30:00-05:00');
  const detail = fs.readFileSync('src/pages/events/[slug].astro','utf8');
  assert.ok(detail.includes('href={event.registrationUrl}'));
  assert.doesNotMatch(detail,/TicketTailorWidget|all-tickets/);
