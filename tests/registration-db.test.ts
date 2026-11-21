@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { Temporal } from '@js-temporal/polyfill';
 import type { Event } from '../src/lib/event-system';
 import type { Venue } from '../src/data/venues';
-import { saveRegistration,registrationByCode,registrationsForEvent,claimCheckin,correctCheckin,registrationTotals,query } from '../src/lib/registration-db';
+import { saveRegistration,registrationByCode,registrationsForEvent,claimCheckin,correctCheckin,registrationTotals,query,getDB } from '../src/lib/registration-db';
 
 const useDb=!!process.env.FDE_REGISTRATION_DATABASE_URL;
 const t=test;
@@ -36,7 +36,7 @@ t('A real Postgres connection persists registrations, rejects duplicates, and at
   registeredGroups:1,expectedPeople:4,checkedInGroups:1,checkedInPeople:4,issuedRewards:1
  });
  // Persistence across processes is the requirement, not a JS in-memory map.
- const script='import {registrationByCode} from "./src/lib/registration-db.ts"; const r=await registrationByCode(process.env.TEST_CODE); if(!r)process.exit(3); console.log(r.code);';
+ const script='import {registrationByCode,getDB} from "./src/lib/registration-db.ts"; const r=await registrationByCode(process.env.TEST_CODE); if(!r)process.exit(3); console.log(r.code); await getDB().end({timeout:5});';
  const fresh=execFileSync(process.execPath,['--import','tsx','--input-type=module','-e',script],{
   env:{...process.env,TEST_CODE:registered.code},encoding:'utf8',timeout:20000
  }).trim();
@@ -49,4 +49,5 @@ t('A real Postgres connection persists registrations, rejects duplicates, and at
  assert.deepEqual(log.map(x=>x.action),['registered','checked_in','checkin_corrected','checked_in']);
  const count=await query<{n:number}>('SELECT COUNT(*)::integer AS n FROM fde_registration.checkins WHERE registration_id=$1',[registered.id]);
  assert.equal(count[0].n,1);
+ await getDB().end({timeout:5});
 });
