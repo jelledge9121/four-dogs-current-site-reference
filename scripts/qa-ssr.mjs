@@ -109,6 +109,21 @@ for(const [date,title,slug] of wescoDates){
 }
 assert.ok(!filteredIds.some(id=>all.find(e=>e.id===id)?.eventType==='Karaoke'),'no future WesCo Thursday Karaoke in calendar');
 assert.ok(!filteredIds.some(id=>all.find(e=>e.id===id)?.date==='2026-11-26'),'Nov 26 is excluded');
+// Keep the already-shared Thanksgiving Eve URL working while showing the corrected Tuesday date.
+const wescoThanksgiving=await request('/events/home-for-the-holidays-thanksgiving-eve-game-night-wesco-2026-11-25/');
+assert.equal(wescoThanksgiving.status,200,'WesCo shared holiday event URL must remain accessible');
+assert.ok(wescoThanksgiving.body.includes('Home for the Holidays: Thanksgiving Week Game Night'),'corrected holiday title');
+assert.ok(wescoThanksgiving.body.includes('Tuesday, November 24, 2026'),'corrected weekday and date');
+assert.ok(wescoThanksgiving.body.includes('Previously scheduled for November 25, 2026'),'show prior Wednesday date');
+const thanksgivingSchema=[...wescoThanksgiving.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s['@type']==='Event');
+assert.ok(thanksgivingSchema,'WesCo holiday event schema exists');
+assert.equal(thanksgivingSchema.startDate,'2026-11-24T19:00:00-05:00');
+assert.equal(thanksgivingSchema.previousStartDate,'2026-11-25T19:00:00-05:00');
+assert.equal(thanksgivingSchema.eventStatus,'https://schema.org/EventRescheduled');
+const canceledFamily=await request('/events/family-favorites-wesco-brew-bowl-2026-11-24/');
+assert.equal(canceledFamily.status,200,'canceled Family Favorites URL remains valid');
+assert.ok(canceledFamily.body.includes('Home for the Holidays: Thanksgiving Week Game Night'),'cancelled listing points to Tuesday replacement');
+assert.ok(canceledFamily.body.includes('Tuesday, November 24'),'the former Tuesday event clarifies the new date');
 const charterDec17=await request('/events/live-music-bingo-soda-city-serenade-charter-803-2026-12-17/');
 assert.equal(charterDec17.status,200,'Charter 803 live Music Bingo event remains published');
 assert.ok(charterDec17.body.includes('Soda City Serenade'));

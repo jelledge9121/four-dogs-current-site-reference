@@ -11,7 +11,7 @@ const now=new Date('2026-10-18T02:11:33Z');
 const sample=all.find(e=>e.id==='wesco-2026-10-20')!;
 const mutate=(patch:Partial<Event>)=>({...structuredClone(sample),...patch});
 test('The actual migrated catalog validates with unique IDs, stable URLs, and public slots',()=>assert.deepEqual(validateEvents(all,venues),[]));
-test('November public events include Thanksgiving Eve game nights and exclude the removed NASCAR watch party',()=>{
+test('November public events reflect Thanksgiving Week at WesCo and Thanksgiving Eve at Charter and Boze’s',()=>{
  const november=all.filter(e=>e.date.startsWith('2026-11')&&e.publicationStatus==='published');
  assert.equal(november.length,30);
  assert.deepEqual(Object.fromEntries(['the-mill','top-dawg','wesco','charter-803','bozes','aura'].map(id=>[id,november.filter(e=>e.venueId===id).length])),{'the-mill':5,'top-dawg':4,wesco:8,'charter-803':7,bozes:4,aura:2});
@@ -27,7 +27,7 @@ test('November public events include Thanksgiving Eve game nights and exclude th
  assert.equal(eventSchema(comedy,venues.find(v=>v.id==='the-mill')!)?.startDate,'2026-11-02T19:00:00-05:00');
  assert.equal(november.find(e=>e.venueId==='wesco'&&e.date==='2026-11-03')?.title,'Harry Potter: Battle for Hogwarts');
  assert.equal(november.find(e=>e.venueId==='aura'&&e.date==='2026-11-05')?.title,'DJ Jimbo’s Master Class Music Bingo');
- for(const id of ['wesco','bozes','charter-803']){
+ for(const id of ['bozes','charter-803']){
   const event=november.find(e=>e.venueId===id&&e.date==='2026-11-25');
   assert.ok(event,`Missing Thanksgiving Eve game night for ${id}`);
   assert.equal(event.title,'Home for the Holidays: Thanksgiving Eve Game Night');
@@ -35,7 +35,17 @@ test('November public events include Thanksgiving Eve game nights and exclude th
   assert.equal(event.publicationStatus,'published');
  }
  assert.ok(!november.some(e=>e.id==='bozes-2026-11-08'));
- assert.match(november.find(e=>e.id==='wesco-2026-11-25')!.description,/may be adjusted/);
+ const wesco=november.find(e=>e.id==='wesco-2026-11-25')!;
+ assert.equal(wesco.date,'2026-11-24');
+ assert.equal(wesco.title,'Home for the Holidays: Thanksgiving Week Game Night');
+ assert.equal(wesco.slug,'home-for-the-holidays-thanksgiving-eve-game-night-wesco-2026-11-25');
+ assert.equal(wesco.status,'rescheduled');
+ assert.equal(wesco.previousStartDate,'2026-11-25T19:00:00-05:00');
+ assert.match(wesco.description,/Tuesday, November 24/);
+ assert.match(wesco.description,/may be adjusted/);
+ assert.equal(eventSchema(wesco,venues.find(v=>v.id==='wesco')!)?.startDate,'2026-11-24T19:00:00-05:00');
+ assert.match(eventSchema(wesco,venues.find(v=>v.id==='wesco')!)!.eventStatus,/EventRescheduled$/);
+ assert.ok(!november.some(e=>e.venueId==='wesco'&&e.date==='2026-11-25'), 'WesCo is not scheduled for Thanksgiving Eve');
 
  assert.ok(!november.some(e=>e.venueId==='charter-803'&&e.date==='2026-11-26'));
  assert.ok(!november.some(e=>/wrestling/i.test(e.title)));
@@ -72,7 +82,7 @@ test('Owner-approved November WesCo replacements are correctly categorized and k
  assert.equal(plate.slug,'four-dogs-survey-showdown-wesco-brew-bowl-2026-11-17');
  assert.equal(plate.startTime,'7:00 PM');
 });
-test('Owner-approved November 24 WesCo Tuesday removal preserves public canceled link and separate November 25 event',()=>{
+test('Canceled Family Favorites Tuesday link is preserved while Home for the Holidays replaces it on November 24',()=>{
  const removed=all.find(e=>e.id==='wesco-012')!;
  assert.equal(removed.status,'cancelled');
  assert.equal(removed.slug,'family-favorites-wesco-brew-bowl-2026-11-24');
@@ -82,7 +92,13 @@ test('Owner-approved November 24 WesCo Tuesday removal preserves public canceled
  assert.ok(!upcoming.some(e=>e.id==='wesco-012'));
  assert.equal(selectEvents(all,venues,{now,view:'updates'}).filter(e=>e.id==='wesco-012').length,1);
  assert.match(eventSchema(removed,venues.find(v=>v.id==='wesco')!)!.eventStatus,/EventCancelled$/);
- assert.ok(upcoming.some(e=>e.id==='wesco-2026-11-25'));
+ const replacement=upcoming.find(e=>e.id==='wesco-2026-11-25')!;
+ assert.equal(replacement.date,'2026-11-24');
+ assert.equal(replacement.startTime,'7:00 PM');
+ assert.equal(replacement.status,'rescheduled');
+ assert.equal(upcoming.filter(e=>e.venueId==='wesco'&&e.date==='2026-11-24').length,1);
+ assert.match(removed.instructions,/separate Home for the Holidays game night/);
+ assert.doesNotMatch(removed.instructions,/Do not travel to WesCo for Four Dogs/);
 });
 test('November 12 Charter 803 owner-approved Survey Showdown remains published at 6:30 PM with original URL',()=>{
  const e=all.find(e=>e.id==='event-026')!;
