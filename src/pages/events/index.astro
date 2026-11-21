@@ -14,6 +14,8 @@ const from=validDate(q.get('from')) || (view==='upcoming' ? today : '');
 const to=validDate(q.get('to')) || (view==='upcoming' ? addDays(today,29) : '');
 const filters={view,from,to,city:q.get('city')||'',venue:q.get('venue')||'',category:q.get('category')||'',price:q.get('price')||''};
 const matches=selectEvents(events,venues,filters);
+// Keep old venue links usable, but omit retired venues from normal calendar choices.
+const visibleVenues=venues.filter(v=>v.active || (view==='archive' && v.id===filters.venue));
 const cities=[...new Set(venues.map(v=>v.city))].sort();
 const hasFilters = !!(filters.city || filters.venue || filters.category || filters.price || q.has('from') || q.has('to'));
 const monthStart = today.slice(0, 8) + '01';
@@ -45,7 +47,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 <form class="event-filters" method="get" action="/events/" aria-label="Filter public events">
 <input type="hidden" name="view" value={view}/>
 <label>City<select name="city"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>
-<label>Venue<select name="venue"><option value="">All venues</option>{venues.map(v=><option value={v.id} selected={filters.venue===v.id}>{v.name}</option>)}</select></label>
+<label>Venue<select name="venue"><option value="">All venues</option>{visibleVenues.map(v=><option value={v.id} selected={filters.venue===v.id}>{v.name}</option>)}</select></label>
 <label>Activity<select name="category"><option value="">All activities</option>{CATEGORIES.map(c=><option value={c} selected={filters.category===c}>{c}</option>)}</select></label>
 <label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
 <label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>

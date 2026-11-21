@@ -231,15 +231,6 @@ export const gallery: GalleryItem[] = [
   },
   {
     type: 'image',
-    src: '/images/gallery/music-bingo-aura-trophy-winner.webp',
-    alt: 'Four Dogs Music Bingo winner smiling and holding a championship trophy in front of the Aura Kitchen sign',
-    category: 'Music Bingo',
-    title: 'Champion at Aura Kitchen',
-    width: 723,
-    height: 960,
-  },
-  {
-    type: 'image',
     src: '/images/gallery/four-dogs-trivia-winners-patio-belt.webp',
     alt: 'Four smiling trivia participants posing with a Four Dogs championship belt and branded prizes on a covered patio',
     category: 'Trivia',

@@ -312,3 +312,24 @@ test('October 29 corrections preserve date/venue identities, accurate schema, an
  const schema=eventSchema(halloween,venues.find(v=>v.id==='bozes')!)!;
  assert.equal(schema.startDate,'2026-10-31T19:00:00-04:00');assert.equal(schema.endDate,'2026-11-01T02:00:00-05:00');
 });
+
+test('Retired Aura no longer appears as a current partner but its historical SEO pages remain',()=>{
+ const aura=venues.find(v=>v.id==='aura')!;
+ assert.ok(aura);
+ assert.equal(aura.active,false);
+ assert.equal(aura.slug,'aura-kitchen-bar-music-bingo-columbia-sc');
+ const history=all.filter(e=>e.venueId===aura.id).sort((a,b)=>a.date.localeCompare(b.date));
+ assert.deepEqual(history.map(e=>e.date),['2026-10-22','2026-10-29','2026-11-05','2026-11-12']);
+ assert.ok(history.every(e=>e.publicationStatus==='published'&&e.visibility==='public'));
+ const now=new Date('2026-11-20T18:00:00Z');
+ assert.ok(!selectEvents(all,venues,{now}).some(e=>e.venueId===aura.id));
+ assert.equal(selectEvents(all,venues,{view:'archive',now,venue:'aura'}).length,4);
+ const venuePage=fs.readFileSync('src/pages/venues/[slug].astro','utf8');
+ const eventsPage=fs.readFileSync('src/pages/events/index.astro','utf8');
+ const gallery=fs.readFileSync('src/data/gallery.ts','utf8');
+ assert.match(venuePage,/Past Four Dogs Music Bingo at/);
+ assert.match(venuePage,/The Music Bingo trial has ended/);
+ assert.match(venuePage,/View the four past event listings/);
+ assert.match(eventsPage,/visibleVenues=venues\.filter\(v=>v\.active/);
+ assert.doesNotMatch(gallery,/music-bingo-aura-trophy-winner/);
+});
