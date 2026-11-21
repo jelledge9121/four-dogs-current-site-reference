@@ -43,7 +43,7 @@ function parseEasternCutoff(value:unknown):Date|null {
  }catch {throw new Error('Invalid Eastern registration deadline.')}
 }
 function nowEasternDate():string {
- return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ return Temporal.Now.zonedDateTimeISO('America/New_York').toPlainDate().toString();
 }
 function sanitizedRow(r:RegistrationRow,owner:boolean){
  return {id:r.id,name:r.name,groupSize:r.group_size,teamName:r.team_name,

@@ -8,6 +8,7 @@ import {
   safeHTML,safeCSV,easternTime,APPETIZER_TEXT,RAFFLE_TEXT
 } from '../src/lib/registration-core';
 import { buildConfirmationEmail } from '../src/lib/registration-email';
+import type { RegistrationRow } from '../src/lib/registration-db';
 import { sessionCookie,readSession,postFromSameOrigin,setSessionCookie,clearSessionCookie } from '../src/lib/registration-auth';
 
 const venue={id:'charter-803',slug:'charter-803-trivia-music-bingo-lexington-sc',name:'Charter 803 Bar & Grill',address:'269 Charter Oak Road',city:'Lexington',state:'SC',zip:'29072',mapUrl:'https://example.test',description:'',image:'',active:true,areaSlug:'lexington-sc',weeklySchedule:[],addressVerified:true} satisfies Venue;
@@ -73,7 +74,7 @@ test('Past, canceled, private, and ticketed events are excluded',()=>{
  assert.equal(eligibleEvent(event,venue,new Date('2026-12-10T02:00:00Z')),false);
 });
 test('Professional confirmation email includes all required details and escaped values',()=>{
- const r={id:'reg-1',event_id:event.id,code:'FDE-K7M4P9X2ABCD',name:'Jane <Smith>',email:'jane@example.com',email_key:'hash',
+ const r:RegistrationRow={id:'reg-1',event_id:event.id,code:'FDE-K7M4P9X2ABCD',name:'Jane <Smith>',email:'jane@example.com',email_key:'hash',
   group_size:5,team_name:'A&B',reward_kind:'appetizer',created_at:new Date('2026-12-09T20:59:00Z'),email_status:'sent',email_attempts:1,email_sent_at:null};
  const content=buildConfirmationEmail(r,event,venue);
  for(const detail of ['Jane &lt;Smith&gt;','FDE-K7M4P9X2ABCD','Wednesday, December 9, 2026','3:59 PM','Charter 803 Bar &amp; Grill','One appetizer per registered group'])assert.ok(content.html.includes(detail),detail);

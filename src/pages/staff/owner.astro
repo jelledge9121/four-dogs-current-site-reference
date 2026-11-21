@@ -125,7 +125,7 @@ async function refreshEvent(){
  (find('policy-reward-close') as HTMLInputElement).value=utcToEasternInput(e.rewardCloses);
  (find('owner-export') as HTMLAnchorElement).href='/api/staff/?mode=csv&eventId='+encodeURIComponent(e.id);
  find('owner-assignments').textContent='Assigned: '+(assignments.filter(a=>a.event_id===e.id).map(a=>hosts.find(h=>h.id===a.staff_id)?.name||a.staff_id).join(', ')||'None');
- for(const [id,n] of [['owner-groups',e.registeredGroups],['owner-people',e.expectedPeople],['owner-in-groups',e.checkedInGroups],['owner-in-people',e.checkedInPeople],['owner-rewards',e.issuedRewards]])find(id).textContent=String(n);
+ for(const [id,n] of [['owner-groups',e.registeredGroups],['owner-people',e.expectedPeople],['owner-in-groups',e.checkedInGroups],['owner-in-people',e.checkedInPeople],['owner-rewards',e.issuedRewards]])find(String(id)).textContent=String(n);
  try{
   const [data,audit]=await Promise.all([api('/api/staff/?mode=registrations&eventId='+encodeURIComponent(e.id)),api('/api/staff/?mode=audit&eventId='+encodeURIComponent(e.id))]);
   regs=data.registrations;

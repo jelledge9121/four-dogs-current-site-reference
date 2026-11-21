@@ -5,7 +5,7 @@ import type { Event } from './event-system';
 import type { Venue } from '../data/venues';
 
 let client: ReturnType<typeof postgres> | null = null;
-export type SQLRunner = <T = Record<string, unknown>>(query: string, params?: unknown[]) => Promise<T[]>;
+export type SQLRunner = <T = Record<string, unknown>>(query: string, params?: any[]) => Promise<T[]>;
 export function getDB(): ReturnType<typeof postgres> {
   const url = process.env.FDE_REGISTRATION_DATABASE_URL;
   if (!url) throw new Error('Registration database is not configured');

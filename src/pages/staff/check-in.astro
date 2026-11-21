@@ -76,7 +76,7 @@ async function loadEvents(){
     option.textContent=event.dateLabel+' · '+event.startTime+' · '+event.venue;
     select.append(option);
   }
-  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   select.value=events.find(e=>e.date===today)?.id||events[0]?.id||'';
   if(select.value)await loadRegistrations();
   else message.textContent='No assigned events yet. Ask the owner to add your event.';
