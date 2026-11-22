@@ -1,20 +1,20 @@
 {
   "id": "wesco-015",
-  "slug": "best-of-the-year-wesco-brew-bowl-2026-12-15",
-  "title": "Christmas Chaos Music Bingo",
+  "slug": "mcu-trivia-countdown-to-doomsday-wesco-2026-12-15",
+  "title": "MCU Trivia: Countdown to Doomsday",
   "date": "2026-12-15",
   "startTime": "7:00 PM",
   "venueId": "wesco",
-  "eventType": "Music Bingo",
-  "theme": "Christmas Chaos Music Bingo",
-  "shortDescription": "A Christmas Chaos Music Bingo night at WesCo Brew & Bowl.",
-  "description": "Christmas Chaos Music Bingo is bringing holiday songs and a little friendly competition to WesCo. Listen for songs on your card, mark your matches, and see how your table does. Bring your crew for a festive Tuesday night.",
+  "eventType": "Trivia",
+  "theme": "MCU Trivia: Countdown to Doomsday",
+  "shortDescription": "Assemble your team for MCU Trivia at WesCo, three days before Avengers: Doomsday opens.",
+  "description": "Doomsday is coming. Three days before Avengers: Doomsday hits theaters, assemble your team at WesCo Brew & Bowl for MCU Trivia: Countdown to Doomsday. From Iron Man and Captain America to the Avengers, Wakanda, and the multiverse, see how well you know the Marvel Cinematic Universe. Expect familiar heroes, memorable moments, and questions for casual fans and diehards alike. Free to play, with no Doomsday spoilers.",
   "image": "/images/hero.jpg",
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
   "publicationStatus": "published",
-  "lastUpdated": "2026-11-18T18:00:00Z",
+  "lastUpdated": "2026-11-22T14:45:00Z",
   "admission": {
     "kind": "free",
     "verified": true,
@@ -24,5 +24,7 @@
   },
   "instructions": "Contact the venue for seating or participation details.",
   "endTime": "",
-  "ticketed": false
+  "ticketed": false,
+  "seoTitle": "MCU Trivia: Countdown to Doomsday | WesCo | December 15, 2026 | Four Dogs",
+  "metaDescription": "Get ready for Avengers: Doomsday with MCU Trivia at WesCo Brew & Bowl in Cayce on Tuesday, December 15, 2026, at 7 PM. Free to play."
 }

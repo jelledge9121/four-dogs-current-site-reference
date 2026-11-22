@@ -87,3 +87,7 @@
 # December 23 Charter 803 Festivus replaces Music Bingo placeholder
 /events/music-bingo-charter-803-2026-12-23 /events/seinfeld-trivia-a-festivus-for-the-rest-of-us-charter-803-2026-12-23/ 301
 /events/music-bingo-charter-803-2026-12-23/ /events/seinfeld-trivia-a-festivus-for-the-rest-of-us-charter-803-2026-12-23/ 301
+
+# December 15 WesCo event renamed to MCU Trivia; preserve prior public URL
+/events/best-of-the-year-wesco-brew-bowl-2026-12-15 /events/mcu-trivia-countdown-to-doomsday-wesco-2026-12-15/ 301
+/events/best-of-the-year-wesco-brew-bowl-2026-12-15/ /events/mcu-trivia-countdown-to-doomsday-wesco-2026-12-15/ 301
