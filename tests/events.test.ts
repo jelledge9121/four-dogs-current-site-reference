@@ -265,7 +265,7 @@ test('December calendar contains the approved public lineup without duplicates o
  }
  for(const [venue,date,title] of [
   ['top-dawg','2026-12-29','Best of 2026 Trivia'],
-  ['wesco','2026-12-01','90s vs. 2000s Music Bingo'],
+  ['wesco','2026-12-01','Friends Trivia'],
   ['wesco','2026-12-29','New Year’s Party Hits Music Bingo'],
   ['bozes','2026-12-02','Welcome Winter Music Bingo'],
   ['charter-803','2026-12-02','Justin Bieber & Friends Music Bingo'],
