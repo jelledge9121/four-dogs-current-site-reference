@@ -1,31 +1,27 @@
 ---
 export const prerender = false;
 import Base from '../layouts/Base.astro';
-import ReviewCard from '../components/ReviewCard.astro';
-import { venueOwnerReview } from '../data/reviews';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import VenueProof from '../components/VenueProof.astro';
 import { venues } from '../data/venues';
 import { upcomingEvents } from '../data/events';
 
 const upcomingVenueIds = new Set(upcomingEvents().map((event) => event.venueId));
 const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
-const formats = [
-  { name: 'Trivia nights', details: 'General knowledge and themed rounds with a host who keeps teams involved.', href: '/services/trivia/' },
-  { name: 'Music Bingo', details: 'Recognizable songs, rotating themes, and a game people can pick up quickly.', href: '/services/music-bingo/' },
-  { name: 'Survey Showdown', details: 'An interactive team competition built around popular survey answers.', href: '/services/four-dogs-survey-showdown/' },
-  { name: 'Are You Smarter Than a Barstool?', details: 'A playful school-subject challenge and a change of pace from traditional trivia.', href: '/services/are-you-smarter-than-a-barstool/' },
-];
+const publicEvents = upcomingEvents();
 ---
 <Base title="Weekly Entertainment for Restaurants & Bars in SC | Four Dogs" description="Plan weekly entertainment for your restaurant or bar with Four Dogs. Explore trivia, Music Bingo, original game shows, professional hosts and local promotional support.">
+  <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'For Venues' }]} />
   <section class="section dark">
     <div class="container">
       <p class="eyebrow">For restaurant & bar owners</p>
-      <h1>Weekly entertainment for your bar or restaurant.</h1>
-      <p class="lead">Give regulars a reason to meet at your place each week. We bring the games, host the rounds and help promote the night so your team can focus on the tables.</p>
+      <h1>A reason to put your place on next week’s calendar.</h1>
+      <p class="lead">Build a recurring night guests can plan around. Four Dogs brings original hosted games, consistent weekly programming, and promotional support while your team stays focused on the room.</p>
       <div class="actions">
-        <a class="button" href="/booking/?service=Venue%20Entertainment">Talk about a weekly partnership</a>
-        <a class="button secondary" href="/events/">See our venue nights</a>
+        <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Plan a weekly venue night</a>
+        <a class="button secondary" href="#venue-examples">See real venue examples</a>
       </div>
-      <p class="fine">No need to have every detail figured out. Tell us about your venue and the night you have in mind.</p>
+      <p class="fine">Tell us your preferred night, what you already offer, and what you want the event to do for your business.</p>
     </div>
   </section>
 
@@ -34,32 +30,14 @@ const formats = [
       <div>
         <p class="eyebrow">Hosting and promotion</p>
         <h2>We handle the entertainment so you can run your restaurant.</h2>
-        <p>We plan the format, bring a professional host, run the rounds, manage scoring, and keep guests engaged. We also provide promotional graphics and support sharing the event. Your team can stay focused on food, drinks, and hospitality.</p>
-        <p>The best recurring night fits the room. We can talk through your audience, what your venue already offers, and whether trivia, Music Bingo, or a rotating game format makes sense.</p>
+        <p>We plan the format, bring a prepared host, run the game and scoring, and supply promotional creative for the night. Your team can focus on food, drinks, and hospitality while we keep the entertainment moving.</p>
+        <p>We’ll shape the night around your crowd, schedule, and current programming. A weekly partnership can use one familiar format, rotate themes, or mix formats when that suits the calendar.</p>
       </div>
       <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" loading="lazy" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
     </div>
   </section>
 
-  {venueOwnerReview?.approved && (
-    <section class="section">
-      <div class="container">
-        <p class="eyebrow">From a venue owner</p>
-        <h2>From a partner at Charter 803 in Lexington.</h2>
-        <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />
-      </div>
-    </section>
-  )}
-
-  <section class="section alt">
-    <div class="container">
-      <p class="eyebrow">Choose the right night</p>
-      <h2>Original games. Familiar favorites. A format for your crowd.</h2>
-      <div class="venue-format-list">
-        {formats.map((format) => <a href={format.href}><span><strong>{format.name}</strong><small>{format.details}</small></span><span aria-hidden="true">→</span></a>)}
-      </div>
-    </div>
-  </section>
+  <VenueProof venues={venues} events={publicEvents} />
 
   <section class="section">
     <div class="container grid">
@@ -106,11 +84,10 @@ const formats = [
 
   <section class="section dark">
     <div class="container">
-      <h2>Which night fits your venue?</h2>
-      <p>Tell us your restaurant's name, location, and a night you'd like to explore. We'll talk through the format and whether a trial date is a fit.</p>
+      <h2>Let’s build a weekly night for your venue.</h2>
+      <p>Share your venue, location, preferred night, existing programming, and business goal. We’ll recommend a format and talk through a recurring partnership.</p>
       <div class="actions">
-        <a class="button" href="/booking/?service=Venue%20Entertainment">Talk about a weekly partnership</a>
-        <a class="button secondary" href="mailto:bookings@4dogsentertainment.com?subject=Venue%20Entertainment%20Inquiry">Email Four Dogs</a>
+        <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Start a venue partnership inquiry</a>
       </div>
       <p class="fine">Bring your people. We’ll bring the Doggone Good Time.</p>
     </div>
@@ -119,14 +96,10 @@ const formats = [
     .venue-proof-photo { margin: 0; }
     .venue-proof-photo img { width: 100%; height: auto; display: block; }
     .venue-proof-photo figcaption { margin-top: .6rem; color: var(--muted); font-size: .9rem; }
-    .venue-format-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 2rem; border-top: 1px solid var(--rule); }
-    .venue-format-list a { display: flex; justify-content: space-between; gap: 1rem; padding: 1.4rem .15rem; border-bottom: 1px solid var(--rule); text-decoration: none; }
-    .venue-format-list a:hover strong,.venue-partner-list a:hover strong { text-decoration: underline; }
-    .venue-format-list strong { display: block; font: 700 1.4rem/1.3 Georgia,serif; }
-    .venue-format-list small { display: block; color: var(--muted); font-size: .98rem; line-height: 1.5; margin-top: .4rem; }
+    .venue-partner-list a:hover strong { text-decoration: underline; }
     .venue-partner-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 2rem; margin: 1.25rem 0 1.75rem; }
     .venue-partner-list a { display: flex; gap: .8rem; align-items: baseline; padding: .95rem .15rem; border-bottom: 1px solid var(--rule); text-decoration: none; flex-wrap: wrap; }
     .venue-partner-list a span:nth-child(2) { color: var(--muted); margin-left: auto; }
-    @media (max-width: 650px) { .venue-format-list,.venue-partner-list { grid-template-columns: 1fr; } }
+    @media (max-width: 650px) { .venue-partner-list { grid-template-columns: 1fr; } }
   </style>
 </Base>

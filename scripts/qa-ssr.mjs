@@ -66,10 +66,19 @@ for(const path of paths){
  }
 }
 const venuePartnerships=await request('/for-venues/');
-assert.ok(venuePartnerships.body.includes('Weekly entertainment for your bar or restaurant.'),'commercial venue message is present');
+assert.ok(venuePartnerships.body.includes('A reason to put your place on next week’s calendar.'),'recurring venue outcome is present');
 assert.ok(venuePartnerships.body.includes('Owner, Charter 803 Bar &amp; Grill'),'venue partner testimonial has an actual owner attribution');
 assert.ok(!venuePartnerships.body.includes('Wedding Couple · Google 5-Star Review'),'wedding review is not misrepresented as a venue-owner testimonial');
 assert.ok(venuePartnerships.body.includes('/booking/?service=Venue%20Entertainment'),'weekly partnership booking route is present');
+assert.ok(venuePartnerships.body.includes('Programming aim, inferred from the public schedule'),'case-study goals are labeled as interpretation');
+assert.ok(venuePartnerships.body.includes('Attendance, sales, and return-visit figures are not published here'),'unverified business results are explicitly excluded');
+for(const phrase of ['Music Bingo','Survey Showdown','Are You Smarter Than a Barstool?','Venue-specific photos'])assert.ok(venuePartnerships.body.includes(phrase),`venue proof includes ${phrase}`);
+const venueBooking=fs.readFileSync('dist/booking/index.html','utf8');
+for(const field of ['preferred-weeknight','existing-programming','venue-business-goal'])assert.ok(venueBooking.includes(`name="${field}"`),`venue inquiry includes ${field}`);
+const calculator=fs.readFileSync('dist/venue-calculator/index.html','utf8');
+assert.ok(calculator.includes('Enter your quote'),'calculator leaves the event fee to the venue');
+assert.ok(!calculator.includes('value="150"'),'calculator does not publish a Four Dogs fee');
+assert.ok(calculator.includes('nothing is saved or sent'),'calculator makes local-only handling clear');
 const venuesWithUpcomingPublicEvents=new Set(selectEvents(publicEvents,venues,{now:new Date()}).map(event=>event.venueId));
 for(const venue of venues.filter(venue=>venue.active && venuesWithUpcomingPublicEvents.has(venue.id))){
  assert.ok(venuePartnerships.body.includes('/venues/'+venue.slug+'/'),'venue partnership page links current public event partner '+venue.name);

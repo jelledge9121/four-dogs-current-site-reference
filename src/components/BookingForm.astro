@@ -28,6 +28,30 @@ import { site } from '../data/site';
     <label data-recurring>Recurring event?
       <select name="recurring"><option value="">Choose if known</option><option>No</option><option>Yes</option><option>Not sure</option></select>
     </label>
+    <fieldset class="wide venue-partnership-fields" data-venue-partnership hidden disabled>
+      <legend>Weekly venue partnership</legend>
+      <p class="fine">A few details will help us shape a recurring plan. No quote or commitment is needed.</p>
+      <label>Preferred night
+        <select name="preferred-weeknight">
+          <option value="">Choose if known</option>
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Flexible</option>
+        </select>
+      </label>
+      <label>What entertainment or recurring events do you already offer?
+        <textarea name="existing-programming" rows="2" placeholder="Share the nights, formats, or providers already on your calendar."></textarea>
+      </label>
+      <label>What would you like a weekly event to help with?
+        <select name="venue-business-goal">
+          <option value="">Choose if helpful</option>
+          <option>Give guests a reason to return on a quieter night</option>
+          <option>Build a consistent weekly event</option>
+          <option>Reach a new audience</option>
+          <option>Add variety to current programming</option>
+          <option>Improve awareness of our event calendar</option>
+          <option>Other or not sure yet</option>
+        </select>
+      </label>
+    </fieldset>
     <label data-guests>Guest count <input name="guest-count" type="number" min="1"></label>
     <label>City <input name="city" autocomplete="address-level2"></label>
     <label>State <input name="state" value="SC" autocomplete="address-level1"></label>
@@ -89,6 +113,7 @@ import { site } from '../data/site';
   const santa = holiday.querySelector<HTMLInputElement>('[name="santa-jim-interest"]')!;
   const recurring = form.querySelector<HTMLSelectElement>('[name="recurring"]')!;
   const guests = form.querySelector<HTMLInputElement>('[name="guest-count"]')!;
+  const venueFields = form.querySelector<HTMLFieldSetElement>('[data-venue-partnership]')!;
   const children = form.querySelector<HTMLSelectElement>('[name="children-attending"]')!;
   const requested = new URLSearchParams(location.search).get('service');
   const choice = [...service.options].find(option => option.value === requested || option.dataset.serviceSlug === requested);
@@ -102,6 +127,8 @@ import { site } from '../data/site';
   function sync() {
     const venue = service.value === 'Venue Entertainment';
     const canOptIn = ['Private Event', 'Corporate Event'].includes(service.value);
+    venueFields.hidden = !venue;
+    venueFields.disabled = !venue;
     showField(holidayInterest, canOptIn);
     const isHoliday = service.value === 'Christmas / Holiday Entertainment' || (canOptIn && holidayInterest.checked);
     showField(recurring, venue || ['Trivia', 'Music Bingo', 'Karaoke', 'Four Dogs Survey Showdown', 'Are You Smarter Than a Barstool?'].includes(service.value));
