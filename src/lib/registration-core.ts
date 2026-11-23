@@ -2,66 +2,60 @@ import { createHmac, randomInt, scryptSync, timingSafeEqual, randomBytes } from 
 import { Temporal } from '@js-temporal/polyfill';
 import type { Event } from './event-system';
 import type { Venue } from '../data/venues';
-import { isPublic, localDateTime, needsTicket } from './event-system';
+import { isPublic, localDateTime } from './event-system';
 
 export type RewardKind = 'appetizer' | 'raffle' | 'none';
 export type Policy = {
   event_id: string;
   enabled: boolean;
   reward_kind: RewardKind;
+  redemption_deadline?: Date | string | null;
   reward_enabled: boolean;
   registration_closes_at: string | Date | null;
   reward_closes_at: string | Date | null;
 };
 export type RegistrationInput = {
-  name: string; email: string; groupSize: number; teamName: string | null; eventId: string;
+  name: string; groupSize: number; teamName: string | null; eventId: string;
 };
-export const APPETIZER_TEXT = 'Your group is registered! Show your confirmation code to your Four Dogs host when you arrive. Once your registration is verified, your host will give you a physical coupon for one complimentary appetizer from Charter 803.\n\nOne appetizer per registered group. Your confirmation email is not an appetizer coupon.';
-export const RAFFLE_TEXT = 'You’re registered! Show your confirmation code to your Four Dogs host when you arrive to receive one extra raffle ticket for tonight’s giveaway.';
-export const NO_REWARD_TEXT = 'You’re registered for this event. Check in with your Four Dogs host when you arrive. No complimentary reward applies to this registration.';
 export const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 export function secureCode(): string {
   return 'FDE-' + Array.from({ length: 12 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join('');
 }
 
-export function normalizeEmail(raw: string): string {
-  return raw.trim().toLowerCase();
-}
 export function validateRegistration(value: unknown): RegistrationInput {
   if (!value || typeof value !== 'object') throw new Error('Enter your registration details.');
   const input = value as Record<string, unknown>;
   const name = typeof input.name === 'string' ? input.name.trim().replace(/\s+/g, ' ') : '';
-  const email = typeof input.email === 'string' ? normalizeEmail(input.email) : '';
   const groupSize = typeof input.groupSize === 'number' ? input.groupSize : Number(input.groupSize);
   const eventId = typeof input.eventId === 'string' ? input.eventId.trim() : '';
   const teamName = typeof input.teamName === 'string' && input.teamName.trim() ? input.teamName.trim().replace(/\s+/g, ' ') : null;
   if (name.length < 2 || name.length > 100 || /[\u0000-\u001F\u007F]/.test(name)) throw new Error('Enter your name (2 to 100 characters).');
-  if (email.length > 254 || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) throw new Error('Enter a valid email address.');
   if (!Number.isInteger(groupSize) || groupSize < 1 || groupSize > 50) throw new Error('Group size must be between 1 and 50.');
   if (!/^[a-zA-Z0-9][a-zA-Z0-9-]{0,119}$/.test(eventId)) throw new Error('Choose an event from the calendar.');
   if (teamName && (teamName.length > 80 || /[\u0000-\u001F\u007F]/.test(teamName))) throw new Error('Team name is too long.');
-  return { name, email, groupSize, teamName, eventId };
+  return { name, groupSize, teamName, eventId };
 }
 
 export function defaultReward(event: Event, venue: Venue): RewardKind {
   const wed = Temporal.PlainDate.from(event.date).dayOfWeek === 3;
-  return venue.id === 'charter-803' && wed && (event.eventType === 'Trivia' || event.eventType === 'Music Bingo')
-    ? 'appetizer' : 'raffle';
+  return event.date >= '2026-12-02' && event.venueId === venue.id && venue.id === 'charter-803' && wed && (event.eventType === 'Trivia' || event.eventType === 'Music Bingo')
+    ? 'appetizer' : 'none';
 }
 export function defaultDeadline(event: Event, venue: Venue): Date {
-  const cutoff = defaultReward(event, venue) === 'appetizer' ? '4:00 PM' : event.startTime!;
+  const cutoff = event.startTime || '12:00 AM';
   return new Date(localDateTime(event.date, cutoff).epochMilliseconds);
 }
 export function eligibleEvent(event: Event | undefined, venue: Venue | undefined, now = new Date()): boolean {
-  if (!event || !venue || !venue.active || !isPublic(event) || !event.startTime || event.timeTba) return false;
-  if (!event.admission?.verified || event.admission.kind !== 'free' || needsTicket(event)) return false;
+  if (!event || !venue || !venue.active || !isPublic(event)) return false;
+
   if (!['scheduled', 'rescheduled'].includes(event.status)) return false;
-  return new Date(localDateTime(event.date, event.startTime).epochMilliseconds) > now;
+  return new Date(defaultDeadline(event,venue).getTime()) > now;
 }
 export function resolvePolicy(event: Event, venue: Venue, saved?: Partial<Policy> | null): Policy {
   return {
     event_id: event.id,
+    redemption_deadline: saved?.redemption_deadline,
     enabled: saved?.enabled ?? true,
     reward_kind: saved?.reward_kind ?? defaultReward(event, venue),
     reward_enabled: saved?.reward_enabled ?? true,
@@ -70,10 +64,12 @@ export function resolvePolicy(event: Event, venue: Venue, saved?: Partial<Policy
   };
 }
 export function registrationCutoff(event: Event, venue: Venue, policy: Policy): Date {
-  return policy.registration_closes_at ? new Date(policy.registration_closes_at) : defaultDeadline(event, venue);
+  const start = defaultDeadline(event,venue);
+  return policy.registration_closes_at ? new Date(Math.min(+new Date(policy.registration_closes_at),+start)) : start;
 }
 export function rewardFor(event: Event, venue: Venue, policy: Policy, registeredAt: Date): RewardKind {
-  if (!policy.reward_enabled || policy.reward_kind === 'none') return 'none';
+  if (defaultReward(event,venue) !== 'appetizer' || policy.reward_kind !== 'appetizer' || !policy.redemption_deadline || new Date(policy.redemption_deadline) <= registeredAt) return 'none';
+  if (!policy.reward_enabled) return 'none';
   if (policy.reward_closes_at && registeredAt >= new Date(policy.reward_closes_at)) return 'none';
   // The Charter appetizer promotion never qualifies after 4 PM Wednesday Eastern,
   // even if an owner permits registration after the standard registration deadline.
@@ -81,9 +77,6 @@ export function rewardFor(event: Event, venue: Venue, policy: Policy, registered
     && Temporal.PlainDate.from(event.date).dayOfWeek === 3
     && registeredAt >= new Date(localDateTime(event.date, '4:00 PM').epochMilliseconds)) return 'none';
   return policy.reward_kind;
-}
-export function rewardMessage(kind: RewardKind): string {
-  return kind === 'appetizer' ? APPETIZER_TEXT : kind === 'raffle' ? RAFFLE_TEXT : NO_REWARD_TEXT;
 }
 export function easternTime(date: Date | string): string {
   return new Intl.DateTimeFormat('en-US', {
@@ -112,7 +105,7 @@ export function verifySecret(password: string, stored: string): boolean {
 }
 export function safeCSV(value: unknown): string {
   let text = String(value ?? '').replace(/[\r\n]+/g, ' ');
-  if (/^\s*[=+\-@]/.test(text)) text = "'" + text;
+  if (/^[\t\r\n]/.test(String(value ?? '')) || /^\s*[=+\-@]/.test(text)) text = "'" + text;
   return '"' + text.replace(/"/g, '""') + '"';
 }
 export function safeHTML(value: unknown): string {

@@ -2,7 +2,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Permissions-Policy: microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data: https://*.tickettailor.com; style-src 'self' 'unsafe-inline' https://*.tickettailor.com; script-src 'self' 'unsafe-inline' https://cdn.tickettailor.com; connect-src 'self' https://*.tickettailor.com https://buytickets.at; frame-src https://trivianearme.net https://*.tickettailor.com https://buytickets.at; form-action 'self'
 /assets/*
   Cache-Control: public, max-age=604800

@@ -7,7 +7,8 @@
   "publicationStatus": "published",
   "lastUpdated": "2026-11-18T18:00:00Z",
   "admission": {
-    "kind": "unknown"
+    "kind": "unknown",
+    "reviewNote": "Confirm admission with Charter 803 before publishing an offer."
   },
   "instructions": "Contact the venue for seating, admission, and participation details.",
   "id": "charter-803-2026-12-10",

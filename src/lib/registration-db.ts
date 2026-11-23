@@ -23,12 +23,13 @@ export function ipIdentifier(ip: string, secret: string, category: string): stri
   return createHmac('sha256',secret).update(category + '\0' + ip).digest('hex');
 }
 export async function recordRateHit(run: SQLRunner, identifier: string, limit: number, minutes: number): Promise<void> {
+  await run('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[identifier]);
   await run('INSERT INTO fde_registration.rate_hits (id,identifier) VALUES ($1,$2)', [randomUUID(),identifier]);
   const rows = await run<{ n: number }>('SELECT COUNT(*)::integer AS n FROM fde_registration.rate_hits WHERE identifier = $1 AND at > NOW() - ($2 * INTERVAL \'1 minute\')',[identifier,minutes]);
   if ((rows[0]?.n || 0) > limit) throw new Error('Too many requests. Try again later.');
 }
 export type RegistrationRow = {
- id: string; event_id: string; code: string; name: string; email: string; email_key: string;
+ cancelled_at?:Date; voucher_expires?:Date; redeemed_at?:Date; id: string; event_id: string; code: string; name: string; email: string; email_key: string;
  group_size: number; team_name: string | null; reward_kind: 'appetizer'|'raffle'|'none';
  created_at: Date; email_status: 'pending'|'sent'|'failed'; email_attempts: number; email_sent_at: Date | null;
  checked_in_at?: Date | null; checked_in_by?: string | null; actual_group_size?: number | null; reward_issued?: boolean | null;
@@ -37,12 +38,12 @@ export async function findPolicy(eventId: string): Promise<Partial<Policy> | nul
   const r = await query<Policy>('SELECT * FROM fde_registration.event_policies WHERE event_id=$1',[eventId]);
   return r[0] || null;
 }
-export async function saveRegistration(input: RegistrationInput, event: Event, venue: Venue, ip: string, now = new Date()): Promise<RegistrationRow> {
+export async function saveRegistration(input: RegistrationInput, event: Event, venue: Venue, ip: string, now = new Date(), device = randomUUID() as string): Promise<RegistrationRow> {
   const secret = process.env.FDE_SESSION_SECRET!;
   // Keep abuse counters even when an attempted duplicate registration is rejected.
   await inTransaction(async run => {
     await recordRateHit(run, ipIdentifier(ip,secret,'register'), 12, 15);
-    await recordRateHit(run, ipIdentifier(input.email,secret,'email'), 8, 60);
+
   });
   return await inTransaction(async run => {
     const fresh = await run<{time:Date}>('SELECT NOW() AS time');
@@ -52,14 +53,15 @@ export async function saveRegistration(input: RegistrationInput, event: Event, v
     const policy = resolvePolicy(event,venue,saved[0]);
     if (!policy.enabled) throw new Error('Registration is not available for this event.');
     if (at >= registrationCutoff(event,venue,policy)) throw new Error('Registration has closed for this event.');
+    const duplicateKey=ipIdentifier([event.id,ip,input.name.toLowerCase(),input.teamName?.toLowerCase()||''].join('\0'),secret,'group');
     const code = secureCode();
     const rows = await run<RegistrationRow>(
-      'INSERT INTO fde_registration.registrations (id,event_id,code,name,email,email_key,group_size,team_name,reward_kind) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT (event_id,email_key) DO NOTHING RETURNING *',
-      [randomUUID(),event.id,code,input.name,input.email,emailKey(event.id,input.email,secret),input.groupSize,input.teamName,rewardFor(event,venue,policy,at)]
+      'INSERT INTO fde_registration.registrations (id,event_id,code,name,email,email_key,group_size,team_name,reward_kind,device_key,voucher_expires,duplicate_key) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) ON CONFLICT DO NOTHING RETURNING *',
+      [randomUUID(),event.id,code,input.name,null,null,input.groupSize,input.teamName,rewardFor(event,venue,policy,at),emailKey(event.id,device,secret),rewardFor(event,venue,policy,at)==='appetizer'?policy.redemption_deadline:null,duplicateKey]
     );
-    if (!rows.length) throw new Error('This email address is already registered for the event. Please check the original confirmation email.');
-    await run('INSERT INTO fde_registration.audit (id,registration_id,event_id,actor_id,action) VALUES ($1,$2,$3,$4,$5)',
-      [randomUUID(),rows[0].id,event.id,'customer','registered']);
+    if (!rows.length) throw new Error('This browser is already registered for this event. Open your saved registration link.');
+    await run('INSERT INTO fde_registration.audit (id,registration_id,event_id,actor_id,action,reason) VALUES ($1,$2,$3,$4,$5,$6)',
+      [randomUUID(),rows[0].id,event.id,'customer','registered',String(input.groupSize)]);
     return rows[0];
   });
 }
@@ -72,7 +74,8 @@ export async function registrationsForEvent(eventId:string): Promise<Registratio
 }
 export function registrationTotals(rows:RegistrationRow[]) {
   const checked=rows.filter(r=>r.checked_in_at);
-  return { registeredGroups: rows.length, expectedPeople: rows.reduce((n,r)=>n+r.group_size,0),
+  const active=rows.filter(r=>!r.cancelled_at);
+  return { registeredGroups: active.length, expectedPeople: active.reduce((n,r)=>n+r.group_size,0),
     checkedInGroups:checked.length, checkedInPeople:checked.reduce((n,r)=>n+(r.actual_group_size ?? r.group_size),0),
     issuedRewards:checked.filter(r=>r.reward_issued).length };
 }
@@ -99,10 +102,6 @@ export async function correctCheckin(registrationId:string,eventId:string,actorI
       [randomUUID(),registrationId,eventId,actorId,'checkin_corrected',reason]);
     return true;
   });
-}
-export async function sendStatus(id:string,success:boolean) {
-  await query('UPDATE fde_registration.registrations SET email_status=$2,email_attempts=email_attempts+1,email_sent_at=CASE WHEN $2 = \'sent\' THEN NOW() ELSE email_sent_at END WHERE id=$1',
-    [id,success?'sent':'failed']);
 }
 export async function isAssigned(staffId:string,eventId:string) {
   const r=await query('SELECT 1 FROM fde_registration.assignments a JOIN fde_registration.staff s ON s.id=a.staff_id AND s.active=TRUE WHERE a.staff_id=$1 AND a.event_id=$2',[staffId,eventId]);

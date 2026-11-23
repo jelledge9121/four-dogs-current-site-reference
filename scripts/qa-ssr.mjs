@@ -34,10 +34,12 @@ for(const path of paths){
   assert.ok(page.body.includes(`rel="canonical" href="${base}${path}"`),`${path} canonical`);
   assert.ok(/<meta name="description" content="[^"]+"/.test(page.body),`${path} description`);
  }
+ let pageEvents=0;
  for(const m of page.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
   const schema=JSON.parse(m[1]);
   if(schema['@type']==='Event'){
    eventSchemas++;
+   pageEvents++;
    for(const key of ['name','description','startDate','eventStatus','eventAttendanceMode','location','organizer','image','url'])assert.ok(schema[key],`${path} missing schema ${key}`);
    const sourceEvent=all.find(e=>path===`/events/${e.slug}/`);
    if(sourceEvent?.timeTba){
@@ -49,9 +51,14 @@ for(const path of paths){
    }
    assert.ok(schema.location.address.streetAddress&&schema.location.address.addressLocality&&schema.location.address.postalCode);
    assert.equal(schema.organizer.name,'Four Dogs Entertainment LLC');
-   if(schema.offers)assert.ok(schema.offers.price>=0&&schema.offers.priceCurrency&&schema.offers.url);
+   assert.ok(sourceEvent);
+   const admission=sourceEvent.admission;
+   if(admission.verified && admission.kind!=='unknown'){
+     assert.deepEqual(schema.offers,{'@type':'Offer',price:admission.kind==='free'?0:admission.price,priceCurrency:admission.currency || 'USD',url:sourceEvent.registrationUrl || base+path},path);
+   }else assert.equal(schema.offers,undefined,path);
   }
  }
+ assert.equal(pageEvents,publicEvents.some(e=>path===`/events/${e.slug}/`)?1:0,path);
  for(const m of page.body.matchAll(/(?:href|src)="(\/[^"]*)"/g)){
   const url=m[1].replaceAll('&amp;','&').split(/[?#]/)[0];if(!url||url.startsWith('//')||url.startsWith('/_astro/'))continue;
   if(staticRoutes.has(url)||staticRoutes.has(`${url.replace(/\/$/,'')}/index.html`))continue;
@@ -147,3 +154,17 @@ const desk=await request('/admin/distribution/');assert.ok(desk.body.includes('E
 const attendee=await request('/events/heroes-villains-everything-in-between-wesco-2026-10-20/');assert.ok(attendee.body.includes('Free admission.'));assert.ok(attendee.body.includes('\"isAccessibleForFree\":true'));assert.ok(!attendee.body.includes('Admission has not been confirmed'));assert.ok(!mystery.body.includes('The event end time has not been confirmed'));assert.ok(!calendar.body.includes('>Public event feed</a>'));
 const result={testedAt:new Date().toISOString(),dynamicRoutes:paths.length,eventSchemas,renderedRequests:cache.size,checks:'Initial HTML, chronology/archives, filters, event status, canonical URLs, schema, internal links/assets, sitemap, public feeds, conflict suppression, and 404s passed. Hosted browser and external validator results are recorded separately in the completion report.'};
 fs.mkdirSync('artifacts',{recursive:true});fs.writeFileSync('artifacts/ssr-qa.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+
+const filteredCalendar = await request('/events/?city=Cayce');
+assert.match(filteredCalendar.body, /name="robots" content="noindex,follow"/);
+assert.doesNotMatch((await request('/events/')).body, /name="robots" content="noindex/);
+for (const venue of venues) {
+  assert.doesNotMatch((await request('/venues/' + venue.slug + '/')).body, /except ticketed murder mystery/);
+}
+for (const event of publicEvents.filter(e => e.registrationUrl)) {
+  const page = await request('/events/' + event.slug + '/');
+  if (page.body.includes('href="' + event.registrationUrl + '"')) {
+    assert.match(page.body, /data-event-action="registration_click"/);
+    assert.match(page.body, /data-event-action="directions_click"/);
+  }
+}

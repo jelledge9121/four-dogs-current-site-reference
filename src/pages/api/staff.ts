@@ -3,19 +3,19 @@ import { randomBytes,randomUUID } from 'node:crypto';
 import { Temporal } from '@js-temporal/polyfill';
 import { events,allEvents } from '../../data/events';
 import { venueById } from '../../data/venues';
-import { eligibleEvent, eventDateLabel, secretHash, verifySecret, safeCSV, defaultReward } from '../../lib/registration-core';
+import { eventDateLabel, secretHash, verifySecret, safeCSV, defaultReward } from '../../lib/registration-core';
 import { configured, postFromSameOrigin, readSession, sessionCookie, setSessionCookie, clearSessionCookie,
   verifyOwnerPassword, privateHeaders, OWNER_ID, type StaffSession } from '../../lib/registration-auth';
 import { query,inTransaction,recordRateHit,ipIdentifier,registrationByCode,registrationsForEvent,registrationTotals,
-  claimCheckin,correctCheckin,activeHost,isAssigned,assignedEvents,recentAudit,sendStatus, type RegistrationRow
+  correctCheckin,activeHost,recentAudit, type RegistrationRow
 } from '../../lib/registration-db';
-import { deliverConfirmation,buildConfirmationEmail } from '../../lib/registration-email';
+
 
 export const prerender=false;
 const json=(body:unknown,status=200,headers:Record<string,string>={})=>new Response(JSON.stringify(body),
   {status,headers:{...privateHeaders(),'Content-Type':'application/json; charset=utf-8',...headers}});
 const eventFor=(id:string)=>allEvents.find(e=>e.id===id && e.visibility==='public' && e.publicationStatus==='published');
-const validFreeEvent=(id:string)=>{const event=eventFor(id);return event&&event.admission.verified&&event.admission.kind==='free'&&!event.ticketed?event:null};
+const validFreeEvent=eventFor;
 async function getAuthorized(req:Request):Promise<StaffSession|null> {
   const session=readSession(req);
   if(!session)return null;
@@ -23,7 +23,7 @@ async function getAuthorized(req:Request):Promise<StaffSession|null> {
   return session;
 }
 async function access(staff:StaffSession,eventId:string) {
-  return !!validFreeEvent(eventId) && (staff.role==='owner'||await isAssigned(staff.staffId,eventId));
+  return staff.role==='owner' && !!eventFor(eventId);
 }
 async function jsonBody(request:Request):Promise<Record<string,any>> {
   const contentType=request.headers.get('content-type')||'';
@@ -42,11 +42,8 @@ function parseEasternCutoff(value:unknown):Date|null {
   return new Date(zdt.epochMilliseconds);
  }catch {throw new Error('Invalid Eastern registration deadline.')}
 }
-function nowEasternDate():string {
- return Temporal.Now.zonedDateTimeISO('America/New_York').toPlainDate().toString();
-}
 function sanitizedRow(r:RegistrationRow,owner:boolean){
- return {id:r.id,name:r.name,groupSize:r.group_size,teamName:r.team_name,
+ return {cancelled:!!r.cancelled_at,redeemed:!!r.redeemed_at,id:r.id,name:r.name,groupSize:r.group_size,teamName:r.team_name,
   ...(owner?{email:r.email,emailStatus:r.email_status}:{}),
   code:r.code,reward:r.reward_kind,registeredAt:r.created_at,
   checkedInAt:r.checked_in_at||null,actualGroupSize:r.actual_group_size||null,rewardIssued:!!r.reward_issued};
@@ -59,19 +56,20 @@ export const GET:APIRoute=async({request})=>{
  const mode=url.searchParams.get('mode')||'events';
  try {
   if(mode==='session')return json({staffId:staff.staffId,role:staff.role});
+  if(staff.role!=='owner')return json({error:'Owner access is required.'},403);
   if(mode==='events'){
-   const assigned=staff.role==='owner'?null:new Set((await assignedEvents(staff.staffId)).map(a=>a.event_id));
+
    const policies=await query('SELECT * FROM fde_registration.event_policies');
    const policyById=new Map(policies.map((p:any)=>[p.event_id,p]));
-   const counts=await query('SELECT r.event_id,COUNT(*)::integer AS groups,COALESCE(SUM(r.group_size),0)::integer AS expected,COUNT(c.registration_id)::integer AS checked_groups,COALESCE(SUM(c.actual_group_size),0)::integer AS checked_people,COUNT(c.registration_id) FILTER (WHERE c.reward_issued)::integer AS rewards FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id GROUP BY r.event_id');
+   const counts=await query('SELECT r.event_id,COUNT(*)::integer AS groups,COALESCE(SUM(r.group_size),0)::integer AS expected,COUNT(c.registration_id)::integer AS checked_groups,COALESCE(SUM(c.actual_group_size),0)::integer AS checked_people,COUNT(r.redeemed_at)::integer AS rewards FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.cancelled_at IS NULL GROUP BY r.event_id');
    const countById=new Map(counts.map((p:any)=>[p.event_id,p]));
-   const matches=events.filter(e=>validFreeEvent(e.id) && (!assigned||assigned.has(e.id)))
-    .sort((a,b)=>b.date.localeCompare(a.date)||a.id.localeCompare(b.id)).slice(0,260);
+   const matches=events.filter(e=>validFreeEvent(e.id))
+    .sort((a,b)=>b.date.localeCompare(a.date)||a.id.localeCompare(b.id));
    return json({role:staff.role,events:matches.map(e=>{
     const venue=venueById(e.venueId),policy=policyById.get(e.id)||null,totals=countById.get(e.id)||{};
-    return {id:e.id,title:e.title,date:e.date,dateLabel:eventDateLabel(e),startTime:e.startTime,
+    return {id:e.id,title:e.title,eventType:e.eventType,redemptionDeadline:policy?.redemption_deadline,date:e.date,dateLabel:eventDateLabel(e),startTime:e.startTime,
       venueId:venue.id,venue:venue.name,city:venue.city,status:e.status,
-      reward:policy?.reward_kind||defaultReward(e,venue),enabled:policy?.enabled??true,
+      reward:defaultReward(e,venue)==='appetizer'&&policy?.reward_kind!=='none'?'appetizer':'none',enabled:policy?.enabled??true,
       rewardEnabled:policy?.reward_enabled??true,
       registrationCloses:policy?.registration_closes_at||null,
       rewardCloses:policy?.reward_closes_at||null,
@@ -90,16 +88,16 @@ export const GET:APIRoute=async({request})=>{
   if(mode==='csv'){
    if(staff.role!=='owner')return json({error:'Owner access is required.'},403);
    const venueId=url.searchParams.get('venueId')||'';
-   const all=eventId ? await registrationsForEvent(eventId)
-     : await query<RegistrationRow>('SELECT r.*,c.checked_in_at,c.checked_in_by,c.actual_group_size,c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id ORDER BY r.created_at DESC LIMIT 20000');
-   const header=['Event ID','Event','Venue','Event date','Code','Name','Email','Expected group size','Team','Registered (UTC)','Reward','Checked in (UTC)','Actual people at check-in','Reward issued'];
-   const lines=[header.map(safeCSV).join(',')];
-   for(const r of all){
-    const e=eventFor(r.event_id);if(!e)continue;
-    if(venueId&&e.venueId!==venueId)continue;
-    lines.push([r.event_id,e.title,venueById(e.venueId).name,e.date,r.code,r.name,r.email,r.group_size,r.team_name||'',r.created_at,r.reward_kind,r.checked_in_at||'',r.actual_group_size??'',r.reward_issued?'Yes':'No'].map(safeCSV).join(','));
+   const from=url.searchParams.get('from')||'',to=url.searchParams.get('to')||'';
+   const selected=allEvents.filter(e=>eventFor(e.id)&&(!eventId||e.id===eventId)&&(!venueId||e.venueId===venueId)&&(!from||e.date>=from)&&(!to||e.date<=to));
+   const byId=new Map(selected.map(e=>[e.id,e]));
+   const rows=await query<RegistrationRow>('SELECT * FROM fde_registration.registrations WHERE event_id=ANY($1::text[]) ORDER BY event_id,created_at',[selected.map(e=>e.id)]);
+   const lines=[['Event ID','Official event title','Venue','Event type','Event date','Start time (Eastern)','Group leader','Team name','Expected group size','Registered (Eastern)','Registration status','Voucher eligibility','Redemption status'].join(',')];
+   for(const r of rows){
+    const e=byId.get(r.event_id)!;
+    lines.push([e.id,e.title,venueById(e.venueId).name,e.eventType,e.date,e.startTime,r.name,r.team_name,r.group_size,new Date(r.created_at).toLocaleString('en-US',{timeZone:'America/New_York'}),r.cancelled_at?'Canceled':'Active',r.voucher_expires?'Eligible':'None',r.redeemed_at?'Redeemed':r.voucher_expires?(r.cancelled_at?'Canceled':+new Date(r.voucher_expires)<=Date.now()?'Expired':'Unused'):''].map(safeCSV).join(','));
    }
-   return new Response(lines.join('\r\n')+'\r\n',{headers:{...privateHeaders(),'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="four-dogs-registrations.csv"'}});
+   return new Response('\uFEFF'+lines.join('\r\n')+'\r\n',{headers:{...privateHeaders(),'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="four-dogs-registrations.csv"'}});
   }
   if(!await access(staff,eventId))return json({error:'You are not assigned to this event.'},403);
   if(mode==='registrations'){
@@ -147,22 +145,18 @@ export const POST:APIRoute=async({request,clientAddress})=>{
   const staff=await getAuthorized(request);
   if(!staff)return json({error:'Sign in to continue.'},401);
   const eventId=typeof data.eventId==='string'?data.eventId:'';
-  if(action==='checkin'){
-   if(!await access(staff,eventId))return json({error:'You are not assigned to this event.'},403);
-   const e=validFreeEvent(eventId)!;
-   if(e.status==='cancelled'||e.status==='postponed')return json({error:'The event is canceled or postponed.'},409);
-   if(e.date!==nowEasternDate())return json({error:'Check-in is available on the event date only.'},409);
-   const code=typeof data.code==='string'?data.code.trim().toUpperCase():'';
-   if(!/^FDE-[A-HJ-NP-Z2-9]{12}$/.test(code))return json({error:'Enter the complete confirmation code.'},400);
-   try{return json({ok:true,checkin:await claimCheckin(code,eventId,staff.staffId,Number(data.actualGroupSize))})}
-   catch(err){return json({error:(err as Error).message},409)}
-  }
   if(staff.role!=='owner')return json({error:'Owner access is required.'},403);
   if(action==='correct'){
    if(!validFreeEvent(eventId))return json({error:'Unknown event.'},404);
    const id=typeof data.registrationId==='string'?data.registrationId:'';
    const reason=typeof data.reason==='string'?data.reason.trim():'';
    if(reason.length<5||reason.length>280)return json({error:'Enter a reason for the correction (5 to 280 characters).'},400);
+   const corrected=await inTransaction(async run=>{
+    const rows=await run('UPDATE fde_registration.registrations SET redeemed_at=NULL WHERE id=$1 AND event_id=$2 AND redeemed_at IS NOT NULL RETURNING id',[id,eventId]);
+    if(rows.length)await run("INSERT INTO fde_registration.audit(id,event_id,registration_id,actor_id,action,reason) VALUES($1,$2,$3,$4,'redemption_corrected',$5)",[randomUUID(),eventId,id,staff.staffId,reason]);
+    return rows.length>0;
+   });
+   if(corrected)return json({ok:true});
    try{await correctCheckin(id,eventId,staff.staffId,reason);return json({ok:true})}catch(e){return json({error:(e as Error).message},409)}
   }
   if(action==='policy'){
@@ -170,14 +164,14 @@ export const POST:APIRoute=async({request,clientAddress})=>{
    if(!event)return json({error:'Choose an eligible public event.'},400);
    const venue=venueById(event.venueId);
    const rewardKind=data.rewardKind;
-   if(!['appetizer','raffle','none'].includes(rewardKind))return json({error:'Choose a reward type.'},400);
+   if(!['appetizer','none'].includes(rewardKind))return json({error:'Choose a reward type.'},400);
    if(rewardKind==='appetizer' && defaultReward(event,venue)!=='appetizer')return json({error:'Appetizer coupons are restricted to eligible Charter Wednesday Trivia and Music Bingo.'},400);
    if(typeof data.enabled!=='boolean'||typeof data.rewardEnabled!=='boolean')return json({error:'Invalid promotion settings.'},400);
    const closes=parseEasternCutoff(data.registrationCloses||null);
    const rewardCloses=parseEasternCutoff(data.rewardCloses||null);
    if(closes&&closes.getTime()>new Date(Date.now()+365*86400000).getTime())return json({error:'Deadline is too far in the future.'},400);
-   await query('INSERT INTO fde_registration.event_policies (event_id,enabled,reward_kind,reward_enabled,registration_closes_at,reward_closes_at,updated_by) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(event_id) DO UPDATE SET enabled=EXCLUDED.enabled,reward_kind=EXCLUDED.reward_kind,reward_enabled=EXCLUDED.reward_enabled,registration_closes_at=EXCLUDED.registration_closes_at,reward_closes_at=EXCLUDED.reward_closes_at,updated_by=EXCLUDED.updated_by,updated_at=NOW()',
-     [eventId,data.enabled,rewardKind,data.rewardEnabled,closes,rewardCloses,staff.staffId]);
+   await query('INSERT INTO fde_registration.event_policies (event_id,enabled,reward_kind,reward_enabled,registration_closes_at,reward_closes_at,updated_by,redemption_deadline) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(event_id) DO UPDATE SET redemption_deadline=EXCLUDED.redemption_deadline,enabled=EXCLUDED.enabled,reward_kind=EXCLUDED.reward_kind,reward_enabled=EXCLUDED.reward_enabled,registration_closes_at=EXCLUDED.registration_closes_at,reward_closes_at=EXCLUDED.reward_closes_at,updated_by=EXCLUDED.updated_by,updated_at=NOW()',
+     [eventId,data.enabled,rewardKind,data.rewardEnabled,closes,rewardCloses,staff.staffId,parseEasternCutoff(data.redemptionDeadline||null)]);
    await query('INSERT INTO fde_registration.audit (id,event_id,actor_id,action) VALUES ($1,$2,$3,$4)',[randomUUID(),eventId,staff.staffId,'policy_changed']);
    return json({ok:true});
   }
@@ -201,19 +195,6 @@ export const POST:APIRoute=async({request,clientAddress})=>{
    else await query('DELETE FROM fde_registration.assignments WHERE staff_id=$1 AND event_id=$2',[hostId,eventId]);
    await query('INSERT INTO fde_registration.audit(id,event_id,actor_id,action,reason) VALUES($1,$2,$3,$4,$5)',[randomUUID(),eventId,staff.staffId,'assignment_changed',hostId+(data.assigned?' assigned':' removed')]);
    return json({ok:true});
-  }
-  if(action==='resend'){
-   const code=typeof data.code==='string'?data.code.trim().toUpperCase():'';
-   const reg=await registrationByCode(code);
-   if(!reg)return json({error:'Registration not found.'},404);
-   const e=eventFor(reg.event_id);
-   if(!e)return json({error:'Event not found.'},404);
-   try{
-    await deliverConfirmation(reg.email,buildConfirmationEmail(reg,e,venueById(e.venueId)));
-    await sendStatus(reg.id,true);
-    await query('INSERT INTO fde_registration.audit(id,event_id,registration_id,actor_id,action) VALUES($1,$2,$3,$4,$5)',[randomUUID(),e.id,reg.id,staff.staffId,'confirmation_resent']);
-    return json({ok:true});
-   }catch(err){await sendStatus(reg.id,false);return json({error:'The email provider could not deliver this confirmation.'},502)}
   }
   return json({error:'Unknown action.'},404);
  }catch(e){console.error('Staff request failed',String(e));return json({error:'The request could not be completed.'},503)}

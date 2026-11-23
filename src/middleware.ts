@@ -6,7 +6,7 @@ export const onRequest = defineMiddleware(async (context,next) => {
     response.headers.set('X-Content-Type-Options','nosniff');
     response.headers.set('X-Frame-Options','SAMEORIGIN');
     response.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
-    response.headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
+    response.headers.set('Permissions-Policy',(context.url.pathname.replace(/\/$/,'')==='/staff/check-in'?'camera=(self)':'camera=()')+', microphone=(), geolocation=()');
     if(context.url.pathname.startsWith('/staff') || context.url.pathname.startsWith('/api/') || context.url.pathname.startsWith('/register/confirmation')) {
       response.headers.set('X-Robots-Tag','noindex,nofollow');
       response.headers.set('Referrer-Policy','no-referrer');

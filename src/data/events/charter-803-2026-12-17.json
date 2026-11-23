@@ -21,8 +21,11 @@
   "publicationStatus": "published",
   "lastUpdated": "2026-11-21T01:24:52Z",
   "admission": {
-    "kind": "unknown",
-    "note": "Advance tickets are $15. Admission at the door is $20 when available. Check the ticket page for availability."
+    "kind": "paid",
+    "note": "Advance tickets are $15. Admission at the door is $20 when available. Check the ticket page for availability.",
+    "verified": true,
+    "price": 15,
+    "currency": "USD"
   },
   "instructions": "Use the event-specific ticket link for current availability. Advance tickets are $15; door admission is $20 when available. Contact Charter 803 with seating questions."
 }

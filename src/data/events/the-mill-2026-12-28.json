@@ -7,7 +7,10 @@
   "publicationStatus": "published",
   "lastUpdated": "2026-11-19T14:00:00Z",
   "admission": {
-    "kind": "unknown"
+    "kind": "free",
+    "verified": true,
+    "price": 0,
+    "currency": "USD"
   },
   "instructions": "Contact the venue for seating, admission, and participation details.",
   "id": "the-mill-2026-12-28",

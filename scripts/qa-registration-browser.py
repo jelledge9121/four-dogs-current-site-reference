@@ -27,12 +27,12 @@ async def inspect(browser, width):
         assert page.url.rstrip("/").endswith("/staff"),"private dashboard must redirect to staff login when unauthenticated"
     response=await page.goto(BASE+"/register/",wait_until="domcontentloaded")
     assert response is not None
-    assert await page.get_by_text("Online registration is not available yet.").count()==1, "registration must fail closed without an approved database and mail provider"
+    assert await page.get_by_text("Online registration is not available yet.").count()==1, "registration must fail closed without an approved registration infrastructure"
     assert await page.locator("form#free-registration").count()==0,"must not collect personal data without infrastructure"
     assert await page.locator('meta[name="robots"][content*="noindex"]').count()==1,"inactive registration must not be indexed"
     response=await page.goto(BASE+"/events/",wait_until="domcontentloaded")
     assert response is not None
-    assert await page.get_by_role("link",name="Register Free").count()==0,"no registration CTA before verified activation"
+    assert await page.get_by_role("link",name="RSVP").count()==0,"no registration CTA before verified activation"
     # A paid event continues to use its existing ticket flow; no free button is injected.
     result=await page.request.get(BASE+"/api/staff/?mode=events")
     assert result.status==503,"staff API must not expose private records when unconfigured"

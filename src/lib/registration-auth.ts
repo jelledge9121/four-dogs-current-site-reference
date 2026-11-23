@@ -6,14 +6,11 @@ const COOKIE_NAME = 'fde_staff_session';
 export const OWNER_ID = 'owner';
 
 export function configured(): boolean {
-  const provider = process.env.FDE_EMAIL_PROVIDER;
-  const emailReady = provider === 'resend' && !!process.env.RESEND_API_KEY
-    || provider === 'postmark' && !!process.env.POSTMARK_SERVER_TOKEN;
   return !!(process.env.FDE_REGISTRATION_ENABLED === 'true'
     && process.env.FDE_REGISTRATION_DATABASE_URL
     && process.env.FDE_SESSION_SECRET && process.env.FDE_SESSION_SECRET.length >= 32
     && process.env.FDE_OWNER_PASSWORD_HASH
-    && process.env.FDE_EMAIL_FROM && emailReady);
+    );
 }
 export function configurationError(): string {
   return 'Registration is not yet available. Please check the event calendar for updates.';

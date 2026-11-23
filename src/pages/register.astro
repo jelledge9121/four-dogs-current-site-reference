@@ -5,6 +5,8 @@ import { events } from '../data/events';
 import { venueById } from '../data/venues';
 import { eventDateLabel,easternTime,rewardFor,registrationCutoff,resolvePolicy } from '../lib/registration-core';
 import { loadRegistrationPolicies, canRegisterFor } from '../lib/registration-availability';
+import { randomUUID } from 'node:crypto';
+if (!Astro.cookies.has('fde_group')) Astro.cookies.set('fde_group',randomUUID(),{httpOnly:true,secure:true,sameSite:'strict',path:'/',maxAge:31536000});
 const registrationPolicies=await loadRegistrationPolicies();
 const ready=registrationPolicies!==null;
 const eligible=events.filter(event=>
@@ -13,14 +15,14 @@ const eligible=events.filter(event=>
 const requested=Astro.url.searchParams.get('event');
 const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligible[0]?.id||'';
 ---
-<Base title="Register for Free Four Dogs Events | Four Dogs Entertainment" description="Register your group for an eligible free trivia, Music Bingo, or game night with Four Dogs Entertainment." noindex={!ready}>
-  <section class="section dark"><div class="container registration-head"><p class="eyebrow">Four Dogs events</p><h1>Register your group. Come have fun.</h1><p class="lead">Choose a game night, tell us how many are coming, and bring your confirmation code to the Four Dogs host.</p></div></section>
+<Base title="RSVP for Four Dogs Events | Four Dogs Entertainment" description="Register your group for an public trivia, Music Bingo, or game night with Four Dogs Entertainment." noindex={!ready}>
+  <section class="section dark"><div class="container registration-head"><p class="eyebrow">Four Dogs events</p><h1>Register your group. Come have fun.</h1><p class="lead">Choose a game night, tell us how many are coming, and save your private confirmation link.</p></div></section>
   <section class="section"><div class="container registration-layout">
     <div class="registration-panel">
-      {ready && eligible.length ? (
-        <form id="free-registration" novalidate>
-          <h2>Free event registration</h2>
-          <p class="fine">One registration covers your whole group. Registration does not reserve a restaurant table or guarantee seating.</p>
+      {ready && eligible.length && (!requested || eligible.some(e=>e.id===requested||e.slug===requested)) ? (
+        <form method="post" id="free-registration" novalidate>
+          <h2>Group RSVP</h2>
+          <p class="fine">One registration covers your whole group. An RSVP does not purchase a ticket or guarantee admission. Registration does not reserve a restaurant table or guarantee seating.</p>
           <label for="reg-event">Your event <span aria-hidden="true">*</span></label>
           <select name="eventId" id="reg-event" required>
             {eligible.map(event=>{
@@ -30,8 +32,8 @@ const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligi
               const closes=registrationCutoff(event,venue,policy);
               return <option value={event.id} selected={event.id===selected}
                 data-title={event.title} data-venue={venue.name}
-                data-date={eventDateLabel(event)} data-time={event.startTime+' Eastern'}
-                data-reward={offer==='appetizer'?'One complimentary appetizer for the group after host check-in, when registered by 4 PM Wednesday Eastern.':offer==='raffle'?'One extra raffle ticket for the group after host check-in.':'This event currently has no extra reward for registering.'}
+                data-date={eventDateLabel(event)} data-time={event.startTime?event.startTime+' Eastern':'Time to be announced'}
+                data-reward={offer==='appetizer'?'One complimentary appetizer per group. Present your live voucher.':''}
                 data-close={'Registration closes: '+easternTime(closes)}>
                   {eventDateLabel(event)} · {event.startTime} · {venue.name} · {event.title}
               </option>;
@@ -45,17 +47,15 @@ const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligi
             <small id="reg-event-deadline"></small>
           </div>
           <label for="reg-name">Your name <span aria-hidden="true">*</span></label>
-          <input id="reg-name" name="name" autocomplete="name" maxlength="100" required placeholder="First and last name"/>
-          <label for="reg-email">Email address <span aria-hidden="true">*</span></label>
-          <input id="reg-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"/>
+          <input id="reg-name" name="name" autocomplete="name" maxlength="100" required placeholder="Group leader’s name"/>
           <label for="reg-size">Number of people in your group <span aria-hidden="true">*</span></label>
           <input id="reg-size" name="groupSize" type="number" inputmode="numeric" min="1" max="50" value="2" required/>
           <label for="reg-team">Team name <small>(optional)</small></label>
           <input id="reg-team" name="teamName" maxlength="80" placeholder="If your group has one"/>
           <div class="registration-honeypot" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div>
-          <button type="submit" class="button" id="reg-submit">Register Free</button>
+          <button type="submit" class="button" id="reg-submit">RSVP</button>
           <p id="reg-status" role="status" aria-live="polite"></p>
-          <p class="fine">We use your email to send your event confirmation, not to add you to a marketing list. Your Four Dogs host must verify your code before issuing any reward.</p>
+          <p class="fine">Bookmark your confirmation page to update your estimate.</p>
         </form>
       ) : (
         <div class="unavailable-registration">
@@ -67,9 +67,7 @@ const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligi
     </div>
     <aside class="registration-help" aria-label="How registration works">
       <h2>How it works</h2>
-      <ol><li>Register once for your group.</li><li>Get a unique confirmation code by email.</li><li>Show the code to your Four Dogs host at the event.</li><li>The host checks you in and issues any applicable physical reward.</li></ol>
-      <p><strong>For Charter 803 Wednesday Trivia and Music Bingo:</strong> Qualifying registrations completed before 4 PM Wednesday Eastern receive one complimentary appetizer coupon per group after host verification.</p>
-      <p><strong>For other eligible events:</strong> One extra raffle ticket per registered group after host verification. A raffle ticket does not guarantee a prize.</p>
+      <p>Save your private link to update or cancel. No routine check-in is required.</p>
     </aside>
   </div></section>
   <style>
@@ -114,7 +112,7 @@ const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligi
         try{
           const response=await fetch('/api/registration/',{
             method:'POST',headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({eventId:data.get('eventId'),name:data.get('name'),email:data.get('email'),groupSize:Number(data.get('groupSize')),teamName:data.get('teamName'),website:data.get('website')})
+            body:JSON.stringify({eventId:data.get('eventId'),name:data.get('name'),groupSize:Number(data.get('groupSize')),teamName:data.get('teamName'),website:data.get('website')})
           });
           const result=await response.json();
           if(!response.ok||!result.code) throw new Error(result.error||'We could not complete your registration.');

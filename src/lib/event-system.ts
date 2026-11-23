@@ -15,7 +15,7 @@ export type Event = {
   lastUpdated: string; reviewReason?: string; instructions: string; registrationUrl?: string;
   registrationLabel?: string; ticketed?: boolean; facebookEventUrl?: string; assignedHost?: string;
   seoTitle?: string; metaDescription?: string; seriesId?: string; originalDate?: string;
-  admission: { kind: 'unknown' | 'free' | 'paid'; verified?: boolean; price?: number; currency?: string; note?: string };
+  admission: { kind: 'unknown' | 'free' | 'paid'; verified?: boolean; price?: number; currency?: string; reviewNote?: string; note?: string };
   externalListings?: { platform: string; url?: string; status: string; checkedAt?: string; syncedRevision?: string; notes?: string }[];
 };
 export type Series = {
@@ -95,8 +95,10 @@ export function validateEvents(events: Event[], venues: Venue[]) {
     if (!Number.isFinite(Date.parse(e.lastUpdated))) fail('Last updated timestamp required');
     try { startMs(e); if (e.endTime && (!e.startTime || endMs(e) <= startMs(e))) fail('End must be after start, including overnight end date'); } catch (err) { fail(String(err)); }
     if (e.status === 'rescheduled' && (!e.previousStartDate || !Number.isFinite(Date.parse(e.previousStartDate)))) fail('Rescheduled events require the previous start date');
-    if (e.admission?.kind !== 'unknown' && (!e.admission?.verified || (e.admission?.kind === 'paid' && (typeof e.admission.price !== 'number' || e.admission.price < 0 || !e.admission.currency)))) fail('Pricing must be verified and complete');
-    if (e.admission?.kind === 'free' && e.admission.price && e.admission.price > 0) fail('A free event cannot have a positive admission price');
+    if (e.admission && e.admission.kind !== 'unknown' && !e.admission.verified) fail('Pricing must be verified');
+    if (e.admission?.kind === 'paid' && (!Number.isFinite(e.admission.price) || !(e.admission.price! > 0) || !/^[A-Z]{3}$/.test(e.admission.currency || '') || !e.registrationUrl)) fail('Paid admission requires a positive price, currency and ticket URL');
+    if (e.admission?.kind === 'free' && e.admission.price != null && e.admission.price !== 0) fail('Free admission must have a zero price');
+    if (isPublic(e) && e.admission?.kind === 'unknown' && !e.admission.reviewNote?.trim()) fail('Confirm admission or flag the missing details in the internal review note');
     if (!e.admission || !['unknown','free','paid'].includes(e.admission.kind)) fail('Admission must be explicit');
     for (const url of [e.registrationUrl,e.facebookEventUrl,...(e.externalListings || []).map(l=>l.url)].filter(Boolean)) if (!/^https:\/\//.test(url!)) fail('External links must use HTTPS');
     if (isPublic(e) && !['cancelled','postponed'].includes(e.status)) { const key = `${e.venueId}|${e.date}|${e.startTime || ''}`; if(slots.has(key)) fail('Conflicting public venue/date/time slot'); slots.add(key); }
@@ -128,11 +130,21 @@ export function eventSchema(event: Event, venue: Venue) {
     ...(event.status === 'rescheduled' ? {previousStartDate:event.previousStartDate} : {}),
     image: [new URL(event.image,SITE_URL).href],
     location: { '@type':'Place', name:venue.name, address:{ '@type':'PostalAddress', streetAddress:venue.address, addressLocality:venue.city, addressRegion:venue.state, postalCode:venue.zip, addressCountry:'US' } },
-    organizer: { '@type':'Organization', name:'Four Dogs Entertainment LLC', url:SITE_URL },
+    organizer: { '@type':'Organization', '@id':SITE_URL+'/#organization', name:'Four Dogs Entertainment LLC', url:SITE_URL },
     ...(admission.verified && admission.kind !== 'unknown' ? {isAccessibleForFree: admission.kind === 'free', offers:{'@type':'Offer',url:event.registrationUrl || url,price:admission.kind === 'free' ? 0 : admission.price,priceCurrency:admission.currency || 'USD'}} : {}),
   };
 }
-export const formatDate = (date: string) => new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:TIME_ZONE}).format(new Date(`${date}T12:00:00Z`));
+const eventDateFormat = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: TIME_ZONE,
+});
+const eventMonthFormat = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: TIME_ZONE });
+const eventWeekdayFormat = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: TIME_ZONE });
+
+export const formatDate = (date: string) => eventDateFormat.format(new Date(`${date}T12:00:00Z`));
+export function eventCardDateLabels(date: string) {
+  const displayDate = new Date(`${date}T12:00:00Z`);
+  return { month: eventMonthFormat.format(displayDate), weekday: eventWeekdayFormat.format(displayDate) };
+}
 export function listingRevision(event: Event, venue: Venue) {
   // Track public facts, including shared venue changes. Saving tracking metadata
   // or a new lastUpdated timestamp must not invalidate a completed synchronization.

@@ -71,3 +71,15 @@ CREATE TABLE IF NOT EXISTS fde_registration.rate_hits (
  at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS fde_rate_identifier_at ON fde_registration.rate_hits(identifier,at DESC);
+
+ALTER TABLE fde_registration.event_policies ADD COLUMN IF NOT EXISTS redemption_deadline timestamptz;
+ALTER TABLE fde_registration.registrations ALTER COLUMN email DROP NOT NULL;
+ALTER TABLE fde_registration.registrations ALTER COLUMN email_key DROP NOT NULL;
+ALTER TABLE fde_registration.registrations ADD COLUMN IF NOT EXISTS cancelled_at timestamptz;
+ALTER TABLE fde_registration.registrations ADD COLUMN IF NOT EXISTS voucher_expires timestamptz;
+ALTER TABLE fde_registration.registrations ADD COLUMN IF NOT EXISTS redeemed_at timestamptz;
+ALTER TABLE fde_registration.registrations ADD COLUMN IF NOT EXISTS device_key text;
+CREATE UNIQUE INDEX IF NOT EXISTS one_device_event ON fde_registration.registrations(event_id,device_key);
+ALTER TABLE fde_registration.registrations ADD COLUMN IF NOT EXISTS duplicate_key text;
+CREATE UNIQUE INDEX IF NOT EXISTS registration_duplicate_group ON fde_registration.registrations(duplicate_key);
+ALTER TABLE fde_registration.event_policies ALTER COLUMN reward_kind SET DEFAULT 'none';
