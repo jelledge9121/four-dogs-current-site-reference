@@ -1,4 +1,5 @@
 ---
+import { categorySlug } from '../../lib/event-system';
 import { servicePhotos } from '../../data/services';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -37,7 +38,7 @@ const details: Record<string, ServiceDetail> = {
       { label: 'Trivia in Lexington', href: '/trivia-night-lexington-sc/' },
       { label: 'Trivia in Columbia', href: '/trivia-night-columbia-sc/' },
       { label: 'Fountain Inn trivia', href: '/areas/fountain-inn-sc/' },
-      { label: 'Upcoming trivia events', href: '/events/' },
+      { label: 'Upcoming trivia events', href: '/events/category/trivia/' },
       { label: 'For venue owners', href: '/for-venues/' },
     ],
     reviewId: 'sparky-superfan-facebook',
@@ -139,7 +140,7 @@ const details: Record<string, ServiceDetail> = {
     title: 'Private & Corporate Event Entertainment in SC, NC & GA | Four Dogs',
     description: 'Four Dogs Entertainment provides DJ entertainment, trivia, Music Bingo, Karaoke, Survey Showdown, and interactive event formats for private and corporate events across South Carolina, North Carolina, and Georgia.',
     intro: [
-      'Four Dogs creates private and corporate event entertainment that gets guests talking, laughing, competing, singing, and celebrating together.',
+      'Give coworkers something to talk about over lunch, or get two sides of the family playing on the same team. A Four Dogs host can run the rounds while you spend time with your guests.',
       'Events can be built around DJ entertainment, Trivia, Music Bingo, Karaoke, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, or another compatible format based on the audience and purpose of the gathering.',
     ],
     audiences: ['Companies and organizations', 'Private parties', 'HOAs and communities', 'Churches and nonprofits', 'Formal events', 'Celebrations and special events'],
@@ -245,14 +246,14 @@ const activities: Record<string, string> = {
   'are-you-smarter-than-a-barstool': 'Are You Smarter Than a Barstool?',
 };
 const activity = activities[service.slug];
-const datesUrl = activity ? '/events/?category=' + encodeURIComponent(activity) : '/events/';
+const datesUrl = activity ? '/events/category/' + categorySlug(activity) + '/' : '/events/';
 const holidayEligible = service.slug === 'private-corporate-events';
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.name,
   description: detail.description,
-  provider: { '@type': 'Organization', name: 'Four Dogs Entertainment', url: 'https://4dogsentertainment.com' },
+  provider: { '@type': 'Organization', '@id': 'https://4dogsentertainment.com/#organization', name: 'Four Dogs Entertainment', url: 'https://4dogsentertainment.com' },
   areaServed: ['South Carolina', 'North Carolina', 'Georgia', 'Fountain Inn, South Carolina', 'Lexington, South Carolina', 'Columbia, South Carolina', 'Cayce, South Carolina', 'West Columbia, South Carolina'],
 };
 const faqSchema = {
@@ -275,7 +276,7 @@ const faqSchema = {
       <p class="lead">{service.summary}</p>
       <div class="actions">
         <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
-        <a class="button secondary" href={datesUrl}>Find an event</a>
+        {holidayEligible ? <a class="button secondary" href="/booking/?service=Corporate%20Event">Ask about a company event</a> : <a class="button secondary" href={datesUrl}>Find an event</a>}
       </div>
     </div>
   </section>

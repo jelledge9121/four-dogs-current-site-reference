@@ -20,7 +20,7 @@ const homePhotoPaths = [
   '/images/gallery/four-dogs-survey-showdown-bozes-group.jpg',
 ];
 const homepageGallery = homePhotoPaths.flatMap((src) => gallery.filter((item) => item.type === 'image' && item.src === src));
-const org = {'@context':'https://schema.org','@type':'Organization',name:site.name,url:site.url,logo:`${site.url}/images/logo.png`,sameAs:[site.facebook,site.instagram,site.tiktok,site.meetup],areaServed:[{'@type':'State',name:'South Carolina'},{'@type':'State',name:'North Carolina'},{'@type':'State',name:'Georgia'}]};
+const org = {'@context':'https://schema.org','@type':'Organization','@id':site.url+'/#organization',name:site.name,url:site.url,logo:`${site.url}/images/logo.png`,sameAs:[site.facebook,site.instagram,site.tiktok,site.meetup],areaServed:[{'@type':'State',name:'South Carolina'},{'@type':'State',name:'North Carolina'},{'@type':'State',name:'Georgia'}]};
 ---
 <Base title="Trivia, Music Bingo & DJ Entertainment in SC, NC & GA | Four Dogs" description="Find Four Dogs trivia, Music Bingo, and local events in Lexington, Columbia, West Columbia, Cayce, and Fountain Inn. Book DJs, weddings, and private entertainment in South Carolina, North Carolina, and Georgia." schema={org}>
 <section class="home-intro">

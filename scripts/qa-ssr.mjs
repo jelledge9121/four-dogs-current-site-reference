@@ -154,3 +154,17 @@ const desk=await request('/admin/distribution/');assert.ok(desk.body.includes('E
 const attendee=await request('/events/heroes-villains-everything-in-between-wesco-2026-10-20/');assert.ok(attendee.body.includes('Free admission.'));assert.ok(attendee.body.includes('\"isAccessibleForFree\":true'));assert.ok(!attendee.body.includes('Admission has not been confirmed'));assert.ok(!mystery.body.includes('The event end time has not been confirmed'));assert.ok(!calendar.body.includes('>Public event feed</a>'));
 const result={testedAt:new Date().toISOString(),dynamicRoutes:paths.length,eventSchemas,renderedRequests:cache.size,checks:'Initial HTML, chronology/archives, filters, event status, canonical URLs, schema, internal links/assets, sitemap, public feeds, conflict suppression, and 404s passed. Hosted browser and external validator results are recorded separately in the completion report.'};
 fs.mkdirSync('artifacts',{recursive:true});fs.writeFileSync('artifacts/ssr-qa.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+
+const filteredCalendar = await request('/events/?city=Cayce');
+assert.match(filteredCalendar.body, /name="robots" content="noindex,follow"/);
+assert.doesNotMatch((await request('/events/')).body, /name="robots" content="noindex/);
+for (const venue of venues) {
+  assert.doesNotMatch((await request('/venues/' + venue.slug + '/')).body, /except ticketed murder mystery/);
+}
+for (const event of publicEvents.filter(e => e.registrationUrl)) {
+  const page = await request('/events/' + event.slug + '/');
+  if (page.body.includes('href="' + event.registrationUrl + '"')) {
+    assert.match(page.body, /data-event-action="registration_click"/);
+    assert.match(page.body, /data-event-action="directions_click"/);
+  }
+}

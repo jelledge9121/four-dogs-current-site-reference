@@ -130,7 +130,7 @@ export function eventSchema(event: Event, venue: Venue) {
     ...(event.status === 'rescheduled' ? {previousStartDate:event.previousStartDate} : {}),
     image: [new URL(event.image,SITE_URL).href],
     location: { '@type':'Place', name:venue.name, address:{ '@type':'PostalAddress', streetAddress:venue.address, addressLocality:venue.city, addressRegion:venue.state, postalCode:venue.zip, addressCountry:'US' } },
-    organizer: { '@type':'Organization', name:'Four Dogs Entertainment LLC', url:SITE_URL },
+    organizer: { '@type':'Organization', '@id':SITE_URL+'/#organization', name:'Four Dogs Entertainment LLC', url:SITE_URL },
     ...(admission.verified && admission.kind !== 'unknown' ? {isAccessibleForFree: admission.kind === 'free', offers:{'@type':'Offer',url:event.registrationUrl || url,price:admission.kind === 'free' ? 0 : admission.price,priceCurrency:admission.currency || 'USD'}} : {}),
   };
 }

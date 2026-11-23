@@ -4,6 +4,8 @@ import { site } from '../data/site';
 ---
 <form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field" aria-describedby="booking-form-hint">
   <input type="hidden" name="form-name" value="booking">
+  <input type="hidden" name="entry-channel">
+  <input type="hidden" name="entry-page">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
   <p id="booking-form-hint" class="fine">Required fields are marked “required.”</p>

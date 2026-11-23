@@ -38,7 +38,7 @@ const rangeLabel = from && to ? `${shortDate(from)} to ${shortDate(to)}` : '';
 const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name, filters.category, filters.price==='free'?'Free admission':filters.price==='paid'?'Ticketed events':''].filter(Boolean);
 
 ---
-<Base title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
+<Base noindex={hasFilters || view !== 'upcoming'} title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
 <section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">Most regular public game nights are free; special ticketed events have separate admission details. All times Eastern.</p></div></section>
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
