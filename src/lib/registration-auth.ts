@@ -7,7 +7,7 @@ export const OWNER_ID = 'owner';
 
 export function configured(): boolean {
   return !!(process.env.FDE_REGISTRATION_ENABLED === 'true'
-    && process.env.FDE_REGISTRATION_DATABASE_URL
+    && (process.env.FDE_REGISTRATION_DATABASE_URL || process.env.NETLIFY_DB_URL)
     && process.env.FDE_SESSION_SECRET && process.env.FDE_SESSION_SECRET.length >= 32
     && process.env.FDE_OWNER_PASSWORD_HASH
     );

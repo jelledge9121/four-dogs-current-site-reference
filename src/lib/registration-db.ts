@@ -7,7 +7,7 @@ import type { Venue } from '../data/venues';
 let client: ReturnType<typeof postgres> | null = null;
 export type SQLRunner = <T = Record<string, unknown>>(query: string, params?: any[]) => Promise<T[]>;
 export function getDB(): ReturnType<typeof postgres> {
-  const url = process.env.FDE_REGISTRATION_DATABASE_URL;
+  const url = (process.env.FDE_REGISTRATION_DATABASE_URL || process.env.NETLIFY_DB_URL);
   if (!url) throw new Error('Registration database is not configured');
   if (!client) client = postgres(url, { max: 4, connect_timeout: 8, idle_timeout: 15 });
   return client;
