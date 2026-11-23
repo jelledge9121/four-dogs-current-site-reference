@@ -7,6 +7,7 @@ import '../styles/premium-motion.css';
 import {site} from '../data/site';
 
 const {title,description,image='/images/social-card-statewide.jpg',schema=[],noindex=false}=Astro.props;
+const registrationArea=/^\/(register|staff)(\/|$)/.test(Astro.url.pathname);
 const canonical=new URL(Astro.url.pathname,site.url);
 const schemas=Array.isArray(schema)?schema:[schema];
 const slickTextTag = `<!-- Begin SlickText Tag -->
@@ -47,10 +48,10 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     </div>
     <Header/>
     <main id="main"><slot/></main>
-    <Footer/>
+    {registrationArea ? <footer><p class="copyright">Four Dogs Entertainment · <a href="/events/">Event calendar</a></p></footer> : <Footer/>}
     <script src="../scripts/action-tracking.ts"></script>
     <script src="../scripts/premium-motion.ts"></script>
-    <PackPopup/>
+    {!registrationArea && <PackPopup/>}
     <script is:inline>
       (() => {
         const now = new Date();
@@ -64,6 +65,6 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
 
       })();
     </script>
-    <Fragment set:html={slickTextTag} />
+    {!registrationArea && <Fragment set:html={slickTextTag} />}
   </body>
 </html>

@@ -10,18 +10,24 @@
     "preview": "astro preview",
     "check": "astro check",
     "qa": "node --import tsx scripts/qa.mjs && node --import tsx scripts/qa-ssr.mjs",
-    "test": "node --import tsx --test tests/events.test.ts && node --test tests/premium-motion.test.mjs",
-    "export-events": "node --import tsx scripts/export-events.ts"
+    "test": "node --import tsx --test tests/events.test.ts tests/registration.test.ts && node --test tests/premium-motion.test.mjs",
+    "export-events": "node --import tsx scripts/export-events.ts",
+    "setup-registration-db": "node scripts/setup-registration-db.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "6.6.5",
     "@astrojs/sitemap": "^3.6.0",
     "@js-temporal/polyfill": "0.5.1",
+    "@netlify/database": "^2.0.3",
     "astro": "5.18.2",
+    "jsqr": "^1.4.0",
+    "postgres": "3.4.7",
+    "qrcode": "^1.5.4",
     "sharp": "0.34.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@types/qrcode": "^1.5.6",
     "tsx": "4.21.0",
     "typescript": "^5.9.2"
   }

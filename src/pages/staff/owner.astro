@@ -1,0 +1,235 @@
+---
+export const prerender=false;
+import Base from '../../layouts/Base.astro';
+import { configured, readSession } from '../../lib/registration-auth';
+const staff=readSession(Astro.request);
+if(!configured() || !staff || staff.role!=='owner') return Astro.redirect('/staff/',302);
+---
+<Base title="Four Dogs Registration Management" description="Private owner dashboard for Four Dogs event registrations." noindex>
+<section class="section dark"><div class="container"><p class="eyebrow">Four Dogs owner</p><h1>Registrations & rewards</h1><p class="lead">Compare expected turnout. Voucher scans do not measure actual attendance.</p></div></section>
+<section class="section"><div class="container"><div class="owner-console">
+<nav class="owner-toolbar" aria-label="Staff actions"><a href="/staff/check-in/">Voucher scanner</a><button id="owner-signout" type="button">Sign out</button></nav>
+<div class="owner-panel">
+<label>From <input type="date" id="from"/></label><label>Through <input type="date" id="to"/></label><label>Event type <select id="type"><option value="">All types</option></select></label><label for="owner-venue">Venue</label><select id="owner-venue"><option value="">All venues</option></select>
+<label for="owner-event">Event</label><select id="owner-event"><option value="">Select an event</option></select>
+<div id="compare"></div><p id="owner-selected" class="fine"></p>
+<div class="owner-stats" aria-live="polite"><div><strong id="owner-groups">0</strong><span>Groups registered</span></div><div><strong id="owner-people">0</strong><span>Expected people</span></div><div><strong id="owner-in-groups">0</strong><span>Checked-in groups</span></div><div><strong id="owner-in-people">0</strong><span>Checked-in people</span></div><div><strong id="owner-rewards">0</strong><span>Rewards issued</span></div></div>
+<div class="owner-inline">
+  <a id="owner-export" class="button secondary" href="/api/staff/?mode=csv">Download this event CSV</a>
+  <a id="owner-venue-export" class="button secondary" href="/api/staff/?mode=csv">Download selected venue CSV</a>
+  <a id="master" class="button secondary" href="/api/staff/?mode=csv">Download all registrations CSV</a>
+</div>
+</div>
+<div class="owner-panel">
+<h2>Registration trend</h2><p id="trend"></p><h2>Registered groups</h2><label for="owner-search">Search by group leader, team, or code</label><input id="owner-search" placeholder="Search registrations" autocomplete="off"/>
+<div id="owner-registrations" class="owner-groups-list"></div>
+</div>
+<div class="owner-panel">
+<h2>Event registration settings</h2>
+<p class="fine">Settings are stored per event. Charter Wednesday Trivia and Music Bingo default to one appetizer per registered group before the 4 PM Eastern deadline. Set the voucher expiration for each approved event. Issued vouchers retain their original expiration.</p>
+<form id="owner-policy">
+<label class="check-row"><input type="checkbox" id="policy-enabled" checked/> Allow free registration</label>
+<label class="check-row"><input type="checkbox" id="policy-reward-enabled" checked/> Issue eligible digital vouchers</label>
+<label for="policy-kind">Reward for this event</label><select id="policy-kind"><option value="appetizer">Charter appetizer</option><option value="none">None</option></select>
+<label>Voucher expiration (Eastern)<input type="datetime-local" id="deadline"/></label><label for="policy-close">Registration closes (Eastern, optional)</label><input type="datetime-local" id="policy-close"/>
+<label for="policy-reward-close">Reward deadline (Eastern, optional)</label><input type="datetime-local" id="policy-reward-close"/>
+<p class="fine">Leave dates blank for the default cutoff. Charter Wednesday appetizer eligibility still ends at 4 PM Eastern even if a later registration cutoff is allowed.</p>
+<button class="button" type="submit">Save event settings</button>
+</form>
+</div>
+<div class="owner-panel">
+<h2>Four Dogs hosts</h2><form id="owner-create-host" class="owner-inline"><label for="new-host-name">New host name</label><input id="new-host-name" required maxlength="100" placeholder="Host name"/><button type="submit" class="button secondary">Create host login</button></form>
+<div id="new-host-credentials" class="owner-credentials" hidden></div>
+<label for="owner-host">Assign a host to the selected event</label><select id="owner-host"><option value="">Choose a host</option></select>
+<div class="owner-inline"><button id="owner-assign" class="button secondary" type="button">Assign host</button><button id="owner-unassign" type="button">Remove assignment</button></div>
+<p id="owner-assignments" class="fine"></p>
+</div>
+<div class="owner-panel"><h2>Registration and voucher activity</h2><div id="owner-audit" class="owner-audit"></div></div>
+<p id="owner-message" role="status" aria-live="polite"></p>
+</div></div></section>
+<style>
+.owner-console{max-width:980px}
+.owner-toolbar{display:flex;justify-content:flex-end;gap:20px;align-items:center;padding:0 0 20px}
+.owner-toolbar button{border:0;background:transparent;text-decoration:underline;color:#11677d;font:inherit;cursor:pointer}
+.owner-panel{padding:clamp(15px,3vw,25px);border:1px solid #d3d7db;background:white;border-radius:5px;margin-bottom:18px}
+.owner-panel h2{font-size:1.35rem;margin:0 0 14px}
+.owner-panel label{display:block;margin:12px 0 6px;font-weight:700}
+.owner-panel input:not([type="checkbox"]),.owner-panel select{display:block;width:100%;font:inherit;border:1px solid #66758b;padding:11px;border-radius:4px;color:#132035;background:white;box-sizing:border-box}
+.owner-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+.owner-stats div{text-align:center;background:#eef3f4;padding:14px 7px;display:grid;gap:5px}
+.owner-stats strong{font-size:1.5rem}.owner-stats span{font-size:.8rem;color:#38485b}
+.check-row{display:flex!important;align-items:center;gap:10px}.check-row input{width:18px;height:18px}
+#owner-policy{display:grid;gap:8px;max-width:550px}
+.owner-groups-list{display:grid;gap:10px;margin-top:14px}
+.owner-group{border:1px solid #d9dfe2;padding:13px;display:grid;gap:6px}
+.owner-group h3{font-size:1.05rem;margin:0}
+.owner-group p{margin:0;color:#38485b;font-size:.92rem;overflow-wrap:anywhere}
+.owner-group .owner-actions{display:flex;gap:10px;flex-wrap:wrap}
+.owner-actions button{border:1px solid #66758b;border-radius:4px;padding:8px 12px;font:inherit;background:white;color:#102b42;cursor:pointer}
+.owner-inline{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.owner-inline input{flex:1;min-width:180px}
+.owner-credentials{background:#fff5d8;padding:12px;overflow-wrap:anywhere}
+.owner-audit{display:grid;gap:8px}.owner-audit p{border-bottom:1px solid #ddd;margin:0;padding:8px 0;font-size:.93rem}
+#owner-message{font-weight:700}
+@media(max-width:650px){.owner-stats{grid-template-columns:repeat(2,1fr)}.owner-inline>*{width:100%}}
+</style>
+<script>
+type OwnerEvent={eventType:string;redemptionDeadline:string|null;id:string;title:string;venueId:string;venue:string;date:string;dateLabel:string;startTime:string;reward:string;enabled:boolean;rewardEnabled:boolean;registrationCloses:string|null;rewardCloses:string|null;registeredGroups:number;expectedPeople:number;checkedInGroups:number;checkedInPeople:number;issuedRewards:number};
+type OwnerReg={cancelled:boolean;redeemed:boolean;id:string;name:string;email:string;groupSize:number;teamName:string|null;code:string;reward:string;registeredAt:string;checkedInAt:string|null;actualGroupSize:number|null;rewardIssued:boolean;emailStatus:string};
+type Host={id:string;name:string;active:boolean};
+let events:OwnerEvent[]=[];
+let regs:OwnerReg[]=[];
+let hosts:Host[]=[];
+let assignments:{staff_id:string;event_id:string}[]=[];
+const find=(id:string)=>document.getElementById(id)!;
+const eventEl=find('owner-event') as HTMLSelectElement;
+const venueEl=find('owner-venue') as HTMLSelectElement;
+const hostEl=find('owner-host') as HTMLSelectElement;
+const message=find('owner-message');
+async function api(path:string,options?:RequestInit){
+ const r=await fetch(path,options);
+ if(path.includes('mode=csv'))return r;
+ const data=await r.json();
+ if(r.status===401||r.status===403&&data.error?.includes('Owner access')){
+  location.assign('/staff/');throw Error('Owner sign-in is required.');
+ }
+ if(!r.ok)throw Error(data.error||'Request failed.');
+ return data;
+}
+const post=(body:unknown)=>api('/api/staff/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+function line(tag:string,value:string,cls?:string){
+ const el=document.createElement(tag);el.textContent=value;if(cls)el.className=cls;return el;
+}
+const utcToEasternInput=(v:string|null)=>{
+ if(!v)return '';
+ const d=new Date(v);
+ const fmt=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+ const parts=Object.fromEntries(fmt.formatToParts(d).map(p=>[p.type,p.value]));
+ return parts.year+'-'+parts.month+'-'+parts.day+'T'+parts.hour+':'+parts.minute;
+};
+function populateEvents(){
+ const venues=[...new Map(events.map(e=>[e.venueId,e.venue])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
+ venueEl.replaceChildren(new Option('All venues',''));
+ for(const [id,name] of venues)venueEl.add(new Option(name,id));
+ updateEventOptions();
+}
+function updateEventOptions(){
+ const previous=eventEl.value;
+ (find('owner-venue-export') as HTMLAnchorElement).href='/api/staff/?mode=csv'+(venueEl.value?'&venueId='+encodeURIComponent(venueEl.value):'');
+ eventEl.replaceChildren(new Option('Choose an event',''));
+ const value=(id:string)=>(find(id) as HTMLInputElement).value;
+ const dates='&from='+value('from')+'&to='+value('to');
+ (find('master') as HTMLAnchorElement).href='/api/staff/?mode=csv'+dates;
+ (find('owner-venue-export') as HTMLAnchorElement).href+=dates;
+ find('compare').replaceChildren();
+ for(const event of events.filter(e=>(!venueEl.value||e.venueId===venueEl.value)&&(!value('type')||e.eventType===value('type'))&&(!value('from')||e.date>=value('from'))&&(!value('to')||e.date<=value('to'))).sort((a,b)=>a.date.localeCompare(b.date))){
+  const card=line('p',event.date+' · '+event.title+' at '+event.venue+' · '+event.registeredGroups+' groups · '+event.expectedPeople+' expected · average '+(event.registeredGroups?event.expectedPeople/event.registeredGroups:0).toFixed(1)+' ');
+  const link=document.createElement('a');link.href='/api/staff/?mode=csv&eventId='+encodeURIComponent(event.id);link.textContent='Download CSV';card.append(link);find('compare').append(card);
+  eventEl.add(new Option(event.dateLabel+' · '+event.venue+' · '+event.title,event.id));
+ }
+ eventEl.value=[...eventEl.options].some(o=>o.value===previous)?previous:(eventEl.options.length>1?eventEl.options[1].value:'');
+ refreshEvent();
+}
+async function refreshEvent(){
+ const e=events.find(v=>v.id===eventEl.value);
+ if(!e){find('owner-selected').textContent='No matching events';find('owner-registrations').replaceChildren();find('owner-audit').replaceChildren();find('trend').textContent='';find('owner-export').removeAttribute('href');for(const id of ['owner-groups','owner-people','owner-in-groups','owner-in-people','owner-rewards'])find(id).textContent='0';return;}
+ find('owner-selected').textContent=e.title+' · '+e.dateLabel+' · '+e.startTime+' Eastern at '+e.venue;
+ (find('policy-enabled') as HTMLInputElement).checked=e.enabled;
+ (find('policy-reward-enabled') as HTMLInputElement).checked=e.rewardEnabled;
+ (find('policy-kind') as HTMLSelectElement).value=e.reward;
+ (find('deadline') as HTMLInputElement).value=utcToEasternInput(e.redemptionDeadline);
+ (find('policy-close') as HTMLInputElement).value=utcToEasternInput(e.registrationCloses);
+ (find('policy-reward-close') as HTMLInputElement).value=utcToEasternInput(e.rewardCloses);
+ (find('owner-export') as HTMLAnchorElement).href='/api/staff/?mode=csv&eventId='+encodeURIComponent(e.id);
+ find('owner-assignments').textContent='Assigned: '+(assignments.filter(a=>a.event_id===e.id).map(a=>hosts.find(h=>h.id===a.staff_id)?.name||a.staff_id).join(', ')||'None');
+ for(const [id,n] of [['owner-groups',e.registeredGroups],['owner-people',e.expectedPeople],['owner-in-groups',e.checkedInGroups],['owner-in-people',e.checkedInPeople],['owner-rewards',e.issuedRewards]])find(String(id)).textContent=String(n);
+ try{
+  const [data,audit]=await Promise.all([api('/api/staff/?mode=registrations&eventId='+encodeURIComponent(e.id)),api('/api/staff/?mode=audit&eventId='+encodeURIComponent(e.id))]);
+  if(eventEl.value!==e.id)return;
+  regs=data.registrations;
+  const daily=new Map<string,number>();
+  for(const row of regs){const day=new Date(row.registeredAt).toLocaleDateString('en-CA',{timeZone:'America/New_York'});daily.set(day,(daily.get(day)||0)+1)}
+  find('trend').textContent=[...daily].sort().map(([day,count])=>day+' · '+count+' new group'+(count===1?'':'s')).join(' | ')||'No registrations yet.';
+  renderRegistrations();
+  const list=find('owner-audit');list.replaceChildren();
+  if(!audit.activity.length)list.append(line('p','No registration activity yet.'));
+  for(const item of audit.activity){
+   list.append(line('p',new Date(item.at).toLocaleString()+' · '+item.action+' · '+(item.name||item.actor_id||'')+(item.reason?' · '+item.reason:'')));
+  }
+ }catch(error){message.textContent=error instanceof Error?error.message:'Could not load registrations.'}
+}
+function renderRegistrations(){
+ const parent=find('owner-registrations');parent.replaceChildren();
+ const term=(find('owner-search') as HTMLInputElement).value.trim().toLowerCase();
+ const selected=regs.filter(r=>[r.name,r.code,r.email||'',r.teamName||''].some(x=>x.toLowerCase().includes(term)));
+ if(!selected.length)parent.append(line('p','No registrations match this search.'));
+ for(const r of selected){
+  const card=document.createElement('article');card.className='owner-group';
+  card.append(line('h3',r.name+' · '+r.groupSize+(r.groupSize===1?' person':' people')));
+  card.append(line('p',(r.teamName?r.teamName+' · ':'')+r.email+' · '+r.code));
+  card.append(line('p',r.redeemed?'Voucher redeemed':r.reward==='appetizer'?'Voucher issued':''));
+  card.append(line('p','Registered '+new Date(r.registeredAt).toLocaleString()));
+  const actions=document.createElement('div');actions.className='owner-actions';
+
+  if(r.redeemed||r.checkedInAt){
+   const correct=document.createElement('button');correct.textContent='Correct redemption';
+   correct.addEventListener('click',async()=>{
+    const reason=prompt('Reason for correcting this check-in (logged):');
+    if(!reason)return;
+    try{await post({action:'correct',eventId:eventEl.value,registrationId:r.id,reason});message.textContent='Correction saved and audited.';await reloadAll()}catch(e){message.textContent=e instanceof Error?e.message:'Correction failed.'}
+   });actions.append(correct);
+  }
+  card.append(actions);parent.append(card);
+ }
+}
+async function reloadAll(){
+ const selectedEvent=eventEl.value;
+ const data=await api('/api/staff/?mode=events');
+ if(data.role!=='owner')throw Error('Owner permissions are required');
+ events=data.events;
+ const types=find('type') as HTMLSelectElement;
+ if(types.options.length===1)for(const t of new Set(events.map(e=>e.eventType)))types.add(new Option(t,t));
+ const hs=await api('/api/staff/?mode=hosts');hosts=hs.hosts;assignments=hs.assignments;
+ hostEl.replaceChildren(new Option('Choose a host',''));
+ for(const host of hosts.filter(h=>h.active))hostEl.add(new Option(host.name+' ('+host.id+')',host.id));
+ populateEvents();if(selectedEvent&&events.some(e=>e.id===selectedEvent)){eventEl.value=selectedEvent;await refreshEvent()}
+}
+(find('from') as HTMLInputElement).value=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+for(const id of ['from','to','type'])find(id).addEventListener('change',updateEventOptions);
+find('owner-search').addEventListener('input',renderRegistrations);
+eventEl.addEventListener('change',refreshEvent);
+venueEl.addEventListener('change',updateEventOptions);
+find('owner-policy').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!eventEl.value)return;
+ try{
+  await post({action:'policy',eventId:eventEl.value,enabled:(find('policy-enabled') as HTMLInputElement).checked,
+   rewardEnabled:(find('policy-reward-enabled') as HTMLInputElement).checked,
+   redemptionDeadline:(find("deadline") as HTMLInputElement).value,rewardKind:(find('policy-kind') as HTMLSelectElement).value,
+   registrationCloses:(find('policy-close') as HTMLInputElement).value,
+   rewardCloses:(find('policy-reward-close') as HTMLInputElement).value});
+  message.textContent='Event settings saved.';await reloadAll();
+ }catch(error){message.textContent=error instanceof Error?error.message:'Could not save event settings.'}
+});
+find('owner-create-host').addEventListener('submit',async e=>{
+ e.preventDefault();
+ try{
+  const name=(find('new-host-name') as HTMLInputElement).value;
+  const r=await post({action:'create-host',name});
+  const panel=find('new-host-credentials');panel.hidden=false;panel.replaceChildren();
+  panel.append(line('strong','Show these credentials to the host once. The temporary password will not appear again.'));
+  panel.append(line('p','Username: '+r.username));panel.append(line('p','Password: '+r.temporaryPassword));
+  (find('new-host-name') as HTMLInputElement).value='';
+  await reloadAll();
+ }catch(error){message.textContent=error instanceof Error?error.message:'Host creation failed.'}
+});
+async function assign(assigned:boolean){
+ if(!hostEl.value||!eventEl.value){message.textContent='Choose a host and event.';return}
+ try{await post({action:'assign',hostId:hostEl.value,eventId:eventEl.value,assigned});message.textContent=assigned?'Host assigned.':'Assignment removed.';await reloadAll()}
+ catch(error){message.textContent=error instanceof Error?error.message:'Assignment failed.'}
+}
+find('owner-assign').addEventListener('click',()=>assign(true));
+find('owner-unassign').addEventListener('click',()=>assign(false));
+find('owner-signout').addEventListener('click',async()=>{try{await post({action:'logout'})}finally{location.assign('/staff/')}});
+reloadAll().catch(error=>{message.textContent=error instanceof Error?error.message:'Owner dashboard unavailable.'});
+</script>
+</Base>
