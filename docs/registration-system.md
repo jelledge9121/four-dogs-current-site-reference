@@ -11,7 +11,7 @@ Keep FDE_REGISTRATION_ENABLED unset in production until Joey approves activation
 
 ## Guests and forecasts
 
-Use the RSVP link on the public calendar or an event page. Guests enter their name and expected party size, optionally a team name, then bookmark their private confirmation URL. The link permits changes and cancellation. Lost private links cannot be recovered by a public name search. Paid events retain their separate ticket requirements. A group estimate does not reserve seats.
+Use the RSVP link on the public calendar or an event page. Guests enter their name and expected party size, optionally a team name, then bookmark their private confirmation URL. The link permits changes and cancellation. The original browser can reopen the private page from the event-specific RSVP link while its cookie remains. A public name search cannot recover a private link. Paid events retain their separate ticket requirements. A group estimate does not reserve seats.
 
 At /staff/owner/ select dates, venue and event type to compare groups, expected attendees and average size. Choose an event for daily registration counts and audited changes. Download CSV beside an event, or use the venue and all-registration downloads for the date range. Canceled records remain labeled in exports and contribute zero to the dashboard forecast. Redemption does not establish actual party size. Historical verified check-ins remain separate.
 
@@ -24,3 +24,9 @@ Create individual staff credentials and assign only approved event IDs. Designat
 Tokens contain an opaque identifier, short expiration and server signature. The server checks assignment, event day, cancellation, captured deadline and prior use. A single transaction serializes competing claims and records the actor. A fresh screenshot can still win the first scan within the token's maximum 20-second lifetime. Owner corrections require a reason and do not extend the original deadline.
 
 An event-specific browser identifier, keyed group fingerprint and serialized IP rate limits reduce repeat registrations. A determined guest changing browsers, network and identity can submit a second estimate. Shared devices or identical group details can also collide. Refer exceptions to the owner. Treat bookmarked confirmation links like credentials.
+
+## Verification
+
+Run npm run build for the website tests, Astro checks, production build and rendered-route regressions. Point FDE_REGISTRATION_DATABASE_URL at a disposable PostgreSQL database only, apply the schema, then run node --import tsx --test tests/registration-db.test.ts for persistence, concurrency and scanner authorization.
+
+For active browser QA use an isolated enabled site on localhost over HTTPS with synthetic data. Set FDE_LOCAL_QA_URL and FDE_LOCAL_QA_OWNER_PASSWORD, install Playwright for Python and Chromium, and run python scripts/qa-registration-active.py from the repository root. It creates temporary registrations and an event policy in that disposable database. The test covers accountless registration, same-browser recovery, CSV scopes, estimate reconciliation, camera failure and optical decoding using synthetic camera frames. An eligible upcoming calendar fixture also exercises actual QR rotation. The unavailable-state smoke test remains scripts/qa-registration-browser.py.

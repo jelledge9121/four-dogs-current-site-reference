@@ -5,13 +5,13 @@ import Base from '../../layouts/Base.astro';
 <Base title="Four Dogs Staff Sign In" description="Private staff sign in for Four Dogs event check-in." noindex>
 <section class="section dark"><div class="container"><p class="eyebrow">Four Dogs staff</p><h1>Event check-in</h1><p class="lead">Private access for Four Dogs hosts and management.</p></div></section>
 <section class="section"><div class="container"><div class="staff-login">
-<form id="staff-login">
+<form method="post" id="staff-login">
  <h2>Sign in</h2>
  <label for="staff-username">Username</label><input id="staff-username" name="username" autocomplete="username" required maxlength="64" />
  <label for="staff-password">Password</label><input id="staff-password" name="password" type="password" autocomplete="current-password" required />
  <button class="button" type="submit">Sign in securely</button>
  <p id="staff-status" role="status" aria-live="polite"></p>
- <p class="fine">Four Dogs staff only. Never share host passwords or confirmation-code lists with venue employees.</p>
+ <p class="fine">Use your individually assigned staff or venue login.</p>
 </form></div></div></section>
 <style>
 .staff-login{max-width:450px}.staff-login form{display:grid;gap:.85rem}

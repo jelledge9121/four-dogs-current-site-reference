@@ -19,7 +19,7 @@ let busy=false,last='',timer=0;
 async function redeem(token:string){
  if(busy||!token)return;busy=true;last=token;
  try{const r=await fetch('/api/voucher/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'redeem',token})});const data=await r.json();
- result.textContent=r.ok?'VALID. REWARD REDEEMED.':data.error;result.style.background=r.ok?'#126030':'#922121';result.style.color='white';result.style.padding='1rem';if(r.ok)navigator.vibrate?.(90);
+ result.textContent=r.ok?'VALID. REWARD REDEEMED.':String(data.error||'INVALID VOUCHER').toUpperCase();result.style.background=r.ok?'#126030':'#922121';result.style.color='white';result.style.padding='1rem';if(r.ok)navigator.vibrate?.(90);
  }catch{result.textContent='Connection lost. Scan again to verify.'}finally{setTimeout(()=>{busy=false},1200)}
 }
 async function start(){

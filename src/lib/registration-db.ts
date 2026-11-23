@@ -69,6 +69,11 @@ export async function registrationByCode(code:string): Promise<RegistrationRow |
   const rows = await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.actual_group_size, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.code=$1',[code.trim().toUpperCase()]);
   return rows[0] || null;
 }
+export async function existingBrowserRegistration(eventId:string,device:string){
+  const key=emailKey(eventId,device,process.env.FDE_SESSION_SECRET!);
+  const [row]=await query<{code:string}>('SELECT code FROM fde_registration.registrations WHERE event_id=$1 AND device_key=$2',[eventId,key]);
+  return row?.code;
+}
 export async function registrationsForEvent(eventId:string): Promise<RegistrationRow[]> {
   return await query<RegistrationRow>('SELECT r.*, c.checked_in_at, c.checked_in_by, c.actual_group_size, c.reward_issued FROM fde_registration.registrations r LEFT JOIN fde_registration.checkins c ON c.registration_id=r.id WHERE r.event_id=$1 ORDER BY r.created_at DESC',[eventId]);
 }

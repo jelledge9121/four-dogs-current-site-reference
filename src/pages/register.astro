@@ -5,6 +5,7 @@ import { events } from '../data/events';
 import { venueById } from '../data/venues';
 import { eventDateLabel,easternTime,rewardFor,registrationCutoff,resolvePolicy } from '../lib/registration-core';
 import { loadRegistrationPolicies, canRegisterFor } from '../lib/registration-availability';
+import { existingBrowserRegistration } from '../lib/registration-db';
 import { randomUUID } from 'node:crypto';
 if (!Astro.cookies.has('fde_group')) Astro.cookies.set('fde_group',randomUUID(),{httpOnly:true,secure:true,sameSite:'strict',path:'/',maxAge:31536000});
 const registrationPolicies=await loadRegistrationPolicies();
@@ -13,13 +14,15 @@ const eligible=events.filter(event=>
  canRegisterFor(event,venueById(event.venueId),registrationPolicies)
 ).sort((a,b)=>a.date.localeCompare(b.date)||(a.startTime||'').localeCompare(b.startTime||''));
 const requested=Astro.url.searchParams.get('event');
+const device=Astro.cookies.get('fde_group')?.value;
+const previous=ready && requested && device && /^[a-f0-9-]{36}$/.test(device) ? await existingBrowserRegistration(requested,device) : null;
 const selected=eligible.find(e=>e.id===requested||e.slug===requested)?.id||eligible[0]?.id||'';
 ---
-<Base title="RSVP for Four Dogs Events | Four Dogs Entertainment" description="Register your group for an public trivia, Music Bingo, or game night with Four Dogs Entertainment." noindex={!ready}>
+<Base title="RSVP for Four Dogs Events | Four Dogs Entertainment" description="Register your group for public trivia, Music Bingo, or game night with Four Dogs Entertainment." noindex={!ready}>
   <section class="section dark"><div class="container registration-head"><p class="eyebrow">Four Dogs events</p><h1>Register your group. Come have fun.</h1><p class="lead">Choose a game night, tell us how many are coming, and save your private confirmation link.</p></div></section>
   <section class="section"><div class="container registration-layout">
     <div class="registration-panel">
-      {ready && eligible.length && (!requested || eligible.some(e=>e.id===requested||e.slug===requested)) ? (
+      {previous ? <div><h2>Your group already has an RSVP</h2><a class="button" href={'/register/confirmation/?code='+encodeURIComponent(previous)}>Open your private registration</a></div> : ready && eligible.length && (!requested || eligible.some(e=>e.id===requested||e.slug===requested)) ? (
         <form method="post" id="free-registration" novalidate>
           <h2>Group RSVP</h2>
           <p class="fine">One registration covers your whole group. An RSVP does not purchase a ticket or guarantee admission. Registration does not reserve a restaurant table or guarantee seating.</p>

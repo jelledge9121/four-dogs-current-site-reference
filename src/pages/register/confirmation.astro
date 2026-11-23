@@ -24,7 +24,7 @@ Astro.response.headers.set('Referrer-Policy','no-referrer');
 <section class="section"><div class="container"><h1>{record.cancelled_at?'Registration canceled':'Your group RSVP'}</h1>
 <h2>{event.title}</h2><p>{venue.name} · {eventDateLabel(event)} · {event.startTime} Eastern</p>
 <p>{record.name} · {record.group_size} expected attendees</p><a href={'/events/'+event.slug+'/'}>Event details and ticket information</a>
-<p>Bookmark this private page to return. Anyone with the link can manage your RSVP.</p>
+<p>Bookmark this private page to return. Anyone with the link can manage your RSVP. On this browser, you can also reopen your registration from the event’s RSVP link.</p>
 {!record.cancelled_at && <div><label>Expected group size <input type="number" id="size" min="1" max="50" value={record.group_size}/></label>
 <button id="resize">Update estimate</button> <button id="cancel">Cancel registration</button></div>}
 {!eventEnded && !record.cancelled_at && record.reward_kind==='appetizer' && record.voucher_expires && <section><h2>Charter 803 complimentary appetizer</h2><p>One complimentary appetizer per registered group. Expires {easternTime(record.voucher_expires)}.</p><strong>SCREENSHOTS ARE NOT ACCEPTED.</strong><p>You must open your live voucher on the Four Dogs Entertainment website when redeeming your complimentary appetizer. Screenshots, photos, printed copies, and recordings are not valid proof of redemption.</p><canvas id="qr"></canvas><details><summary>Camera fallback</summary><input readonly id="manual" aria-label="Live redemption token"/></details></section>}
