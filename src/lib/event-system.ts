@@ -134,7 +134,17 @@ export function eventSchema(event: Event, venue: Venue) {
     ...(admission.verified && admission.kind !== 'unknown' ? {isAccessibleForFree: admission.kind === 'free', offers:{'@type':'Offer',url:event.registrationUrl || url,price:admission.kind === 'free' ? 0 : admission.price,priceCurrency:admission.currency || 'USD'}} : {}),
   };
 }
-export const formatDate = (date: string) => new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:TIME_ZONE}).format(new Date(`${date}T12:00:00Z`));
+const eventDateFormat = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: TIME_ZONE,
+});
+const eventMonthFormat = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: TIME_ZONE });
+const eventWeekdayFormat = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: TIME_ZONE });
+
+export const formatDate = (date: string) => eventDateFormat.format(new Date(`${date}T12:00:00Z`));
+export function eventCardDateLabels(date: string) {
+  const displayDate = new Date(`${date}T12:00:00Z`);
+  return { month: eventMonthFormat.format(displayDate), weekday: eventWeekdayFormat.format(displayDate) };
+}
 export function listingRevision(event: Event, venue: Venue) {
   // Track public facts, including shared venue changes. Saving tracking metadata
   // or a new lastUpdated timestamp must not invalidate a completed synchronization.

@@ -1,12 +1,10 @@
 ---
 import type { Event } from '../data/events';
 import { venueById } from '../data/venues';
-import { needsTicket, formatDate, startIso, statusLabel, categorySlug, phase } from '../lib/event-system';
+import { needsTicket, eventCardDateLabels, formatDate, startIso, statusLabel, categorySlug, phase } from '../lib/event-system';
 const { event } = Astro.props as { event: Event };
 const venue = venueById(event.venueId);
-const date = new Date(`${event.date}T12:00:00Z`);
-const month = new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'America/New_York'}).format(date);
-const weekday = new Intl.DateTimeFormat('en-US',{weekday:'short',timeZone:'America/New_York'}).format(date);
+const { month, weekday } = eventCardDateLabels(event.date);
 const status = phase(event);
 ---
 <article class="event event-row" data-fd-reveal data-event-id={event.id} data-event-status={status}>

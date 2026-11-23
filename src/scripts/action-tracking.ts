@@ -7,7 +7,7 @@ const record = (action:string, destination:string) => {
 };
 document.addEventListener('click',event=>{
   const anchor=(event.target as Element)?.closest?.('a[href]') as HTMLAnchorElement|null;
-  if(!anchor)return;
+  if(!anchor || anchor.getAttribute('href')?.startsWith('#'))return;
   const url=new URL(anchor.href,location.href);
   if(anchor.dataset.eventAction)record(anchor.dataset.eventAction,url.hostname);
   else if(url.origin===location.origin && url.pathname.startsWith('/events/') && !['/events/','/events/feed.json'].includes(url.pathname) && !url.pathname.includes('/category/'))record('event_details',url.pathname);
