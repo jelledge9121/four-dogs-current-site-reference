@@ -24,3 +24,19 @@ In the same Search Console property, compare the latest complete 28 days with th
 Compare the same measurements with the October 18 baseline retained in the operational handoff. Separate expected redirects, canonical alternatives, private pages, and confirmation pages from pages that should be indexed. Google may retain an older crawl until it revisits a page. Sitemap acceptance and valid schema do not guarantee indexing or ranking.
 
 Search visibility, directions clicks, ticket clicks, inquiries, and physical attendance are different measures. The existing frontend action events need an existing analytics consumer before they become collected conversion data. Do not add a tracking vendor or claim attendance or booking growth from search impressions alone.
+
+## Monthly booking and local search scorecard
+
+Use complete days in America/New_York. For the November 23 release, compare October 24 through November 22 with November 24 through December 23. Exclude the deployment day. Record unavailable metrics as unavailable.
+
+| Measure | Where to get it | Counting rule |
+| --- | --- | --- |
+| Nonbranded local organic clicks | Search Console Performance | Export available queries and landing pages. Group local service and event searches by city and intent. Exclude Four Dogs, 4 Dogs, and spelling variants. Keep anonymized queries outside the query-level comparison. |
+| Accepted inquiries | Netlify Forms, booking | Count accepted submissions in the period. Separately flag duplicates, tests, spam, and inquiries the owner qualifies. Split by the submitted service, including Venue Entertainment, Wedding DJ / Entertainment, and Corporate Event. |
+| Search-attributed inquiries | Netlify Forms, booking | Filter entry-channel to organic search. Group by entry-page and selected service. Keep the optional self-reported referral answer separate. The entry fields record the browser tab's landing context. Missing referrers, blocked storage, and cross-device visits limit attribution. |
+| Organic conversion rate | Verified analytics destination | Divide organic sessions containing an accepted inquiry by organic sessions in the same period and property. Keep unavailable until both sides can be measured consistently. |
+| Event discovery | Verified analytics destination | Count event detail, registration, and directions actions separately. Compare by landing page. Reconcile actual ticket sales or venue attendance separately where records exist. |
+| Search health | Search Console, Google Rich Results Test, release QA | Record submitted sitemaps, eligible and indexed priority URLs, invalid Event items, optional warnings, and field Core Web Vitals where available. Inspect representative venue, wedding, corporate, and event URLs. |
+
+
+The browser dispatches `fourdogs:action` and pushes a `four_dogs_action` object when an existing data layer is present. An analytics owner can connect the verified GTM container and GA4 web stream, map the action and destination fields, and verify receipt in DebugView. Apply the site's consent settings and review the public content security policy with that connection. Keep names, contact details, messages, and raw query strings out of analytics. Use accepted Netlify records for submission totals. A submit attempt or a thank-you page view alone is insufficient.

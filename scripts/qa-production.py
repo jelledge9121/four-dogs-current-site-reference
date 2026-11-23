@@ -8,6 +8,7 @@ import datetime as dt
 import html.parser
 import json
 import re
+from pathlib import Path
 import sys
 import urllib.error
 import urllib.parse
@@ -32,9 +33,9 @@ def get(path, agent="FourDogsReleaseQA/1.0"):
     req = urllib.request.Request(base + path, headers={"User-Agent": agent})
     try:
         with urllib.request.urlopen(req, timeout=35) as r:
-            return r.status, dict(r.headers), r.read().decode(), r.url
+            return r.status, r.headers, r.read().decode(), r.url
     except urllib.error.HTTPError as e:
-        return e.code, dict(e.headers), e.read().decode(), e.url
+        return e.code, e.headers, e.read().decode(), e.url
 
 
 class Page(html.parser.HTMLParser):
@@ -152,20 +153,41 @@ check("public feed excludes staffing", all("assignedHost" not in e for e in feed
 check("all upcoming feed pages in sitemap", all(e["url"] in entries for e in feed["events"]))
 check("upcoming feed is chronological", [e["start"] for e in feed["events"]] == sorted(e["start"] for e in feed["events"]))
 for e in feed["events"]:
-    check("upcoming status " + e["eventId"], e["displayStatus"] in ["Upcoming", "In progress"])
+    check("upcoming status " + e["eventId"], e["displayStatus"] in ["Upcoming", "Rescheduled", "Happening now", "Started; end time unconfirmed"])
 today = now.astimezone(ZoneInfo("America/New_York")).date()
-through = today + dt.timedelta(days=30)
-window = [e for e in feed["events"] if today.isoformat() <= e["date"] <= through.isoformat()]
+# Compare live filters with the same release's source records, including
+# occurrence overrides, mixed-format nights, and ticketed non-mystery events.
+data_dir = Path(__file__).resolve().parents[1] / "src/data"
+def load_records(folder):
+    return {row["id"]: row for path in (data_dir / folder).glob("*.json")
+            for row in [json.loads(path.read_text())]}
+
+occurrences = load_records("events")
+series_records = load_records("series")
+venue_cities = {v["id"]: v["city"] for v in json.loads((data_dir / "venues.json").read_text())["venues"]}
+
+def source_record(event):
+    event_id = event["eventId"]
+    if event_id in occurrences:
+        return occurrences[event_id]
+    series = series_records[event_id[:-11]]
+    original_date = event_id[-10:]
+    changes = next((row["changes"] for row in series.get("overrides", [])
+                    if row["originalDate"] == original_date), {})
+    return {**series["template"], "date": original_date, **changes}
+
+through = today + dt.timedelta(days=29)
+window = [e for e in feed["events"] if (source_record(e).get("endDate") or e["date"]) >= today.isoformat() and e["date"] <= through.isoformat()]
 for query, expected in [
     ("", [e["eventId"] for e in window]),
-    ("city=Cayce", [e["eventId"] for e in window if e["venue"] == "WesCo Brew & Bowl"]),
-    ("category=Music%20Bingo", [e["eventId"] for e in window if e["category"] == "Music Bingo"]),
-    ("price=paid", [e["eventId"] for e in window if e["category"] == "Murder Mystery"]),
+    ("city=Cayce", [e["eventId"] for e in window if venue_cities[source_record(e)["venueId"]] == "Cayce"]),
+    ("category=Music%20Bingo", [e["eventId"] for e in window if "Music Bingo" in [e["category"], *source_record(e).get("secondaryCategories", [])]]),
+    ("price=paid", [e["eventId"] for e in window if source_record(e).get("ticketed") or source_record(e)["admission"]["kind"] == "paid"]),
 ]:
     path = "/events/" + ("?" + query if query else "")
     status, _, content, _ = get(path)
     check("calendar filter " + (query or "next 30 days"), status == 200 and Page(content).event_ids == expected)
-_, _, empty, _ = get("/events/?city=Irmo")
+_, _, empty, _ = get("/events/?city=QA-Unmatched-City")
 check("empty filter offers recovery", "No matching events" in empty and "See the next 30 days" in empty)
 _, _, inverted, _ = get("/events/?from=2026-12-01&to=2026-10-01")
 check("invalid date range has accessible error", 'role="alert"' in inverted)
@@ -179,7 +201,6 @@ report = {"base": base, "testedAt": now.isoformat(), "sitemaps": maps,
           "sitemapUrls": len(entries), "eventSchemas": event_count,
           "upcomingFeedEvents": len(feed["events"]), "checks": checks, "pages": pages,
           "passed": sum(c["passed"] for c in checks), "failed": [c for c in checks if not c["passed"]]}
-from pathlib import Path
 Path(output).parent.mkdir(parents=True, exist_ok=True)
 Path(output).write_text(json.dumps(report, indent=2) + "\n")
 print(json.dumps({k: v for k, v in report.items() if k not in ["checks", "pages"]}, indent=2))
