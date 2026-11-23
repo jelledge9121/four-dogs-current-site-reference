@@ -10,17 +10,20 @@ if(staff.role==='host'){
   catch { return Astro.redirect('/staff/',302); }
 }
 ---
-<Base title="Voucher scanner | Four Dogs" description="Staff voucher scanner" noindex><section class="section"><div class="container"><h1>Scan a live voucher</h1><video playsinline muted autoplay style="width:min(100%,500px)"></video><p id="result" role="status"></p><button id="camera">Start camera</button><details><summary>Manual scan</summary><label>Live token <input id="manual"/></label><button id="redeem">Redeem</button></details></div></section>
+<Base title="Voucher scanner | Four Dogs" description="Staff voucher scanner" noindex><section class="section"><div class="container"><h1>Scan a live voucher</h1><video playsinline muted autoplay style="display:block;width:min(100%,500px)"></video><p id="result" role="status" style="font-size:1.4rem;font-weight:700">Ready to scan</p><button id="camera">Start camera</button><details><summary>Manual scan</summary><label>Live token <input id="manual"/></label><button id="redeem">Redeem</button></details></div></section>
 <script>
 import jsQR from 'jsqr';
 const video=document.querySelector('video')!,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true})!;
 const result=document.querySelector<HTMLElement>('#result')!;
-let busy=false,last='',timer=0;
+let busy=false,last='',timer=0,reset=0;
 async function redeem(token:string){
- if(busy||!token)return;busy=true;last=token;
+ if(busy||!token)return;busy=true;last=token;clearTimeout(reset);
  try{const r=await fetch('/api/voucher/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'redeem',token})});const data=await r.json();
  result.textContent=r.ok?'VALID. REWARD REDEEMED.':String(data.error||'INVALID VOUCHER').toUpperCase();result.style.background=r.ok?'#126030':'#922121';result.style.color='white';result.style.padding='1rem';if(r.ok)navigator.vibrate?.(90);
- }catch{result.textContent='Connection lost. Scan again to verify.'}finally{setTimeout(()=>{busy=false},1200)}
+ }catch{result.textContent='Connection lost. Scan again to verify.';result.style.background='#922121';result.style.color='white'}finally{
+  setTimeout(()=>{busy=false},1200);
+  reset=window.setTimeout(()=>{result.textContent='Ready to scan';result.style.background='';result.style.color=''},3500);
+ }
 }
 async function start(){
  try{if(video.srcObject)return;video.srcObject=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});await video.play();
