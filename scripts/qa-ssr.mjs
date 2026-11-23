@@ -34,10 +34,12 @@ for(const path of paths){
   assert.ok(page.body.includes(`rel="canonical" href="${base}${path}"`),`${path} canonical`);
   assert.ok(/<meta name="description" content="[^"]+"/.test(page.body),`${path} description`);
  }
+ let pageEvents=0;
  for(const m of page.body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
   const schema=JSON.parse(m[1]);
   if(schema['@type']==='Event'){
    eventSchemas++;
+   pageEvents++;
    for(const key of ['name','description','startDate','eventStatus','eventAttendanceMode','location','organizer','image','url'])assert.ok(schema[key],`${path} missing schema ${key}`);
    const sourceEvent=all.find(e=>path===`/events/${e.slug}/`);
    if(sourceEvent?.timeTba){
@@ -49,9 +51,14 @@ for(const path of paths){
    }
    assert.ok(schema.location.address.streetAddress&&schema.location.address.addressLocality&&schema.location.address.postalCode);
    assert.equal(schema.organizer.name,'Four Dogs Entertainment LLC');
-   if(schema.offers)assert.ok(schema.offers.price>=0&&schema.offers.priceCurrency&&schema.offers.url);
+   assert.ok(sourceEvent);
+   const admission=sourceEvent.admission;
+   if(admission.verified && admission.kind!=='unknown'){
+     assert.deepEqual(schema.offers,{'@type':'Offer',price:admission.kind==='free'?0:admission.price,priceCurrency:admission.currency || 'USD',url:sourceEvent.registrationUrl || base+path},path);
+   }else assert.equal(schema.offers,undefined,path);
   }
  }
+ assert.equal(pageEvents,publicEvents.some(e=>path===`/events/${e.slug}/`)?1:0,path);
  for(const m of page.body.matchAll(/(?:href|src)="(\/[^"]*)"/g)){
   const url=m[1].replaceAll('&amp;','&').split(/[?#]/)[0];if(!url||url.startsWith('//')||url.startsWith('/_astro/'))continue;
   if(staticRoutes.has(url)||staticRoutes.has(`${url.replace(/\/$/,'')}/index.html`))continue;

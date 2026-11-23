@@ -127,7 +127,7 @@ test('ticket discovery includes explicit ticket records without inventing a stru
   const paid = selectEvents(all, venues, { ...window, price: 'paid' });
   assert.deepEqual(paid.map(event => event.id), ['charter-803-2026-12-03', 'charter-803-2026-12-17']);
   for (const event of paid) {
-    assert.equal(eventSchema(event, venues.find(venue => venue.id === event.venueId)!)?.offers, undefined);
+    assert.deepEqual(eventSchema(event, venues.find(venue => venue.id === event.venueId)!)?.offers, {'@type':'Offer', price:event.date==='2026-12-03'?5:15, priceCurrency:'USD', url:event.registrationUrl});
   }
   const free = selectEvents(all, venues, { ...window, price: 'free' });
   assert.ok(free.length > 0 && free.every(event => event.admission.verified && event.admission.kind === 'free'));
@@ -169,24 +169,17 @@ test('Admission and status corrections flag external updates while staffing rema
  assert.equal(listingPackage(mutate({assignedHost:'PRIVATE'}),venue).listingRevision,revision);
 });
 
-test('Public admission stays verified for ordinary nights and does not invent a price for December live Music Bingo',()=>{
-  for(const e of all){
-    if(e.eventType==='Murder Mystery'){assert.equal(e.admission.kind,'paid');assert.equal(e.admission.price,25);}
-    else if(e.id==='charter-803-2026-12-17'){
-      assert.equal(e.ticketed,true);
-      assert.equal(e.admission.kind,'unknown');
-      assert.equal(e.admission.verified,undefined);
-      assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.offers,undefined);
-    }else if(e.ticketed || e.admission.kind==='unknown'){
-      assert.equal(e.admission.kind,'unknown');
-      const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);
-      if(schema) assert.equal(schema.offers,undefined);
-    }else{
-      assert.equal(e.admission.kind,'free');assert.equal(e.admission.verified,true);
-      const schema=eventSchema(e,venues.find(v=>v.id===e.venueId)!);
-      if(schema){assert.equal(schema.isAccessibleForFree,true);assert.equal(schema.offers?.price,0);}
-    }
-  }
+test('Published events with unknown admission require explicit review and emit no offer',()=>{
+ const unknown=mutate({admission:{kind:'unknown'}});
+ assert.ok(validateEvents([unknown],venues).length);
+ unknown.admission.reviewNote='Confirm ticket terms with the organizer.';
+ assert.deepEqual(validateEvents([unknown],venues),[]);
+ assert.equal(eventSchema(unknown,venues.find(v=>v.id===unknown.venueId)!)?.offers,undefined);
+});
+test('Paid records require an event ticket link and a positive finite price',()=>{
+ const admission={kind:'paid',verified:true,price:10,currency:'USD'} as const;
+ assert.ok(validateEvents([mutate({admission,registrationUrl:undefined})],venues).length);
+ for(const price of [0,-1,NaN]) assert.ok(validateEvents([mutate({admission:{...admission,price},registrationUrl:'https://example.org/tickets'})],venues).length);
 });
 test('December 17 Soda City Serenade event has its own page, verified ticket details, and an event-specific purchase path',()=>{
  const e=all.find(e=>e.id==='charter-803-2026-12-17')!;
@@ -198,7 +191,7 @@ test('December 17 Soda City Serenade event has its own page, verified ticket det
  assert.equal(e.endTime,'9:30 PM');
  assert.equal(e.registrationUrl,'https://buytickets.at/fourdogsentertainmentllc/2535496');
  assert.equal(e.publicationStatus,'published');
- assert.equal(e.admission.kind,'unknown');
+ assert.equal(e.admission.price,15);
  assert.match(e.admission.note||'',/\$15.*\$20/);
  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.startDate,'2026-12-17T19:00:00-05:00');
  assert.equal(eventSchema(e,venues.find(v=>v.id===e.venueId)!)?.endDate,'2026-12-17T21:30:00-05:00');

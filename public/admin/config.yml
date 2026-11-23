@@ -136,13 +136,13 @@ collections:
       - unknown
       - free
       - paid
-      default: free
+      default: unknown
     - label: Admission confirmed
       name: verified
       widget: boolean
       required: true
-      default: true
-      hint: Four Dogs public events are free. Select paid and enter the confirmed price for murder mystery events.
+      default: false
+      hint: Confirm admission for this event. Paid admission requires the advertised advance price, currency and event-specific purchase URL.
     - label: Price per person
       name: price
       widget: number
@@ -154,6 +154,11 @@ collections:
       widget: string
       required: false
       default: USD
+    - label: Internal review note for unknown admission
+      name: reviewNote
+      widget: string
+      required: false
+      hint: For a published event with unknown admission, identify what needs confirmation.
     - label: Visible admission details
       name: note
       widget: text
