@@ -24,7 +24,7 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
         {activeVenues.length>0 && <a class="button secondary" href="#venue-examples">See real venue examples</a>}
       </div>
       </div>
-      <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" fetchpriority="high" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
+      <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-800.webp 800w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" fetchpriority="high" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
     </div>
   </section>
 
@@ -97,10 +97,9 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
   </section>
   <style>
     .venue-intro { align-items:center; }
-    .venue-intro figcaption { color:var(--cream); }
     .venue-proof-photo { margin: 0; }
     .venue-proof-photo img { width: 100%; height: auto; display: block; }
-    .venue-proof-photo figcaption { margin-top: .6rem; color: var(--muted); font-size: .9rem; }
+    .venue-proof-photo figcaption { margin-top: .6rem; color: var(--cream); font-size: .9rem; }
     .venue-partner-list a:hover strong { text-decoration: underline; }
     .venue-partner-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 2rem; margin: 1.25rem 0 1.75rem; }
     .venue-partner-list a { display: flex; gap: .8rem; align-items: baseline; padding: .95rem .15rem; border-bottom: 1px solid var(--rule); text-decoration: none; flex-wrap: wrap; }

@@ -123,7 +123,11 @@ export function selectEvents(events: Event[], venues: Venue[], filters: Filters 
     else if (e.date > today) state = 'upcoming';
     else state = phase(e, now);
     const v = venues.find(v => v.id === e.venueId);
-    if (filters.view === 'archive' ? !['completed','past-date'].includes(state) : filters.view === 'updates' ? (!['cancelled','postponed'].includes(state) && !(e.status === 'rescheduled' && ['upcoming','live'].includes(state))) : !['upcoming','live'].includes(state)) return false;
+    const upcoming = state === 'upcoming' || state === 'live';
+    const matchesView = filters.view === 'archive' ? state === 'completed' || state === 'past-date'
+      : filters.view === 'updates' ? state === 'cancelled' || state === 'postponed' || (e.status === 'rescheduled' && upcoming)
+      : upcoming;
+    if (!matchesView) return false;
     return (!filters.city || v?.city === filters.city) && (!filters.venue || e.venueId === filters.venue) && (!filters.category || e.eventType === filters.category || e.secondaryCategories?.includes(filters.category)) && (!filters.from || (e.endDate || e.date) >= filters.from) && (!filters.to || e.date <= filters.to) && (!filters.price || (filters.price === 'paid' ? needsTicket(e) : e.admission.verified && e.admission.kind === filters.price));
   }).sort((a,b) => (startMs(a)-startMs(b)) * (filters.view === 'archive' ? -1 : 1)).slice(0, filters.limit || Infinity);
 }

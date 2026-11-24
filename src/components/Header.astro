@@ -5,7 +5,7 @@ const current = (path: string) => Astro.url.pathname === path ? 'page' : undefin
 <header>
   <a class="skip" href="#main">Skip to content</a>
   <nav aria-label="Primary">
-    <a class="brand" href="/"><img src="/images/logo.png" width="92" height="92" alt="Four Dogs Entertainment"></a>
+    <a class="brand" href="/"><img src="/images/logo.png" srcset="/images/optimized/logo-144.webp 144w, /images/logo.png 512w" sizes="68px" width="92" height="92" alt="Four Dogs Entertainment"></a>
     <a class="button small nav-quick-book" href="/booking/">Book Us</a>
     <button class="menu" type="button" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks">
