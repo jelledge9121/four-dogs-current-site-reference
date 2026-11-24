@@ -8,6 +8,12 @@ import { site } from '../data/site';
   <input type="hidden" name="entry-page">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
+  <div class="booking-progress" hidden>
+    <label for="booking-progress">Booking inquiry progress</label>
+    <progress id="booking-progress" max="3" value="0" aria-describedby="booking-progress-note"></progress>
+    <p id="booking-progress-note" class="fine">Fill in the required details to send your inquiry. Everything else is optional.</p>
+  </div>
+
   <div class="form-grid">
     <label class="wide">What are you planning? (required)
       <select id="service" name="service" required>
@@ -215,10 +221,34 @@ import { site } from '../data/site';
     validateName();
   });
   window.addEventListener('pageshow', sync);
+  const progressGroup = form.querySelector<HTMLElement>('.booking-progress')!;
+  const progress = form.querySelector<HTMLProgressElement>('#booking-progress')!;
+  const progressNote = form.querySelector<HTMLElement>('#booking-progress-note')!;
+  function updateProgress() {
+    const required = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[required], select[required]')]
+      .filter(field => !field.disabled && field.willValidate);
+    const completed = required.filter(field => field.value.trim() !== '' && field.validity.valid).length;
+    progress.max = Math.max(required.length, 1);
+    progress.value = completed;
+    progressNote.textContent = completed === required.length
+      ? 'Required details ready. Add anything else you would like us to know, then send your request.'
+      : completed + ' of ' + required.length + ' required details ready. Other fields are optional.';
+    progressGroup.hidden = false;
+  }
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+  window.addEventListener('pageshow', updateProgress);
   sync();
+  validateName();
+  validatePhone();
+  updateProgress();
 </script>
 
 <style>
+  .booking-progress { margin-bottom: 1.25rem; }
+  .booking-progress label { display: block; font-weight: 700; }
+  .booking-progress progress { display: block; width: 100%; height: 0.75rem; margin: .5rem 0; }
+  .booking-progress .fine { margin-top: .25rem; }
   .booking-optional summary { padding-block: .8rem; text-decoration: underline; }
   .booking-optional[open] summary { margin-bottom: .65rem; }
   [hidden] { display: none !important; }
