@@ -143,6 +143,12 @@ collections:
       required: true
       default: false
       hint: Confirm admission for this event. Paid admission requires the advertised advance price, currency and event-specific purchase URL.
+    - label: Confirmed sold out
+      name: soldOut
+      widget: boolean
+      required: false
+      default: false
+      hint: Enable only after the ticket provider or organizer confirms this event is sold out.
     - label: Price per person
       name: price
       widget: number

@@ -91,3 +91,70 @@ header nav{min-height:84px;gap:1rem}.brand{flex-shrink:0}.brand img{height:68px;
 .calendar-note { margin: 1.75rem 0; padding: 1rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: transparent; }
 .calendar-note p { margin: .25rem 0 0; }
 .original-games h2 { margin-top: 2rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+
+/* Guest, booking and venue journeys */
+header #navlinks > a { display:flex; align-items:center; min-height:44px; }
+header [aria-current="page"] { text-decoration:underline; text-underline-offset:.45em; }
+header .dropdown { max-height:min(70dvh,38rem); overflow:auto; }
+header .dropdown a:focus-visible { outline-offset:-3px; outline-color:var(--navy); }
+header a.skip:focus { z-index:30; }
+html { scroll-padding-top:6rem; }
+.home-intro { background:#f2f0e8; color:var(--navy); padding:clamp(1.5rem,4vw,3.8rem) 0; }
+.home-intro-grid { grid-template-columns:1fr 1.06fr; gap:clamp(2rem,4vw,4.5rem); }
+.home-intro-copy .home-location { color:#075965; font-weight:750; margin:0 0 1rem; }
+.home-intro-copy h1 { font-size:clamp(2.45rem,4.4vw,4.15rem); max-width:18ch; }
+.home-intro-copy h1 span { color:#075965; }
+.home-intro-copy .lead { font-size:clamp(1.05rem,1.4vw,1.3rem); }
+.home-intro-copy .button.secondary { color:var(--navy); border-color:var(--navy); background:transparent; }
+.home-intro :focus-visible { outline-color:var(--navy); }
+.venue-intent { display:inline-flex; gap:.55rem; min-height:44px; align-items:center; font-weight:700; margin-top:.55rem; }
+.home-intro-photo figcaption { color:var(--muted); font-weight:600; }
+.planning-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1rem,3vw,3rem); }
+.planning-links a { border-top:3px solid #086675; padding:1rem 0; text-decoration:none; }
+.planning-links strong,.planning-links span { display:block; }
+.planning-links strong { font-family:Georgia,serif; font-size:1.5rem; margin-bottom:.4rem; }
+.planning-links a:hover strong { text-decoration:underline; }
+.experience-index { margin-top:1.25rem; padding-block:.5rem; border-block:1px solid var(--rule); }
+.experience-index summary,.share-event summary { min-height:44px; padding-block:.6rem; }
+.discovery-form { border-block:1px solid var(--rule); padding:1rem 0; }
+.discovery-basic,.discovery-advanced { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem 1.4rem; }
+.discovery-form label,.share-event label { display:grid; gap:.25rem; font-weight:700; min-width:0; }
+.discovery-form select,.discovery-form input,.share-event input { min-height:44px; width:100%; min-width:0; padding:.45rem; border:1px solid #657283; background:white; color:var(--navy); font:inherit; border-radius:3px; }
+.discovery-form .filter-disclosure { border:0; margin:.4rem 0; }
+.discovery-form .filter-disclosure summary { padding:.65rem 0; }
+.filter-disclosure summary span { margin-left:.45rem; font-weight:400; }
+.discovery-form .actions { margin:.2rem 0; }
+.date-shortcuts { width:auto; min-height:0; justify-content:flex-start; }
+.date-shortcuts [aria-current] { background:var(--navy); color:white; }
+.listing-actions { display:grid; gap:.25rem; justify-items:start; }
+.listing-actions .event-details-link { min-height:44px; display:inline-flex; align-items:center; }
+.event-change { color:#852b18; }
+.ticket-terms { max-width:65ch; padding-left:1rem; border-left:3px solid var(--gold); }
+.share-event { margin:1rem 0; }
+.share-event .button { margin:.5rem .5rem 0 0; }
+[hidden] { display:none !important; }
+.booking-group { min-width:0; margin:1.25rem 0; padding:1rem 0 0; border:0; border-top:1px solid var(--rule); }
+.booking-group legend { padding-right:.8rem; font-size:1.15rem; font-weight:750; }
+.booking-group .form-grid { margin-bottom:0; }
+.form-state:empty { display:none; }
+.form-state { padding:.65rem 1rem; border-left:3px solid #086675; }
+[aria-invalid="true"] { border-color:#a32b24; }
+@media(max-width:900px) { .listing-actions { grid-column:2; } }
+@media(max-width:800px) {
+  .home-intro-grid {grid-template-columns:1fr;gap:1rem;}
+  .home-intro-copy h1 {margin-bottom:.7rem;}
+  .home-intro-copy .home-location {margin-bottom:.6rem;}
+  header #navlinks > .button {display:none;}
+}
+@media(max-width:600px) {
+  .planning-links {grid-template-columns:1fr;gap:0;}
+  .planning-links a {border-top-width:1px;}
+  .discovery-basic,.discovery-advanced {grid-template-columns:minmax(0,1fr);}
+  .filter-disclosure summary span {display:block;margin-left:1rem;}
+  .home-intro-copy .actions {display:flex;flex-wrap:wrap;}
+}
+
+.listing-actions {min-width:0;max-width:100%;}
+.listing-actions a {max-width:100%;overflow-wrap:anywhere;}
+.date-shortcuts {min-width:0;max-width:100%;}
+@media(min-width:360px) and (max-width:600px) { .discovery-basic {grid-template-columns:1fr 1fr;} }

@@ -2,35 +2,68 @@
 import {services} from '../data/services';
 import { site } from '../data/site';
 ---
-<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field" aria-describedby="booking-form-hint">
+<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="booking">
   <input type="hidden" name="entry-channel">
   <input type="hidden" name="entry-page">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
-  <p id="booking-form-hint" class="fine">Required fields are marked “required.”</p>
   <div class="form-grid">
-    <label class="wide">Service (required)
+    <label class="wide">What are you planning? (required)
       <select id="service" name="service" required>
         <option value="">Choose one</option>
-        {services.map(s=><option value={s.bookingValue} data-service-slug={s.slug}>{s.bookingValue}</option>)}
-        <option>Corporate Event</option>
-        <option>Venue Entertainment</option>
-        <option>Community Awareness Night</option>
-        <option>Christmas / Holiday Entertainment</option>
+        <optgroup label="What you’re planning">
+          {services.filter(s => ['weddings','private-corporate-events'].includes(s.slug)).map(s => <option value={s.bookingValue} data-service-slug={s.slug}>{s.slug==='weddings' ? 'Wedding' : 'Private celebration'}</option>)}
+          <option value="Corporate Event">Company or organization event</option>
+          <option value="Venue Entertainment">Weekly venue partnership</option>
+          <option>Community Awareness Night</option>
+          <option>Christmas / Holiday Entertainment</option>
+          <option>Other entertainment inquiry</option>
+        </optgroup>
+        <optgroup label="A specific entertainment service">
+          {services.filter(s => !['weddings','private-corporate-events'].includes(s.slug)).map(s => <option value={s.bookingValue} data-service-slug={s.slug}>{s.bookingValue}</option>)}
+        </optgroup>
       </select>
     </label>
+    </div>
+  <fieldset class="booking-group"><legend>Your contact details</legend><div class="form-grid">
     <label>Name (required) <input name="name" autocomplete="name" required></label>
-    <label>Phone (required) <input name="phone" type="tel" autocomplete="tel" required></label>
     <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
-    <label>Preferred date <input id="preferred-date" name="preferred-date" type="date"></label>
+    <label><span id="phone-label">Phone (optional)</span><input name="phone" type="tel" autocomplete="tel"></label>
+  </div></fieldset>
+  <fieldset class="booking-group"><legend id="inquiry-heading">Event details</legend><div class="form-grid">
+    <label><span id="date-label">Preferred date</span> <input id="preferred-date" name="preferred-date" type="date"></label>
     <label class="wide">Venue / location <input name="venue-location"></label>
     <label data-recurring>Recurring event?
       <select name="recurring"><option value="">Choose if known</option><option>No</option><option>Yes</option><option>Not sure</option></select>
     </label>
+    <fieldset class="wide venue-partnership-fields" data-venue-partnership hidden disabled>
+      <legend>Weekly venue partnership</legend>
+      <p class="fine">A few details will help us shape a recurring plan. No quote or commitment is needed.</p>
+      <label>Preferred night
+        <select name="preferred-weeknight">
+          <option value="">Choose if known</option>
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Flexible</option>
+        </select>
+      </label>
+      <label>What entertainment or recurring events do you already offer?
+        <textarea name="existing-programming" rows="2" placeholder="Share the nights, formats, or providers already on your calendar."></textarea>
+      </label>
+      <label>What would you like a weekly event to help with?
+        <select name="venue-business-goal">
+          <option value="">Choose if helpful</option>
+          <option>Give guests a reason to return on a quieter night</option>
+          <option>Build a consistent weekly event</option>
+          <option>Reach a new audience</option>
+          <option>Add variety to current programming</option>
+          <option>Improve awareness of our event calendar</option>
+          <option>Other or not sure yet</option>
+        </select>
+      </label>
+    </fieldset>
     <label data-guests>Guest count <input name="guest-count" type="number" min="1"></label>
     <label>City <input name="city" autocomplete="address-level2"></label>
-    <label>State <input name="state" value="SC" autocomplete="address-level1"></label>
+    <label>State <input name="state" placeholder="e.g. SC" autocomplete="address-level1"></label>
     <label class="wide checkbox-row" id="holiday-interest" hidden>
       <input type="checkbox" aria-controls="holiday-options"> This is a holiday party
     </label>
@@ -52,7 +85,7 @@ import { site } from '../data/site';
       <p class="fine"><a href="/christmas/">See how Four Dogs + Santa Jim can work together for a holiday event →</a></p>
     </fieldset>
 
-    <label class="wide">Event details <textarea name="event-details" rows="3"></textarea></label>
+    <label class="wide"><span id="inquiry-prompt">What do you have in mind?</span><textarea name="event-details" rows="3"></textarea></label>
     <details class="wide booking-optional">
       <summary>Contact preference and referral (optional)</summary>
       <div class="form-grid">
@@ -74,9 +107,10 @@ import { site } from '../data/site';
         </label>
       </div>
     </details>
-  </div>
+  </div></fieldset>
 
   <button class="button" type="submit">Send booking request</button>
+  <p class="form-state" role="status" aria-live="polite"></p>
   <p class="fine">Submitting this form starts a conversation. It does not confirm a booking.</p>
   <p class="fine">Prefer to email us directly? <a href={`mailto:${site.bookingEmail}`}>{site.bookingEmail}</a></p>
 </form>
@@ -89,6 +123,7 @@ import { site } from '../data/site';
   const santa = holiday.querySelector<HTMLInputElement>('[name="santa-jim-interest"]')!;
   const recurring = form.querySelector<HTMLSelectElement>('[name="recurring"]')!;
   const guests = form.querySelector<HTMLInputElement>('[name="guest-count"]')!;
+  const venueFields = form.querySelector<HTMLFieldSetElement>('[data-venue-partnership]')!;
   const children = form.querySelector<HTMLSelectElement>('[name="children-attending"]')!;
   const requested = new URLSearchParams(location.search).get('service');
   const choice = [...service.options].find(option => option.value === requested || option.dataset.serviceSlug === requested);
@@ -99,12 +134,32 @@ import { site } from '../data/site';
     control.disabled = !visible;
   }
 
+  const phone = form.querySelector<HTMLInputElement>('[name="phone"]')!;
+  const date = form.querySelector<HTMLInputElement>('#preferred-date')!;
+  const contact = form.querySelector<HTMLSelectElement>('[name="contact-method"]')!;
+  const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const state = form.querySelector<HTMLElement>('.form-state')!;
+  const contexts: Record<string, [string,string]> = {
+    'Wedding DJ / Entertainment': ['Your wedding','Which parts of the day would you like music or hosting for?'],
+    'Corporate Event': ['Your company event','Who’s coming, and what are you planning for the group?'],
+    'Private Event': ['Your celebration','What are you celebrating, and what would your guests enjoy?'],
+    'Venue Entertainment': ['Your venue','Anything else we should know about your room or your regulars?'],
+  };
   function sync() {
     const venue = service.value === 'Venue Entertainment';
     const canOptIn = ['Private Event', 'Corporate Event'].includes(service.value);
+    const [heading, prompt] = contexts[service.value] || ['Event details','What do you have in mind?'];
+    form.querySelector('#inquiry-heading')!.textContent = heading;
+    form.querySelector('#inquiry-prompt')!.textContent = prompt;
+    form.querySelector('#date-label')!.textContent = service.value === 'Wedding DJ / Entertainment' ? 'Wedding date, if known' : 'Preferred date';
+    phone.required = ['Phone call','Text message'].includes(contact.value);
+    form.querySelector('#phone-label')!.textContent = phone.required ? 'Phone (required for a call or text)' : 'Phone (optional)';
+    showField(date, !venue);
+    venueFields.hidden = !venue;
+    venueFields.disabled = !venue;
     showField(holidayInterest, canOptIn);
     const isHoliday = service.value === 'Christmas / Holiday Entertainment' || (canOptIn && holidayInterest.checked);
-    showField(recurring, venue || ['Trivia', 'Music Bingo', 'Karaoke', 'Four Dogs Survey Showdown', 'Are You Smarter Than a Barstool?'].includes(service.value));
+    showField(recurring, ['Trivia', 'Music Bingo', 'Karaoke', 'Four Dogs Survey Showdown', 'Are You Smarter Than a Barstool?'].includes(service.value));
     showField(guests, !!service.value && !venue);
     holiday.hidden = !isHoliday;
     holiday.disabled = !isHoliday;
@@ -112,6 +167,53 @@ import { site } from '../data/site';
   }
 
   form.addEventListener('change', sync);
+  const name = form.querySelector<HTMLInputElement>('[name="name"]')!;
+  function validateName() {
+    name.setCustomValidity(name.value && !name.value.trim() ? 'Enter your name.' : '');
+  }
+  name.addEventListener('input', validateName);
+  const validatePhone = () => phone.setCustomValidity(phone.required && !phone.value.trim() ? 'Enter a phone number so we can contact you.' : '');
+  form.addEventListener('input', validatePhone);
+  form.addEventListener('change', validatePhone);
+  form.addEventListener('invalid', event => {
+    const field = event.target;
+    if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+      field.setAttribute('aria-invalid','true');
+      state.textContent = 'Check the highlighted fields before sending.';
+    }
+  }, true);
+  form.addEventListener('input', event => {
+    if (event.target instanceof HTMLElement) event.target.removeAttribute('aria-invalid');
+  });
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (submit.disabled) return;
+    const body = new URLSearchParams();
+    for (const [key,value] of new FormData(form)) if (typeof value === 'string') body.append(key,value.trim());
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+    state.textContent = 'Sending your inquiry.';
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(),20000);
+    try {
+      const response = await fetch(form.action, {method:'POST',body,signal:controller.signal});
+      if (!response.ok) throw new Error('Submission was not confirmed');
+      window.dispatchEvent(new Event('fourdogs:booking-accepted'));
+      window.location.assign(form.action);
+    } catch {
+      state.textContent = 'We couldn’t confirm receipt. Your details are still here. You can try again or email us below.';
+      submit.disabled = false;
+      submit.textContent = 'Send booking request';
+    } finally {
+      clearTimeout(timer);
+    }
+  });
+  window.addEventListener('pageshow', () => {
+    submit.disabled = false;
+    submit.textContent = 'Send booking request';
+    state.textContent = '';
+    validateName();
+  });
   window.addEventListener('pageshow', sync);
   sync();
 </script>

@@ -15,7 +15,7 @@ export type Event = {
   lastUpdated: string; reviewReason?: string; instructions: string; registrationUrl?: string;
   registrationLabel?: string; ticketed?: boolean; facebookEventUrl?: string; assignedHost?: string;
   seoTitle?: string; metaDescription?: string; seriesId?: string; originalDate?: string;
-  admission: { kind: 'unknown' | 'free' | 'paid'; verified?: boolean; price?: number; currency?: string; reviewNote?: string; note?: string };
+  admission: { kind: 'unknown' | 'free' | 'paid'; soldOut?: boolean; verified?: boolean; price?: number; currency?: string; reviewNote?: string; note?: string };
   externalListings?: { platform: string; url?: string; status: string; checkedAt?: string; syncedRevision?: string; notes?: string }[];
 };
 export type Series = {
@@ -96,6 +96,7 @@ export function validateEvents(events: Event[], venues: Venue[]) {
     try { startMs(e); if (e.endTime && (!e.startTime || endMs(e) <= startMs(e))) fail('End must be after start, including overnight end date'); } catch (err) { fail(String(err)); }
     if (e.status === 'rescheduled' && (!e.previousStartDate || !Number.isFinite(Date.parse(e.previousStartDate)))) fail('Rescheduled events require the previous start date');
     if (e.admission && e.admission.kind !== 'unknown' && !e.admission.verified) fail('Pricing must be verified');
+    if (e.admission?.soldOut !== undefined && (typeof e.admission.soldOut !== 'boolean' || (e.admission.soldOut && !needsTicket(e)))) fail('Sold-out status requires a ticketed event');
     if (e.admission?.kind === 'paid' && (!Number.isFinite(e.admission.price) || !(e.admission.price! > 0) || !/^[A-Z]{3}$/.test(e.admission.currency || '') || !e.registrationUrl)) fail('Paid admission requires a positive price, currency and ticket URL');
     if (e.admission?.kind === 'free' && e.admission.price != null && e.admission.price !== 0) fail('Free admission must have a zero price');
     if (isPublic(e) && e.admission?.kind === 'unknown' && !e.admission.reviewNote?.trim()) fail('Confirm admission or flag the missing details in the internal review note');
@@ -111,10 +112,22 @@ export const needsTicket = (event: Event) =>
 export type Filters = { now?: Date; city?: string; venue?: string; category?: string; from?: string; to?: string; price?: string; view?: string; limit?: number };
 export function selectEvents(events: Event[], venues: Venue[], filters: Filters = {}) {
   const now = filters.now || new Date();
+  const today = localToday(now);
   return events.filter(e => {
     if (!isPublic(e)) return false;
-    const state = phase(e, now), v = venues.find(v => v.id === e.venueId);
-    if (filters.view === 'archive' ? !['completed','past-date'].includes(state) : filters.view === 'updates' ? !['cancelled','postponed'].includes(state) : !['upcoming','live'].includes(state)) return false;
+    // Only events spanning today need exact start/end comparisons in Eastern time.
+    const endedBeforeToday = (e.endDate || e.date) < today;
+    let state: ReturnType<typeof phase>;
+    if (e.status === 'cancelled' || e.status === 'postponed') state = e.status;
+    else if (endedBeforeToday) state = e.endTime ? 'completed' : 'past-date';
+    else if (e.date > today) state = 'upcoming';
+    else state = phase(e, now);
+    const v = venues.find(v => v.id === e.venueId);
+    const upcoming = state === 'upcoming' || state === 'live';
+    const matchesView = filters.view === 'archive' ? state === 'completed' || state === 'past-date'
+      : filters.view === 'updates' ? state === 'cancelled' || state === 'postponed' || (e.status === 'rescheduled' && upcoming)
+      : upcoming;
+    if (!matchesView) return false;
     return (!filters.city || v?.city === filters.city) && (!filters.venue || e.venueId === filters.venue) && (!filters.category || e.eventType === filters.category || e.secondaryCategories?.includes(filters.category)) && (!filters.from || (e.endDate || e.date) >= filters.from) && (!filters.to || e.date <= filters.to) && (!filters.price || (filters.price === 'paid' ? needsTicket(e) : e.admission.verified && e.admission.kind === filters.price));
   }).sort((a,b) => (startMs(a)-startMs(b)) * (filters.view === 'archive' ? -1 : 1)).slice(0, filters.limit || Infinity);
 }
@@ -131,7 +144,7 @@ export function eventSchema(event: Event, venue: Venue) {
     image: [new URL(event.image,SITE_URL).href],
     location: { '@type':'Place', name:venue.name, address:{ '@type':'PostalAddress', streetAddress:venue.address, addressLocality:venue.city, addressRegion:venue.state, postalCode:venue.zip, addressCountry:'US' } },
     organizer: { '@type':'Organization', '@id':SITE_URL+'/#organization', name:'Four Dogs Entertainment LLC', url:SITE_URL },
-    ...(admission.verified && admission.kind !== 'unknown' ? {isAccessibleForFree: admission.kind === 'free', offers:{'@type':'Offer',url:event.registrationUrl || url,price:admission.kind === 'free' ? 0 : admission.price,priceCurrency:admission.currency || 'USD'}} : {}),
+    ...(admission.verified && admission.kind !== 'unknown' ? {isAccessibleForFree: admission.kind === 'free', offers:{'@type':'Offer',url:event.registrationUrl || url,price:admission.kind === 'free' ? 0 : admission.price,priceCurrency:admission.currency || 'USD',...(admission.soldOut ? {availability:'https://schema.org/SoldOut'} : {})}} : {}),
   };
 }
 const eventDateFormat = new Intl.DateTimeFormat('en-US', {
@@ -153,7 +166,7 @@ export function listingRevision(event: Event, venue: Venue) {
     date:event.date, start:startIso(event), end:endIso(event) || null,
     status:event.status, previousStartDate:event.previousStartDate || null,
     venue:{id:venue.id,name:venue.name,address:venue.address,city:venue.city,state:venue.state,zip:venue.zip},
-    admission:{kind:event.admission.kind,verified:!!event.admission.verified,price:event.admission.price ?? null,currency:event.admission.currency || null,note:event.admission.note || null},
+    admission:{kind:event.admission.kind,verified:!!event.admission.verified,price:event.admission.price ?? null,currency:event.admission.currency || null,note:event.admission.note || null,...(event.admission.soldOut ? {soldOut:true} : {})},
     instructions:event.instructions, slug:event.slug, category:event.eventType,
     secondaryCategories:event.secondaryCategories || [], image:event.image,
     registrationUrl:event.registrationUrl || null,
@@ -163,5 +176,9 @@ export function listingRevision(event: Event, venue: Venue) {
 export function listingPackage(event: Event, venue: Venue) {
   if (!isPublic(event)) throw new Error('Only published public events can be distributed');
   const revision=listingRevision(event,venue);
-  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, displayStatus:statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.', instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, listingRevision:revision, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== revision || l.status !== 'current'})) };
+  const ticketed = needsTicket(event);
+  const ticketUrl = ticketed && !event.admission.soldOut && ['upcoming','live'].includes(phase(event))
+    ? event.registrationUrl : undefined;
+  const terms = event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.';
+  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, ticketed, ...(ticketUrl ? {ticketUrl} : {}), ...(event.admission.soldOut ? {soldOut:true} : {}), displayStatus:event.admission.soldOut && ['live','upcoming'].includes(phase(event)) ? 'Sold out' : statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.soldOut ? 'Sold out. ' + terms : terms, instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, listingRevision:revision, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== revision || l.status !== 'current'})) };
 }

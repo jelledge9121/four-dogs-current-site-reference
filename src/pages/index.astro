@@ -9,7 +9,7 @@ import { gallery } from '../data/gallery';
 import { site } from '../data/site';
 import { wescoThursdayNotice, showWescoNotice, wescoBingoUrl } from '../data/announcements';
 import { guestReviews, venueOwnerReview } from '../data/reviews';
-const upcoming = upcomingEvents().slice(0,6);
+const upcoming = upcomingEvents().slice(0,3);
 // Curated across six real event types, rather than six items from the gallery's source order.
 const homePhotoPaths = [
   '/images/gallery/four-dogs-trivia-friends-long-table.webp',
@@ -26,31 +26,38 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
 <section class="home-intro">
   <div class="container home-intro-grid">
     <div class="home-intro-copy">
+      <p class="home-location">Four Dogs Entertainment · South Carolina</p>
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p class="lead">Trivia, Music Bingo, karaoke, and nights worth getting your friends together for. Wedding DJs and private entertainment, too.</p>
-      <p class="home-location">South Carolina-based, with public game nights in the Midlands and Fountain Inn. Book us for events in South Carolina, North Carolina, and Georgia.</p>
-      <div class="actions"><a class="button fd-booking-button" href="/booking/">Book Four Dogs</a><a class="button secondary" href="/events/">Find an event</a></div>
-      <p><a href="/for-venues/">Weekly entertainment for your venue</a></p>
+      <p class="lead">Meet your team for trivia or sing along at Music Bingo in the Midlands and Fountain Inn. Planning your own party? We bring the music and games to you.</p>
+      <div class="actions"><a class="button" href="/events/">Find Your Next Night Out</a><a class="button secondary" href="/booking/">Book Entertainment</a></div>
+      <a class="venue-intent" href="/for-venues/" data-event-action="venue_partnership_cta">Explore a Venue Partnership <span aria-hidden="true">→</span></a>
     </div>
     <figure class="home-intro-photo">
-      <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="2048" height="1542" alt="Friends at Four Dogs Survey Showdown at Boze’s, holding their team sign and prize" fetchpriority="high"/>
-      <figcaption>Good people. Good nights. Four Dogs at Boze’s in West Columbia.</figcaption>
+      <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-800.webp 800w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="2048" height="1542" alt="Friends at Four Dogs Survey Showdown at Boze’s, holding their team sign and prize" fetchpriority="high"/>
+      <figcaption>Survey Showdown at Boze’s · West Columbia, SC</figcaption>
     </figure>
   </div>
 </section>
 <section class="section home-upcoming" aria-labelledby="upcoming-title">
   <div class="container">
-    <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2><p>See what’s coming up, then bring your people.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>
+    <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2><p>The next confirmed dates on our public calendar.</p></div><a class="text-action" href="/events/">See the full calendar →</a></div>
     {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
     {showWescoNotice() && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See WesCo Music Bingo dates</a></p></aside>}
   </div>
 </section>
 <section class="section alt home-services">
   <div class="container">
-    <div class="section-heading" data-fd-reveal><div><h2>Give your people a good time.</h2><p class="lead">A weekly reason to go out. A celebration that feels like you. We’ll help you find the right fit.</p></div><a class="text-action" href="/services/">Explore all experiences →</a></div>
+    <div class="section-heading"><div><h2>What are you planning?</h2><p>We host weddings, company events and private celebrations in South Carolina, North Carolina, and Georgia.</p></div></div>
+    <div class="planning-links">
+      <a href="/weddings/"><strong>Your wedding</strong><span>Ceremony music, introductions and a dance floor for your people.</span></a>
+      <a href="/services/private-corporate-events/"><strong>A party or company event</strong><span>Pick music and games that work for the people in the room.</span></a>
+      <a href="/for-venues/"><strong>A weekly night at your venue</strong><span>Give regulars a standing invitation. We bring the host and run the game.</span></a>
+    </div>
+    <details class="experience-index"><summary>Explore entertainment and Four Dogs original games</summary>
+    <p><a href="/services/">All entertainment</a></p>
     <div class="service-directory">{services.filter(s=>!s.featured).map(s=><a data-fd-reveal href={s.slug==='weddings'?'/weddings/':`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}<a data-fd-reveal href="/dj-services-columbia-sc/"><h3>DJ entertainment</h3><p>Music and hosting for parties, communities, and celebrations.</p><span aria-hidden="true">→</span></a></div>
     <section class="original-games"><h2>Four Dogs original games</h2><div class="service-directory">{services.filter(s=>s.featured).map(s=><a data-fd-reveal href={`/services/${s.slug}/`}><h3>{s.name}</h3><p>{s.summary}</p><span aria-hidden="true">→</span></a>)}</div></section>
-    <div class="home-venue-note" data-fd-reveal><h3>Run a bar or restaurant?</h3><p>Give guests a reason to come back every week. <a href="/for-venues/">Explore recurring venue entertainment →</a></p></div>
+    </details>
   </div>
 </section>
 <section class="section">

@@ -42,14 +42,13 @@ sTag('bsk', 'c0409dfadbd35f6b3a29a58ad4257e92');
     {schemas.filter(Boolean).map((s)=><script type="application/ld+json" is:inline set:html={JSON.stringify(s).replace(/</g, '\\u003c')}></script>)}
   </head>
   <body class:list={{'event-surface': Astro.url.pathname.startsWith('/events/')}}>
+    <Header/>
+    <main id="main"><slot/></main>
     <div class="seasonal-banner" data-holiday-banner hidden aria-label="Holiday entertainment announcement">
       Planning a holiday party? Four Dogs + Santa Jim can entertain the whole crowd. <a href="/christmas/">Explore holiday entertainment →</a>
     </div>
-    <Header/>
-    <main id="main"><slot/></main>
     <Footer/>
     <script src="../scripts/action-tracking.ts"></script>
-    <script src="../scripts/premium-motion.ts"></script>
     <PackPopup/>
     <script is:inline>
       (() => {

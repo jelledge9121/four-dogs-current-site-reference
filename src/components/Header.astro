@@ -1,45 +1,55 @@
 ---
 import { services } from '../data/services';
+const current = (path: string) => Astro.url.pathname === path ? 'page' : undefined;
 ---
 <header>
   <a class="skip" href="#main">Skip to content</a>
   <nav aria-label="Primary">
-    <a class="brand" href="/">
-      <img src="/images/logo.png" width="92" height="92" alt="Four Dogs Entertainment">
-    </a>
-    <a class="button small nav-quick-book" href="/booking/">Book Four Dogs</a>
-    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <a class="brand" href="/"><img src="/images/logo.png" srcset="/images/optimized/logo-144.webp 144w, /images/logo.png 512w" sizes="68px" width="92" height="92" alt="Four Dogs Entertainment"></a>
+    <a class="button small nav-quick-book" href="/booking/">Book Us</a>
+    <button class="menu" type="button" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks">
-      <a href="/events/">Events</a>
-      <details>
-        <summary>Services</summary>
-        <div class="dropdown">
-          <a href="/services/">All services</a>
-          {services.map((service) => <a href={service.slug === 'weddings' ? '/weddings/' : `/services/${service.slug}/`}>{service.name}</a>)}
-        </div>
-      </details>
-      
-      <a href="/for-venues/">For Venues</a>
-      <a href="/weddings/">Weddings</a>
-      <a href="/for-the-brides/">Wedding hashtag generator</a>
-      <details><summary>More</summary><div class="dropdown"><a href="/community-awareness-nights/">Community Awareness Nights</a><a href="/christmas/">Christmas & Santa Jim</a><a href="/bury-me-in-garnet/">Bury Me in Garnet</a><a href="/gallery/">Photo gallery</a></div></details>
-      <a href="/about/">About</a>
-      <a class="button small" href="/booking/">Book Four Dogs</a>
+      <a href="/events/" aria-current={current('/events/')}>Find Events</a>
+      <details name="site-navigation"><summary>Entertainment</summary><div class="dropdown">
+        <a href="/services/">All entertainment</a>
+        {services.filter(s => s.slug !== 'weddings').map(s => <a href={`/services/${s.slug}/`}>{s.name}</a>)}
+        <a href="/community-awareness-nights/">Community Awareness Nights</a>
+        <a href="/christmas/">Christmas &amp; Santa Jim</a>
+      </div></details>
+      <a href="/weddings/" aria-current={current('/weddings/')}>Weddings</a>
+      <a href="/for-venues/" aria-current={current('/for-venues/')}>For Venues</a>
+      <a href="/about/" aria-current={current('/about/')}>About</a>
+      <a class="button small" href="/booking/">Book Us</a>
     </div>
   </nav>
 </header>
 <script>
-  const button = document.querySelector<HTMLButtonElement>('.menu');
-  const navLinks = document.querySelector<HTMLElement>('#navlinks');
-
-  button?.addEventListener('click', () => {
-    const open = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!open));
-    navLinks?.classList.toggle('open', !open);
+  const menu = document.querySelector<HTMLButtonElement>('header .menu')!;
+  const links = document.querySelector<HTMLElement>('#navlinks')!;
+  const submenu = links.querySelector('details')!;
+  function setMenu(open: boolean) {
+    menu.setAttribute('aria-expanded', String(open));
+    links.classList.toggle('open', open);
+    if (!open) submenu.open = false;
+  }
+  menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (submenu.open) {
+      submenu.open = false;
+      submenu.querySelector('summary')?.focus();
+    } else if (menu.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menu.focus();
+    }
   });
-  document.addEventListener('keydown', (event) => {
-    if(event.key !== 'Escape') return;
-    document.querySelectorAll('header details[open]').forEach(detail=>detail.removeAttribute('open'));
-    if(button?.getAttribute('aria-expanded')==='true'){button.setAttribute('aria-expanded','false');navLinks?.classList.remove('open');button.focus();}
+  document.addEventListener('click', event => {
+    if (event.target instanceof Node && !links.contains(event.target) && !menu.contains(event.target)) setMenu(false);
+  });
+  links.addEventListener('focusout', event => {
+    if (event.relatedTarget instanceof Node && !links.contains(event.relatedTarget) && event.relatedTarget !== menu) setMenu(false);
   });
 </script>
+<noscript><style>
+@media(max-width:800px){header{position:relative}header nav{flex-wrap:wrap}header .menu{display:none}header #navlinks{display:flex;position:static;width:100%;max-height:none}}
+</style></noscript>

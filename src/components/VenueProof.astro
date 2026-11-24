@@ -1,0 +1,144 @@
+---
+import type { Venue } from '../data/venues';
+import type { Event } from '../lib/event-system';
+
+const { venues, events } = Astro.props as { venues: Venue[]; events: Event[] };
+const examples = [
+  {
+    venueId: 'charter-803',
+    pattern: 'Keep a familiar weekly program fresh with themed and original game nights.',
+    photo: '/images/venues/four-dogs-charter-803-game-night-crowd-2026.webp',
+    alt: 'Guests playing a Four Dogs game together at tables at Charter 803 while colorful party lights illuminate the dining room',
+    caption: 'A real Four Dogs game night at Charter 803.',
+  },
+  {
+    venueId: 'top-dawg',
+    pattern: 'Build around a recurring trivia night, with theme-led events on the calendar.',
+    photo: '/images/venues/four-dogs-top-dawg-trivia-crowd-2026.webp',
+    alt: 'Guests playing Four Dogs Trivia throughout Top Dawg Tavern in Sandhill, with game screens visible',
+    caption: 'Teams playing trivia at Top Dawg Tavern.',
+  },
+  {
+    venueId: 'bozes',
+    pattern: 'Use music and team games to give Wednesday programming a mix of familiar and original formats.',
+    photo: '/images/venues/four-dogs-bozes-music-bingo-record-trophy-winner-2026.webp',
+    alt: 'Smiling Boze’s Music Bingo winner holding a Four Dogs trophy and a vinyl-record-style award',
+    caption: 'A Music Bingo prize moment at Boze’s.',
+  },
+  {
+    venueId: 'wesco',
+    pattern: 'Pair a recurring trivia night with themed Music Bingo programming.',
+    photo: '/images/venues/four-dogs-wesco-group-with-prizes-2026.webp',
+    alt: 'Six Four Dogs guests smiling together with a yellow Four Dogs shirt, a trophy and prize posters at WesCo Brew & Bowl in Cayce',
+    caption: 'Guests and prizes at WesCo Brew & Bowl.',
+  },
+  {
+    venueId: 'the-mill',
+    pattern: 'Anchor Monday game night with trivia and original team challenges.',
+    photo: '/images/venues/four-dogs-the-mill-trivia-team-belt-2026.webp',
+    alt: 'Two smiling trivia participants at The Mill at Fountain Inn lifting the Four Dogs championship belt together',
+    caption: 'A championship moment at The Mill.',
+  },
+];
+
+const cards = examples.flatMap((example) => {
+  const venue = venues.find((item) => item.id === example.venueId && item.active);
+  if (!venue) return [];
+  const scheduled = events.filter(event => event.venueId === venue.id);
+  const formats = [...new Set(scheduled.map(event => event.eventType))];
+  const upcoming = scheduled.slice(0, 3);
+  if (!upcoming.length) return [];
+  return [{ ...example, venue, upcoming, formats }];
+});
+
+const formatNotes = [
+  { name: 'Trivia', summary: 'Teams answer general-knowledge or themed questions and score round by round.', href: '/services/trivia/' },
+  { name: 'Music Bingo', summary: 'Guests listen for songs and mark their cards. No trivia knowledge needed to join in.', href: '/services/music-bingo/' },
+  { name: 'Survey Showdown', summary: 'Teams predict popular survey answers and compete on how well they read the room.', href: '/services/four-dogs-survey-showdown/' },
+  { name: 'Are You Smarter Than a Barstool?', summary: 'A playful school-subject challenge with a different feel from general-knowledge trivia.', href: '/services/are-you-smarter-than-a-barstool/' },
+];
+const sampleFor = (format: string) => events.find((event) => event.eventType === format);
+---
+
+{cards.length > 0 && <section class="section venue-cases" id="venue-examples" aria-labelledby="venue-cases-title">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Published examples</p>
+        <h2 id="venue-cases-title">See how the formats work in real rooms.</h2>
+        <p>See what’s on the calendar and who’s playing at our partner venues.</p>
+      </div>
+      <a class="text-action" href="/events/">View the current event calendar</a>
+    </div>
+
+    <div class="case-grid">
+      {cards.map((card) => <article class="case-card">
+        <a class="case-image" href={`/venues/${card.venue.slug}/`} aria-label={`View events and photos at ${card.venue.name}`}>
+          <img src={card.photo} alt={card.alt} width="1200" height="900" loading="lazy" decoding="async" />
+        </a>
+        <div class="case-copy">
+          <p class="eyebrow">{card.venue.city}, {card.venue.state}</p>
+          <h3><a href={`/venues/${card.venue.slug}/`}>{card.venue.name}</a></h3>
+          <details><summary>About the programming</summary><h4>Programming aim, inferred from the public schedule</h4>
+          <p>{card.pattern}</p>
+          </details><h4>Formats on the calendar</h4>
+          <ul class="case-formats">{card.formats.map((format) => <li>{format}</li>)}</ul>
+          <p class="case-caption">{card.caption}</p>
+          <ul class="case-events" aria-label={`Confirmed upcoming events at ${card.venue.name}`}>
+            {card.upcoming.map((event) => <li><a href={`/events/${event.slug}/`}>{event.title}</a></li>)}
+          </ul>
+          <a class="case-link" href={`/venues/${card.venue.slug}/`}>See venue details and photos</a>
+
+        </div>
+      </article>)}
+    </div>
+    <details class="proof-source"><summary>About these examples</summary><p>Venue-specific photos and confirmed dates document the programming. Attendance, sales, and return-visit figures are not published here.</p></details>
+  </div>
+</section>}
+
+<section class="section alt format-explainer" aria-labelledby="format-explainer-title">
+  <div class="container">
+    <p class="eyebrow">Choose the right experience</p>
+    <h2 id="format-explainer-title">Four formats, four different ways to get a room involved.</h2>
+    <div class="format-grid">
+      {formatNotes.map((format) => {
+        const event = sampleFor(format.name);
+        return <article class="format-note">
+          <h3><a href={format.href}>{format.name}</a></h3>
+          <p>{format.summary}</p>
+          {event && <p class="format-example"><a href={`/events/${event.slug}/`}>For example: {event.title} at {venues.find((venue) => venue.id === event.venueId)?.name}</a></p>}
+        </article>;
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .case-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; }
+  .case-card { min-width:0; border:1px solid var(--rule); background:#fff; display:grid; grid-template-columns:minmax(0,1fr); }
+  .case-image { display:block; min-width:0; background:var(--navy); }
+  .case-image img { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+  .case-image {align-self:start;}
+  .case-copy details summary,.proof-source summary {padding:.65rem 0;min-height:44px;}
+  .case-copy { padding:1.25rem; min-width:0; }
+  .case-copy h3 { font-size:1.6rem; margin-bottom:.8rem; }
+  .case-copy h3 a,.format-note h3 a { text-decoration:none; }
+  .case-copy h4 { font-size:1rem; font-weight:750; line-height:1.35; margin:1rem 0 .25rem; }
+  .case-copy p { margin:.3rem 0; }
+  .case-formats { display:flex; flex-wrap:wrap; gap:.4rem; list-style:none; margin:.4rem 0; padding:0; }
+  .case-formats li { border:1px solid var(--rule); border-radius:2px; padding:.2rem .5rem; font-size:.9rem; }
+  .case-caption,.case-events { color:var(--muted); font-size:.95rem; }
+  .case-events { padding-left:1.2rem; margin:.4rem 0 .9rem; }
+  .case-link,.format-example { font-weight:750; }
+  .case-testimonial { border-top:1px solid var(--rule); margin-top:1rem; padding-top:.5rem; }
+  .case-testimonial .testimonial { padding:1rem 0 0; margin:.5rem 0 0; border:0; box-shadow:none; }
+  .case-testimonial .testimonial blockquote p { font-style:italic; font-size:1rem; line-height:1.5; }
+  .case-testimonial .testimonial figcaption { font-size:.9rem; }
+  .format-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
+  .format-note { border:1px solid var(--rule); background:#fff; padding:1.25rem; min-width:0; }
+  .format-note h3 { font-size:1.4rem; }
+  .format-note p { margin:.5rem 0; }
+  .format-example { font-size:.95rem; }
+  @media(max-width:1050px) { .case-grid { grid-template-columns:1fr; } .case-card { grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); } }
+  @media(max-width:650px) { .case-card { grid-template-columns:1fr; } .case-image img { height:auto; min-height:0; aspect-ratio:4/3; } .format-grid { grid-template-columns:1fr; } .case-copy { padding:1rem; } }
+</style>

@@ -9,12 +9,17 @@ document.addEventListener('click',event=>{
   const anchor=(event.target as Element)?.closest?.('a[href]') as HTMLAnchorElement|null;
   if(!anchor || anchor.getAttribute('href')?.startsWith('#'))return;
   const url=new URL(anchor.href,location.href);
-  if(anchor.dataset.eventAction)record(anchor.dataset.eventAction,url.hostname);
+  if(anchor.dataset.eventAction)record(anchor.dataset.eventAction,url.origin===location.origin?url.pathname:url.hostname);
   else if(url.origin===location.origin && url.pathname.startsWith('/events/') && !['/events/','/events/feed.json'].includes(url.pathname) && !url.pathname.includes('/category/'))record('event_details',url.pathname);
   else if(url.origin===location.origin && url.pathname==='/booking/')record('booking_form_open',url.pathname);
   else if(anchor.closest('.event-detail-hero') && url.origin!==location.origin)record('attendance_action',url.hostname);
 });
-document.querySelector<HTMLFormElement>('form[name="booking"]')?.addEventListener('submit',()=>record('booking_submission_attempt','/booking/'));
+document.querySelector<HTMLFormElement>('form[name="booking"]')?.addEventListener('submit',event=>{
+  const form=event.currentTarget as HTMLFormElement;
+  const service=new FormData(form).get('service');
+  record(service==='Venue Entertainment'?'venue_partnership_inquiry_attempt':'booking_submission_attempt','/booking/');
+});
+window.addEventListener('fourdogs:booking-accepted', () => record('booking_submission_accepted','/booking/'));
 // Keep attribution on the native Netlify submission so accepted requests can be
 // counted by service, even when no analytics collector is configured.
 try {
