@@ -19,6 +19,7 @@ document.querySelector<HTMLFormElement>('form[name="booking"]')?.addEventListene
   const service=new FormData(form).get('service');
   record(service==='Venue Entertainment'?'venue_partnership_inquiry_attempt':'booking_submission_attempt','/booking/');
 });
+window.addEventListener('fourdogs:booking-accepted', () => record('booking_submission_accepted','/booking/'));
 // Keep attribution on the native Netlify submission so accepted requests can be
 // counted by service, even when no analytics collector is configured.
 try {

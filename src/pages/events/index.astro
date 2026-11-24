@@ -21,7 +21,16 @@ const hasFilters = !!(filters.city || filters.venue || filters.category || filte
 const monthStart = today.slice(0, 8) + '01';
 const nextMonthStart = addDays(monthStart, 32).slice(0, 8) + '01';
 const monthEnd = addDays(nextMonthStart, -1);
-const monthLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'America/New_York' }).format(new Date(today + 'T12:00:00Z'));
+// The local calendar week runs Monday through Sunday, including across month and year boundaries.
+const weekday = new Date(today + 'T12:00:00Z').getUTCDay();
+const monday = addDays(today, -((weekday + 6) % 7));
+const shortcuts = [
+  {label:'This Week', start:monday, end:addDays(monday,6)},
+  {label:'Next Week', start:addDays(monday,7), end:addDays(monday,13)},
+  {label:'This Month', start:monthStart, end:monthEnd},
+];
+const quickRange = shortcuts.some(range => from === range.start && to === range.end);
+const advanced = !!(filters.venue || filters.price || (!quickRange && (q.has('from') || q.has('to'))));
 const rangeLink = (start: string, end: string) => {
   const params = new URLSearchParams();
   for (const key of ['city', 'venue', 'category', 'price']) {
@@ -39,22 +48,30 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 
 ---
 <Base noindex={hasFilters || view !== 'upcoming'} title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
-<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">Most regular public game nights are free; special ticketed events have separate admission details. All times Eastern.</p></div></section>
+<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">All times Eastern. Check each listing for admission and tickets.</p></div></section>
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
-{view==='upcoming' && <div class="date-shortcuts" aria-label="Quick date ranges"><a href={rangeLink(today, today)}>Today</a><a href={rangeLink(today, addDays(today, 6))}>Next 7 days</a><a href={rangeLink(today, addDays(today, 29))}>Next 30 days</a><a href={rangeLink(monthStart, monthEnd)}>{monthLabel}</a></div>}
-<details class="filter-disclosure" open={hasFilters}><summary>Filter by city, venue, activity or date{selectedLabels.length>0 && <span class="filter-selection">{selectedLabels.join(' · ')}</span>}</summary>
-<form class="event-filters" method="get" action="/events/" aria-label="Filter public events">
-<input type="hidden" name="view" value={view}/>
-<label>City<select name="city"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>
-<label>Venue<select name="venue"><option value="">All venues</option>{visibleVenues.map(v=><option value={v.id} selected={filters.venue===v.id}>{v.name}</option>)}</select></label>
-<label>Activity<select name="category"><option value="">All activities</option>{CATEGORIES.map(c=><option value={c} selected={filters.category===c}>{c}</option>)}</select></label>
-<label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
-<label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>
-<div class="actions"><button class="button" type="submit">Apply filters</button><a href="/events/">Reset</a></div>
-</form></details>
+{view==='upcoming' && <nav class="date-shortcuts" aria-label="Quick date ranges">
+  {shortcuts.map(range => <a href={rangeLink(range.start,range.end)} aria-current={from===range.start && to===range.end ? 'true' : undefined}>{range.label}</a>)}
+</nav>}
+<form class="discovery-form" method="get" action="/events/" aria-label="Filter public events">
+  <input type="hidden" name="view" value={view}/>
+  <div class="discovery-basic">
+    <label>Location<select name="city"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>
+    <label>Entertainment type<select name="category"><option value="">All types</option>{CATEGORIES.map(c=><option value={c} selected={filters.category===c}>{c}</option>)}</select></label>
+  </div>
+  <details class="filter-disclosure" open={advanced}><summary>More filters <span class="fine">Venue, admission and dates</span></summary>
+    <div class="discovery-advanced">
+      <label>Venue<select name="venue"><option value="">All venues</option>{visibleVenues.map(v=><option value={v.id} selected={filters.venue===v.id}>{v.name}</option>)}</select></label>
+      <label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>
+      <label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
+    </div>
+    {view==='upcoming' && <p><a href={rangeLink(today,today)}>Today</a> · <a href={rangeLink(today,addDays(today,6))}>Next 7 days</a> · <a href={rangeLink(today,addDays(today,29))}>Next 30 days</a></p>}
+  </details>
+  <div class="actions"><button class="button" type="submit">Show events</button>{hasFilters && <a href={view==='upcoming'?'/events/':'/events/?view='+view}>Clear filters</a>}</div>
+</form>
 <div class="calendar-results-heading"><h2 id="event-results">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
-<p>{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
+<p>{selectedLabels.length>0 && selectedLabels.join(' · ')+' · '}{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
 {from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
 {view === 'upcoming' && <div class="actions"><a href={rangeLink(addDays(today, 30), addDays(today, 89))}>Explore the following 60 days →</a></div>}
 {featured && <aside class="calendar-note"><strong>Featured ticketed event</strong><p><a href={`/events/${featured.slug}/`}>{featured.title}</a> · {shortDate(featured.date)} · {featured.startTime} Eastern</p></aside>}
