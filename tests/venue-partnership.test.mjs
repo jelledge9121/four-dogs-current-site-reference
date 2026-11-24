@@ -28,7 +28,7 @@ test('venue case-study examples use existing venue records and authentic media',
 });
 
 test('only the existing Charter 803 owner review is used as venue-owner proof', () => {
-  const component = read('../src/components/VenueProof.astro');
+  const component = read('../src/pages/for-venues.astro');
   const reviews = read('../src/data/reviews.ts');
   assert.match(component, /venueOwnerReview\?\.approved/);
   assert.match(component, /showFull=\{true\}/);

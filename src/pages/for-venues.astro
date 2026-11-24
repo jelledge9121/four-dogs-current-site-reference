@@ -2,26 +2,29 @@
 export const prerender = false;
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import { venueOwnerReview } from '../data/reviews';
 import VenueProof from '../components/VenueProof.astro';
 import { venues } from '../data/venues';
 import { upcomingEvents } from '../data/events';
 
-const upcomingVenueIds = new Set(upcomingEvents().map((event) => event.venueId));
-const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
 const publicEvents = upcomingEvents();
+const upcomingVenueIds = new Set(publicEvents.map((event) => event.venueId));
+const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
 ---
 <Base title="Weekly Entertainment for Restaurants & Bars in SC | Four Dogs" description="Plan weekly entertainment for your restaurant or bar with Four Dogs. Explore trivia, Music Bingo, original game shows, professional hosts and local promotional support.">
   <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'For Venues' }]} />
   <section class="section dark">
-    <div class="container">
+    <div class="container split venue-intro"><div>
       <p class="eyebrow">For restaurant & bar owners</p>
       <h1>A reason to put your place on next week’s calendar.</h1>
-      <p class="lead">Build a recurring night guests can plan around. Four Dogs brings original hosted games, consistent weekly programming, and promotional support while your team stays focused on the room.</p>
+      <p class="lead">Give regulars a night they can count on. We bring the host, games and promotional materials. Your team takes care of the tables.</p>
       <div class="actions">
         <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Plan a weekly venue night</a>
-        <a class="button secondary" href="#venue-examples">See real venue examples</a>
+        {activeVenues.length>0 && <a class="button secondary" href="#venue-examples">See real venue examples</a>}
       </div>
-      <p class="fine">Tell us your preferred night, what you already offer, and what you want the event to do for your business.</p>
+      </div>
+      <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" fetchpriority="high" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
     </div>
   </section>
 
@@ -33,7 +36,7 @@ const publicEvents = upcomingEvents();
         <p>We plan the format, bring a prepared host, run the game and scoring, and supply promotional creative for the night. Your team can focus on food, drinks, and hospitality while we keep the entertainment moving.</p>
         <p>We’ll shape the night around your crowd, schedule, and current programming. A weekly partnership can use one familiar format, rotate themes, or mix formats when that suits the calendar.</p>
       </div>
-      <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" loading="lazy" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
+      {venueOwnerReview?.approved && <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />}
     </div>
   </section>
 
@@ -93,6 +96,8 @@ const publicEvents = upcomingEvents();
     </div>
   </section>
   <style>
+    .venue-intro { align-items:center; }
+    .venue-intro figcaption { color:var(--cream); }
     .venue-proof-photo { margin: 0; }
     .venue-proof-photo img { width: 100%; height: auto; display: block; }
     .venue-proof-photo figcaption { margin-top: .6rem; color: var(--muted); font-size: .9rem; }

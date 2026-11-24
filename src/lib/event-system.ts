@@ -112,9 +112,17 @@ export const needsTicket = (event: Event) =>
 export type Filters = { now?: Date; city?: string; venue?: string; category?: string; from?: string; to?: string; price?: string; view?: string; limit?: number };
 export function selectEvents(events: Event[], venues: Venue[], filters: Filters = {}) {
   const now = filters.now || new Date();
+  const today = localToday(now);
   return events.filter(e => {
     if (!isPublic(e)) return false;
-    const state = phase(e, now), v = venues.find(v => v.id === e.venueId);
+    // Only events spanning today need exact start/end comparisons in Eastern time.
+    const endedBeforeToday = (e.endDate || e.date) < today;
+    let state: ReturnType<typeof phase>;
+    if (e.status === 'cancelled' || e.status === 'postponed') state = e.status;
+    else if (endedBeforeToday) state = e.endTime ? 'completed' : 'past-date';
+    else if (e.date > today) state = 'upcoming';
+    else state = phase(e, now);
+    const v = venues.find(v => v.id === e.venueId);
     if (filters.view === 'archive' ? !['completed','past-date'].includes(state) : filters.view === 'updates' ? (!['cancelled','postponed'].includes(state) && !(e.status === 'rescheduled' && ['upcoming','live'].includes(state))) : !['upcoming','live'].includes(state)) return false;
     return (!filters.city || v?.city === filters.city) && (!filters.venue || e.venueId === filters.venue) && (!filters.category || e.eventType === filters.category || e.secondaryCategories?.includes(filters.category)) && (!filters.from || (e.endDate || e.date) >= filters.from) && (!filters.to || e.date <= filters.to) && (!filters.price || (filters.price === 'paid' ? needsTicket(e) : e.admission.verified && e.admission.kind === filters.price));
   }).sort((a,b) => (startMs(a)-startMs(b)) * (filters.view === 'archive' ? -1 : 1)).slice(0, filters.limit || Infinity);
@@ -164,5 +172,5 @@ export function listingRevision(event: Event, venue: Venue) {
 export function listingPackage(event: Event, venue: Venue) {
   if (!isPublic(event)) throw new Error('Only published public events can be distributed');
   const revision=listingRevision(event,venue);
-  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, ...(event.admission.soldOut ? {soldOut:true} : {}), displayStatus:statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.', instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, listingRevision:revision, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== revision || l.status !== 'current'})) };
+  return { eventId:event.id, title:event.title, description:event.description, date:event.date, start:startIso(event), end:endIso(event) || 'Not confirmed', timeZone:TIME_ZONE, eventStatus:event.status, ...(event.admission.soldOut ? {soldOut:true} : {}), displayStatus:event.admission.soldOut && ['live','upcoming'].includes(phase(event)) ? 'Sold out' : statusLabel(event), ...(event.previousStartDate ? {previousStartDate:event.previousStartDate} : {}), venue:venue.name, address:`${venue.address}, ${venue.city}, ${venue.state} ${venue.zip}`, admission:event.admission.verified ? event.admission.note || event.admission.kind : 'Admission has not been confirmed. Contact the venue.', instructions:event.instructions, url:`${SITE_URL}/events/${event.slug}/`, category:event.eventType, image:new URL(event.image,SITE_URL).href, lastUpdated:event.lastUpdated, listingRevision:revision, externalListings:(event.externalListings || []).map(l=>({...l,needsUpdate:l.syncedRevision !== revision || l.status !== 'current'})) };
 }

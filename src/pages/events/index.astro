@@ -39,7 +39,7 @@ const rangeLink = (start: string, end: string) => {
   }
   params.set('from', start);
   params.set('to', end);
-  return '/events/?' + params;
+  return '/events/?' + params + '#event-results';
 };
 const featured = view === 'upcoming' && !hasFilters ? matches.find(event => event.featured && needsTicket(event) && event.registrationUrl) : undefined;
 const shortDate = (date:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'}).format(new Date(`${date}T12:00:00Z`));
@@ -48,13 +48,13 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 
 ---
 <Base noindex={hasFilters || view !== 'upcoming'} title="Trivia, Music Bingo & Local Events in South Carolina | Four Dogs" description="Find confirmed Four Dogs trivia, Music Bingo, karaoke, and special events by date, city, venue, or activity. Exact times, admission details, and ticket links.">
-<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>Trivia, Music Bingo, karaoke, and special events around South Carolina.</p><p class="fine">All times Eastern. Check each listing for admission and tickets.</p></div></section>
+<section class="calendar-intro"><div class="container"><h1>Find your next night out.</h1><p>South Carolina game nights and special events. All times Eastern.</p></div></section>
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
 {view==='upcoming' && <nav class="date-shortcuts" aria-label="Quick date ranges">
   {shortcuts.map(range => <a href={rangeLink(range.start,range.end)} aria-current={from===range.start && to===range.end ? 'true' : undefined}>{range.label}</a>)}
 </nav>}
-<form class="discovery-form" method="get" action="/events/" aria-label="Filter public events">
+<form class="discovery-form" method="get" action="/events/#event-results" aria-label="Filter public events">
   <input type="hidden" name="view" value={view}/>
   <div class="discovery-basic">
     <label>Location<select name="city"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>

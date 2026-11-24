@@ -342,3 +342,23 @@ test('Retired Aura no longer appears as a current partner but its historical SEO
  assert.match(eventsPage,/visibleVenues=venues\.filter\(v=>v\.active/);
  assert.doesNotMatch(gallery,/music-bingo-aura-trophy-winner/);
 });
+
+test('verified sold-out state follows the same ticket record into schema and distribution', () => {
+  const source = all.find(event => event.id === 'charter-803-2026-12-03')!;
+  const venue = venues.find(item => item.id === source.venueId)!;
+  const initial = listingPackage(source, venue);
+  const changed = {...source, admission: {...source.admission, soldOut:true}, externalListings:[
+    {platform:'example',status:'current',syncedRevision:initial.listingRevision}
+  ]};
+  assert.deepEqual(validateEvents([changed], venues), []);
+  assert.equal(eventSchema(changed,venue)?.offers?.availability,'https://schema.org/SoldOut');
+  assert.equal(listingPackage(changed,venue).soldOut,true);
+  assert.equal(listingPackage(changed,venue).externalListings[0].needsUpdate,true);
+  assert.ok(validateEvents([mutate({admission:{kind:'free',verified:true,soldOut:true}})],venues).length);
+});
+
+test('the updates calendar includes an upcoming reschedule and excludes an ended reschedule', () => {
+  const event = mutate({status:'rescheduled',previousStartDate:'2026-10-19T19:00:00-04:00'});
+  assert.deepEqual(selectEvents([event],venues,{view:'updates',now}),[event]);
+  assert.deepEqual(selectEvents([event],venues,{view:'updates',now:new Date('2026-10-25T12:00Z')}),[]);
+});

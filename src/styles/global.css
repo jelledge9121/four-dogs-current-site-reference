@@ -153,3 +153,8 @@ html { scroll-padding-top:6rem; }
   .filter-disclosure summary span {display:block;margin-left:1rem;}
   .home-intro-copy .actions {display:flex;flex-wrap:wrap;}
 }
+
+.listing-actions {min-width:0;max-width:100%;}
+.listing-actions a {max-width:100%;overflow-wrap:anywhere;}
+.date-shortcuts {min-width:0;max-width:100%;}
+@media(min-width:360px) and (max-width:600px) { .discovery-basic {grid-template-columns:1fr 1fr;} }

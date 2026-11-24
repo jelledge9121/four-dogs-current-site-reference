@@ -2,13 +2,12 @@
 import {services} from '../data/services';
 import { site } from '../data/site';
 ---
-<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field" aria-describedby="booking-form-hint">
+<form name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="booking">
   <input type="hidden" name="entry-channel">
   <input type="hidden" name="entry-page">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
-  <p id="booking-form-hint" class="fine">Required fields are marked “required.”</p>
   <div class="form-grid">
     <label class="wide">What are you planning? (required)
       <select id="service" name="service" required>
@@ -29,8 +28,8 @@ import { site } from '../data/site';
     </div>
   <fieldset class="booking-group"><legend>Your contact details</legend><div class="form-grid">
     <label>Name (required) <input name="name" autocomplete="name" required></label>
-    <label><span id="phone-label">Phone (optional)</span><input name="phone" type="tel" autocomplete="tel"></label>
     <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
+    <label><span id="phone-label">Phone (optional)</span><input name="phone" type="tel" autocomplete="tel"></label>
   </div></fieldset>
   <fieldset class="booking-group"><legend id="inquiry-heading">Event details</legend><div class="form-grid">
     <label><span id="date-label">Preferred date</span> <input id="preferred-date" name="preferred-date" type="date"></label>

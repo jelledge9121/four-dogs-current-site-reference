@@ -1,15 +1,12 @@
 ---
 import type { Venue } from '../data/venues';
 import type { Event } from '../lib/event-system';
-import ReviewCard from './ReviewCard.astro';
-import { venueOwnerReview } from '../data/reviews';
 
 const { venues, events } = Astro.props as { venues: Venue[]; events: Event[] };
 const examples = [
   {
     venueId: 'charter-803',
     pattern: 'Keep a familiar weekly program fresh with themed and original game nights.',
-    formats: ['Music Bingo', 'Trivia', 'Survey Showdown'],
     photo: '/images/venues/four-dogs-charter-803-game-night-crowd-2026.webp',
     alt: 'Guests playing a Four Dogs game together at tables at Charter 803 while colorful party lights illuminate the dining room',
     caption: 'A real Four Dogs game night at Charter 803.',
@@ -17,7 +14,6 @@ const examples = [
   {
     venueId: 'top-dawg',
     pattern: 'Build around a recurring trivia night, with theme-led events on the calendar.',
-    formats: ['Trivia', 'Music Bingo', 'Survey Showdown'],
     photo: '/images/venues/four-dogs-top-dawg-trivia-crowd-2026.webp',
     alt: 'Guests playing Four Dogs Trivia throughout Top Dawg Tavern in Sandhill, with game screens visible',
     caption: 'Teams playing trivia at Top Dawg Tavern.',
@@ -25,7 +21,6 @@ const examples = [
   {
     venueId: 'bozes',
     pattern: 'Use music and team games to give Wednesday programming a mix of familiar and original formats.',
-    formats: ['Music Bingo', 'Trivia', 'Survey Showdown'],
     photo: '/images/venues/four-dogs-bozes-music-bingo-record-trophy-winner-2026.webp',
     alt: 'Smiling Boze’s Music Bingo winner holding a Four Dogs trophy and a vinyl-record-style award',
     caption: 'A Music Bingo prize moment at Boze’s.',
@@ -33,7 +28,6 @@ const examples = [
   {
     venueId: 'wesco',
     pattern: 'Pair a recurring trivia night with themed Music Bingo programming.',
-    formats: ['Trivia', 'Music Bingo'],
     photo: '/images/venues/four-dogs-wesco-group-with-prizes-2026.webp',
     alt: 'Six Four Dogs guests smiling together with a yellow Four Dogs shirt, a trophy and prize posters at WesCo Brew & Bowl in Cayce',
     caption: 'Guests and prizes at WesCo Brew & Bowl.',
@@ -41,7 +35,6 @@ const examples = [
   {
     venueId: 'the-mill',
     pattern: 'Anchor Monday game night with trivia and original team challenges.',
-    formats: ['Trivia', 'Survey Showdown', 'Are You Smarter Than a Barstool?'],
     photo: '/images/venues/four-dogs-the-mill-trivia-team-belt-2026.webp',
     alt: 'Two smiling trivia participants at The Mill at Fountain Inn lifting the Four Dogs championship belt together',
     caption: 'A championship moment at The Mill.',
@@ -51,9 +44,11 @@ const examples = [
 const cards = examples.flatMap((example) => {
   const venue = venues.find((item) => item.id === example.venueId && item.active);
   if (!venue) return [];
-  const upcoming = events.filter((event) => event.venueId === venue.id).slice(0, 3);
+  const scheduled = events.filter(event => event.venueId === venue.id);
+  const formats = [...new Set(scheduled.map(event => event.eventType))];
+  const upcoming = scheduled.slice(0, 3);
   if (!upcoming.length) return [];
-  return [{ ...example, venue, upcoming }];
+  return [{ ...example, venue, upcoming, formats }];
 });
 
 const formatNotes = [
@@ -71,7 +66,7 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
       <div>
         <p class="eyebrow">Published examples</p>
         <h2 id="venue-cases-title">See how the formats work in real rooms.</h2>
-        <p>These examples use confirmed public events and authentic Four Dogs venue photos. Programming aims below are our interpretation of each published schedule, not claims about a venue’s private goals.</p>
+        <p>See what’s on the calendar and who’s playing at our partner venues.</p>
       </div>
       <a class="text-action" href="/events/">View the current event calendar</a>
     </div>
@@ -84,24 +79,20 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
         <div class="case-copy">
           <p class="eyebrow">{card.venue.city}, {card.venue.state}</p>
           <h3><a href={`/venues/${card.venue.slug}/`}>{card.venue.name}</a></h3>
-          <h4>Programming aim, inferred from the public schedule</h4>
+          <details><summary>About the programming</summary><h4>Programming aim, inferred from the public schedule</h4>
           <p>{card.pattern}</p>
-          <h4>Formats on the calendar</h4>
+          </details><h4>Formats on the calendar</h4>
           <ul class="case-formats">{card.formats.map((format) => <li>{format}</li>)}</ul>
           <p class="case-caption">{card.caption}</p>
-          <h4>Published evidence</h4>
-          <p>Venue-specific photos and confirmed event listings document the programming. Attendance, sales, and return-visit figures are not published here.</p>
           <ul class="case-events" aria-label={`Confirmed upcoming events at ${card.venue.name}`}>
             {card.upcoming.map((event) => <li><a href={`/events/${event.slug}/`}>{event.title}</a></li>)}
           </ul>
           <a class="case-link" href={`/venues/${card.venue.slug}/`}>See venue details and photos</a>
-          {card.venue.id === 'charter-803' && venueOwnerReview?.approved && <div class="case-testimonial">
-            <h4>From a venue owner</h4>
-            <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />
-          </div>}
+
         </div>
       </article>)}
     </div>
+    <details class="proof-source"><summary>About these examples</summary><p>Venue-specific photos and confirmed dates document the programming. Attendance, sales, and return-visit figures are not published here.</p></details>
   </div>
 </section>}
 
@@ -124,9 +115,11 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
 
 <style>
   .case-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; }
-  .case-card { min-width:0; border:1px solid var(--rule); background:#fff; display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); }
+  .case-card { min-width:0; border:1px solid var(--rule); background:#fff; display:grid; grid-template-columns:minmax(0,1fr); }
   .case-image { display:block; min-width:0; background:var(--navy); }
-  .case-image img { display:block; width:100%; height:100%; min-height:300px; object-fit:cover; }
+  .case-image img { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+  .case-image {align-self:start;}
+  .case-copy details summary,.proof-source summary {padding:.65rem 0;min-height:44px;}
   .case-copy { padding:1.25rem; min-width:0; }
   .case-copy h3 { font-size:1.6rem; margin-bottom:.8rem; }
   .case-copy h3 a,.format-note h3 a { text-decoration:none; }
