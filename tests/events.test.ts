@@ -352,7 +352,11 @@ test('verified sold-out state follows the same ticket record into schema and dis
   ]};
   assert.deepEqual(validateEvents([changed], venues), []);
   assert.equal(eventSchema(changed,venue)?.offers?.availability,'https://schema.org/SoldOut');
-  assert.equal(listingPackage(changed,venue).soldOut,true);
+  const sold = listingPackage(changed,venue);
+  assert.equal(sold.soldOut,true);
+  assert.equal(sold.ticketed,true);
+  assert.equal(sold.ticketUrl,undefined);
+  assert.match(sold.admission,/^Sold out/);
   assert.equal(listingPackage(changed,venue).externalListings[0].needsUpdate,true);
   assert.ok(validateEvents([mutate({admission:{kind:'free',verified:true,soldOut:true}})],venues).length);
 });
