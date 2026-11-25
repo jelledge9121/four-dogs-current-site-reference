@@ -181,16 +181,42 @@ import { site } from '../data/site';
   const validatePhone = () => phone.setCustomValidity(phone.required && !phone.value.trim() ? 'Enter a phone number so we can contact you.' : '');
   form.addEventListener('input', validatePhone);
   form.addEventListener('change', validatePhone);
+  function updateFieldError(field: HTMLInputElement | HTMLSelectElement) {
+    const errorId = `booking-error-${field.name}`;
+    const error = document.getElementById(errorId);
+    if (!field.willValidate || field.validity.valid) {
+      error?.remove();
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('aria-describedby');
+      return;
+    }
+    const message = error || document.createElement('span');
+    message.id = errorId;
+    message.className = 'field-error';
+    // Referenced descriptions are announced separately from the enclosing label.
+    message.setAttribute('aria-hidden', 'true');
+    message.textContent = field.validationMessage;
+    if (!error) field.closest('label')?.append(message);
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', errorId);
+  }
   form.addEventListener('invalid', event => {
     const field = event.target;
     if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
-      field.setAttribute('aria-invalid','true');
+      updateFieldError(field);
+      state.dataset.validation = 'true';
       state.textContent = 'Check the highlighted fields before sending.';
     }
   }, true);
-  form.addEventListener('input', event => {
-    if (event.target instanceof HTMLElement) event.target.removeAttribute('aria-invalid');
-  });
+  function refreshErrors() {
+    form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[aria-invalid="true"]').forEach(updateFieldError);
+    if (!form.querySelector('[aria-invalid="true"]') && state.dataset.validation) {
+      state.textContent = '';
+      delete state.dataset.validation;
+    }
+  }
+  form.addEventListener('input', refreshErrors);
+  form.addEventListener('change', refreshErrors);
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (submit.disabled) return;
@@ -245,6 +271,7 @@ import { site } from '../data/site';
 </script>
 
 <style>
+  :global(.field-error) { color:#852b18; font-weight:600; font-size:.9rem; }
   .booking-progress { margin-bottom: 1.25rem; }
   .booking-progress label { display: block; font-weight: 700; }
   .booking-progress progress { display: block; width: 100%; height: 0.75rem; margin: .5rem 0; }
