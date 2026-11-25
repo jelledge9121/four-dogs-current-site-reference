@@ -1,0 +1,17 @@
+# Four Dogs website review | November 24, 2026
+
+Baseline: Netlify production commit `2176f5d`. The deployed calendar was inspected directly. Local Chromium rendered the matching production build across 43 page/view examples at 320, 390, 768 and 1440 CSS pixels. These include every service, all eight venue pages and examples of dynamic route families. All 172 returned HTTP 200 with one main heading and no page-width overflow at default text size.
+
+| Priority | Evidence and affected journey | Proposed change and risk |
+| --- | --- | --- |
+| High | At 390px with a 200% root font, horizontal overflow measured 141px on the calendar, 174px on booking and 36px on home. At standard text size these pages fit. | Allow grid tracks, long headings, actions and fields to wrap or contract. Retest enlarged text and ordinary widths. Presentation risk only. |
+| High | Hovering the selected week shortcut yielded white text on cream (#f2f0e8). | Give the active shortcut an explicit hover treatment and verify computed contrast. Low risk. |
+| High | After invalid submission, typing an incomplete email removed its aria-invalid state while native validation still rejected it. | Keep the error state in sync through corrections and conditional fields. Preserve native validation and accepted-submission routing. |
+| Medium | Guests must expand More filters before choosing Today. The first Top Dawg listing repeats its venue, start time and date in prose. The shared calendar row measured 386px tall on a 390px phone. The details action is indented again by a nested grid rule. | Promote the existing Eastern date shortcut and shorten ordinary listings. Preserve admission notes, updates and linked detail pages. Test real long and ticketed examples. |
+| Medium | Empty venue listings always say 30 days, including callers requesting 60. | Display the actual search window. No changes to scheduling or expiration. |
+| Medium | An attendee reaching event details finds the SMS and rewards actions only in the footer. | Offer the existing SMS dialog and rewards link at a relevant point after attendance instructions. Preserve consent and voluntary enrollment. |
+| Medium | The homepage serves the full 555,479-byte Boze’s group photo in a thumbnail despite smaller gallery variants. A production GET for the existing 480px WebP returned 24,956 bytes. | Use the existing responsive sources on the homepage, retaining the approved master fallback. Verify selected resource and canvas dimensions. |
+| Review before change | The site loads the SlickText tag in Base, but the live calendar response policy excludes its script origin. No public email enrollment destination was identified in the website source. | Confirm provider requirements and the official newsletter opt-in URL. A policy change or new enrollment integration requires separate review. |
+| Optional | Brand colors, Georgia headings, consistent content width, responsive hero photography, venue evidence and service-specific inquiries already support the intended journeys. | Retain them. Consolidate shared control corners where a rule is touched. |
+
+Baseline tests passed for end-time cutoff, missing end times, overnight dates, DST, archives, schema, links, static form registration and active venue proof. No critical defect was established in the audited journeys. The existing editorial, Studio, authentication, ticketing, financial and production settings are outside the implementation diff.
