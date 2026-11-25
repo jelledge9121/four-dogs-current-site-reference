@@ -20,7 +20,7 @@
   .pack-popup-overlay[hidden] { display: none !important; }
   .pack-popup-overlay { position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; background: rgba(1, 8, 24, .82); padding: 16px; backdrop-filter: blur(5px); }
   .pack-popup-card { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; width: min(100%, 560px); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; padding: 20px 28px 24px; border: 2px solid rgba(41, 196, 220, .4); border-radius: 22px; box-shadow: 0 26px 85px rgba(0, 0, 0, .55); color: #f2f0e8; background: #0c0f26; text-align: center; }
-  .pack-popup-card::before { content: ''; position: absolute; z-index: -1; width: 340px; height: 340px; top: -165px; left: calc(50% - 170px); border: 3px solid rgba(41, 196, 220, .17); border-radius: 50%; pointer-events: none; }
+  .pack-popup-card::before { content: ''; position: absolute; z-index: -1; box-sizing: border-box; width: min(340px, 100%); aspect-ratio: 1; top: -165px; left: 50%; transform: translateX(-50%); border: 3px solid rgba(41, 196, 220, .17); border-radius: 50%; pointer-events: none; }
   .pack-popup-close { align-self: flex-end; flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; margin: -10px -14px -16px 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .12); color: white; cursor: pointer; font: 400 32px/1 Arial, sans-serif; }
   .pack-popup-close:hover, .pack-popup-close:focus-visible { background: rgba(255, 255, 255, .22); }
   .pack-popup-logo { display: block; flex: 0 0 auto; object-fit: contain; width: min(175px, 44vw); height: auto; max-height: 168px; margin: 0 auto 10px; }
@@ -29,8 +29,8 @@
   .pack-popup-heading span:last-child { color: #29c4dc; }
   .pack-popup-bubble { width: 100%; padding: 17px 14px 18px; border-radius: 26px; background: #29c4dc; color: #08152b; }
   .pack-popup-instruction { font-family: Impact, 'Arial Narrow', 'Arial Black', system-ui, sans-serif; margin: 0 0 3px; font-size: clamp(1.7rem, 5vw, 2.9rem); font-weight: 900; line-height: 1.16; }
-  .pack-popup-instruction strong { color: #f2f0e8; -webkit-text-stroke: 1px #0c0f26; text-shadow: 2px 2px 0 #0c0f26; }
-  .pack-popup-phone { display: block; width: fit-content; max-width: 100%; margin: 0 auto; font-family: Impact, 'Arial Narrow', 'Arial Black', system-ui, sans-serif; font-size: clamp(1.85rem, 7vw, 3.1rem); font-weight: 900; line-height: 1.2; letter-spacing: -.025em; white-space: nowrap; color: #f2f0e8; text-decoration: none; -webkit-text-stroke: 1.2px #0c0f26; text-shadow: 2px 3px 0 #0c0f26, -2px -1px 0 #0c0f26; }
+  .pack-popup-instruction strong { color: var(--navy); }
+  .pack-popup-phone { display: block; width: fit-content; max-width: 100%; margin: 0 auto; font-family: Impact, 'Arial Narrow', 'Arial Black', system-ui, sans-serif; font-size: clamp(1.85rem, 7vw, 3.1rem); font-weight: 900; line-height: 1.2; letter-spacing: -.025em; overflow-wrap: anywhere; color: var(--navy); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
   .pack-popup-action { display: inline-block; margin-top: 14px; padding: 10px 20px; border-radius: 999px; background: #0c0f26; color: #f2f0e8; font-size: .94rem; font-weight: 800; line-height: 1.2; text-decoration: none; }
   .pack-popup-action:hover, .pack-popup-action:focus-visible { background: #1b3150; color: white; }
   .pack-popup-benefits { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; margin: 19px 0 7px; font-size: clamp(.88rem, 2.4vw, 1.08rem); font-weight: 800; line-height: 1.25; }
@@ -41,7 +41,7 @@
   @media (max-width: 480px) {
     .pack-popup-overlay { padding: 10px; }
     .pack-popup-card { max-height: calc(100dvh - 20px); border-radius: 15px; padding: 12px 15px 15px; }
-    .pack-popup-close { margin: -4px -7px -10px 0; width: 40px; height: 40px; }
+    .pack-popup-close { margin: -4px -7px -10px 0; width: 44px; height: 44px; }
     .pack-popup-logo { width: min(136px, 40vw); max-height: 136px; margin-bottom: 5px; }
     .pack-popup-heading { margin-bottom: 14px; font-size: clamp(2.3rem, 10.5vw, 3.2rem); }
     .pack-popup-bubble { padding: 14px 7px 16px; border-radius: 20px; }

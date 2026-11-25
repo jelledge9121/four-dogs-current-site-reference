@@ -25,6 +25,7 @@ const monthEnd = addDays(nextMonthStart, -1);
 const weekday = new Date(today + 'T12:00:00Z').getUTCDay();
 const monday = addDays(today, -((weekday + 6) % 7));
 const shortcuts = [
+  {label:'Today', start:today, end:today},
   {label:'This Week', start:monday, end:addDays(monday,6)},
   {label:'Next Week', start:addDays(monday,7), end:addDays(monday,13)},
   {label:'This Month', start:monthStart, end:monthEnd},
@@ -66,11 +67,11 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
       <label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>
       <label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
     </div>
-    {view==='upcoming' && <p><a href={rangeLink(today,today)}>Today</a> · <a href={rangeLink(today,addDays(today,6))}>Next 7 days</a> · <a href={rangeLink(today,addDays(today,29))}>Next 30 days</a></p>}
+    {view==='upcoming' && <p><a href={rangeLink(today,addDays(today,6))}>Next 7 days</a> · <a href={rangeLink(today,addDays(today,29))}>Next 30 days</a></p>}
   </details>
   <div class="actions"><button class="button" type="submit">Show events</button>{hasFilters && <a href={view==='upcoming'?'/events/':'/events/?view='+view}>Clear filters</a>}</div>
 </form>
-<div class="calendar-results-heading"><h2 id="event-results">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
+<div class="calendar-results-heading"><h2 id="event-results" tabindex="-1">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
 <p>{selectedLabels.length>0 && selectedLabels.join(' · ')+' · '}{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
 {from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
 {view === 'upcoming' && <div class="actions"><a href={rangeLink(addDays(today, 30), addDays(today, 89))}>Explore the following 60 days →</a></div>}
