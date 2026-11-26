@@ -24,12 +24,16 @@ const admission = event.admission.verified && event.admission.kind === 'paid'
     {showNotice && <p class="event-description">{event.shortDescription}</p>}
     <div class="event-meta">
       <span>{admission}</span>
-      {directDirections ? <a href={`/events/${event.slug}/`}>Event details</a> : <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.title === event.eventType ? "Browse this format" : event.eventType}</a>}
+      {!directDirections && <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.title === event.eventType ? "Browse this format" : event.eventType}</a>}
       {event.seriesId ? <span>Recurring series</span> : ['Comedy','Murder Mystery','Special Event'].includes(event.eventType) && <span>Special event</span>}
       {event.status === 'rescheduled' && <strong class="event-change">Rescheduled</strong>}
       {status !== 'upcoming' && <strong class="event-change">{statusLabel(event)}</strong>}
       {soldOut && <strong class="event-change">Sold out</strong>}
     </div>
   </div>
-  <div class="listing-actions">{showTickets && <a class="button" data-event-action="registration_click" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">{event.registrationLabel || 'Get tickets'}</a>}{showDirections ? <a class="event-details-link" href={venue.mapUrl} data-event-action="directions_click">Get directions</a> : (!directDirections || !showTickets) && <a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a>}</div>
+  <div class="listing-actions">{directDirections && <a class="show-info" href={`/events/${event.slug}/`}>Event details</a>}{showTickets && <a class="button" data-event-action="registration_click" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">{event.registrationLabel || 'Get tickets'}</a>}{showDirections ? <a class="event-details-link" href={venue.mapUrl} data-event-action="directions_click">Get directions</a> : !directDirections && <a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a>}</div>
 </article>
+
+<style>
+  .listing-actions .show-info {display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:.18em}
+</style>
