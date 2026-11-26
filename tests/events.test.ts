@@ -251,13 +251,7 @@ test('WesCo Thursday Music Bingo replaces upcoming Karaoke while preserving the 
 
 test('December calendar contains the approved public lineup without duplicates or private bookings',()=>{
  const december=all.filter(e=>e.date.startsWith('2026-12')&&e.visibility==='public'&&e.publicationStatus==='published');
- assert.equal(december.length,29);
- for (const id of ['the-mill-2026-12-28']) {
-  const held = all.find(event => event.id === id);
-  assert.equal(held?.publicationStatus,'review');
-  assert.ok(held?.reviewReason);
-  assert.ok(!december.includes(held!));
- }
+ assert.equal(december.length,30);
  for(const venue of ['top-dawg','wesco','bozes','charter-803','the-mill']){
   const dates=december.filter(e=>e.venueId===venue).map(e=>e.date+'|'+e.startTime);
   assert.equal(new Set(dates).size,dates.length,`Duplicate public slot for ${venue}`);
@@ -274,6 +268,7 @@ test('December calendar contains the approved public lineup without duplicates o
   ['charter-803','2026-12-30','Countdown to Midnight Music Bingo'],
   ['charter-803','2026-12-10','Doggone Pricey'],
   ['the-mill','2026-12-21','Are You Smarter Than a Barstool? Christmas Edition'],
+  ['the-mill','2026-12-28','Best of 2026 Trivia'],
  ]) assert.equal(december.find(e=>e.venueId===venue&&e.date===date)?.title,title);
  assert.ok(!december.some(e=>['2026-12-05','2026-12-06','2026-12-12','2026-12-18'].includes(e.date)));
  assert.ok(!december.some(e=>e.date==='2026-12-19'));
