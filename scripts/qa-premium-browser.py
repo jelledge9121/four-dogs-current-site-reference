@@ -49,7 +49,8 @@ async def main():
                     raise AssertionError((name, "home heading missing", await page.title(),
                                           (await page.locator("body").inner_text())[:1000]))
                 assert await heading.count() == 1, (name, "duplicate homepage heading")
-                assert await page.locator('.home-intro-copy a[href="/booking/"]').count() == 1
+                for path in ["/weddings/", "/services/private-corporate-events/", "/for-venues/"]:
+                    assert await page.locator(f'.home-links a[href="{path}"]').count() == 1
                 assert await page.locator('.home-intro-copy a[href="/events/"]').count() == 1
                 assert await page.locator('.service-directory > a').count() >= 6
                 assert await page.locator('.event-row').count() >= 1

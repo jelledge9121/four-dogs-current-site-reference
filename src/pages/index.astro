@@ -27,9 +27,13 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
   <div class="container home-intro-grid">
     <div class="home-intro-copy">
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p class="lead">Trivia and Music Bingo in the Midlands and Fountain Inn. DJs and games for weddings and private events.</p>
+      <p class="lead">Trivia and Music Bingo in the Midlands and Fountain Inn. DJs and games for weddings, company events, and private parties.</p>
       <a class="button" href="/events/">Find a show</a>
-      <div class="home-links"><a href="/booking/">Book entertainment</a><a href="/for-venues/" data-event-action="venue_partnership_cta">Host a weekly venue night</a></div>
+      <div class="home-links">
+        <a href="/weddings/">Wedding DJs</a>
+        <a href="/services/private-corporate-events/">Corporate &amp; private events</a>
+        <a href="/for-venues/" data-event-action="venue_partnership_cta">Host a weekly venue night</a>
+      </div>
     </div>
     {upcoming[0] && <section class="home-first" aria-labelledby="first-title"><h2 id="first-title">Your next night out</h2><EventCard event={upcoming[0]} directDirections /></section>}
     <figure class="home-intro-photo">
