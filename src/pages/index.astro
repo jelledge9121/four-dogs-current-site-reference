@@ -27,13 +27,13 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
   <div class="container home-intro-grid">
     <div class="home-intro-copy">
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p class="lead">Find trivia and Music Bingo in the Midlands and Fountain Inn.</p>
+      <p class="lead">Trivia and Music Bingo in the Midlands and Fountain Inn. Weddings and private events across SC, NC &amp; GA.</p>
       <a class="button" href="/events/">Find a show</a>
       <section class="home-links" aria-labelledby="book-heading">
         <h2 id="book-heading">Book entertainment</h2>
-        <a href="/weddings/">Wedding DJs</a>
-        <a href="/services/private-corporate-events/">Corporate &amp; private events</a>
-        <a href="/for-venues/" data-event-action="venue_partnership_cta">Host a weekly venue night</a>
+        <a href="/weddings/"><span><strong>Wedding DJs</strong><small>Ceremony sound and reception hosting</small></span></a>
+        <a href="/services/private-corporate-events/"><span><strong>Corporate &amp; private events</strong><small>Games, music, and a host for your group</small></span></a>
+        <a href="/for-venues/" data-event-action="venue_partnership_cta"><span><strong>Host a weekly venue night</strong><small>We host the game. You run the room.</small></span></a>
       </section>
     </div>
     {upcoming[0] && <section class="home-first" aria-labelledby="first-title"><h2 id="first-title">Your next night out</h2><EventCard event={upcoming[0]} directDirections /></section>}
@@ -93,12 +93,14 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
 <style>
   .home-links {display:grid;max-width:25rem;margin-top:.85rem}
   .home-links h2 {margin:0 0 .2rem;font-size:1.25rem}
-  .home-links a {display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;padding:.3rem 0;border-bottom:1px solid var(--rule);font-weight:700;text-decoration:underline;text-underline-offset:.2em}
+  .home-links a {display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;padding:.2rem 0;line-height:1.2;border-bottom:1px solid var(--rule);text-decoration:none}
+  .home-links strong {text-decoration:underline;text-underline-offset:.18em}
+  .home-links small {display:block;font-size:.94rem;font-weight:400}
   .home-links a::after {content:"";width:.5em;height:.5em;border:solid currentColor;border-width:1.5px 1.5px 0 0;transform:rotate(45deg);margin-right:.4em;flex-shrink:0}
   .home-first {min-width:0;grid-column:1/-1}
-  .home-first h2 {margin:0 0 .6rem}
+  .home-first h2 {margin:0 0 .4rem}
   @media(min-width:801px){.home-intro-photo {grid-column:2;grid-row:1}}
-  @media(max-width:800px){.home-intro-grid {row-gap:1rem}.home-first :global(.event-row){margin:0}.home-intro-copy .lead {margin-bottom:.75rem}}
+  @media(max-width:800px){.home-intro {padding-top:.75rem}.home-intro-grid {row-gap:.5rem}.home-first :global(.event-row){padding-block:.65rem}.home-first :global(.event-place span){display:inline}.home-first :global(.event-place){display:flex;flex-wrap:wrap;column-gap:.5em}.home-first :global(.event-row){margin:0}.home-intro-copy .lead {margin-bottom:.75rem}}
 
   .local-ownership { padding: 2.25rem 0; background: #fff; border-block: 1px solid #edf0f2; }
   .local-ownership-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
