@@ -23,8 +23,8 @@ test('venue case-study examples use existing venue records and authentic media',
   const images = [...component.matchAll(/photo: '(\/images\/[^']+)'/g)].map((match) => match[1]);
   assert.equal(images.length, venueIds.length);
   for (const image of images) assert.ok(fs.existsSync(path.resolve('public', `.${image}`)), `authentic source image ${image}`);
-  assert.match(component, /Attendance, sales, and return-visit figures are not published here/);
-  assert.match(component, /Programming aim, inferred from the public schedule/);
+  assert.match(component, /36 to 64 players per night/);
+  assert.match(component, /November 3, 10, 17 and 24, 2026/);
 });
 
 test('only the existing Charter 803 owner review is used as venue-owner proof', () => {

@@ -275,8 +275,14 @@ const faqSchema = {
       <h1>{service.name}</h1>
       <p class="lead">{service.summary}</p>
       <div class="actions">
-        <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
-        {holidayEligible ? <a class="button secondary" href="/booking/?service=Corporate%20Event">Ask about a company event</a> : <a class="button secondary" href={datesUrl}>Find an event</a>}
+        {holidayEligible ? <>
+          <a class="button" href="/booking/?service=Corporate%20Event">Ask about a company event</a>
+          <a class="button secondary" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Check my private party date</a>
+        </> : <>
+          <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
+          <a class="button secondary" href={datesUrl}>Find an event</a>
+        </>}
+
       </div>
     </div>
   </section>
@@ -363,7 +369,7 @@ const faqSchema = {
     <div class="container">
       <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
       <p>Tell us about your date, location, group, and the kind of experience you want to create.</p>
-      <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Book {service.name}</a>
+      <a class="button" href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>{holidayEligible ? 'Check my private party date' : 'Book ' + service.name}</a>
     </div>
   </section>
   <style>.service-prose-only { max-width: 850px; }</style>

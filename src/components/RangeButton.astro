@@ -1,0 +1,21 @@
+---
+interface Props {
+  label: string;
+  start: string;
+  end: string;
+  current: boolean;
+  filters: {name: string; value: string}[];
+}
+const {label,start,end,current,filters} = Astro.props;
+---
+<form method="get" action="/events/#event-results">
+  {filters.map(({name,value}) => <input type="hidden" name={name} value={value}/>)}
+  <input type="hidden" name="from" value={start}/>
+  <input type="hidden" name="to" value={end}/>
+  <button type="submit" aria-current={current ? 'true' : undefined}>{label}</button>
+</form>
+<style>
+  form {display:inline-flex;margin:0}
+  button {font:inherit;font-weight:650;color:var(--navy);background:var(--cream);border:1px solid var(--control-border,#747f8e);border-radius:.4rem;padding:.55rem .85rem;min-height:44px;cursor:pointer}
+  button:hover,button[aria-current] {background:var(--navy);color:white}
+</style>

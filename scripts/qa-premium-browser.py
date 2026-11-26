@@ -49,7 +49,8 @@ async def main():
                     raise AssertionError((name, "home heading missing", await page.title(),
                                           (await page.locator("body").inner_text())[:1000]))
                 assert await heading.count() == 1, (name, "duplicate homepage heading")
-                assert await page.locator('.home-intro-copy a[href="/booking/"]').count() == 1
+                for path in ["/weddings/", "/services/private-corporate-events/", "/for-venues/"]:
+                    assert await page.locator(f'.home-links a[href="{path}"]').count() == 1
                 assert await page.locator('.home-intro-copy a[href="/events/"]').count() == 1
                 assert await page.locator('.service-directory > a').count() >= 6
                 assert await page.locator('.event-row').count() >= 1
@@ -106,9 +107,9 @@ async def main():
                 assert await page.locator('main a[href="/booking/?service=Venue%20Entertainment"]').count() >= 1
                 assert "Owner, Charter 803 Bar & Grill" in await page.locator("main").inner_text(), (name, "venue owner attribution")
                 assert "Wedding Couple" not in await page.locator("main").inner_text(), (name, "incorrect wedding attribution")
-                venue_image = page.locator('main img[src*="home-crowd-960"]').first
+                venue_image = page.locator('main img[src*="top-dawg-tavern-sandhill-music-bingo-crowd"]').first
                 await venue_image.scroll_into_view_if_needed()
-                assert await venue_image.evaluate("(img) => img.complete && img.naturalWidth > 0"), (name, "authentic venue photo")
+                assert await venue_image.evaluate("async img => { await img.decode(); return img.naturalWidth > 0; }"), (name, "authentic venue photo")
                 venue_overflow = await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 assert venue_overflow <= 1, (name, "venue horizontal overflow", venue_overflow)
                 if name in ("iphone-medium", "desktop"):

@@ -2,7 +2,7 @@
 import type { Event } from '../data/events';
 import { venueById } from '../data/venues';
 import { needsTicket, eventCardDateLabels, formatDate, startIso, statusLabel, categorySlug, phase } from '../lib/event-system';
-const { event } = Astro.props as { event: Event };
+const { event, directDirections = false } = Astro.props as { event: Event; directDirections?: boolean };
 const venue = venueById(event.venueId);
 const { month, weekday } = eventCardDateLabels(event.date);
 const status = phase(event);
@@ -10,6 +10,7 @@ const attendable = ['upcoming', 'live'].includes(status);
 const showNotice = event.status !== 'scheduled' || event.timeTba;
 const soldOut = attendable && event.admission.soldOut;
 const showTickets = attendable && needsTicket(event) && event.registrationUrl && !soldOut;
+const showDirections = directDirections && !showTickets && attendable && venue.mapUrl;
 const admission = event.admission.verified && event.admission.kind === 'paid'
   ? event.admission.note || `$${event.admission.price} per person`
   : event.admission.verified && event.admission.kind === 'free' ? 'Free admission' : needsTicket(event) ? 'Ticketed event' : 'Check admission details';
@@ -23,12 +24,16 @@ const admission = event.admission.verified && event.admission.kind === 'paid'
     {showNotice && <p class="event-description">{event.shortDescription}</p>}
     <div class="event-meta">
       <span>{admission}</span>
-      <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a>
+      {!directDirections && <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.title === event.eventType ? "Browse this format" : event.eventType}</a>}
       {event.seriesId ? <span>Recurring series</span> : ['Comedy','Murder Mystery','Special Event'].includes(event.eventType) && <span>Special event</span>}
       {event.status === 'rescheduled' && <strong class="event-change">Rescheduled</strong>}
       {status !== 'upcoming' && <strong class="event-change">{statusLabel(event)}</strong>}
       {soldOut && <strong class="event-change">Sold out</strong>}
     </div>
   </div>
-  <div class="listing-actions">{showTickets && <a class="button" data-event-action="registration_click" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">{event.registrationLabel || 'Get tickets'}</a>}<a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a></div>
+  <div class="listing-actions">{directDirections && <a class="show-info" href={`/events/${event.slug}/`}>Event details</a>}{showTickets && <a class="button" data-event-action="registration_click" href={event.registrationUrl} target="_blank" rel="noopener noreferrer">{event.registrationLabel || 'Get tickets'}</a>}{showDirections ? <a class="event-details-link" href={venue.mapUrl} data-event-action="directions_click">Get directions</a> : !directDirections && <a class="event-details-link" href={`/events/${event.slug}/`} aria-label={`Event details: ${event.title}`}>Event details <span aria-hidden="true">→</span></a>}</div>
 </article>
+
+<style>
+  .listing-actions .show-info {display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:.18em}
+</style>

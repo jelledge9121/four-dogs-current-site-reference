@@ -1,3 +1,4 @@
+import guides from '../src/data/guides.json' with { type: 'json' };
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import { App } from 'astro/app';
@@ -22,7 +23,7 @@ async function request(path){
 const staticRoutes=new Set();
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).forEach(e=>e.isDirectory()?walk(dir+'/'+e.name):staticRoutes.add('/'+(dir+'/'+e.name).slice(5)));
 walk('dist');
-const paths=['/','/events/','/for-venues/','/admin/','/admin/distribution/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
+const paths=[...guides.map(g=>'/guides/'+g.slug+'/'),'/','/events/','/for-venues/','/admin/','/admin/distribution/','/event-sitemap.xml','/featured-events.xml','/events/feed.json',...venues.map(v=>`/venues/${v.slug}/`),...localSeoPages.map(p=>`/${p.slug}/`),...['lexington-sc','columbia-sc','west-columbia-cayce-sc','irmo-chapin-sc','fountain-inn-sc'].map(s=>`/areas/${s}/`),...all.filter(e=>e.visibility==='public'&&e.publicationStatus!=='draft').map(e=>`/events/${e.slug}/`),...CATEGORIES.map(c=>`/events/category/${categorySlug(c)}/`)];
 const titles=new Map();
 let eventSchemas=0;
 for(const path of paths){
@@ -70,8 +71,10 @@ assert.ok(venuePartnerships.body.includes('A reason to put your place on next we
 assert.ok(venuePartnerships.body.includes('Owner, Charter 803 Bar &amp; Grill'),'venue partner testimonial has an actual owner attribution');
 assert.ok(!venuePartnerships.body.includes('Wedding Couple · Google 5-Star Review'),'wedding review is not misrepresented as a venue-owner testimonial');
 assert.ok(venuePartnerships.body.includes('/booking/?service=Venue%20Entertainment'),'weekly partnership booking route is present');
-assert.ok(venuePartnerships.body.includes('Programming aim, inferred from the public schedule'),'case-study goals are labeled as interpretation');
-assert.ok(venuePartnerships.body.includes('Attendance, sales, and return-visit figures are not published here'),'unverified business results are explicitly excluded');
+if (selectEvents(publicEvents,venues,{venue:'top-dawg'}).length) {
+ assert.match(venuePartnerships.body,/36 to 64 players per night/);
+ assert.match(venuePartnerships.body,/November 3, 10, 17 and 24, 2026/);
+}
 for(const phrase of ['Music Bingo','Survey Showdown','Are You Smarter Than a Barstool?','Venue-specific photos'])assert.ok(venuePartnerships.body.includes(phrase),`venue proof includes ${phrase}`);
 const venueBooking=fs.readFileSync('dist/booking/index.html','utf8');
 for(const field of ['preferred-weeknight','existing-programming','venue-business-goal'])assert.ok(venueBooking.includes(`name="${field}"`),`venue inquiry includes ${field}`);
@@ -177,3 +180,58 @@ for (const event of publicEvents.filter(e => e.registrationUrl)) {
     assert.match(page.body, /data-event-action="directions_click"/);
   }
 }
+
+// Check every service-specific booking link in both generated HTML and on-demand routes.
+const serviceSelect=venueBooking.match(/<select[^>]+name="service"[^>]*>([\s\S]*?)<\/select>/)[1];
+const options=new Set([...serviceSelect.matchAll(/<option([^>]*)>([^<]*)<\/option>/g)]
+  .map(([,attrs,label])=>attrs.match(/value="([^"]*)"/)?.[1] ?? label));
+const bookingLinks=new Set();
+const htmlPages=[...cache.values()].map(page=>page.body).concat(
+  [...staticRoutes].filter(path=>path.endsWith('.html')).map(path=>fs.readFileSync('dist'+path,'utf8')));
+let buttonInstances=0;
+for(const html of htmlPages){
+ for(const [,href] of html.matchAll(/<a\b[^>]*?\bhref="(\/booking\/\?[^"]+)"/g)){
+  const service=new URL(href.replaceAll('&amp;','&'),base).searchParams.get('service');
+  if(!service)continue;
+  assert.ok(options.has(service),'Unknown booking service: '+service);
+  bookingLinks.add(service);
+  buttonInstances++;
+ }
+}
+for(const value of ['DJ','Wedding DJ / Entertainment','Corporate Event','Private Event','Venue Entertainment','Trivia','Music Bingo'])assert.ok(bookingLinks.has(value),value);
+assert.equal((await request('/guides/missing-guide/')).status,404);
+for (const slug of ['where-to-play-music-bingo-lexington-sc','music-bingo-in-lexington-sc']){
+ const body=(await request('/guides/'+slug+'/')).body;
+ assert.ok(body.includes('id="guide-dates"') && body.includes('Full Charter 803'));
+ const ids=[...body.matchAll(/data-event-id="([^"]+)"/g)].map(m=>m[1]);
+ const expected=selectEvents(all,venues,{venue:'charter-803',category:'Music Bingo',to:addDays(localToday(),90),limit:3});
+ assert.deepEqual(ids,expected.map(e=>e.id));
+}
+assert.doesNotMatch(filteredCalendar.body,/<a\b[^>]*href="[^"]*(?:from|to)=\d{4}-\d{2}/);
+assert.match(filteredCalendar.body,/<button[^>]*>Next 7 days<\/button>/);
+for (const event of publicEvents.filter(e=>['past-date','completed'].includes(phase(e)))){
+ const body=(await request('/events/'+event.slug+'/')).body;
+ assert.match(body,/This event has concluded/);
+ const next=selectEvents(all,venues,{venue:event.venueId,limit:1})[0];
+ if(next)assert.ok(body.includes('/events/'+next.slug+'/'));
+}
+for (const event of all.filter(e=>e.publicationStatus==='review')){
+ assert.ok(!sitemap.body.includes('/'+event.slug+'/'));
+ assert.ok(!feed.events.some(e=>e.eventId===event.id));
+}
+console.log('Validated '+buttonInstances+' service-specific booking links ('+bookingLinks.size+' selections), guide listings, archive handoffs and calendar shortcuts.');
+
+const sampleMetric = {action:'booking_submission_accepted',service:'DJ',channel:'organic search',id:'a2fa6833-e8e8-493e-ad6d-49b425e1ab44'};
+async function metricResponse(host,payload,origin=host){
+ const request = new Request(host+'/api/booking-metrics',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(payload)});
+ return app.render(request,{clientAddress:'127.0.0.1',locals:{netlify:{context:{ip:'127.0.0.1'}}}});
+}
+const acceptedMetric=await metricResponse(base,sampleMetric);
+assert.equal(acceptedMetric.status,204);
+assert.equal(acceptedMetric.headers.get('x-robots-tag'),'noindex');
+assert.equal((await metricResponse('https://preview.example.invalid',sampleMetric)).status,403);
+assert.equal((await metricResponse(base,sampleMetric,'https://preview.example.invalid')).status,403);
+assert.equal((await metricResponse(base,{...sampleMetric,action:'booking_submission_attempt'})).status,400);
+assert.equal((await metricResponse(base,{...sampleMetric,service:'qa@example.invalid'})).status,400);
+assert.equal((await metricResponse(base,{...sampleMetric,id:'someone@example.invalid'})).status,400);
+console.log('Local booking metrics route accepted the allowlisted payload and rejected preview, cross-origin and invalid fields.');

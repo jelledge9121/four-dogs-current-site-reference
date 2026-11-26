@@ -201,7 +201,7 @@ export const localSeoPages: LocalSeoPage[] = [
       { question: 'Can I provide music preferences?', answer: 'Yes. Four Dogs plans around the event and the client’s stated music preferences and priorities.' },
       { question: 'Does Four Dogs DJ private parties?', answer: 'Yes. Private celebrations and community events can be booked through the Four Dogs booking form.' },
     ],
-    bookingValue: 'Private Event',
+    bookingValue: 'DJ',
     relatedLinks: [
       { label: 'Weddings', href: '/weddings/' },
       { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
@@ -227,7 +227,7 @@ export const localSeoPages: LocalSeoPage[] = [
       { question: 'Can Four Dogs DJ a formal event?', answer: 'Yes. Four Dogs has provided DJ entertainment for formal events and other large celebrations.' },
       { question: 'How do I request a date?', answer: 'Use the booking form with your preferred date, event type, location, and event details.' },
     ],
-    bookingValue: 'Private Event',
+    bookingValue: 'DJ',
     relatedLinks: [
       { label: 'Weddings', href: '/weddings/' },
       { label: 'Private & corporate events', href: '/services/private-corporate-events/' },
@@ -316,11 +316,11 @@ export const localSeoPages: LocalSeoPage[] = [
   },
   {
     slug: 'private-event-dj-midlands-sc',
-    title: 'Private Event Entertainment in SC, NC & GA | Four Dogs',
-    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations throughout South Carolina and in North Carolina and Georgia.',
+    title: 'Private Party DJ, Karaoke & Games in the Midlands | Four Dogs',
+    description: 'Planning a Midlands birthday, engagement party or neighborhood gathering? Check your date for DJ music, karaoke, trivia or Music Bingo at your venue.',
     eyebrow: 'Private events',
-    h1: 'Private Event Entertainment Across SC, NC & GA',
-    lead: 'DJ entertainment and interactive formats for parties, communities, organizations, and celebrations.',
+    h1: 'DJs and hosted games for private parties in the Midlands',
+    lead: 'We bring the DJ, karaoke or hosted games to your birthday, engagement party or neighborhood gathering.',
     intro: [
       'Four Dogs provides private-event entertainment throughout South Carolina and in North Carolina and Georgia, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',
       'The format can be selected around the audience and purpose of the gathering, whether the goal is a dance floor, a structured game, or a mix of entertainment throughout the event.',
@@ -338,7 +338,7 @@ export const localSeoPages: LocalSeoPage[] = [
       { label: 'DJ services in Columbia', href: '/dj-services-columbia-sc/' },
       { label: 'Book Four Dogs', href: '/booking/' },
     ],
-    reviewId: 'susan-leonard-facebook',
+    reviewId: 'brooke-holladay-google',
   },
   {
     slug: 'corporate-event-entertainment-columbia-sc',
@@ -346,7 +346,7 @@ export const localSeoPages: LocalSeoPage[] = [
     description: 'Planning a company party or team event in Columbia, SC? Book Four Dogs for hosted trivia, Music Bingo, interactive game shows and DJ entertainment.',
     eyebrow: 'Columbia corporate events',
     h1: 'Corporate Event Entertainment in Columbia, SC',
-    lead: 'Trade another ordinary company gathering for games, music, and a reason for everyone to get involved.',
+    lead: 'Planning a team lunch, conference reception or holiday party? We can fit Music Bingo, a hosted trivia round or a DJ set around your agenda.',
     intro: [
       'Four Dogs provides entertainment for Columbia businesses and organizations through hosted Trivia, Music Bingo, DJ events, Four Dogs Survey Showdown, Are You Smarter Than a Barstool?, and other compatible formats.',
       'We help match the entertainment to your people, venue, timeline, and whether you want a low-pressure mixer, team competition, or a DJ-led celebration. Tell us your date and group size to start a booking conversation.',
@@ -365,6 +365,6 @@ export const localSeoPages: LocalSeoPage[] = [
       { label: 'Four Dogs Survey Showdown', href: '/services/four-dogs-survey-showdown/' },
       { label: 'Book Four Dogs', href: '/booking/' },
     ],
-    reviewId: 'jordan-anderson-facebook',
+    reviewId: 'tamra-johnson-scmesa-google',
   },
 ];

@@ -31,16 +31,25 @@ async def main():
         await context.route("**/*", intercept)
         page = await context.new_page()
         try:
-            for path in ["/", "/events/", "/booking/"]:
-                await page.goto(BASE + path)
-                await page.add_style_tag(content="html{font-size:200% !important}")
-                assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth"), path
+            for width in [320, 390]:
+                await page.set_viewport_size({"width": width, "height": 844})
+                for path in ["/", "/events/", "/booking/", "/weddings/", "/for-venues/"]:
+                    await page.goto(BASE + path)
+                    await page.add_style_tag(content="html{font-size:200% !important}")
+                    assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth"), (width, path)
+
+            await page.goto(BASE + "/events/")
+            first = page.locator(".event-row").first
+            if await first.count():
+                for selector in ["h3", ".event-place", ".event-time", ".event-meta span"]:
+                    box = await first.locator(selector).first.bounding_box()
+                    assert box and box["y"] + box["height"] <= 844, selector
 
             await page.goto(BASE + "/events/?venue=wesco")
-            await page.get_by_role("link", name="Today", exact=True).click()
+            await page.get_by_role("button", name="Today", exact=True).click()
             query = parse_qs(urlsplit(page.url).query)
             assert query["from"] == query["to"] and query["venue"] == ["wesco"]
-            assert await page.get_by_role("link", name="Today", exact=True).get_attribute("aria-current")
+            assert await page.get_by_role("button", name="Today", exact=True).get_attribute("aria-current")
             assert await page.locator("#event-results").is_visible()
 
             await page.goto(BASE + "/")
@@ -61,6 +70,10 @@ async def main():
             form = page.locator('form[name="booking"]')
             submit = form.get_by_role("button", name="Send booking request")
             email = form.locator('[name="email"]')
+            optional = form.locator(".booking-optional")
+            assert await optional.get_attribute("open") is None
+            assert await submit.is_visible()
+            await optional.locator("summary").click()
             assert await form.locator("[data-venue-partnership]").is_visible()
             await submit.click()
             await email.fill("incomplete")
@@ -73,7 +86,13 @@ async def main():
             await form.locator('[name="preferred-weeknight"]').select_option("Thursday")
             await form.locator('[name="service"]').select_option("Corporate Event")
             assert not await form.locator("[data-venue-partnership]").is_visible()
-            await form.locator(".booking-optional summary").click()
+            count = form.locator('[name="guest-count"]')
+            await count.fill("0")
+            await optional.locator("summary").click()
+            await submit.click()
+            assert await count.is_visible() and await count.get_attribute("aria-invalid") == "true"
+            await count.fill("15")
+            await optional.locator("summary").click()
             await form.locator('[name="contact-method"]').select_option("Text message")
             await submit.click()
             assert await form.locator('[name="phone"]').get_attribute("aria-invalid") == "true"
@@ -83,6 +102,7 @@ async def main():
 
             await submit.click()
             await form.get_by_text("We couldn’t confirm receipt.", exact=False).wait_for()
+            submit = form.get_by_role("button", name="Try sending again")
             assert await email.input_value() == "qa@example.invalid" and await submit.is_enabled()
             await submit.click()
             await page.wait_for_url(BASE + "/thank-you/")

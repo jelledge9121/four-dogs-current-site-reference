@@ -92,7 +92,7 @@ async def capture(browser, origin, kind, name, route, device, width, height):
             assert not result["broken_images"], (name, "broken images", result["broken_images"])
             assert not result["incomplete_images"], (name, "incomplete images", result["incomplete_images"])
             if name == "weddings":
-                assert await page.locator('video source[src^="/videos/weddings/"]').count() == 9, "wedding videos missing"
+                assert await page.locator('video source[src^="/videos/weddings/"]').count() == 10, "wedding videos missing"
             if name == "photo-booth":
                 assert await page.locator('main img[src*="wedding-floor"]').count() == 0, "unrelated wedding photo on photo booth"
             if name == "brides":

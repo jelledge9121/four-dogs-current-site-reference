@@ -15,7 +15,7 @@ Use the existing Search Console Domain property, `4dogsentertainment.com`. Keep 
 
 Reconcile the next two weeks against owner-confirmed public schedules. Keep private bookings in the private calendar. Do not extend a recurring agreement beyond its confirmed end. Resolve review flags before publication. Check ticket and directions links. Use `docs/event-admin-guide.md` for editorial steps.
 
-Check Netlify Forms for new verified booking submissions and the owner's notification inbox. For a delivery check, submit one clearly labeled QA inquiry using an owner-controlled email, no requested event date, and a reserved test phone number. Confirm both provider storage and recipient receipt. Identify QA records when reviewing inquiry totals. Do not publish submission data or send it to analytics.
+Check Netlify Forms for new verified booking submissions and the owner's notification inbox. Use a genuine, accepted inquiry for an owner-side delivery check. Test error handling and success transitions against a mocked form endpoint in preview.
 
 ## Thirty-day review: November 17, 2026
 
@@ -23,7 +23,7 @@ In the same Search Console property, compare the latest complete 28 days with th
 
 Compare the same measurements with the October 18 baseline retained in the operational handoff. Separate expected redirects, canonical alternatives, private pages, and confirmation pages from pages that should be indexed. Google may retain an older crawl until it revisits a page. Sitemap acceptance and valid schema do not guarantee indexing or ranking.
 
-Search visibility, directions clicks, ticket clicks, inquiries, and physical attendance are different measures. The existing frontend action events need an existing analytics consumer before they become collected conversion data. Do not add a tracking vendor or claim attendance or booking growth from search impressions alone.
+Search visibility, directions clicks, ticket clicks, inquiries, and physical attendance are different measures. Booking clicks and accepted submissions are captured in the first-party SSR logs described below. Event-discovery actions require a connected analytics consumer. Do not add a tracking vendor or claim attendance or booking growth from search impressions alone.
 
 ## Monthly booking and local search scorecard
 
@@ -40,3 +40,17 @@ Use complete days in America/New_York. For the November 23 release, compare Octo
 
 
 The browser dispatches `fourdogs:action` and pushes a `four_dogs_action` object when an existing data layer is present. An analytics owner can connect the verified GTM container and GA4 web stream, map the action and destination fields, and verify receipt in DebugView. Apply the site's consent settings and review the public content security policy with that connection. Keep names, contact details, messages, and raw query strings out of analytics. Use accepted Netlify records for submission totals. A submit attempt or a thank-you page view alone is insufficient.
+
+### Booking measurement and sales follow-up
+
+The booking form retains the first landing path, referrer hostname, inferred channel and five UTM tags for the current tab session. The separate “How did you hear about us?” field is self-reported. If storage, JavaScript or a referrer is unavailable, keep missing attribution unknown. Native no-JavaScript submissions still use the same Netlify form and notifications.
+
+On the production hostname, booking clicks and accepted submissions send a small same-origin event to the existing Astro server. In Netlify's SSR function logs filter for `four_dogs_booking_metric`. Export or tally during the plan's available log retention. Deduplicate by action and random event ID. The logged dimensions are service and channel only. No referrer URL, campaign text, name, email, or form contents are logged by this handler. The optional existing dataLayer receives the same funnel actions. Count one destination per report. Clicks are directional and may be lost to a blocked request. Netlify's accepted form rows are the authoritative inquiry count. A thank-you visit or submit attempt is never a booking.
+
+Use the private lead ledger outside the repository. Run the importer on a local, owner-only Netlify booking CSV export. It writes only the lead key, date, service, channel, landing page, stage and booked revenue. Older rows use a provider submission ID or number when available. For historical CSVs without IDs, the importer builds a local fingerprint from the original timestamp, service and email. Keep the same export format for repeat imports. Re-importing preserves manually entered status and revenue.
+
+    python3 scripts/booking-ledger.py netlify-booking-export.csv private-leads.csv
+
+Set Stage to Inquiry, Qualified, Booked, Lost or Excluded. Qualified means a reachable customer with a genuine service request. Mark Booked only after the agreement is confirmed, then enter the agreed initial contract value once. For recurring accounts, enter the value of the committed term only. Manually mark old QA, spam, test and duplicate leads Excluded. Explicitly flagged tests are omitted on import. Keep exports and the ledger private.
+
+For QA use localhost or a deploy preview, intercept every form POST, and use synthetic inputs. Preview and `?fde_test=1` sessions suppress analytics; the query flag is sticky in that tab and marks a form row if it is ever submitted. It is an attribution flag, not a notification suppressor. Never use a production test POST. Check native POST decoding and accepted/error handling in an isolated browser. Real notification delivery requires an actual authorized inquiry.
