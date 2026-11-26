@@ -26,12 +26,12 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
 <section class="home-intro">
   <div class="container home-intro-grid">
     <div class="home-intro-copy">
-      <p class="home-location">Four Dogs Entertainment · South Carolina</p>
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p class="lead">Meet your team for trivia or sing along at Music Bingo in the Midlands and Fountain Inn. Planning your own party? We bring the music and games to you.</p>
-      <div class="actions"><a class="button" href="/events/">Find a public show</a><a class="button secondary" href="/booking/">Book entertainment</a></div>
-      <a class="venue-intent" href="/for-venues/" data-event-action="venue_partnership_cta">Explore a weekly venue partnership <span aria-hidden="true">→</span></a>
+      <p class="lead">Trivia and Music Bingo in the Midlands and Fountain Inn. DJs and games for weddings and private events.</p>
+      <a class="button" href="/events/">Find a show</a>
+      <div class="home-links"><a href="/booking/">Book entertainment</a><a href="/for-venues/" data-event-action="venue_partnership_cta">Host a weekly venue night</a></div>
     </div>
+    {upcoming[0] && <section class="home-first" aria-labelledby="first-title"><h2 id="first-title">Your next night out</h2><EventCard event={upcoming[0]} directDirections /></section>}
     <figure class="home-intro-photo">
       <img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-800.webp 800w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="2048" height="1542" alt="Friends at Four Dogs Survey Showdown at Boze’s, holding their team sign and prize" fetchpriority="high"/>
       <figcaption>Survey Showdown at Boze’s · West Columbia, SC</figcaption>
@@ -40,8 +40,8 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
 </section>
 <section class="section home-upcoming" aria-labelledby="upcoming-title">
   <div class="container">
-    <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Your next night out.</h2></div><a class="text-action" href="/events/">See the full calendar →</a></div>
-    {upcoming.length ? <div class="event-list">{upcoming.map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
+    <div class="section-heading" data-fd-reveal><div><h2 id="upcoming-title">Upcoming shows</h2></div><a class="text-action" href="/events/">See the full calendar →</a></div>
+    {upcoming.length ? <div class="event-list">{upcoming.slice(1).map(event=><EventCard event={event}/>)}</div> : <p>No upcoming public dates are currently confirmed. <a href="/events/">Check the calendar</a> for updates.</p>}
     {showWescoNotice() && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See WesCo Music Bingo dates</a></p></aside>}
   </div>
 </section>
@@ -86,6 +86,13 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
   </div>
 </section>
 <style>
+  .home-links {display:flex;flex-wrap:wrap;column-gap:1.2rem;margin-top:.4rem}
+  .home-links a {display:inline-flex;align-items:center;min-height:44px;font-weight:700;text-decoration:underline;text-underline-offset:.2em}
+  .home-first {min-width:0;grid-column:1/-1}
+  .home-first h2 {margin:0 0 .6rem}
+  @media(min-width:801px){.home-intro-photo {grid-column:2;grid-row:1}}
+  @media(max-width:800px){.home-intro-grid {row-gap:1rem}.home-first :global(.event-row){margin:0}.home-intro-copy .lead {margin-bottom:.75rem}}
+
   .local-ownership { padding: 2.25rem 0; background: #fff; border-block: 1px solid #edf0f2; }
   .local-ownership-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
   .local-ownership p { margin: 0; font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 750; }

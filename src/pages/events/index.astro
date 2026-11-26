@@ -57,7 +57,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 <div class="discovery-form calendar-controls">
   <div class="location-picker">
     <label>Location<select name="city" form="calendar-filters"><option value="">All cities</option>{cities.map(city=><option value={city} selected={filters.city===city}>{city}</option>)}</select></label>
-    <button class="button" form="calendar-filters" type="submit">Show events</button>
+    <button class="button" form="calendar-filters" type="submit">Update results</button>
   </div>
   <details class="filter-disclosure" open={advanced}>
     <summary>Filter events</summary>
@@ -69,7 +69,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
       <label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>
       <label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
       </div>
-      <div class="actions"><button class="button" type="submit">Apply filters</button></div>
+      <div class="actions"><button class="button" type="submit">Update results</button></div>
     </form>
     {view==='upcoming' && <nav class="date-shortcuts" aria-label="More date ranges">
       {shortcuts.slice(2).map(range => <RangeButton {...range} filters={rangeFilters} current={from===range.start && to===range.end}/>)}
@@ -89,6 +89,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 <section class="section dark"><div class="container"><h2>Bring your people. We’ll bring the Doggone Good Time.</h2><a class="button" href="/booking/">Plan your own event</a></div></section>
 <style>
   .location-picker { display:flex; align-items:end; flex-wrap:wrap; gap:.55rem; }
+  .calendar-controls:has(.filter-disclosure[open]) .location-picker button { display:none; }
   .location-picker label { flex:1 1 10rem; max-width:25rem; }
   .calendar-controls { padding:.7rem 0 .2rem; }
   .calendar-controls details { margin:.15rem 0 0; }
