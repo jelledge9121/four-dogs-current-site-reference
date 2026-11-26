@@ -41,85 +41,84 @@ import { site } from '../data/site';
   <fieldset class="booking-group"><legend>Your contact details</legend><div class="form-grid">
     <label>Name (required) <input name="name" autocomplete="name" required></label>
     <label>Email (required) <input name="email" type="email" autocomplete="email" required></label>
+    <label>Preferred contact method
+      <select name="contact-method"><option>Email</option><option>Phone call</option><option>Text message</option></select>
+    </label>
     <label><span id="phone-label">Phone (optional)</span><input name="phone" type="tel" autocomplete="tel"></label>
   </div></fieldset>
-  <fieldset class="booking-group"><legend id="inquiry-heading">Event details</legend><div class="form-grid">
-    <label><span id="date-label">Preferred date</span> <input id="preferred-date" name="preferred-date" type="date"></label>
-    <label class="wide">Venue / location <input name="venue-location"></label>
-    <label data-recurring>Recurring event?
-      <select name="recurring"><option value="">Choose if known</option><option>No</option><option>Yes</option><option>Not sure</option></select>
-    </label>
-    <fieldset class="wide venue-partnership-fields" data-venue-partnership hidden disabled>
-      <legend>Weekly venue partnership</legend>
-      <p class="fine">A few details will help us shape a recurring plan. No quote or commitment is needed.</p>
-      <label>Preferred night
-        <select name="preferred-weeknight">
-          <option value="">Choose if known</option>
-          <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Flexible</option>
-        </select>
+  <details class="booking-optional">
+    <summary>Add event details (optional)</summary>
+    <fieldset class="booking-group"><legend id="inquiry-heading">Event details</legend><div class="form-grid">
+      <label><span id="date-label">Preferred date</span> <input id="preferred-date" name="preferred-date" type="date"></label>
+      <label class="wide">Venue / location <input name="venue-location"></label>
+      <label data-recurring>Recurring event?
+        <select name="recurring"><option value="">Choose if known</option><option>No</option><option>Yes</option><option>Not sure</option></select>
       </label>
-      <label>What entertainment or recurring events do you already offer?
-        <textarea name="existing-programming" rows="2" placeholder="Share the nights, formats, or providers already on your calendar."></textarea>
-      </label>
-      <label>What would you like a weekly event to help with?
-        <select name="venue-business-goal">
-          <option value="">Choose if helpful</option>
-          <option>Give guests a reason to return on a quieter night</option>
-          <option>Build a consistent weekly event</option>
-          <option>Reach a new audience</option>
-          <option>Add variety to current programming</option>
-          <option>Improve awareness of our event calendar</option>
-          <option>Other or not sure yet</option>
-        </select>
-      </label>
-    </fieldset>
-    <label data-guests>Guest count <input name="guest-count" type="number" min="1"></label>
-    <label>City <input name="city" autocomplete="address-level2"></label>
-    <label>State <input name="state" placeholder="e.g. SC" autocomplete="address-level1"></label>
-    <label class="wide checkbox-row" id="holiday-interest" hidden>
-      <input type="checkbox" aria-controls="holiday-options"> This is a holiday party
-    </label>
-    <fieldset id="holiday-options" class="holiday-options">
-      <legend>Holiday Add-On</legend>
-      <p>Planning a holiday-season event? Santa Jim can be paired with Four Dogs entertainment so one event can work for families, coworkers, neighbors, and mixed-age groups.</p>
-      <label class="checkbox-row">
-        <input type="checkbox" name="santa-jim-interest" value="Interested in Santa Jim">
-        <span>I’m interested in adding a traditional real-beard Santa appearance with Santa Jim.</span>
-      </label>
-      <label data-children>Will children be attending?
-        <select name="children-attending">
-          <option value="">Choose one if helpful</option>
-          <option>Yes</option>
-          <option>No</option>
-          <option>Not sure</option>
-        </select>
-      </label>
-      <p class="fine"><a href="/christmas/">See how Four Dogs + Santa Jim can work together for a holiday event →</a></p>
-    </fieldset>
-
-    <label class="wide"><span id="inquiry-prompt">What do you have in mind?</span><textarea name="event-details" rows="3"></textarea></label>
-    <details class="wide booking-optional">
-      <summary>Contact preference and referral (optional)</summary>
-      <div class="form-grid">
-        <label>Preferred contact method
-          <select name="contact-method"><option>Email</option><option>Phone call</option><option>Text message</option></select>
-        </label>
-        <label class="wide">How did you hear about Four Dogs?
-          <select name="referral-source">
-            <option value="">Choose one if you’d like</option>
-            <option>Google</option>
-            <option>ChatGPT / AI Search</option>
-            <option>Facebook</option>
-            <option>Instagram</option>
-            <option>A Four Dogs Event</option>
-            <option>Referral</option>
-            <option>Venue / Restaurant</option>
-            <option>Other</option>
+      <fieldset class="wide venue-partnership-fields" data-venue-partnership hidden disabled>
+        <legend>Weekly venue partnership</legend>
+        <p class="fine">A few details will help us shape a recurring plan. No quote or commitment is needed.</p>
+        <label>Preferred night
+          <select name="preferred-weeknight">
+            <option value="">Choose if known</option>
+            <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Flexible</option>
           </select>
         </label>
-      </div>
-    </details>
-  </div></fieldset>
+        <label>What entertainment or recurring events do you already offer?
+          <textarea name="existing-programming" rows="2" placeholder="Share the nights, formats, or providers already on your calendar."></textarea>
+        </label>
+        <label>What would you like a weekly event to help with?
+          <select name="venue-business-goal">
+            <option value="">Choose if helpful</option>
+            <option>Give guests a reason to return on a quieter night</option>
+            <option>Build a consistent weekly event</option>
+            <option>Reach a new audience</option>
+            <option>Add variety to current programming</option>
+            <option>Improve awareness of our event calendar</option>
+            <option>Other or not sure yet</option>
+          </select>
+        </label>
+      </fieldset>
+      <label data-guests>Guest count <input name="guest-count" type="number" min="1"></label>
+      <label>City <input name="city" autocomplete="address-level2"></label>
+      <label>State <input name="state" placeholder="e.g. SC" autocomplete="address-level1"></label>
+      <label class="wide checkbox-row" id="holiday-interest" hidden>
+        <input type="checkbox" aria-controls="holiday-options"> This is a holiday party
+      </label>
+      <fieldset id="holiday-options" class="holiday-options">
+        <legend>Holiday Add-On</legend>
+        <p>Planning a holiday-season event? Santa Jim can be paired with Four Dogs entertainment so one event can work for families, coworkers, neighbors, and mixed-age groups.</p>
+        <label class="checkbox-row">
+          <input type="checkbox" name="santa-jim-interest" value="Interested in Santa Jim">
+          <span>I’m interested in adding a traditional real-beard Santa appearance with Santa Jim.</span>
+        </label>
+        <label data-children>Will children be attending?
+          <select name="children-attending">
+            <option value="">Choose one if helpful</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>Not sure</option>
+          </select>
+        </label>
+        <p class="fine"><a href="/christmas/">See how Four Dogs + Santa Jim can work together for a holiday event →</a></p>
+      </fieldset>
+
+      <label class="wide"><span id="inquiry-prompt">What do you have in mind?</span><textarea name="event-details" rows="3"></textarea></label>
+      <label class="wide">How did you hear about Four Dogs?
+        <select name="referral-source">
+          <option value="">Choose one if you’d like</option>
+          <option>Google</option>
+          <option>ChatGPT / AI Search</option>
+          <option>Facebook</option>
+          <option>Instagram</option>
+          <option>A Four Dogs Event</option>
+          <option>Referral</option>
+          <option>Venue / Restaurant</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+    </div></fieldset>
+  </details>
 
   <button class="button" type="submit">Send booking request</button>
   <p class="form-state" role="status" aria-live="polite"></p>
@@ -210,6 +209,8 @@ import { site } from '../data/site';
   form.addEventListener('invalid', event => {
     const field = event.target;
     if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+      const disclosure = field.closest('details');
+      if (disclosure) disclosure.open = true;
       updateFieldError(field);
       state.dataset.validation = 'true';
       state.textContent = 'Check the highlighted fields before sending.';
@@ -283,6 +284,7 @@ import { site } from '../data/site';
   .booking-progress label { display: block; font-weight: 700; }
   .booking-progress progress { display: block; width: 100%; height: 0.75rem; margin: .5rem 0; }
   .booking-progress .fine { margin-top: .25rem; }
+  .booking-optional { margin-bottom:1rem; }
   .booking-optional summary { padding-block: .8rem; text-decoration: underline; }
   .booking-optional[open] summary { margin-bottom: .65rem; }
   [hidden] { display: none !important; }

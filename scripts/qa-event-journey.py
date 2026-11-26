@@ -70,6 +70,10 @@ async def main():
             form = page.locator('form[name="booking"]')
             submit = form.get_by_role("button", name="Send booking request")
             email = form.locator('[name="email"]')
+            optional = form.locator(".booking-optional")
+            assert await optional.get_attribute("open") is None
+            assert await submit.is_visible()
+            await optional.locator("summary").click()
             assert await form.locator("[data-venue-partnership]").is_visible()
             await submit.click()
             await email.fill("incomplete")
@@ -82,7 +86,13 @@ async def main():
             await form.locator('[name="preferred-weeknight"]').select_option("Thursday")
             await form.locator('[name="service"]').select_option("Corporate Event")
             assert not await form.locator("[data-venue-partnership]").is_visible()
-            await form.locator(".booking-optional summary").click()
+            count = form.locator('[name="guest-count"]')
+            await count.fill("0")
+            await optional.locator("summary").click()
+            await submit.click()
+            assert await count.is_visible() and await count.get_attribute("aria-invalid") == "true"
+            await count.fill("15")
+            await optional.locator("summary").click()
             await form.locator('[name="contact-method"]').select_option("Text message")
             await submit.click()
             assert await form.locator('[name="phone"]').get_attribute("aria-invalid") == "true"
