@@ -37,10 +37,10 @@ async def main():
                 assert await page.evaluate("document.documentElement.scrollWidth <= innerWidth"), path
 
             await page.goto(BASE + "/events/?venue=wesco")
-            await page.get_by_role("link", name="Today", exact=True).click()
+            await page.get_by_role("button", name="Today", exact=True).click()
             query = parse_qs(urlsplit(page.url).query)
             assert query["from"] == query["to"] and query["venue"] == ["wesco"]
-            assert await page.get_by_role("link", name="Today", exact=True).get_attribute("aria-current")
+            assert await page.get_by_role("button", name="Today", exact=True).get_attribute("aria-current")
             assert await page.locator("#event-results").is_visible()
 
             await page.goto(BASE + "/")
