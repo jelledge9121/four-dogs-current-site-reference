@@ -178,7 +178,8 @@ main :is(h1,h2,h3) { overflow-wrap:anywhere; }
 }
 
 @media (max-width:360px) {
-  header nav { gap:6px; }
+  header nav { width:calc(100% - 24px); flex-wrap:wrap; gap:6px; }
+  header .menu { flex:none; padding-inline:8px; }
   header .nav-quick-book { padding-inline:8px; }
   header #navlinks { top:100%; }
 }
