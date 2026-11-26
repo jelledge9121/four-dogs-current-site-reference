@@ -47,7 +47,7 @@ The booking form retains the first landing path, referrer hostname, inferred cha
 
 On the production hostname, booking clicks and accepted submissions send a small same-origin event to the existing Astro server. In Netlify's SSR function logs filter for `four_dogs_booking_metric`. Export or tally during the plan's available log retention. Deduplicate by action and random event ID. The logged dimensions are service and channel only. No referrer URL, campaign text, name, email, or form contents are logged by this handler. The optional existing dataLayer receives the same funnel actions. Count one destination per report. Clicks are directional and may be lost to a blocked request. Netlify's accepted form rows are the authoritative inquiry count. A thank-you visit or submit attempt is never a booking.
 
-Use the private lead ledger outside the repository. Run the importer on a local, owner-only Netlify booking CSV export. It writes only the lead key, date, service, channel, landing page, stage and booked revenue. Use a stable provider submission number/ID for older records without an inquiry ID. Re-importing preserves manually entered status and revenue.
+Use the private lead ledger outside the repository. Run the importer on a local, owner-only Netlify booking CSV export. It writes only the lead key, date, service, channel, landing page, stage and booked revenue. Older rows use a provider submission ID or number when available. For historical CSVs without IDs, the importer builds a local fingerprint from the original timestamp, service and email. Keep the same export format for repeat imports. Re-importing preserves manually entered status and revenue.
 
     python3 scripts/booking-ledger.py netlify-booking-export.csv private-leads.csv
 

@@ -42,7 +42,7 @@ const cards = examples.flatMap((example) => {
   const scheduled = events.filter(event => event.venueId === venue.id);
   const formats = [...new Set(scheduled.map(event => event.eventType))];
   const upcoming = scheduled.slice(0, 3);
-  if (!upcoming.length) return [];
+  if (!upcoming.length && venue.id !== 'top-dawg') return [];
   return [{ ...example, venue, upcoming, formats }];
 });
 
@@ -75,8 +75,8 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
           <p class="eyebrow">{card.venue.city}, {card.venue.state}</p>
           <h3><a href={`/venues/${card.venue.slug}/`}>{card.venue.name}</a></h3>
           {card.venue.id === 'top-dawg' && <p>On four Tuesdays in November 2026, our hosts counted 36 to 64 players per night at Sandhill. The Nov. 3 Disney trivia night drew 49 players on 12 teams. On Nov. 24, 64 people played ’90s vs. 2000s Music Bingo.</p>}
-          <h4>Formats on the calendar</h4>
-          <ul class="case-formats">{card.formats.map((format) => <li>{format}</li>)}</ul>
+          {card.formats.length > 0 && <><h4>Formats on the calendar</h4>
+          <ul class="case-formats">{card.formats.map((format) => <li>{format}</li>)}</ul></>}
           <p class="case-caption">{card.caption}</p>
           <ul class="case-events" aria-label={`Confirmed upcoming events at ${card.venue.name}`}>
             {card.upcoming.map((event) => <li><a href={`/events/${event.slug}/`}>{event.title}</a></li>)}

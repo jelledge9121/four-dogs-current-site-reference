@@ -1,6 +1,7 @@
 """Merge an owner-only Netlify booking export into an editable lead ledger."""
 import argparse
 import csv
+import hashlib
 import os
 import tempfile
 from pathlib import Path
@@ -32,11 +33,17 @@ def update(source, target):
                 continue
             key = row.get('inquiry-id') or next(('netlify-' + row[k] for k in
                 ('id','submission-id','number','submission-number') if row.get(k)), None)
+            date = row.get('created-at') or row.get('created') or row.get('date', '')
+            if not key and date and row.get('email'):
+                # Historical CSVs may omit the provider ID. Hash locally using the
+                # provider timestamp and original contact, never write the address.
+                identity = '\0'.join([date, row['email'].casefold(), row.get('service', '')])
+                key = 'legacy-' + hashlib.sha256(identity.encode()).hexdigest()
             if not key:
-                raise ValueError(f'Row {line} has no inquiry ID or provider ID/number. Export with a stable ID.')
+                raise ValueError(f'Row {line} needs an inquiry ID, provider ID, or timestamp and email.')
             if key in leads:
                 continue
-            vals = [key, row.get('created-at') or row.get('created') or row.get('date',''),
+            vals = [key, date,
                     row.get('service',''), row.get('entry-channel') or 'unknown',
                     row.get('entry-page',''), 'Inquiry', '']
             # Keep imported strings literal when opening the CSV in a spreadsheet.

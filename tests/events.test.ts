@@ -251,8 +251,8 @@ test('WesCo Thursday Music Bingo replaces upcoming Karaoke while preserving the 
 
 test('December calendar contains the approved public lineup without duplicates or private bookings',()=>{
  const december=all.filter(e=>e.date.startsWith('2026-12')&&e.visibility==='public'&&e.publicationStatus==='published');
- assert.equal(december.length,27);
- for (const id of ['charter-803-2026-12-09','charter-803-2026-12-16','the-mill-2026-12-28']) {
+ assert.equal(december.length,29);
+ for (const id of ['the-mill-2026-12-28']) {
   const held = all.find(event => event.id === id);
   assert.equal(held?.publicationStatus,'review');
   assert.ok(held?.reviewReason);
@@ -268,6 +268,8 @@ test('December calendar contains the approved public lineup without duplicates o
   ['wesco','2026-12-29','New Year’s Party Hits Music Bingo'],
   ['bozes','2026-12-02','Welcome Winter Music Bingo'],
   ['charter-803','2026-12-02','Justin Bieber & Friends Music Bingo'],
+  ['charter-803','2026-12-09','Welcome Winter Music Bingo'],
+  ['charter-803','2026-12-16','Holiday Songs Music Bingo'],
   ['charter-803','2026-12-23','Seinfeld Trivia: A Festivus for the Rest of Us!'],
   ['charter-803','2026-12-30','Countdown to Midnight Music Bingo'],
   ['charter-803','2026-12-10','Doggone Pricey'],

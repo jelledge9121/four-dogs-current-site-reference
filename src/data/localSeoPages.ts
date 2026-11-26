@@ -317,9 +317,9 @@ export const localSeoPages: LocalSeoPage[] = [
   {
     slug: 'private-event-dj-midlands-sc',
     title: 'Private Party DJ, Karaoke & Games in the Midlands | Four Dogs',
-    description: 'Book Four Dogs Entertainment for private-event DJ services, interactive games, Music Bingo, trivia, and celebrations throughout South Carolina and in North Carolina and Georgia.',
+    description: 'Planning a Midlands birthday, engagement party or neighborhood gathering? Check your date for DJ music, karaoke, trivia or Music Bingo at your venue.',
     eyebrow: 'Private events',
-    h1: 'Private Event Entertainment Across SC, NC & GA',
+    h1: 'DJs and hosted games for private parties in the Midlands',
     lead: 'We bring the DJ, karaoke or hosted games to your birthday, engagement party or neighborhood gathering.',
     intro: [
       'Four Dogs provides private-event entertainment throughout South Carolina and in North Carolina and Georgia, including DJ services, Trivia, Music Bingo, Karaoke, Survey Showdown, and other interactive formats.',

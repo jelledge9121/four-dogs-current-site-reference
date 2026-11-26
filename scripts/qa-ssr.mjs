@@ -220,3 +220,18 @@ for (const event of all.filter(e=>e.publicationStatus==='review')){
  assert.ok(!feed.events.some(e=>e.eventId===event.id));
 }
 console.log('Validated '+buttonInstances+' service-specific booking links ('+bookingLinks.size+' selections), guide listings, archive handoffs and calendar shortcuts.');
+
+const sampleMetric = {action:'booking_submission_accepted',service:'DJ',channel:'organic search',id:'a2fa6833-e8e8-493e-ad6d-49b425e1ab44'};
+async function metricResponse(host,payload,origin=host){
+ const request = new Request(host+'/api/booking-metrics',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(payload)});
+ return app.render(request,{clientAddress:'127.0.0.1',locals:{netlify:{context:{ip:'127.0.0.1'}}}});
+}
+const acceptedMetric=await metricResponse(base,sampleMetric);
+assert.equal(acceptedMetric.status,204);
+assert.equal(acceptedMetric.headers.get('x-robots-tag'),'noindex');
+assert.equal((await metricResponse('https://preview.example.invalid',sampleMetric)).status,403);
+assert.equal((await metricResponse(base,sampleMetric,'https://preview.example.invalid')).status,403);
+assert.equal((await metricResponse(base,{...sampleMetric,action:'booking_submission_attempt'})).status,400);
+assert.equal((await metricResponse(base,{...sampleMetric,service:'qa@example.invalid'})).status,400);
+assert.equal((await metricResponse(base,{...sampleMetric,id:'someone@example.invalid'})).status,400);
+console.log('Local booking metrics route accepted the allowlisted payload and rejected preview, cross-origin and invalid fields.');
