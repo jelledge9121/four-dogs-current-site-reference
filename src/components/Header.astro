@@ -2,7 +2,7 @@
 import { services } from '../data/services';
 const current = (path: string) => Astro.url.pathname === path ? 'page' : undefined;
 ---
-<header>
+<header class:list={[{ "home-header": Astro.url.pathname === "/" }]}>
   <a class="skip" href="#main">Skip to content</a>
   <nav aria-label="Primary">
     <a class="brand" href="/"><img src="/images/logo.png" srcset="/images/optimized/logo-144.webp 144w, /images/logo.png 512w" sizes="68px" width="92" height="92" alt="Four Dogs Entertainment"></a>
@@ -53,3 +53,7 @@ const current = (path: string) => Astro.url.pathname === path ? 'page' : undefin
 <noscript><style>
 @media(max-width:800px){header{position:relative}header nav{flex-wrap:wrap}header .menu{display:none}header #navlinks{display:flex;position:static;width:100%;max-height:none}}
 </style></noscript>
+
+<style>
+  .home-header a.button {background:transparent;color:white;border-color:transparent;text-decoration:underline;text-underline-offset:.2em}
+</style>

@@ -27,13 +27,14 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
   <div class="container home-intro-grid">
     <div class="home-intro-copy">
       <h1>Bring your people. <span>We’ll bring the Doggone Good Time.</span></h1>
-      <p class="lead">Trivia and Music Bingo in the Midlands and Fountain Inn. DJs and games for weddings, company events, and private parties.</p>
+      <p class="lead">Find trivia and Music Bingo in the Midlands and Fountain Inn.</p>
       <a class="button" href="/events/">Find a show</a>
-      <div class="home-links">
+      <section class="home-links" aria-labelledby="book-heading">
+        <h2 id="book-heading">Book entertainment</h2>
         <a href="/weddings/">Wedding DJs</a>
         <a href="/services/private-corporate-events/">Corporate &amp; private events</a>
         <a href="/for-venues/" data-event-action="venue_partnership_cta">Host a weekly venue night</a>
-      </div>
+      </section>
     </div>
     {upcoming[0] && <section class="home-first" aria-labelledby="first-title"><h2 id="first-title">Your next night out</h2><EventCard event={upcoming[0]} directDirections /></section>}
     <figure class="home-intro-photo">
@@ -90,8 +91,10 @@ const org = {'@context':'https://schema.org','@type':'Organization','@id':site.u
   </div>
 </section>
 <style>
-  .home-links {display:flex;flex-wrap:wrap;column-gap:1.2rem;margin-top:.4rem}
-  .home-links a {display:inline-flex;align-items:center;min-height:44px;font-weight:700;text-decoration:underline;text-underline-offset:.2em}
+  .home-links {display:grid;max-width:25rem;margin-top:.85rem}
+  .home-links h2 {margin:0 0 .2rem;font-size:1.25rem}
+  .home-links a {display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;padding:.3rem 0;border-bottom:1px solid var(--rule);font-weight:700;text-decoration:underline;text-underline-offset:.2em}
+  .home-links a::after {content:"";width:.5em;height:.5em;border:solid currentColor;border-width:1.5px 1.5px 0 0;transform:rotate(45deg);margin-right:.4em;flex-shrink:0}
   .home-first {min-width:0;grid-column:1/-1}
   .home-first h2 {margin:0 0 .6rem}
   @media(min-width:801px){.home-intro-photo {grid-column:2;grid-row:1}}
