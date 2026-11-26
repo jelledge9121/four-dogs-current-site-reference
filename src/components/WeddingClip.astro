@@ -1,15 +1,18 @@
 ---
 interface Props {
-  clip: { src: string; poster: string; title: string; alt: string; portrait: boolean };
+  featured?: boolean;
+  clip: { src: string; poster: string; title: string; alt: string; portrait: boolean; captions?: string };
 }
-const { clip } = Astro.props;
+const { clip, featured = false } = Astro.props;
 ---
-<figure class:list={['wedding-video-tile', clip.portrait && 'wedding-video-portrait']}>
-  <video controls playsinline preload="none" poster={clip.poster} aria-label={clip.alt} width={clip.portrait ? 540 : 960} height={clip.portrait ? 960 : 540}>
+<figure class:list={['wedding-video-tile', clip.portrait && 'wedding-video-portrait', featured && 'wedding-video-feature']}>
+  {featured && <figcaption>{clip.title}</figcaption>}
+  <video controls playsinline preload="none" poster={clip.poster} aria-label={clip.alt} width={featured ? 512 : clip.portrait ? 540 : 960} height={featured ? 910 : clip.portrait ? 960 : 540}>
     <source src={clip.src} type="video/mp4" />
+    {clip.captions && <track kind="captions" src={clip.captions} srclang="en" label="English" />}
     Your browser does not support video playback.
   </video>
-  <figcaption>{clip.title}</figcaption>
+  {!featured && <figcaption>{clip.title}</figcaption>}
 </figure>
 
 <style>
@@ -18,6 +21,9 @@ const { clip } = Astro.props;
   .wedding-video-tile video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: contain; background: #0c0f26; }
   .wedding-video-portrait video { aspect-ratio: 9 / 13; }
   .wedding-video-tile figcaption { padding: .95rem 1.1rem 1.15rem; font-weight: 750; line-height: 1.3; }
+  .wedding-video-feature { background:transparent; border:0; color:inherit; }
+  .wedding-video-feature video { aspect-ratio:512 / 910; }
+  .wedding-video-feature figcaption { padding:0 0 .65rem; }
   .wedding-video-tile:focus-within { outline: 3px solid #0C0F26; outline-offset: 3px; }
   @media (max-width: 800px) { .wedding-video-tile { grid-column: span 6; } }
   @media (max-width: 550px) { .wedding-video-tile { grid-column: span 12; } }

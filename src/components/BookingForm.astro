@@ -242,7 +242,7 @@ import { site } from '../data/site';
     } catch {
       state.textContent = 'We couldn’t confirm receipt. Your details are still here. You can try again or email us below.';
       submit.disabled = false;
-      submit.textContent = 'Send booking request';
+      submit.textContent = 'Try sending again';
     } finally {
       clearTimeout(timer);
     }

@@ -4,10 +4,14 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import { venueOwnerReview } from '../data/reviews';
+import VenuePhoto from '../components/VenuePhoto.astro';
+import venuePhotos from '../data/venue-photos.json';
 import VenueProof from '../components/VenueProof.astro';
 import { venues } from '../data/venues';
 import { upcomingEvents } from '../data/events';
 
+const crowdPhoto = venuePhotos['top-dawg'].find(photo =>
+  photo.src.endsWith('/top-dawg-tavern-sandhill-music-bingo-crowd.webp'))!;
 const publicEvents = upcomingEvents();
 const upcomingVenueIds = new Set(publicEvents.map((event) => event.venueId));
 const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
@@ -18,53 +22,27 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
     <div class="container split venue-intro"><div>
       <p class="eyebrow">For restaurants, breweries & bars</p>
       <h1>A reason to put your place on next week’s calendar.</h1>
-      <p class="lead">Give regulars a night they can count on. We bring the host, games and promotional materials. Your team takes care of the tables.</p>
+      <p class="lead">Weekly trivia, Music Bingo and Survey Showdown for your regulars.</p>
+      <p class="attendance">Across four Tuesdays in November, our hosts counted 36 to 64 players per night at Top Dawg Tavern in Sandhill.</p>
       <div class="actions">
         <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Plan a weekly venue night</a>
-        {activeVenues.length>0 && <a class="button secondary" href="#venue-examples">See real venue examples</a>}
       </div>
       </div>
-      <figure class="venue-proof-photo"><img src="/images/optimized/home-crowd-960.webp" srcset="/images/optimized/home-crowd-480.webp 480w, /images/optimized/home-crowd-800.webp 800w, /images/optimized/home-crowd-960.webp 960w, /images/optimized/home-crowd-1440.webp 1440w" sizes="(max-width:800px) calc(100vw - 32px), 46vw" width="960" height="723" alt="Four Dogs Survey Showdown guests at Boze’s Restaurant and Bar in West Columbia with their team sign and prize" fetchpriority="high" decoding="async" /><figcaption>Survey Showdown at Boze’s in West Columbia.</figcaption></figure>
+      <VenuePhoto photo={crowdPhoto} hero />
     </div>
   </section>
-
-  <section class="section">
+  <section class="section partner-details">
     <div class="container split">
-      <div>
-        <p class="eyebrow">Hosting and promotion</p>
-        <h2>We handle the entertainment so you can run your restaurant.</h2>
-        <p>We plan the format, bring a prepared host, run the game and scoring, and supply promotional creative for the night. Your team can focus on food, drinks, and hospitality while we keep the entertainment moving.</p>
-        <p>We’ll shape the night around your crowd, schedule, and current programming. A weekly partnership can use one familiar format, rotate themes, or mix formats when that suits the calendar.</p>
-      </div>
       {venueOwnerReview?.approved && <ReviewCard review={venueOwnerReview} excerpt="forVenues" showFull={true} />}
+      <div>
+        <h2>How a weekly night works</h2>
+        <p><strong>Four Dogs</strong> brings a prepared host, the game, scoring, promotional graphics and any audio support you need.</p>
+        <p><strong>Your staff</strong> sets up the room, serves food and drinks, and invites your regulars.</p>
+        <p><strong>After you inquire,</strong> we’ll check host availability for your preferred night and talk through the format, price and promotion with you.</p>
+      </div>
     </div>
   </section>
-
   <VenueProof venues={venues} events={publicEvents} />
-
-  <section class="section">
-    <div class="container grid">
-      <div>
-        <h2>What Four Dogs brings</h2>
-        <ul>
-          <li>A professional, prepared host</li>
-          <li>Game questions, materials, pacing, and scoring</li>
-          <li>Guest interaction and an organized experience</li>
-          <li>Audio support when needed</li>
-          <li>Promotional graphics and event-sharing support</li>
-        </ul>
-      </div>
-      <div>
-        <h2>What your team handles</h2>
-        <ul>
-          <li>Food, drinks, and service</li>
-          <li>The space and staff for your guests</li>
-          <li>Sharing the night with your regulars</li>
-          <li>The hospitality that makes your place yours</li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
   <section class="section alt">
     <div class="container">
@@ -88,7 +66,7 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
   <section class="section dark">
     <div class="container">
       <h2>Let’s build a weekly night for your venue.</h2>
-      <p>Tell us which night you want to build, what you already host and how your room is set up. We’ll check host availability, suggest a format and discuss pricing and promotion with you before you commit to a weekly date.</p>
+      <p>Tell us which night you want to build, what you already host and how your room is set up.</p>
       <div class="actions">
         <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Start a venue partnership inquiry</a>
       </div>
@@ -97,9 +75,9 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
   </section>
   <style>
     .venue-intro { align-items:center; }
-    .venue-proof-photo { margin: 0; }
-    .venue-proof-photo img { width: 100%; height: auto; display: block; }
-    .venue-proof-photo figcaption { margin-top: .6rem; color: var(--cream); font-size: .9rem; }
+    .attendance { max-width:48ch; padding-left:1rem; border-left:3px solid var(--gold); }
+    .partner-details :global(.testimonial) { margin:0; }
+    @media (max-width:800px) { .venue-intro { gap:1.25rem; } }
     .venue-partner-list a:hover strong { text-decoration: underline; }
     .venue-partner-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 2rem; margin: 1.25rem 0 1.75rem; }
     .venue-partner-list a { display: flex; gap: .8rem; align-items: baseline; padding: .95rem .15rem; border-bottom: 1px solid var(--rule); text-decoration: none; flex-wrap: wrap; }

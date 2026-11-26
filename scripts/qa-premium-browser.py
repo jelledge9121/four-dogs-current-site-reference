@@ -106,9 +106,9 @@ async def main():
                 assert await page.locator('main a[href="/booking/?service=Venue%20Entertainment"]').count() >= 1
                 assert "Owner, Charter 803 Bar & Grill" in await page.locator("main").inner_text(), (name, "venue owner attribution")
                 assert "Wedding Couple" not in await page.locator("main").inner_text(), (name, "incorrect wedding attribution")
-                venue_image = page.locator('main img[src*="home-crowd-960"]').first
+                venue_image = page.locator('main img[src*="top-dawg-tavern-sandhill-music-bingo-crowd"]').first
                 await venue_image.scroll_into_view_if_needed()
-                assert await venue_image.evaluate("(img) => img.complete && img.naturalWidth > 0"), (name, "authentic venue photo")
+                assert await venue_image.evaluate("async img => { await img.decode(); return img.naturalWidth > 0; }"), (name, "authentic venue photo")
                 venue_overflow = await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 assert venue_overflow <= 1, (name, "venue horizontal overflow", venue_overflow)
                 if name in ("iphone-medium", "desktop"):

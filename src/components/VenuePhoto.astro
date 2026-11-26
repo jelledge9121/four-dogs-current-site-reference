@@ -1,0 +1,22 @@
+---
+interface Props {
+  photo: {src: string; small?: string; width: number; height: number; alt: string; caption: string};
+  hero?: boolean;
+}
+const { photo, hero = false } = Astro.props;
+---
+<figure>
+  <a href={photo.src} aria-label={`View larger photo: ${photo.caption}`}>
+    <img src={photo.src} srcset={photo.small ? `${photo.small} 480w, ${photo.src} ${photo.width}w` : undefined}
+      sizes={hero ? '(max-width:800px) calc(100vw - 32px), (max-width:1212px) 46vw, 560px' : '(max-width:600px) calc(100vw - 32px), 480px'}
+      width={photo.width} height={photo.height} alt={photo.alt}
+      loading={hero ? 'eager' : 'lazy'} fetchpriority={hero ? 'high' : undefined} decoding="async" />
+  </a>
+  <figcaption>{photo.caption}</figcaption>
+</figure>
+<style>
+  figure { margin:0; min-width:0; }
+  a,img { display:block; }
+  img { width:100%; height:auto; }
+  figcaption { margin:.5rem 0 0; font-size:.95rem; line-height:1.45; }
+</style>

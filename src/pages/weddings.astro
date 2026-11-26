@@ -1,10 +1,17 @@
 ---
 import WeddingClip from '../components/WeddingClip.astro';
 import Base from '../layouts/Base.astro';
-import ReviewCard from '../components/ReviewCard.astro';
 import { reviews } from '../data/reviews';
 const review = reviews.find((item) => item.id === 'susan-leonard-facebook');
 const weddingReview = reviews.find((item) => item.id === 'gabrielle-stephen-howland-wedding-google' && item.approved);
+const danceFloorMontage = {
+  src: '/videos/weddings/four-dogs-entertainment-wedding-video.mp4',
+  poster: '/images/weddings/four-dogs-entertainment-wedding-video.webp',
+  captions: '/videos/weddings/four-dogs-entertainment-wedding-video.vtt',
+  title: 'Watch 15 seconds from our wedding dance floors.',
+  alt: 'Four Dogs wedding reception montage with guests dancing under string lights and colored lights',
+  portrait: true,
+};
 const weddingClips = [
   { src: '/videos/weddings/wedding-dance-floor-dj-lighting.mp4', poster: '/images/weddings/wedding-dance-floor-dj-lighting.webp', title: "A dance floor worth remembering", alt: "Wedding reception guests dancing beneath warm string lights", portrait: false },
   { src: '/videos/weddings/wedding-reception-celebration-ballroom.mp4', poster: '/images/weddings/wedding-reception-celebration-ballroom.webp', title: "A celebration in full swing", alt: "Wedding reception with colorful lighting and guests dancing", portrait: false },
@@ -23,10 +30,15 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
   <section class="section dark wedding-intro">
     <div class="container wedding-intro-grid">
     <div>
-      <h1>A wedding DJ for your first dance and the songs your friends stay for.</h1>
-      <p class="lead">Wedding DJ entertainment for Columbia, Lexington, and couples across South Carolina, built around your music, your people, and the moments that matter.</p>
+      <h1>Wedding DJs for Columbia, Lexington and beyond.</h1>
+      <p class="lead">Send us your date, venue, and whether you need ceremony sound, reception hosting, or both.</p>
       <a class="button" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Ask about your wedding date</a>
-    </div><img src="/images/optimized/wedding-floor-800.webp" srcset="/images/optimized/wedding-floor-480.webp 480w, /images/optimized/wedding-floor-800.webp 800w" sizes="(max-width:800px) calc(100vw - 32px), 45vw" width="800" height="532" alt="A full dance floor at a Four Dogs wedding" fetchpriority="high"/>
+      {weddingReview && <figure class="couple-quote">
+        <blockquote>“{weddingReview.excerpts.homepage}”</blockquote>
+        <figcaption>{weddingReview.name} · Wedding couple</figcaption>
+      </figure>}
+    </div>
+    <div class="featured-clip"><WeddingClip clip={danceFloorMontage} featured /></div>
     </div>
   </section>
 
@@ -56,14 +68,10 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
       </div>
       <div class="wedding-video-heading">
         <h3>Watch the real celebrations.</h3>
-        <p>Press play for real wedding reception highlights. Videos only load when you choose to watch.</p>
+        <p>Press play for real wedding reception highlights.</p>
       </div>
       <div class="wedding-video-grid">
         {highlights.map(clip => <WeddingClip clip={clip} />)}
-      </div>
-      <div class="wedding-gallery-cta">
-        {weddingReview && <ReviewCard review={weddingReview} excerpt="homepage" showFull={true} />}
-        <a class="button" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Ask about your wedding date</a>
       </div>
       <details class="more-clips">
         <summary>See the other {moreClips.length} wedding clips</summary>
@@ -116,12 +124,16 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
   <section class="section dark">
     <div class="container">
       <h2>Your people. Your stories. Your celebration.</h2>
-      <p>Tell us your date and venue if you have them. Do you need music for the ceremony, someone to introduce the wedding party, or a DJ for the reception? We’ll check availability and talk through your timing before putting together a quote.</p>
+      <p>We’ll check availability and talk through your timing before putting together a quote.</p>
       <a class="button" href="/booking/?service=Wedding%20DJ%20%2F%20Entertainment">Ask about your wedding date</a>
     </div>
   </section>
 
 <style>
+  .featured-clip { width:min(100%,19rem); justify-self:center; }
+  .couple-quote { margin:1.25rem 0 0; padding-left:1rem; border-left:3px solid var(--gold); max-width:48ch; }
+  .couple-quote blockquote { margin:0; font-family:Georgia,serif; font-size:1.1rem; }
+  .couple-quote figcaption { margin-top:.5rem; font-size:.95rem; }
   .wedding-moments { background: #f7f8fb; }
   .wedding-gallery-heading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr); gap: 2rem; align-items: end; margin-bottom: 2rem; }
   .wedding-gallery-heading .eyebrow { margin-bottom: .65rem; }
@@ -140,10 +152,8 @@ const moreClips = weddingClips.filter(clip => !highlights.includes(clip));
   .wedding-video-heading p { margin: 0; color: #465568; }
   .wedding-video-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.25rem; align-items: start; }
   .wedding-gallery-feature a:focus-visible { outline: 3px solid #0C0F26; outline-offset: 3px; }
-  .wedding-gallery-cta { margin-top: 2.8rem; padding-top: 1.6rem; border-top: 1px solid #d9e0e9; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-  .wedding-gallery-cta p { font-size: 1.15rem; font-weight: 800; margin: 0; }
   @media (max-width: 800px) { .wedding-gallery-heading { grid-template-columns: 1fr; gap: .3rem; } }
-  @media (max-width: 550px) { .wedding-video-grid { gap: 1rem; } .wedding-gallery-feature img { max-height: none; } .wedding-gallery-cta { align-items: flex-start; } .wedding-photo-pair { grid-template-columns: 1fr; } .wedding-photo-pair img { height: auto; max-height: 360px; } }
+  @media (max-width: 550px) { .wedding-video-grid { grid-template-columns:minmax(0,1fr); gap:1rem; } .wedding-video-grid :global(.wedding-video-tile) { grid-column:1; } .wedding-gallery-feature img { max-height: none; } .wedding-photo-pair { grid-template-columns: 1fr; } .wedding-photo-pair img { height: auto; max-height: 360px; } }
   @media (prefers-reduced-motion: reduce) { .wedding-moments * { scroll-behavior: auto; } }
   .more-clips { margin-top: 2rem; }
   .more-clips summary { padding: 1rem 0; text-decoration: underline; }

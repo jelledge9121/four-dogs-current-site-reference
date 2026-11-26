@@ -23,7 +23,7 @@ const admission = event.admission.verified && event.admission.kind === 'paid'
     {showNotice && <p class="event-description">{event.shortDescription}</p>}
     <div class="event-meta">
       <span>{admission}</span>
-      <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.eventType}</a>
+      <a href={`/events/category/${categorySlug(event.eventType)}/`}>{event.title === event.eventType ? "Browse this format" : event.eventType}</a>
       {event.seriesId ? <span>Recurring series</span> : ['Comedy','Murder Mystery','Special Event'].includes(event.eventType) && <span>Special event</span>}
       {event.status === 'rescheduled' && <strong class="event-change">Rescheduled</strong>}
       {status !== 'upcoming' && <strong class="event-change">{statusLabel(event)}</strong>}

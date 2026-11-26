@@ -176,3 +176,9 @@ main :is(h1,h2,h3) { overflow-wrap:anywhere; }
 @media(max-width:800px) {
   .booking-form-panel .form-grid { grid-template-columns:minmax(0,1fr); }
 }
+
+@media (max-width:360px) {
+  header nav { gap:6px; }
+  header .nav-quick-book { padding-inline:8px; }
+  header #navlinks { top:100%; }
+}

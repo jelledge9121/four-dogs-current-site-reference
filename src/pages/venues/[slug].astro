@@ -2,6 +2,8 @@
 export const prerender = false;
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import VenuePhoto from '../../components/VenuePhoto.astro';
+import venuePhotos from '../../data/venue-photos.json';
 import EventList from '../../components/EventList.astro';
 import { venues } from '../../data/venues';
 import { eventsForVenue } from '../../data/events';
@@ -10,40 +12,7 @@ const venue=venues.find(v=>v.slug===Astro.params.slug);
 if(!venue) return new Response('Venue not found',{status:404});
 const upcoming=eventsForVenue(venue.id);
 const formats=[...new Set(upcoming.map(e=>e.eventType))];
-const wescoPhotos = venue.id === 'wesco' ? [
-  { src: '/images/venues/four-dogs-wesco-group-with-prizes-2026.webp', alt: 'Six Four Dogs guests smiling together with a yellow Four Dogs shirt, a trophy and prize posters at WesCo Brew & Bowl in Cayce', caption: 'The crew came to play', width: 1280, height: 960 },
-  { src: '/images/venues/four-dogs-wesco-three-guests-2026.webp', alt: 'Three Four Dogs guests smiling together at WesCo with a branded prize sign behind them', caption: 'Good company at WesCo', width: 1280, height: 960 },
-  { src: '/images/venues/four-dogs-wesco-ready-to-guess-2026.webp', alt: 'WesCo guest holding a Four Dogs Ready to Guess with Confidence sign', caption: 'Ready to guess with confidence', width: 1280, height: 960 },
-  { src: '/images/venues/four-dogs-wesco-shirt-and-prize-2026.webp', alt: 'WesCo guest holding a bright yellow Four Dogs Entertainment shirt and a humorous prize poster', caption: 'Four Dogs gear in the spotlight', width: 960, height: 1280 },
-] : [];
-const topDawgPhotos = venue.id === 'top-dawg' ? [
-  { src: '/images/venues/four-dogs-top-dawg-trivia-crowd-2026.webp', alt: 'Wide view of guests playing Four Dogs Trivia throughout Top Dawg Tavern in Sandhill, with game screens visible', caption: 'Trivia night in full swing', width: 1200, height: 900 },
-  { src: '/images/venues/four-dogs-top-dawg-trivia-team-at-table-2026.webp', alt: 'Six people gathered around a restaurant table, smiling during a Four Dogs trivia night at Top Dawg Tavern', caption: 'Better with your people', width: 1200, height: 900 },
-  { src: '/images/venues/four-dogs-top-dawg-trivia-winning-team-2026.webp', alt: 'Five smiling trivia guests posing together with a Four Dogs championship belt inside Top Dawg Tavern', caption: 'The championship belt makes the rounds', width: 900, height: 1200 },
-  { src: '/images/venues/four-dogs-top-dawg-tshirt-raffle-winner-2026.webp', alt: 'Four Dogs T-shirt raffle winner holding an orange Four Dogs Entertainment shirt in front of the raffle screen', caption: 'Our T-shirt raffle winner', width: 900, height: 1200 },
-  { src: '/images/venues/four-dogs-top-dawg-trivia-champions-belt-2026.webp', alt: 'Two Top Dawg trivia guests posing with a Four Dogs championship belt and their prize at the restaurant', caption: 'A Doggone Good prize moment', width: 900, height: 1200 },
-] : [];
-const millPhotos = venue.id === 'the-mill' ? [
-  { src: '/images/venues/four-dogs-the-mill-trivia-champion-belt-2026.webp', alt: 'Smiling trivia participant at The Mill at Fountain Inn holding the Four Dogs Entertainment championship belt', caption: 'Championship belt moment', width: 900, height: 1200 },
-  { src: '/images/venues/four-dogs-the-mill-trivia-team-belt-2026.webp', alt: 'Two smiling trivia participants at The Mill at Fountain Inn lifting the Four Dogs championship belt together', caption: 'The winning team celebrates', width: 900, height: 1200 },
-  { src: '/images/venues/four-dogs-the-mill-shirt-raffle-winner-2026.webp', alt: 'Guest at The Mill at Fountain Inn holding an orange Four Dogs Entertainment T-shirt', caption: 'A Four Dogs T-shirt to take home', width: 900, height: 1200 },
-] : [];
-const charterPhotos = venue.id === 'charter-803' ? [
-  { src: '/images/venues/four-dogs-charter-803-music-bingo-grammy-winner-2026.webp', alt: 'Four Dogs Music Bingo participant smiling and holding a Grammy-themed poster and championship trophy at Charter 803', caption: 'A Grammy-worthy Music Bingo win', width: 1100, height: 1467 },
-  { src: '/images/venues/four-dogs-charter-803-music-bingo-prize-winner-2026.webp', alt: 'Smiling Music Bingo participant showing a Four Dogs prize and championship trophy on a covered patio', caption: 'A little something for the winner', width: 1100, height: 1467 },
-  { src: '/images/venues/four-dogs-charter-803-four-dogs-on-big-screen-2026.webp', alt: 'Four Dogs Entertainment logo displayed on a large outdoor digital screen', caption: 'Four Dogs on the big screen', width: 1100, height: 1467 },
-  { src: '/images/venues/four-dogs-charter-803-certified-banger-detector-prize-2026.webp', alt: 'Guest at Charter 803 displaying a Certified Banger Detector poster and a third-place prize certificate at a Four Dogs game night', caption: 'Certified Banger Detector and a prize', width: 960, height: 1280 },
-  { src: '/images/venues/four-dogs-charter-803-game-night-crowd-2026.webp', alt: 'Guests playing a Four Dogs game together at tables at Charter 803 while colorful party lights illuminate the dining room', caption: 'Game night at Charter 803', width: 1280, height: 960 },
-  { src: '/images/venues/four-dogs-charter-803-90s-country-music-bingo-prize-2026.webp', alt: 'Two smiling people posing with a Four Dogs Champion sign and a prize certificate beside a 90s Country Music Bingo screen at Charter 803', caption: 'A 90s Country Music Bingo prize moment', width: 960, height: 1280 },
-  { src: '/images/venues/four-dogs-charter-803-yellow-shirt-prize-2026.webp', alt: 'Two women at Charter 803 posing in yellow and black Four Dogs Entertainment shirts next to a Music Bingo game screen', caption: 'The Four Dogs shirt crew', width: 960, height: 1280 },
-  { src: '/images/venues/four-dogs-charter-803-grammy-second-place-prize-2026.webp', alt: 'An adult and a child holding a second-place prize certificate next to a Four Dogs This Is My Grammy poster at Charter 803', caption: 'A Grammy-worthy prize moment', width: 1280, height: 960 },
-] : [];
-const bozesPhotos = venue.id === 'bozes' ? [
-  { src: '/images/venues/four-dogs-bozes-tshirt-prize-guests-2026.webp', alt: 'Two smiling guests at Boze’s Restaurant & Bar displaying a yellow Four Dogs Entertainment T-shirt', caption: 'Four Dogs gear and good company', width: 960, height: 1275 },
-  { src: '/images/venues/four-dogs-bozes-professional-song-guesser-2026.webp', alt: 'Boze’s guest sitting with a Four Dogs Professional Song Guesser poster during a game night', caption: 'Professional Song Guesser', width: 960, height: 1275 },
-  { src: '/images/venues/four-dogs-bozes-music-bingo-record-trophy-winner-2026.webp', alt: 'Smiling Boze’s Music Bingo winner holding a Four Dogs trophy and a vinyl-record-style award', caption: 'A Music Bingo champion', width: 960, height: 1275 },
-  { src: '/images/venues/four-dogs-bozes-music-bingo-friends-record-prize-2026.webp', alt: 'Two smiling guests at Boze’s with a Music Bingo card and a vinyl-record-style prize', caption: 'Music Bingo with friends', width: 960, height: 1275 },
-] : [];
+const photos = venuePhotos[venue.id as keyof typeof venuePhotos] || [];
 const title=venue.active ? `Four Dogs Events at ${venue.name}, ${venue.city} SC` : `Past Four Dogs Music Bingo at ${venue.name}, ${venue.city} SC`;
 const description=venue.active
   ? `Find confirmed Four Dogs dates at ${venue.name} in ${venue.city}, South Carolina. Event times, themes, admission information, and directions.`
@@ -70,160 +39,21 @@ const schema={'@context':'https://schema.org','@type':'Place',name:venue.name,ur
   </section>
 )}
 
-{wescoPhotos.length > 0 && (
-  <section class="section wesco-gallery" aria-labelledby="wesco-gallery-title">
+{photos.length > 0 && (
+  <section class="section" aria-labelledby="venue-gallery-heading">
     <div class="container">
-      <div class="section-heading">
-        <div>
-          <h2 id="wesco-gallery-title">Four Dogs nights at WesCo</h2>
-          <p>Real people and good moments from our Cayce game nights.</p>
-        </div>
-      </div>
-      <div class="wesco-gallery-grid">
-        {wescoPhotos.map(photo => (
-          <figure>
-            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
-              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-            </a>
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
-
-{topDawgPhotos.length > 0 && (
-  <section class="section top-dawg-photos" aria-labelledby="top-dawg-photos-heading">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <h2 id="top-dawg-photos-heading">Four Dogs trivia at Top Dawg</h2>
-          <p>Real teams, prizes, and a room full of people enjoying game night at Top Dawg Tavern in Sandhill.</p>
-        </div>
-      </div>
-      <div class="top-dawg-photo-grid">
-        {topDawgPhotos.map((photo,index) => (
-          <figure class:list={{ 'top-dawg-photo-feature': index === 0 }}>
-            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
-              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-            </a>
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
-
-{millPhotos.length > 0 && (
-  <section class="section mill-gallery" aria-labelledby="mill-gallery-heading">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <h2 id="mill-gallery-heading">Four Dogs game nights at The Mill</h2>
-          <p>Championship moments and familiar faces at The Mill at Fountain Inn.</p>
-        </div>
-      </div>
-      <div class="mill-photo-grid">
-        {millPhotos.map((photo) => (
-          <figure>
-            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
-              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-            </a>
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
-
-{charterPhotos.length > 0 && (
-  <section class="section charter-gallery" aria-labelledby="charter-gallery-heading">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <h2 id="charter-gallery-heading">Four Dogs Music Bingo at Charter 803</h2>
-          <p>Real players, prizes, and moments worth sharing from our Music Bingo nights.</p>
-        </div>
-      </div>
-      <div class="charter-photo-grid">
-        {charterPhotos.map(photo => (
-          <figure>
-            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
-              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-            </a>
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
-
-{bozesPhotos.length > 0 && (
-  <section class="section bozes-gallery" aria-labelledby="bozes-gallery-heading">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <h2 id="bozes-gallery-heading">Four Dogs game nights at Boze’s</h2>
-          <p>Familiar faces, Music Bingo, and prize moments at Boze’s Restaurant &amp; Bar in West Columbia.</p>
-        </div>
-      </div>
-      <div class="bozes-photo-grid">
-        {bozesPhotos.map(photo => (
-          <figure>
-            <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`View larger photo: ${photo.caption}`}>
-              <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-            </a>
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <h2 id="venue-gallery-heading">Game nights at {venue.name}</h2>
+      <div class="gallery-feature"><VenuePhoto photo={photos[0]} /></div>
+      <details class="venue-gallery">
+        <summary>See {photos.length - 1} more photos from {venue.name}</summary>
+        <div class="venue-photo-grid">{photos.slice(1).map(photo => <VenuePhoto photo={photo} />)}</div>
+      </details>
     </div>
   </section>
 )}
 <style>
-  .wesco-gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; align-items:start; }
-  .wesco-gallery-grid figure { margin:0; min-width:0; }
-  .wesco-gallery-grid a { display:block; line-height:0; }
-  .wesco-gallery-grid img { display:block; width:100%; height:auto; border-radius:3px; }
-  .wesco-gallery-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; }
-  .wesco-gallery-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
-  @media (max-width:700px) { .wesco-gallery-grid { grid-template-columns:1fr; gap:1.25rem; } }
-  .top-dawg-photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; align-items:start; }
-  .top-dawg-photo-grid figure { margin:0; min-width:0; }
-  .top-dawg-photo-feature { grid-column:1 / -1; }
-  .top-dawg-photo-grid a { display:block; line-height:0; }
-  .top-dawg-photo-grid img { display:block; width:100%; height:auto; border-radius:3px; }
-  .top-dawg-photo-feature img { max-height:600px; object-fit:cover; object-position:center 67%; }
-  .top-dawg-photo-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; line-height:1.5; }
-  .top-dawg-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
-  @media (max-width:700px) { .top-dawg-photo-grid { grid-template-columns:1fr; gap:1.25rem; } .top-dawg-photo-feature { grid-column:auto; } .top-dawg-photo-feature img { max-height:none; object-fit:contain; } }
-  .mill-photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; align-items:start; }
-  .mill-photo-grid figure { margin:0; min-width:0; }
-  .mill-photo-grid a { display:block; line-height:0; }
-  .mill-photo-grid img { display:block; width:100%; height:auto; border-radius:3px; }
-  .mill-photo-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; line-height:1.5; }
-  .mill-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
-  @media (max-width:850px) { .mill-photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media (max-width:600px) { .mill-photo-grid { grid-template-columns:1fr; gap:1.25rem; } }
-  .charter-photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; align-items:start; }
-  .charter-photo-grid figure { margin:0; min-width:0; }
-  .charter-photo-grid a { display:block; line-height:0; }
-  .charter-photo-grid img { display:block; width:100%; height:auto; border-radius:3px; }
-  .charter-photo-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; line-height:1.5; }
-  .charter-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
-  @media (max-width:850px) { .charter-photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media (max-width:600px) { .charter-photo-grid { grid-template-columns:1fr; gap:1.25rem; } }
-  .bozes-photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; align-items:start; }
-  .bozes-photo-grid figure { margin:0; min-width:0; }
-  .bozes-photo-grid a { display:block; line-height:0; }
-  .bozes-photo-grid img { display:block; width:100%; height:auto; border-radius:3px; }
-  .bozes-photo-grid figcaption { color:var(--muted); padding:.7rem 0; font-size:.95rem; line-height:1.5; }
-  .bozes-photo-grid a:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
-  @media (max-width:600px) { .bozes-photo-grid { grid-template-columns:1fr; gap:1.25rem; } }
+  .gallery-feature { max-width:32rem; }
+  .venue-gallery summary { min-height:44px; padding-block:1rem; font-weight:700; }
+  .venue-photo-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr)); gap:1.5rem; align-items:start; }
 </style>
-
 </Base>
