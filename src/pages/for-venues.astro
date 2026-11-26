@@ -12,11 +12,11 @@ const publicEvents = upcomingEvents();
 const upcomingVenueIds = new Set(publicEvents.map((event) => event.venueId));
 const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.has(venue.id));
 ---
-<Base title="Weekly Entertainment for Restaurants & Bars in SC | Four Dogs" description="Plan weekly entertainment for your restaurant or bar with Four Dogs. Explore trivia, Music Bingo, original game shows, professional hosts and local promotional support.">
+<Base title="Weekly Entertainment for Restaurants & Bars in SC | Four Dogs" description="Bring weekly trivia, Music Bingo or Survey Showdown to your restaurant, bar or brewery. Meet our venue partners and ask about a recurring night with Four Dogs." schema={{'@context':'https://schema.org','@type':'Service',name:'Weekly hosted venue entertainment',provider:{'@id':'https://4dogsentertainment.com/#organization'},areaServed:'South Carolina',url:'https://4dogsentertainment.com/for-venues/'}}>
   <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'For Venues' }]} />
   <section class="section dark">
     <div class="container split venue-intro"><div>
-      <p class="eyebrow">For restaurant & bar owners</p>
+      <p class="eyebrow">For restaurants, breweries & bars</p>
       <h1>A reason to put your place on next week’s calendar.</h1>
       <p class="lead">Give regulars a night they can count on. We bring the host, games and promotional materials. Your team takes care of the tables.</p>
       <div class="actions">
@@ -88,7 +88,7 @@ const activeVenues = venues.filter((venue) => venue.active && upcomingVenueIds.h
   <section class="section dark">
     <div class="container">
       <h2>Let’s build a weekly night for your venue.</h2>
-      <p>Share your venue, location, preferred night, existing programming, and business goal. We’ll recommend a format and talk through a recurring partnership.</p>
+      <p>Tell us which night you want to build, what you already host and how your room is set up. We’ll check host availability, suggest a format and discuss pricing and promotion with you before you commit to a weekly date.</p>
       <div class="actions">
         <a class="button" data-event-action="venue_partnership_cta" href="/booking/?service=Venue%20Entertainment">Start a venue partnership inquiry</a>
       </div>

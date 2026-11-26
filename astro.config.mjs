@@ -1,3 +1,4 @@
+import guides from './src/data/guides.json' with { type: 'json' };
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import netlify from '@astrojs/netlify';
@@ -11,7 +12,7 @@ export default defineConfig({
   output: 'static',
   adapter: netlify(),
   integrations: [sitemap({
-    customPages: [origin+'/', origin+'/events/', origin+'/for-venues/', ...venues.map(v=>`${origin}/venues/${v.slug}/`), ...cities.map(c=>`${origin}/areas/${c}/`), ...localSeoPages.map(p=>`${origin}/${p.slug}/`)],
+    customPages: [...guides.map(g=>origin+'/guides/'+g.slug+'/'), origin+'/', origin+'/events/', origin+'/for-venues/', ...venues.map(v=>`${origin}/venues/${v.slug}/`), ...cities.map(c=>`${origin}/areas/${c}/`), ...localSeoPages.map(p=>`${origin}/${p.slug}/`)],
     customSitemaps: [origin+'/event-sitemap.xml'],
     filter: url => !url.includes('/admin/') && !url.endsWith('/thank-you/'),
   })],

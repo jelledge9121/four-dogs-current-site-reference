@@ -12,7 +12,14 @@ const page=localSeoPages.find(p=>p.slug===Astro.params.localSeo);
 if(!page) return new Response('Page not found',{status:404});
 const eventCity=page.slug.includes('lexington') && page.slug.includes('columbia') ? ['Lexington','Columbia'] : page.slug.includes('lexington') ? 'Lexington' : page.slug.includes('columbia') ? 'Columbia' : undefined;
 const eventCategory=page.slug.includes('music-bingo') ? 'Music Bingo' : page.slug.includes('trivia') ? 'Trivia' : undefined;
-const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId) : undefined;
+const review = page.reviewId ? reviews.find((item) => item.id === page.reviewId && item.approved) : undefined;
+const bookingUrl = '/booking/?service=' + encodeURIComponent(page.bookingValue);
+const bookingLabels: Record<string, string> = {
+  'DJ': 'Check DJ availability', 'Corporate Event': 'Plan a company event',
+  'Private Event': 'Check my party date', 'Wedding DJ / Entertainment': 'Ask about my wedding date',
+  'Venue Entertainment': 'Discuss a weekly venue night',
+};
+const bookingLabel = bookingLabels[page.bookingValue] || ('Ask about ' + page.bookingValue);
 const seoTitle = page.slug === 'music-bingo-columbia-lexington-sc'
   ? 'Music Bingo in Columbia & Lexington SC | Local Guide | Four Dogs'
   : page.title;
@@ -77,7 +84,7 @@ const serviceSchema = {
       <h1>{page.h1}</h1>
       <p class="lead">{page.lead}</p>
       <div class="actions">
-        <a class="button" href={`/booking/?service=${encodeURIComponent(page.bookingValue)}`}>Book Four Dogs</a>
+        <a class="button" href={bookingUrl}>{bookingLabel}</a>
         <a class="button secondary" href="/events/">Find an event</a>
       </div>
     </div>
@@ -166,7 +173,7 @@ const serviceSchema = {
       <p class="eyebrow">Keep exploring</p>
       <h2>More about the options.</h2>
       <nav class="local-seo-related" aria-label="Related local entertainment pages">
-        {page.relatedLinks.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+        {page.relatedLinks.map((link) => <a href={link.href === '/booking/' ? bookingUrl : link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
       </nav>
     </div>
   </section>
@@ -175,7 +182,7 @@ const serviceSchema = {
     <div class="container">
       <h2>Bring your people. We’ll bring the Doggone Good Time.</h2>
       <p>Tell us what you are planning and we will help identify the right Four Dogs format.</p>
-      <a class="button" href={`/booking/?service=${encodeURIComponent(page.bookingValue)}`}>Plan your event</a>
+      <a class="button" href={bookingUrl}>{bookingLabel}</a>
     </div>
   </section>
   <style>

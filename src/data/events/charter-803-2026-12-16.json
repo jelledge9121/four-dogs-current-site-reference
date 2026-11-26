@@ -4,8 +4,9 @@
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "published",
-  "lastUpdated": "2026-11-18T18:00:00Z",
+  "publicationStatus": "review",
+  "reviewReason": "Confirm December 16 format with owner: public catalog and December planning record differ.",
+  "lastUpdated": "2026-11-26T14:00:00Z",
   "admission": {
     "kind": "free",
     "verified": true,

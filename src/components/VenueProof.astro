@@ -6,35 +6,30 @@ const { venues, events } = Astro.props as { venues: Venue[]; events: Event[] };
 const examples = [
   {
     venueId: 'charter-803',
-    pattern: 'Keep a familiar weekly program fresh with themed and original game nights.',
     photo: '/images/venues/four-dogs-charter-803-game-night-crowd-2026.webp',
     alt: 'Guests playing a Four Dogs game together at tables at Charter 803 while colorful party lights illuminate the dining room',
     caption: 'A real Four Dogs game night at Charter 803.',
   },
   {
     venueId: 'top-dawg',
-    pattern: 'Build around a recurring trivia night, with theme-led events on the calendar.',
     photo: '/images/venues/four-dogs-top-dawg-trivia-crowd-2026.webp',
     alt: 'Guests playing Four Dogs Trivia throughout Top Dawg Tavern in Sandhill, with game screens visible',
     caption: 'Teams playing trivia at Top Dawg Tavern.',
   },
   {
     venueId: 'bozes',
-    pattern: 'Use music and team games to give Wednesday programming a mix of familiar and original formats.',
     photo: '/images/venues/four-dogs-bozes-music-bingo-record-trophy-winner-2026.webp',
     alt: 'Smiling Boze’s Music Bingo winner holding a Four Dogs trophy and a vinyl-record-style award',
     caption: 'A Music Bingo prize moment at Boze’s.',
   },
   {
     venueId: 'wesco',
-    pattern: 'Pair a recurring trivia night with themed Music Bingo programming.',
     photo: '/images/venues/four-dogs-wesco-group-with-prizes-2026.webp',
     alt: 'Six Four Dogs guests smiling together with a yellow Four Dogs shirt, a trophy and prize posters at WesCo Brew & Bowl in Cayce',
     caption: 'Guests and prizes at WesCo Brew & Bowl.',
   },
   {
     venueId: 'the-mill',
-    pattern: 'Anchor Monday game night with trivia and original team challenges.',
     photo: '/images/venues/four-dogs-the-mill-trivia-team-belt-2026.webp',
     alt: 'Two smiling trivia participants at The Mill at Fountain Inn lifting the Four Dogs championship belt together',
     caption: 'A championship moment at The Mill.',
@@ -79,9 +74,8 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
         <div class="case-copy">
           <p class="eyebrow">{card.venue.city}, {card.venue.state}</p>
           <h3><a href={`/venues/${card.venue.slug}/`}>{card.venue.name}</a></h3>
-          <details><summary>About the programming</summary><h4>Programming aim, inferred from the public schedule</h4>
-          <p>{card.pattern}</p>
-          </details><h4>Formats on the calendar</h4>
+          {card.venue.id === 'top-dawg' && <p>On four Tuesdays in November 2026, our hosts counted 36 to 64 players per night at Sandhill. The Nov. 3 Disney trivia night drew 49 players on 12 teams. On Nov. 24, 64 people played ’90s vs. 2000s Music Bingo.</p>}
+          <h4>Formats on the calendar</h4>
           <ul class="case-formats">{card.formats.map((format) => <li>{format}</li>)}</ul>
           <p class="case-caption">{card.caption}</p>
           <ul class="case-events" aria-label={`Confirmed upcoming events at ${card.venue.name}`}>
@@ -92,7 +86,7 @@ const sampleFor = (format: string) => events.find((event) => event.eventType ===
         </div>
       </article>)}
     </div>
-    <details class="proof-source"><summary>About these examples</summary><p>Venue-specific photos and confirmed dates document the programming. Attendance, sales, and return-visit figures are not published here.</p></details>
+    <details class="proof-source"><summary>About these examples</summary><p>Venue-specific photos show the rooms where we host. The Top Dawg counts come from host reports for November 3, 10, 17 and 24, 2026, and count people who played.</p></details>
   </div>
 </section>}
 

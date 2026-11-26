@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Base from '../../layouts/Base.astro';
+import RangeButton from '../../components/RangeButton.astro';
 import EventCard from '../../components/EventCard.astro';
 import { events } from '../../data/events';
 import { venues } from '../../data/venues';
@@ -32,16 +33,15 @@ const shortcuts = [
 ];
 const quickRange = shortcuts.some(range => from === range.start && to === range.end);
 const advanced = !!(filters.venue || filters.price || (!quickRange && (q.has('from') || q.has('to'))));
-const rangeLink = (start: string, end: string) => {
-  const params = new URLSearchParams();
-  for (const key of ['city', 'venue', 'category', 'price']) {
-    const value = q.get(key);
-    if (value) params.set(key, value);
-  }
-  params.set('from', start);
-  params.set('to', end);
-  return '/events/?' + params + '#event-results';
-};
+const rangeFilters = ['city','venue','category','price'].flatMap(name => {
+  const value = q.get(name);
+  return value ? [{name,value}] : [];
+});
+const longRanges = [
+  {label:'Next 7 days',start:today,end:addDays(today,6)},
+  {label:'Next 30 days',start:today,end:addDays(today,29)},
+  {label:'Explore the following 60 days',start:addDays(today,30),end:addDays(today,89)},
+];
 const featured = view === 'upcoming' && !hasFilters ? matches.find(event => event.featured && needsTicket(event) && event.registrationUrl) : undefined;
 const shortDate = (date:string) => new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'}).format(new Date(`${date}T12:00:00Z`));
 const rangeLabel = from && to ? `${shortDate(from)} to ${shortDate(to)}` : '';
@@ -53,7 +53,7 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
 <section class="section calendar-body"><div class="container">
 <nav class="event-tabs" aria-label="Event listings"><a href="/events/" aria-current={view==='upcoming'?'page':undefined}>Upcoming events</a><a href="/events/?view=updates" aria-current={view==='updates'?'page':undefined}>Cancellations & updates</a><a href="/events/?view=archive" aria-current={view==='archive'?'page':undefined}>Past events</a></nav>
 {view==='upcoming' && <nav class="date-shortcuts" aria-label="Quick date ranges">
-  {shortcuts.map(range => <a href={rangeLink(range.start,range.end)} aria-current={from===range.start && to===range.end ? 'true' : undefined}>{range.label}</a>)}
+  {shortcuts.map(range => <RangeButton {...range} filters={rangeFilters} current={from===range.start && to===range.end}/>)}
 </nav>}
 <form class="discovery-form" method="get" action="/events/#event-results" aria-label="Filter public events">
   <input type="hidden" name="view" value={view}/>
@@ -67,14 +67,14 @@ const selectedLabels = [filters.city, venues.find(v=>v.id===filters.venue)?.name
       <label>Admission<select name="price"><option value="">Any admission</option><option value="free" selected={filters.price==='free'}>Free admission</option><option value="paid" selected={filters.price==='paid'}>Ticketed events</option></select></label>
       <label>From<input type="date" name="from" value={from}/></label><label>Through<input type="date" name="to" value={to}/></label>
     </div>
-    {view==='upcoming' && <p><a href={rangeLink(today,addDays(today,6))}>Next 7 days</a> · <a href={rangeLink(today,addDays(today,29))}>Next 30 days</a></p>}
+
   </details>
   <div class="actions"><button class="button" type="submit">Show events</button>{hasFilters && <a href={view==='upcoming'?'/events/':'/events/?view='+view}>Clear filters</a>}</div>
 </form>
 <div class="calendar-results-heading"><h2 id="event-results" tabindex="-1">{view==='archive'?'Past Four Dogs events':view==='updates'?'Schedule changes':'Coming up'}</h2>
 <p>{selectedLabels.length>0 && selectedLabels.join(' · ')+' · '}{matches.length} {matches.length===1?'event':'events'}{rangeLabel ? ` · ${rangeLabel}` : ''}</p></div>
 {from && to && from>to ? <p role="alert">Choose a “Through” date on or after the “From” date.</p> : matches.length ? <div class="event-list">{matches.map(event=><EventCard event={event}/>)}</div> : <div class="empty-events"><h3>No matching events are currently confirmed.</h3><p>Try another city, activity, or date range. New dates appear here once confirmed.</p><a href="/events/">See the next 30 days</a></div>}
-{view === 'upcoming' && <div class="actions"><a href={rangeLink(addDays(today, 30), addDays(today, 89))}>Explore the following 60 days →</a></div>}
+{view === 'upcoming' && <div class="actions">{longRanges.map(range=><RangeButton {...range} filters={rangeFilters} current={from===range.start && to===range.end}/>)}</div>}
 {featured && <aside class="calendar-note"><strong>Featured ticketed event</strong><p><a href={`/events/${featured.slug}/`}>{featured.title}</a> · {shortDate(featured.date)} · {featured.startTime} Eastern</p></aside>}
 {view === 'upcoming' && filters.venue === 'wesco' && showWescoNotice(today) && <aside class="calendar-note"><strong>Thursday at WesCo</strong><p>{wescoThursdayNotice} <a href={wescoBingoUrl}>See Music Bingo dates</a></p></aside>}
 <details><summary>Browse by activity</summary><div class="actions">{CATEGORIES.map(c=><a href={`/events/category/${categorySlug(c)}/`}>{c}</a>)}</div></details>

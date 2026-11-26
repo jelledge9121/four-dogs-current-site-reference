@@ -6,6 +6,11 @@ import { site } from '../data/site';
   <input type="hidden" name="form-name" value="booking">
   <input type="hidden" name="entry-channel">
   <input type="hidden" name="entry-page">
+  <input type="hidden" name="entry-referrer">
+  <input type="hidden" name="utm-source"><input type="hidden" name="utm-medium">
+  <input type="hidden" name="utm-campaign"><input type="hidden" name="utm-content">
+  <input type="hidden" name="utm-term"><input type="hidden" name="inquiry-id">
+  <input type="hidden" name="test-inquiry">
   <p hidden><label>Don’t fill this out: <input name="bot-field"></label></p>
 
   <div class="booking-progress" hidden>
@@ -20,6 +25,7 @@ import { site } from '../data/site';
         <option value="">Choose one</option>
         <optgroup label="What you’re planning">
           {services.filter(s => ['weddings','private-corporate-events'].includes(s.slug)).map(s => <option value={s.bookingValue} data-service-slug={s.slug}>{s.slug==='weddings' ? 'Wedding' : 'Private celebration'}</option>)}
+          <option value="DJ">DJ entertainment</option>
           <option value="Corporate Event">Company or organization event</option>
           <option value="Venue Entertainment">Weekly venue partnership</option>
           <option>Community Awareness Night</option>
@@ -147,6 +153,7 @@ import { site } from '../data/site';
   const state = form.querySelector<HTMLElement>('.form-state')!;
   const contexts: Record<string, [string,string]> = {
     'Wedding DJ / Entertainment': ['Your wedding','Which parts of the day would you like music or hosting for?'],
+    'DJ': ['Your DJ inquiry','What kind of party are you planning, and where will we set up?'],
     'Corporate Event': ['Your company event','Who’s coming, and what are you planning for the group?'],
     'Private Event': ['Your celebration','What are you celebrating, and what would your guests enjoy?'],
     'Venue Entertainment': ['Your venue','Anything else we should know about your room or your regulars?'],

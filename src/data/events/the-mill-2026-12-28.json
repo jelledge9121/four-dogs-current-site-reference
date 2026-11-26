@@ -4,8 +4,9 @@
   "featured": false,
   "status": "scheduled",
   "visibility": "public",
-  "publicationStatus": "published",
-  "lastUpdated": "2026-11-19T14:00:00Z",
+  "publicationStatus": "review",
+  "reviewReason": "Venue sign-off is pending in the November 23 December schedule correspondence.",
+  "lastUpdated": "2026-11-26T14:00:00Z",
   "admission": {
     "kind": "free",
     "verified": true,

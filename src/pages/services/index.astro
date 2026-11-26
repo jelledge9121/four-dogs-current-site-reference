@@ -51,7 +51,7 @@ const serviceLink = (slug: string) => slug === 'weddings' ? '/weddings/' : `/ser
               <h3>{service.name}</h3>
               <p class="lead">{service.summary}</p>
               <p>{service.description}</p>
-              <div class="actions"><a class="button" href={serviceLink(service.slug)}>See {service.name}</a><a href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>Ask about your date →</a></div>
+              <div class="actions"><a class="button" href={serviceLink(service.slug)}>See {service.name}</a><a href={`/booking/?service=${encodeURIComponent(service.bookingValue)}`}>{service.slug === 'private-corporate-events' ? 'Check my private party date' : 'Ask about your wedding date'} →</a>{service.slug === 'private-corporate-events' && <a href="/booking/?service=Corporate%20Event">Ask about a company event →</a>}</div>
             </div>
             <figure><img src={servicePhotos[service.slug].src} alt={servicePhotos[service.slug].alt} width="1200" height="900" loading="lazy" decoding="async" /></figure>
           </article>
