@@ -126,7 +126,7 @@ async def main():
     IMAGES.mkdir(parents=True, exist_ok=True)
     results = []
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=True, executable_path=os.environ.get("CHROMIUM_PATH"))
         try:
             for name, route in PAGES.items():
                 for device, (width, height) in SIZES.items():

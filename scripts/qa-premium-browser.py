@@ -33,7 +33,7 @@ async def main():
     ready()
     Path("qa-screenshots").mkdir(exist_ok=True)
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=True)
+        browser = await pw.chromium.launch(headless=True, executable_path=os.environ.get("CHROMIUM_PATH"))
         try:
             for name, width, height in SIZES:
                 context = await browser.new_context(viewport={"width": width, "height": height})
