@@ -122,6 +122,7 @@ import { site } from '../data/site';
 
   <button class="button" type="submit">Send booking request</button>
   <p class="form-state" role="status" aria-live="polite"></p>
+  <button type="button" class="field-jump" hidden>Go to the first field to fix</button>
   <p class="fine">Submitting this form starts a conversation. It does not confirm a booking.</p>
   <p class="fine">Prefer to email us directly? <a href={`mailto:${site.bookingEmail}`}>{site.bookingEmail}</a></p>
 </form>
@@ -187,13 +188,23 @@ import { site } from '../data/site';
   const validatePhone = () => phone.setCustomValidity(phone.required && !phone.value.trim() ? 'Enter a phone number so we can contact you.' : '');
   form.addEventListener('input', validatePhone);
   form.addEventListener('change', validatePhone);
+  const jump = form.querySelector<HTMLButtonElement>('.field-jump')!;
+  jump.addEventListener('click', () => {
+    const field = form.querySelector<HTMLElement>('[aria-invalid="true"]');
+    const disclosure = field?.closest('details');
+    if (disclosure) disclosure.open = true;
+    field?.focus();
+  });
   function updateFieldError(field: HTMLInputElement | HTMLSelectElement) {
     const errorId = `booking-error-${field.name}`;
     const error = document.getElementById(errorId);
+    const descriptions = (field.getAttribute('aria-describedby') || '').split(/\s+/)
+      .filter(id => id && id !== errorId);
     if (!field.willValidate || field.validity.valid) {
       error?.remove();
       field.removeAttribute('aria-invalid');
-      field.removeAttribute('aria-describedby');
+      if (descriptions.length) field.setAttribute('aria-describedby', descriptions.join(' '));
+      else field.removeAttribute('aria-describedby');
       return;
     }
     const message = error || document.createElement('span');
@@ -204,7 +215,7 @@ import { site } from '../data/site';
     message.textContent = field.validationMessage;
     if (!error) field.closest('label')?.append(message);
     field.setAttribute('aria-invalid', 'true');
-    field.setAttribute('aria-describedby', errorId);
+    field.setAttribute('aria-describedby', [...descriptions, errorId].join(' '));
   }
   form.addEventListener('invalid', event => {
     const field = event.target;
@@ -212,13 +223,15 @@ import { site } from '../data/site';
       const disclosure = field.closest('details');
       if (disclosure) disclosure.open = true;
       updateFieldError(field);
+      jump.hidden = false;
       state.dataset.validation = 'true';
       state.textContent = 'Check the highlighted fields before sending.';
     }
   }, true);
   function refreshErrors() {
     form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[aria-invalid="true"]').forEach(updateFieldError);
-    if (!form.querySelector('[aria-invalid="true"]') && state.dataset.validation) {
+    jump.hidden = !form.querySelector('[aria-invalid="true"]');
+    if (jump.hidden && state.dataset.validation) {
       state.textContent = '';
       delete state.dataset.validation;
     }
@@ -254,7 +267,11 @@ import { site } from '../data/site';
     state.textContent = '';
     validateName();
   });
-  window.addEventListener('pageshow', sync);
+  window.addEventListener('pageshow', () => {
+    sync();
+    validatePhone();
+    refreshErrors();
+  });
   const progressGroup = form.querySelector<HTMLElement>('.booking-progress')!;
   const progress = form.querySelector<HTMLProgressElement>('#booking-progress')!;
   const progressNote = form.querySelector<HTMLElement>('#booking-progress-note')!;
@@ -280,6 +297,8 @@ import { site } from '../data/site';
 
 <style>
   :global(.field-error) { color:#852b18; font-weight:600; font-size:.9rem; }
+  .field-jump { min-height:var(--fd-target); background:transparent; color:var(--navy); text-decoration:underline; border:0; cursor:pointer; font:inherit; }
+  .field-jump[hidden] { display:none; }
   .booking-progress { margin-bottom: 1.25rem; }
   .booking-progress label { display: block; font-weight: 700; }
   .booking-progress progress { display: block; width: 100%; height: 0.75rem; margin: .5rem 0; }

@@ -1,0 +1,27 @@
+/* Four Dogs foundations. Versioned in the public website. No font or network requests. */
+:root {
+  --fd-brand-navy: #0c0f26;
+  --fd-brand-cyan: #29c4dc;
+  --fd-brand-cream: #f2f0e8;
+  --fd-paper: #fff;
+  --fd-canvas: #f5f6f4;
+  --fd-ink: #172536;
+  --fd-muted: #4a5b63;
+  --fd-action: #09645f;
+  --fd-focus: #66449b;
+  --fd-border: #d6dfdd;
+  --fd-control-border: #687d82;
+  --fd-warning-text: #753b21;
+  --fd-warning-surface: #f6e4d4;
+  --fd-success-text: #22583a;
+  --fd-success-surface: #dcefe4;
+  --fd-danger: #862c12;
+  --fd-space-1: .25rem;
+  --fd-space-2: .5rem;
+  --fd-space-3: .75rem;
+  --fd-space-4: 1rem;
+  --fd-space-6: 1.5rem;
+  --fd-radius-control: .375rem;
+  --fd-radius-panel: .75rem;
+  --fd-target: 44px;
+}
