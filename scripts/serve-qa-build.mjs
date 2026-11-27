@@ -4,7 +4,7 @@ import { createReadStream } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import sharp from 'sharp';
-import createHandler from '../.netlify/build/entry.mjs';
+import { createHandler } from '../.netlify/build/entry.mjs';
 
 const root = resolve('dist');
 const handle = createHandler({notFoundContent: await readFile(resolve(root, '404.html'), 'utf8')});

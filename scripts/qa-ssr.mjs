@@ -1,13 +1,10 @@
 import guides from '../src/data/guides.json' with { type: 'json' };
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import { App } from 'astro/app';
+import { createHandler } from '../.netlify/build/entry.mjs';
 import { localSeoPages } from '../src/data/localSeoPages.ts';
 import { expandCatalog, CATEGORIES, categorySlug, phase, isPublic, selectEvents, localToday, addDays } from '../src/lib/event-system.ts';
-const manifestName=fs.readdirSync('.netlify/build').find(f=>/^manifest_.*\.mjs$/.test(f));
-await import('../.netlify/build/entry.mjs');
-const {manifest}=await import(`../.netlify/build/${manifestName}`);
-const app=new App(manifest);
+const handle = createHandler({notFoundContent: fs.readFileSync('dist/404.html', 'utf8')});
 const load=dir=>fs.readdirSync(dir).filter(f=>f.endsWith('.json')).map(f=>JSON.parse(fs.readFileSync(`${dir}/${f}`)));
 const catalog={events:load('src/data/events'),series:load('src/data/series')};
 const venues=JSON.parse(fs.readFileSync('src/data/venues.json')).venues;
@@ -17,7 +14,7 @@ const base='https://4dogsentertainment.com';
 const cache=new Map();
 async function request(path){
  if(cache.has(path))return cache.get(path);
- const response=await app.render(new Request(base+path),{clientAddress:'127.0.0.1',locals:{netlify:{context:{ip:'127.0.0.1'}}},prerenderedErrorPageFetch:async()=>new Response(fs.readFileSync('dist/404.html'),{status:404,headers:{'Content-Type':'text/html'}})});
+ const response=await handle(new Request(base+path), {ip: '127.0.0.1'});
  const result={status:response.status,headers:response.headers,body:await response.text()};cache.set(path,result);return result;
 }
 const staticRoutes=new Set();
@@ -224,7 +221,7 @@ console.log('Validated '+buttonInstances+' service-specific booking links ('+boo
 const sampleMetric = {action:'booking_submission_accepted',service:'DJ',channel:'organic search',id:'a2fa6833-e8e8-493e-ad6d-49b425e1ab44'};
 async function metricResponse(host,payload,origin=host){
  const request = new Request(host+'/api/booking-metrics',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(payload)});
- return app.render(request,{clientAddress:'127.0.0.1',locals:{netlify:{context:{ip:'127.0.0.1'}}}});
+ return handle(request, {ip: '127.0.0.1'});
 }
 const acceptedMetric=await metricResponse(base,sampleMetric);
 assert.equal(acceptedMetric.status,204);
