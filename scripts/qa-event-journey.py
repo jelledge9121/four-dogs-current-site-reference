@@ -13,7 +13,7 @@ async def main():
         raise ValueError("Run these simulated booking checks against a local build.")
 
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch()
+        browser = await playwright.chromium.launch(executable_path=os.environ.get("CHROMIUM_PATH"))
         context = await browser.new_context(viewport={"width": 390, "height": 844})
         submissions = []
 
@@ -75,14 +75,23 @@ async def main():
             assert await submit.is_visible()
             await optional.locator("summary").click()
             assert await form.locator("[data-venue-partnership]").is_visible()
+            name = form.locator('[name="name"]')
+            await email.evaluate("e => e.setAttribute('aria-describedby', 'booking-progress-note')")
             await submit.click()
+            jump = form.get_by_role("button", name="Go to the first field to fix")
+            await jump.focus()
+            await page.keyboard.press("Enter")
+            assert await name.evaluate("e => e === document.activeElement")
             await email.fill("incomplete")
             assert await email.get_attribute("aria-invalid") == "true"
             error_id = await email.get_attribute("aria-describedby")
-            assert error_id and await page.locator("#" + error_id).is_visible()
+            assert error_id.split() == ["booking-progress-note", "booking-error-email"]
+            assert await page.locator("#booking-error-email").is_visible()
             await email.fill("qa@example.invalid")
             assert await email.get_attribute("aria-invalid") is None
-            await form.locator('[name="name"]').fill("Local QA")
+            assert await email.get_attribute("aria-describedby") == "booking-progress-note"
+            await name.fill("Local QA")
+            assert not await jump.is_visible()
             await form.locator('[name="preferred-weeknight"]').select_option("Thursday")
             await form.locator('[name="service"]').select_option("Corporate Event")
             assert not await form.locator("[data-venue-partnership]").is_visible()
