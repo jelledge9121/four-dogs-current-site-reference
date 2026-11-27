@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { createReadStream } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
+import sharp from 'sharp';
 import createHandler from '../.netlify/build/entry.mjs';
 
 const root = resolve('dist');
@@ -22,6 +23,29 @@ createServer(async (req, res) => {
       return;
     }
     const url = new URL(req.url, 'http://127.0.0.1');
+    // Gallery srcsets request this hosted image service. Exercise the selected local original
+    // and its actual dimensions/encoding without reaching the hosted service.
+    if (url.pathname === '/.netlify/images') {
+      const source = url.searchParams.get('url') || '';
+      const width = Number(url.searchParams.get('w'));
+      const quality = Number(url.searchParams.get('q') || 80);
+      if (!/^\/images\/[A-Za-z0-9_/-]+\.(jpe?g|webp|png)$/i.test(source) ||
+          url.searchParams.get('fm') !== 'webp' ||
+          !Number.isInteger(width) || width < 1 || width > 4096 ||
+          !Number.isInteger(quality) || quality < 1 || quality > 100) {
+        res.writeHead(400).end();
+        return;
+      }
+      const original = resolve(root, '.' + source);
+      if (!(await stat(original).catch(() => null))?.isFile()) {
+        res.writeHead(404).end();
+        return;
+      }
+      const data = await sharp(original).rotate().resize({width, withoutEnlargement: true}).webp({quality}).toBuffer();
+      res.writeHead(200, {'Content-Type': 'image/webp', 'Content-Length': data.length});
+      res.end(req.method === 'HEAD' ? undefined : data);
+      return;
+    }
     let file = resolve(root, '.' + decodeURIComponent(url.pathname));
     if (file !== root && !file.startsWith(root + sep)) {
       res.writeHead(400).end();
